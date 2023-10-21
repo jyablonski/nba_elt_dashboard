@@ -1,0 +1,47 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: postgres
+    ports:
+     - 5432:5432
+    environment:
+     - POSTGRES_USER=postgres
+     - POSTGRES_PASSWORD=postgres
+     - POSTGRES_DB=postgres
+    volumes:
+      - ${PWD}/docker/postgres_bootstrap.sql:/docker-entrypoint-initdb.d/bootstrap.sql
+    networks: 
+      - dashboard_network
+
+  dash_app:
+    build:
+        context: ../
+        dockerfile: docker/Dockerfile
+    image: nba_elt_dashboard_local
+    environment:
+      - IP=postgres
+      - RDS_USER=postgres
+      - RDS_PW=postgres
+      - RDS_DB=postgres
+      - RDS_SCHEMA=nba_prod
+      - ENV_TYPE=docker_dev
+      - OTEL_EXPORTER_OTLP_ENDPOINT=https://api.honeycomb.io
+      - OTEL_EXPORTER_OTLP_HEADERS=x-honeycomb-team=bababooiee
+      - OTEL_SERVICE_NAME=nba-elt-dashboard-dev
+    restart: always
+    ports:
+      - 9000:9000
+    depends_on:
+      - postgres
+    networks: 
+      - dashboard_network
+    links:
+      - postgres:postgres
+    volumes:
+      - ${PWD}/src/:/home/appuser/src
+      - ${PWD}/static/:/home/appuser/static
+      - ${PWD}/config.yaml:/home/appuser/config.yaml
+
+networks:
+  dashboard_network:

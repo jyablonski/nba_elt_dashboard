@@ -1,0 +1,21 @@
+project:
+  name: "NBA_ELT_DASHBOARD_${ENV_TYPE}"
+
+dev:
+  host: localhost
+  user: ${RDS_USER}
+  pass: postgres
+  database: postgres
+  schema: nba_prod
+docker_dev:
+  host: postgres
+  user: ${RDS_USER}
+  pass: postgres
+  database: postgres
+  schema: nba_prod
+prod:
+  host: ${IP}
+  user: ${RDS_USER}
+  pass: ${RDS_PW}
+  database: ${RDS_DB}
+  schema: nba_prod
