@@ -6,7 +6,7 @@ def pbp_transformer(df: pd.DataFrame):
     *** WARNING ***
     *** DANGER ***
 
-    I Ported this 3 yr old R Code via ChatGPT; do not ever fuck with this code.
+    I ported this 3 yr old R Code via ChatGPT; do not ever fuck with this code.
     if it breaks then rip, just delete the graph and rebuild the dataset
     needed in dbt
 
@@ -16,12 +16,13 @@ def pbp_transformer(df: pd.DataFrame):
     Returns:
         Pandas DataFrame of pbp Data for the Line Chart in Recent Games Tab
     """
+
     # Define a function for handling missing values
     def replace_na(series, value):
         return series.fillna(value)
 
     # Equivalent of R's dplyr functions in Python using pandas and numpy
-    team_colors = df[["scoring_team", "leading_team_text"]].drop_duplicates()
+    team_colors = df[["scoring_team", "leading_team_text"]].copy().drop_duplicates()
     try_df = df[df["scoring_team"] != "TIE"]
     try_df["prev_time"] = try_df["time_remaining_final"].shift()
     try_df["prev_time"] = replace_na(try_df["prev_time"], 48.0)
@@ -62,53 +63,45 @@ def pbp_transformer(df: pd.DataFrame):
         columns="leading_team_text",
         values="time_difference",
         fill_value=0,
-    )
-    summarized_df["TIE_time"] = summarized_df.get("TIE_time", 0)
+    ).reset_index()
 
-    # Create mydf DataFrame with the same structure as in R
-    mydf["scoring_team"] = summarized_df.index
-    mydf["Leading_time"] = summarized_df["TeamA"]
-    mydf["Trailing_time"] = -summarized_df["TeamB"]
-    mydf["Tied_time"] = summarized_df["TIE_time"]
+    # Create a copy of the original DataFrame
+    result_df = summarized_df.copy()
 
-    # Additional operations
-    mydf["opp_leadtime"] = mydf["Trailing_time"][::-1]
-    mydf["opp_tiedtime"] = mydf["Tied_time"][::-1]
-    mydf["tot_leadtime"] = mydf["Leading_time"] + mydf["opp_leadtime"]
-    mydf["tot_trailtime"] = mydf["tot_leadtime"][::-1]
-    mydf["tot_tiedtime"] = mydf["Tied_time"] + mydf["opp_tiedtime"]
-    mydf["tot_time"] = (
-        mydf["tot_leadtime"] + mydf["tot_trailtime"] + mydf["tot_tiedtime"]
-    )
-    mydf["pct_leadtime"] = round(mydf["tot_leadtime"] / mydf["tot_time"], 3)
-    mydf["pct_tiedtime"] = round(mydf["tot_tiedtime"] / mydf["tot_time"], 3)
+    # Update "Leading" values by adding "Trailing" to the opponent's "Leading"
+    for index, row in result_df.iterrows():
+        opponent_team = "DEN" if row["scoring_team"] == "MIA" else "MIA"
+        result_df.loc[result_df["scoring_team"] == opponent_team, "Leading"] += row[
+            "Trailing"
+        ]
 
-    # Simulating team_colors DataFrame (you can populate it with actual data)
-    team_colors = pd.DataFrame(
-        {
-            "scoring_team": ["TeamA", "TeamB"],
-            "scoring_team_color": ["#FF0000", "#0000FF"],
-        }
-    )
+    tot = sum(result_df["Leading"] + result_df["TIE"])
+    result_df["pct_leading"] = round(result_df["Leading"] / tot, 3)
+    time_tied = 1 - sum(result_df["pct_leading"])
 
-    # Join the DataFrames
-    mydf = mydf.merge(team_colors, on="scoring_team", how="left")
-    mydf["text"] = (
-        "<span style='color:"
-        + mydf["scoring_team_color"]
-        + ";'>"
-        + mydf["scoring_team"]
-        + "</span> led for "
-        + (mydf["pct_leadtime"] * 100).astype(str)
-        + " % of the Game"
-    )
-    mydf["tied_text"] = (
-        "The teams were tied for "
-        + (mydf["pct_tiedtime"] * 100).astype(str)
-        + " % of the Game"
-    )
+    # Drop the "Trailing" column
+    result_df.drop(columns=["Trailing"], inplace=True)
+    # # Simulating team_colors DataFrame (you can populate it with actual data)
+    # team_colors = df.drop_duplicates(subset=["scoring_team", "scoring_team_color"])[["scoring_team", "scoring_team_color"]]
 
-    # Select the desired columns for the final DataFrame
-    final_df = mydf[["text", "tied_text"]]
+    # # Join the DataFrames
+    # mydf = mydf.merge(team_colors, on="scoring_team", how="left")
+    # mydf["text"] = (
+    #     "<span style='color:"
+    #     + mydf["scoring_team_color"]
+    #     + ";'>"
+    #     + mydf["scoring_team"]
+    #     + "</span> led for "
+    #     + (mydf["pct_leadtime"] * 100).astype(str)
+    #     + " % of the Game"
+    # )
+    # mydf["tied_text"] = (
+    #     "The teams were tied for "
+    #     + (mydf["pct_tiedtime"] * 100).astype(str)
+    #     + " % of the Game"
+    # )
 
-    return mydf, final_df
+    # # Select the desired columns for the final DataFrame
+    # final_df = mydf[["text", "tied_text"]]
+
+    return result_df, try_df

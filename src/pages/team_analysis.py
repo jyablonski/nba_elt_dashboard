@@ -1,7 +1,8 @@
-from dash import dash_table, dcc, html
+from dash import callback, dash_table, dcc, html
+from dash.dependencies import Input, Output
 
 from src.data_cols.standings import standings_columns
-from src.data import standings_df
+from src.data import standings_df, team_names
 
 team_analysis_layout = html.Div(
     [
@@ -10,12 +11,13 @@ team_analysis_layout = html.Div(
             [
                 # KPI 1
                 html.Div(
-                    [
-                        html.Div("KPI 1 Value", style={"fontSize": 24}),
-                        html.Div("KPI 1 Description"),
-                    ],
-                    className="kpi-box",
+                    dcc.Dropdown(
+                        id="select-team-selector",
+                        options=[{"label": team, "value": team} for team in team_names],
+                        value=team_names[0],
+                    ),
                 ),
+                html.Div(id="selected-team-output"),
                 # KPI 2
                 html.Div(
                     [
@@ -48,16 +50,12 @@ team_analysis_layout = html.Div(
             [
                 dcc.Graph(
                     id="mov-plot",
-                    config={
-                        "displayModeBar": False
-                    },
+                    config={"displayModeBar": False},
                     style={"width": "50%", "display": "inline-block"},
                 ),
                 dcc.Graph(
                     id="team-player-efficiency-plot",
-                    config={
-                        "displayModeBar": False
-                    },
+                    config={"displayModeBar": False},
                     style={"width": "50%", "display": "inline-block"},
                 ),
             ]
@@ -111,3 +109,10 @@ team_analysis_layout = html.Div(
     ],
     className="custom-padding",
 )
+
+
+@callback(
+    Output("selected-team-output", "children"), [Input("select-team-selector", "value")]
+)
+def update_selected_team(selected_team):
+    return f"Selected team: {selected_team}"

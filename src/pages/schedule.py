@@ -1,9 +1,11 @@
 from dash import callback, dash_table, dcc, html
 from dash.dependencies import Input, Output
+import plotly.express as px
 
+from src.data_cols.game_types import game_types_columns
 from src.data_cols.ml_predictions import ml_predictions_columns
 from src.data_cols.schedule import schedule_columns
-from src.data import tonights_games_ml_df, schedule_df
+from src.data import game_types_df, schedule_df, tonights_games_ml_df
 
 schedule_layout = html.Div(
     [
@@ -15,14 +17,13 @@ schedule_layout = html.Div(
         html.Div(
             [
                 html.H1("Upcoming Games"),
-                # Dropdown for selecting the data table
                 dcc.Dropdown(
                     id="schedule-table-selector",
                     options=[
                         {"label": "Tonight's Games", "value": "tonights-games"},
                         {"label": "Future Schedule", "value": "future-schedule"},
                     ],
-                    value="tonights-games",  # Default selection
+                    value="tonights-games",
                 ),
                 html.Div(id="schedule-table"),
             ],
@@ -85,3 +86,20 @@ def update_data_table(selected_value):
                 css=[{"selector": ".show-hide", "rule": "display: none"}],
             ),
         )
+
+
+@callback(Output("game-types-plot", "figure"), Input("game-types-plot", "hoverData"))
+def update_chart(hoverData):
+    # Create a bar chart with Plotly Express
+    fig = px.bar(
+        game_types_df,
+        x="game_type",
+        y="n",
+        text="explanation",  # Set text to display on hover (custom tooltip)
+        labels={"n": "Count", "game_type": "Type"},  # Rename the y-axis label
+    )
+
+    # Customize the tooltip display
+    fig.update_traces(texttemplate="%{text}", textposition="outside")
+
+    return fig

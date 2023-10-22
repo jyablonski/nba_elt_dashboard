@@ -1,12 +1,6 @@
-from datetime import datetime
-import os
-
 import dash
 import dash_bootstrap_components as dbc
 from dash import dcc, html
-from dash.dependencies import Input, Output
-import pandas as pd
-import plotly.express as px
 
 from src.pages.about import about_layout
 from src.pages.overview import overview_layout
@@ -15,8 +9,7 @@ from src.pages.schedule import schedule_layout
 from src.pages.social_media_analysis import social_media_analysis_layout
 from src.pages.team_analysis import team_analysis_layout
 
-print(f"whole app is loading boi")
-# Initialize the Dash app
+print("whole app is loading boi")
 app = dash.Dash(
     __name__, assets_folder="../static", external_stylesheets=[dbc.themes.COSMO]
 )
@@ -51,31 +44,6 @@ app.layout = html.Div(
         html.Div(id="tab-content"),
     ]
 )
-
-
-@app.callback(Output("tab-content", "children"), Input("tabs", "value"))
-def render_content(tab):
-    if tab == "tab-1":
-        return html.Div(
-            [
-                html.H1("Welcome to Tab 1"),
-                html.P("This is the content of Tab 1."),
-            ]
-        )
-    elif tab == "tab-2":
-        return html.Div(
-            [
-                html.H1("Welcome to Tab 2"),
-                html.P("This is the content of Tab 2."),
-            ]
-        )
-    elif tab == "tab-3":
-        return html.Div(
-            [
-                html.H1("Welcome to Tab 3"),
-                html.P("This is the content of Tab 3."),
-            ]
-        )
 
 
 if __name__ == "__main__":
