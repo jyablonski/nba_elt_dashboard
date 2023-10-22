@@ -1,7 +1,13 @@
-from dash import dash_table, dcc, html
+from dash import callback, dash_table, dcc, html
+from dash.dependencies import Input, Output
+import plotly.express as px
 
+from src.data_cols.scorers import (
+    scorers_regular_season_columns,
+    scorers_playoffs_columns,
+)
 from src.data_cols.standings import standings_columns
-from src.data import bans_df, standings_df
+from src.data import bans_df, scorers_df, standings_df
 
 # it's not baaaaaaad idk
 overview_layout = (
@@ -114,6 +120,16 @@ overview_layout = (
             ),
             html.Div(
                 [
+                    html.Div(
+                        dcc.Dropdown(
+                            id="season-selector",
+                            options=[
+                                {"label": "Regular Season", "value": "Regular Season"},
+                                {"label": "Playoffs", "value": "Playoffs"},
+                            ],
+                            value="Regular Season",  # Default selected value
+                        )
+                    ),
                     dcc.Graph(
                         id="player-scoring-efficiency-plot",
                         config={
@@ -152,3 +168,48 @@ overview_layout = (
         className="custom-padding",
     ),
 )
+
+
+@callback(
+    Output("player-scoring-efficiency-plot", "figure"),
+    Input("season-selector", "value"),
+)
+def update_graph(selected_season):
+    if selected_season == "regular_season":
+        # Create the scatter plot using Plotly Express
+        fig = px.scatter(
+            scorers_df,
+            x="season_avg_ppg",
+            y="season_avg_ts_percent",
+            color="top5_candidates",
+            # hover_name="player",
+            # hover_data=["team"],
+        )
+
+        return fig
+    else:
+        # Create the scatter plot using Plotly Express
+        fig = px.scatter(
+            scorers_df,
+            x="playoffs_avg_ppg",
+            y="playoffs_ts_percent",
+            color="top5_candidates",
+            # hover_name="player",
+            # hover_data=["team"],
+        )
+
+        return fig
+
+    # # Create a bar chart with Plotly Express
+    # fig = px.bar(
+    #     game_types_df,
+    #     x="game_type",
+    #     y="n",
+    #     text="explanation",  # Set text to display on hover (custom tooltip)
+    #     labels={"n": "Count", "game_type": "Type"},  # Rename the y-axis label
+    # )
+
+    # # Customize the tooltip display
+    # fig.update_traces(texttemplate="%{text}", textposition="outside")
+
+    # return fig

@@ -1,8 +1,10 @@
 from dash import callback, dash_table, dcc, html
 from dash.dependencies import Input, Output
 
+from src.data_cols.injuries import injuries_cols
 from src.data_cols.standings import standings_columns
-from src.data import standings_df, team_names
+from src.data_cols.transactions import transactions_columns
+from src.data import injuries_df, standings_df, team_names, transactions_df
 
 team_analysis_layout = html.Div(
     [

@@ -86,3 +86,12 @@ follow-logs:
 test:
 	@docker compose -f docker/docker-compose-test.yml down
 	@docker compose -f docker/docker-compose-test.yml up --exit-code-from dash_app_runner
+
+.PHONY: lint
+lint:
+	@if [ -z "$$VIRTUAL_ENV" ]; then \
+        echo "Virtual environment not activated. Activating Poetry environment..."; \
+        poetry shell; \
+    fi
+	@ black .
+	@ ruff check .

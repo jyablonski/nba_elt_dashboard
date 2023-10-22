@@ -1,7 +1,7 @@
 from dash.dash_table import FormatTemplate
 
 recent_games_players_columns = [
-    dict(id="player_logo", name=""),
+    dict(id="player_logo", name="", presentation="markdown"),
     dict(id="player", name="Player"),
     dict(id="pts", name="PTS"),
     dict(

@@ -3,3 +3,11 @@
     padding-right: 15px;
     background-color: #0f1218;;
 }
+
+.player-headshot-container {
+    max-height: 25px;
+    max-width: 25px;
+    width: 32%;
+    display: inline-block;
+    margin-right: 30px;
+}

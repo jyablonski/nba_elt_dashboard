@@ -1,4 +1,5 @@
-from dash import dash_table, dcc, html
+from dash import callback, dash_table, dcc, html
+from dash.dependencies import Input, Output
 
 from src.data_cols.injury_tracker import injury_tracker_columns
 from src.data_cols.recent_games_players import recent_games_players_columns
@@ -8,8 +9,11 @@ from src.data import (
     injury_tracker_df,
     recent_games_players_df,
     recent_games_teams_df,
+    pbp_df,
     standings_df,
 )
+
+yesterdays_games = pbp_df["game_description"].drop_duplicates()
 
 recent_games_layout = html.Div(
     [
@@ -74,12 +78,50 @@ recent_games_layout = html.Div(
         ),
         html.Div(
             [
-                dcc.Graph(
-                    id="pbp-analysis-plot",
-                    config={"displayModeBar": False},
+                html.Div(
+                    [
+                        dcc.Dropdown(
+                            id="select-game-selector",
+                            options=[
+                                {"label": game, "value": game}
+                                for game in yesterdays_games
+                            ],
+                            value=yesterdays_games[0],
+                        ),
+                    ],
+                    style={"width": "15%", "float": "left"},
+                ),
+                html.Div(
+                    [
+                        dcc.Graph(
+                            id="pbp-analysis-plot",
+                            config={"displayModeBar": False},
+                        ),
+                    ],
+                    style={"width": "85%", "float": "left"},
                 ),
             ]
         ),
     ],
     className="custom-padding",
 )
+
+
+@callback(
+    Output("player-recent-games-table", "data"),
+    Input("player-recent-games-table", "data"),
+)
+def render_images(data):
+    for row in data:
+        row["player_logo"] = f'![Player Logo]({row["player_logo"]})'
+    return data
+
+
+@callback(
+    Output("injury-tracker-table", "data"),
+    Input("injury-tracker-table", "data"),
+)
+def render_images_injuries(data):
+    for row in data:
+        row["player_logo"] = f'![Player Logo]({row["player_logo"]})'
+    return data
