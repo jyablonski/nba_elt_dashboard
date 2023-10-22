@@ -1,6 +1,6 @@
-from dash import html, dcc
-import dash_table
+from dash import dash_table, dcc, html
 
+from src.data_cols.standings import standings_columns
 from src.data import standings_df
 
 # it's not baaaaaaad idk
@@ -51,39 +51,90 @@ overview_layout = (
                     # Left side (Western Conference)
                     html.Div(
                         [
-                            html.H1("Western Conference Standings"),
+                            html.H1("Western Conference"),
                             dash_table.DataTable(
                                 id="western-standings-table",
-                                columns=[
-                                    {"name": col, "id": col}
-                                    for col in standings_df.columns
-                                ],
+                                columns=standings_columns,
                                 data=standings_df.query(
                                     'conference == "Western"'
                                 ).to_dict("records"),
+                                hidden_columns=[
+                                    "active_protocols",
+                                    "conference",
+                                    "team",
+                                ],
+                                css=[
+                                    {"selector": ".show-hide", "rule": "display: none"}
+                                ],
                             ),
                         ],
-                        style={"width": "49%", "display": "inline-block"},
+                        style={
+                            "width": "49%",
+                            "display": "inline-block",
+                            "margin-right": "30px",
+                        },
                     ),
                     # Right side (Eastern Conference)
                     html.Div(
                         [
-                            html.H1("Eastern Conference Standings"),
+                            html.H1("Eastern Conference"),
                             dash_table.DataTable(
                                 id="eastern-standings-table",
-                                columns=[
-                                    {"name": col, "id": col}
-                                    for col in standings_df.columns
-                                ],
+                                columns=standings_columns,
                                 data=standings_df.query(
                                     'conference == "Eastern"'
                                 ).to_dict("records"),
+                                hidden_columns=[
+                                    "active_protocols",
+                                    "conference",
+                                    "team",
+                                ],
+                                css=[
+                                    {"selector": ".show-hide", "rule": "display: none"}
+                                ],
                             ),
                         ],
                         style={"width": "49%", "display": "inline-block"},
                     ),
                 ]
             ),
-        ]
+            html.Div(
+                [
+                    dcc.Graph(
+                        id="player-scoring-efficiency-plot",
+                        config={
+                            "displayModeBar": False
+                        },  # Optional: Hide the plotly toolbar
+                        style={"width": "50%", "display": "inline-block"},
+                    ),
+                    dcc.Graph(
+                        id="team-ratings-plot",
+                        config={
+                            "displayModeBar": False
+                        },  # Optional: Hide the plotly toolbar
+                        style={"width": "50%", "display": "inline-block"},
+                    ),
+                ]
+            ),
+            html.Div(
+                [
+                    dcc.Graph(
+                        id="player-value-analysis-plot",
+                        config={
+                            "displayModeBar": False
+                        },  # Optional: Hide the plotly toolbar
+                        style={"width": "50%", "display": "inline-block"},
+                    ),
+                    dcc.Graph(
+                        id="contract-bar-plot",
+                        config={
+                            "displayModeBar": False
+                        },  # Optional: Hide the plotly toolbar
+                        style={"width": "50%", "display": "inline-block"},
+                    ),
+                ]
+            ),
+        ],
+        className="custom-padding",
     ),
 )

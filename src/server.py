@@ -15,25 +15,37 @@ from src.pages.schedule import schedule_layout
 from src.pages.social_media_analysis import social_media_analysis_layout
 from src.pages.team_analysis import team_analysis_layout
 
+print(f"whole app is loading boi")
 # Initialize the Dash app
 app = dash.Dash(
     __name__, assets_folder="../static", external_stylesheets=[dbc.themes.COSMO]
 )
+app.title = "NBA Dashboard"
 
 app.layout = html.Div(
     [
         dcc.Tabs(
             id="tabs",
-            value="tab-1",
+            value="overview",
             children=[
-                dcc.Tab(label="Tab 1", value="tab-1", children=overview_layout),
-                dcc.Tab(label="Tab 2", value="tab-2", children=recent_games_layout),
-                dcc.Tab(label="Tab 3", value="tab-3", children=team_analysis_layout),
-                dcc.Tab(label="Tab 4", value="tab-4", children=schedule_layout),
+                dcc.Tab(label="Overview", value="overview", children=overview_layout),
                 dcc.Tab(
-                    label="Tab 5", value="tab-5", children=social_media_analysis_layout
+                    label="Recent Games",
+                    value="recent-games",
+                    children=recent_games_layout,
                 ),
-                dcc.Tab(label="Tab 6", value="tab-6", children=about_layout),
+                dcc.Tab(
+                    label="Team Analysis",
+                    value="team-analysis",
+                    children=team_analysis_layout,
+                ),
+                dcc.Tab(label="Schedule", value="schedule", children=schedule_layout),
+                dcc.Tab(
+                    label="Social Media Analysis",
+                    value="social-media-analysis",
+                    children=social_media_analysis_layout,
+                ),
+                dcc.Tab(label="About", value="about", children=about_layout),
             ],
         ),
         html.Div(id="tab-content"),

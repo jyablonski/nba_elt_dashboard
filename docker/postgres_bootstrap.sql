@@ -1553,6 +1553,130 @@ INSERT INTO team_ratings (team,team_acronym,w,l,ortg,drtg,nrtg,team_logo,nrtg_ra
 	 ('Detroit Pistons','DET',17,65,110.7,118.9,-8.2,'logos/det.png','29th','28th','28th'),
 	 ('San Antonio Spurs','SAS',22,60,110.2,120,-9.8,'logos/sas.png','30th','30th','29th');
 
+DROP TABLE IF EXISTS team_record_daily_rollup;
+CREATE TABLE IF NOT EXISTS team_record_daily_rollup (
+	team text NULL,
+	"date" date NULL,
+	conference text NULL,
+	running_total_games_played int8 NULL,
+	running_total_wins int8 NULL,
+	running_total_losses numeric NULL,
+	running_total_win_pct numeric NULL,
+	record_as_of_date text NULL,
+	"rank" text NULL
+);
+
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('BOS','2022-10-18','Eastern',1,1,0,1.000,'1-0','1st'),
+	 ('PHI','2022-10-18','Eastern',1,0,1,0.000,'0-1','2nd'),
+	 ('CHA','2022-10-19','Eastern',1,1,0,1.000,'1-0','1st'),
+	 ('BOS','2022-10-19','Eastern',1,1,0,1.000,'1-0','2nd'),
+	 ('DET','2022-10-19','Eastern',1,1,0,1.000,'1-0','3rd'),
+	 ('WAS','2022-10-19','Eastern',1,1,0,1.000,'1-0','4th'),
+	 ('TOR','2022-10-19','Eastern',1,1,0,1.000,'1-0','5th'),
+	 ('CHI','2022-10-19','Eastern',1,1,0,1.000,'1-0','6th'),
+	 ('ATL','2022-10-19','Eastern',1,1,0,1.000,'1-0','7th'),
+	 ('IND','2022-10-19','Eastern',1,0,1,0.000,'0-1','8th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('BKN','2022-10-19','Eastern',1,0,1,0.000,'0-1','9th'),
+	 ('PHI','2022-10-19','Eastern',1,0,1,0.000,'0-1','10th'),
+	 ('ORL','2022-10-19','Eastern',1,0,1,0.000,'0-1','11th'),
+	 ('CLE','2022-10-19','Eastern',1,0,1,0.000,'0-1','12th'),
+	 ('NYK','2022-10-19','Eastern',1,0,1,0.000,'0-1','13th'),
+	 ('MIA','2022-10-19','Eastern',1,0,1,0.000,'0-1','14th'),
+	 ('ATL','2022-10-20','Eastern',1,1,0,1.000,'1-0','1st'),
+	 ('WAS','2022-10-20','Eastern',1,1,0,1.000,'1-0','2nd'),
+	 ('MIL','2022-10-20','Eastern',1,1,0,1.000,'1-0','3rd'),
+	 ('CHA','2022-10-20','Eastern',1,1,0,1.000,'1-0','4th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('CHI','2022-10-20','Eastern',1,1,0,1.000,'1-0','5th'),
+	 ('TOR','2022-10-20','Eastern',1,1,0,1.000,'1-0','6th'),
+	 ('BOS','2022-10-20','Eastern',1,1,0,1.000,'1-0','7th'),
+	 ('DET','2022-10-20','Eastern',1,1,0,1.000,'1-0','8th'),
+	 ('PHI','2022-10-20','Eastern',2,0,2,0.000,'0-2','9th'),
+	 ('CLE','2022-10-20','Eastern',1,0,1,0.000,'0-1','10th'),
+	 ('MIA','2022-10-20','Eastern',1,0,1,0.000,'0-1','11th'),
+	 ('ORL','2022-10-20','Eastern',1,0,1,0.000,'0-1','12th'),
+	 ('BKN','2022-10-20','Eastern',1,0,1,0.000,'0-1','13th'),
+	 ('NYK','2022-10-20','Eastern',1,0,1,0.000,'0-1','14th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('IND','2022-10-20','Eastern',1,0,1,0.000,'0-1','15th'),
+	 ('ATL','2022-10-21','Eastern',2,2,0,1.000,'2-0','1st'),
+	 ('WAS','2022-10-21','Eastern',2,2,0,1.000,'2-0','2nd'),
+	 ('BOS','2022-10-21','Eastern',2,2,0,1.000,'2-0','3rd'),
+	 ('MIL','2022-10-21','Eastern',1,1,0,1.000,'1-0','4th'),
+	 ('DET','2022-10-21','Eastern',2,1,1,0.500,'1-1','5th'),
+	 ('BKN','2022-10-21','Eastern',2,1,1,0.500,'1-1','6th'),
+	 ('CHA','2022-10-21','Eastern',2,1,1,0.500,'1-1','7th'),
+	 ('TOR','2022-10-21','Eastern',2,1,1,0.500,'1-1','8th'),
+	 ('NYK','2022-10-21','Eastern',2,1,1,0.500,'1-1','9th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('CHI','2022-10-21','Eastern',2,1,1,0.500,'1-1','10th'),
+	 ('IND','2022-10-21','Eastern',2,0,2,0.000,'0-2','11th'),
+	 ('MIA','2022-10-21','Eastern',2,0,2,0.000,'0-2','12th'),
+	 ('CLE','2022-10-21','Eastern',1,0,1,0.000,'0-1','13th'),
+	 ('ORL','2022-10-21','Eastern',2,0,2,0.000,'0-2','14th'),
+	 ('PHI','2022-10-21','Eastern',2,0,2,0.000,'0-2','15th'),
+	 ('ATL','2022-10-22','Eastern',2,2,0,1.000,'2-0','1st'),
+	 ('BOS','2022-10-22','Eastern',3,3,0,1.000,'3-0','2nd'),
+	 ('WAS','2022-10-22','Eastern',2,2,0,1.000,'2-0','3rd'),
+	 ('MIL','2022-10-22','Eastern',2,2,0,1.000,'2-0','4th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('BKN','2022-10-22','Eastern',2,1,1,0.500,'1-1','5th'),
+	 ('CLE','2022-10-22','Eastern',2,1,1,0.500,'1-1','6th'),
+	 ('NYK','2022-10-22','Eastern',2,1,1,0.500,'1-1','7th'),
+	 ('CHA','2022-10-22','Eastern',2,1,1,0.500,'1-1','8th'),
+	 ('TOR','2022-10-22','Eastern',3,1,2,0.333,'1-2','9th'),
+	 ('IND','2022-10-22','Eastern',3,1,2,0.333,'1-2','10th'),
+	 ('MIA','2022-10-22','Eastern',3,1,2,0.333,'1-2','11th'),
+	 ('CHI','2022-10-22','Eastern',3,1,2,0.333,'1-2','12th'),
+	 ('DET','2022-10-22','Eastern',3,1,2,0.333,'1-2','13th'),
+	 ('PHI','2022-10-22','Eastern',3,0,3,0.000,'0-3','14th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('ORL','2022-10-22','Eastern',3,0,3,0.000,'0-3','15th'),
+	 ('BOS','2022-10-23','Eastern',3,3,0,1.000,'3-0','1st'),
+	 ('MIL','2022-10-23','Eastern',2,2,0,1.000,'2-0','2nd'),
+	 ('CLE','2022-10-23','Eastern',3,2,1,0.667,'2-1','3rd'),
+	 ('ATL','2022-10-23','Eastern',3,2,1,0.667,'2-1','4th'),
+	 ('WAS','2022-10-23','Eastern',3,2,1,0.667,'2-1','5th'),
+	 ('CHA','2022-10-23','Eastern',3,2,1,0.667,'2-1','6th'),
+	 ('BKN','2022-10-23','Eastern',2,1,1,0.500,'1-1','7th'),
+	 ('NYK','2022-10-23','Eastern',2,1,1,0.500,'1-1','8th'),
+	 ('CHI','2022-10-23','Eastern',3,1,2,0.333,'1-2','9th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('IND','2022-10-23','Eastern',3,1,2,0.333,'1-2','10th'),
+	 ('DET','2022-10-23','Eastern',3,1,2,0.333,'1-2','11th'),
+	 ('TOR','2022-10-23','Eastern',3,1,2,0.333,'1-2','12th'),
+	 ('MIA','2022-10-23','Eastern',3,1,2,0.333,'1-2','13th'),
+	 ('PHI','2022-10-23','Eastern',3,0,3,0.000,'0-3','14th'),
+	 ('ORL','2022-10-23','Eastern',3,0,3,0.000,'0-3','15th'),
+	 ('MIL','2022-10-24','Eastern',2,2,0,1.000,'2-0','1st'),
+	 ('BOS','2022-10-24','Eastern',4,3,1,0.750,'3-1','2nd'),
+	 ('WAS','2022-10-24','Eastern',3,2,1,0.667,'2-1','3rd'),
+	 ('NYK','2022-10-24','Eastern',3,2,1,0.667,'2-1','4th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('ATL','2022-10-24','Eastern',3,2,1,0.667,'2-1','5th'),
+	 ('CLE','2022-10-24','Eastern',3,2,1,0.667,'2-1','6th'),
+	 ('CHA','2022-10-24','Eastern',3,2,1,0.667,'2-1','7th'),
+	 ('CHI','2022-10-24','Eastern',4,2,2,0.500,'2-2','8th'),
+	 ('TOR','2022-10-24','Eastern',4,2,2,0.500,'2-2','9th'),
+	 ('DET','2022-10-24','Eastern',3,1,2,0.333,'1-2','10th'),
+	 ('BKN','2022-10-24','Eastern',3,1,2,0.333,'1-2','11th'),
+	 ('PHI','2022-10-24','Eastern',4,1,3,0.250,'1-3','12th'),
+	 ('MIA','2022-10-24','Eastern',4,1,3,0.250,'1-3','13th'),
+	 ('IND','2022-10-24','Eastern',4,1,3,0.250,'1-3','14th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('ORL','2022-10-24','Eastern',4,0,4,0.000,'0-4','15th'),
+	 ('MIL','2022-10-25','Eastern',2,2,0,1.000,'2-0','1st'),
+	 ('BOS','2022-10-25','Eastern',4,3,1,0.750,'3-1','2nd'),
+	 ('WAS','2022-10-25','Eastern',4,3,1,0.750,'3-1','3rd'),
+	 ('CLE','2022-10-25','Eastern',3,2,1,0.667,'2-1','4th'),
+	 ('CHA','2022-10-25','Eastern',3,2,1,0.667,'2-1','5th'),
+	 ('NYK','2022-10-25','Eastern',3,2,1,0.667,'2-1','6th'),
+	 ('ATL','2022-10-25','Eastern',3,2,1,0.667,'2-1','7th'),
+	 ('CHI','2022-10-25','Eastern',4,2,2,0.500,'2-2','8th'),
+	 ('TOR','2022-10-25','Eastern',4,2,2,0.500,'2-2','9th');
+
 DROP TABLE IF EXISTS ml_models.tonights_games_ml;
 CREATE TABLE IF NOT EXISTS ml_models.tonights_games_ml
 (
