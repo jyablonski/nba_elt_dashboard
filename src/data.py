@@ -32,7 +32,8 @@ source_tables = [
 
 with engine.begin() as connection:
     for table in source_tables:
-        if table == "x":
-            pass
+        if "." in table:
+            table_name = table.split(".")[1]
+            globals()[f"{table_name}_df"] = get_data(table_name=table, conn=connection)
         else:
             globals()[f"{table}_df"] = get_data(table_name=table, conn=connection)
