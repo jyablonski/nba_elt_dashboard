@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS bans
 );
 INSERT INTO bans(
 	upcoming_games, upcoming_game_date, location, tot_wins, games_played, avg_pts, last_yr_ppg, scrape_time, win_pct, league_ts_percent, last_updated_at, run_type, most_recent_game, sum_active_protocols, sum_active_protocols_lastwk, protocols_differential, protocols_pct_diff, protocols_text)
-	VALUES (3, current_date, 'H', 714, 1230, 114.68, 112.1, current_timestamp, 0.580, 0.581, current_timestamp, 'dbt_docker', current_date, 0, 0, 0, 0, 'No Difference'),
-           (3, current_date, 'A', 516, 1230, 114.68, 112.1, current_timestamp, 0.420, 0.581, current_timestamp, 'dbt_docker', current_date, 0, 0, 0, 0, 'No Difference');
+	VALUES (3, current_date, 'H', 714, 1230, 114.68, 112.1, current_timestamp, 0.580, 0.581, current_timestamp, 'dbt_docker', current_date, 0, 0, 0, 0, 'No Difference from 7 days ago'),
+           (3, current_date, 'A', 516, 1230, 114.68, 112.1, current_timestamp, 0.420, 0.581, current_timestamp, 'dbt_docker', current_date, 0, 0, 0, 0, 'No Difference from 7 days ago');
 
 DROP TABLE IF EXISTS contract_value_analysis;
 CREATE TABLE IF NOT EXISTS contract_value_analysis (

@@ -1,13 +1,21 @@
 from dash import callback, dash_table, dcc, html
 from dash.dependencies import Input, Output
 import plotly.express as px
+import plotly.graph_objects as go
 
-from src.data_cols.scorers import (
-    scorers_regular_season_columns,
-    scorers_playoffs_columns,
-)
 from src.data_cols.standings import standings_columns
-from src.data import bans_df, scorers_df, standings_df
+from src.data import (
+    bans_df,
+    contract_value_analysis_df,
+    scorers_df,
+    standings_df,
+    team_contracts_analysis_df,
+    team_ratings_df,
+)
+
+team_contracts_analysis_df = team_contracts_analysis_df.sort_values(
+    by="team_pct_salary_earned", ascending=True
+)
 
 # it's not baaaaaaad idk
 overview_layout = (
@@ -36,7 +44,7 @@ overview_layout = (
                             html.Div(bans_df["avg_pts"][0], style={"fontSize": 24}),
                             html.Div("League Average Points Scored / Game"),
                             html.Div(
-                                f"{bans_df['avg_pts'][0] - bans_df['last_yr_ppg'][0]} difference from Last Season"
+                                f"{((bans_df['avg_pts'][0] - bans_df['last_yr_ppg'][0]) / bans_df['avg_pts'][0]) * 100:.2f}% difference from Last Season"
                             ),
                         ],
                         className="kpi-box",
@@ -44,9 +52,12 @@ overview_layout = (
                     # KPI 3
                     html.Div(
                         [
-                            html.Div("KPI 3 Value", style={"fontSize": 24}),
+                            html.Div(
+                                bans_df["sum_active_protocols"][0],
+                                style={"fontSize": 24},
+                            ),
                             html.Div("Active Players in COVID Protocols"),
-                            html.Div(f"xyz difference from 7 days ago"),
+                            html.Div(bans_df["protocols_text"][0]),
                         ],
                         className="kpi-box",
                     ),
@@ -139,10 +150,18 @@ overview_layout = (
                     ),
                     dcc.Graph(
                         id="team-ratings-plot",
-                        config={
-                            "displayModeBar": False
-                        },  # Optional: Hide the plotly toolbar
+                        config={"displayModeBar": False},
                         style={"width": "50%", "display": "inline-block"},
+                        figure=px.scatter(
+                            team_ratings_df,
+                            x="ortg",
+                            y="drtg",
+                            text="team",
+                            labels={
+                                "ortg": "Offensive Rating (ORTG)",
+                                "drtg": "Defensive Rating (DRTG)",
+                            },
+                        ),
                     ),
                 ]
             ),
@@ -150,17 +169,42 @@ overview_layout = (
                 [
                     dcc.Graph(
                         id="player-value-analysis-plot",
-                        config={
-                            "displayModeBar": False
-                        },  # Optional: Hide the plotly toolbar
+                        config={"displayModeBar": False},
                         style={"width": "50%", "display": "inline-block"},
+                        figure=px.scatter(
+                            contract_value_analysis_df,
+                            x="salary",
+                            y="player_mvp_calc_avg",
+                            color="color_var",
+                            color_discrete_map={
+                                "Superstars": "purple",
+                                "Great Value": "green",
+                                "Normal": "gray",
+                                "Bad Value": "red",
+                            },  # Apply the custom color scale
+                            labels={
+                                "player": "Player",
+                                "team": "Team",
+                                "salary": "Salary",
+                                "player_mvp_calc_avg": "Player MVP Category",
+                            },
+                        ),
                     ),
                     dcc.Graph(
                         id="contract-bar-plot",
-                        config={
-                            "displayModeBar": False
-                        },  # Optional: Hide the plotly toolbar
+                        config={"displayModeBar": False},
                         style={"width": "50%", "display": "inline-block"},
+                        figure=px.bar(
+                            team_contracts_analysis_df,
+                            x="team_pct_salary_earned",
+                            y="team",
+                            color="win_percentage",
+                            color_continuous_scale=[(0, "red"), (1, "green")],
+                            labels={
+                                "team_pct_salary_earned": "Team % Salary Earned",
+                                "team": "Team",
+                            },
+                        ),
                     ),
                 ]
             ),
@@ -168,6 +212,43 @@ overview_layout = (
         className="custom-padding",
     ),
 )
+
+avg_ortg = team_ratings_df["ortg"].mean()
+avg_drtg = team_ratings_df["drtg"].mean()
+
+average_ortg_line = go.Scatter(
+    x=[avg_ortg, avg_ortg],
+    y=[team_ratings_df["drtg"].min(), team_ratings_df["drtg"].max()],
+    mode="lines",
+    name="Average ORTG",
+    line=dict(color="red", dash="dash"),
+)
+
+average_drtg_line = go.Scatter(
+    x=[team_ratings_df["ortg"].min(), team_ratings_df["ortg"].max()],
+    y=[avg_drtg, avg_drtg],
+    mode="lines",
+    name="Average DRTG",
+    line=dict(color="blue", dash="dash"),
+)
+
+# Add team logos using image annotations
+team_logos = []
+for i, row in team_ratings_df.iterrows():
+    team_logo = row["team_logo"]
+    team_logos.append(
+        go.layout.Image(
+            source=f"assets/logos/{team_logo}",  # Assuming logos are in an 'assets' directory
+            x=row["ortg"],  # X coordinate
+            y=row["drtg"],  # Y coordinate
+            xref="x",
+            yref="y",
+            xanchor="center",
+            yanchor="bottom",
+            sizex=0.2,
+            sizey=0.2,
+        )
+    )
 
 
 @callback(

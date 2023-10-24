@@ -5,7 +5,15 @@ import plotly.express as px
 from src.data_cols.injuries import injuries_columns
 from src.data_cols.standings import standings_columns
 from src.data_cols.transactions import transactions_columns
-from src.data import injuries_df, mov_df, standings_df, team_names, transactions_df
+from src.data import (
+    injuries_df,
+    mov_df,
+    scorers_df,
+    standings_df,
+    team_adv_stats_df,
+    team_names,
+    transactions_df,
+)
 
 team_analysis_layout = html.Div(
     [
@@ -19,7 +27,7 @@ team_analysis_layout = html.Div(
                         options=[{"label": team, "value": team} for team in team_names],
                         value=team_names[0],
                         clearable=False,
-                        style={'width': '250px'}  # Set the width to 300 pixels
+                        style={"width": "250px"},  # Set the width to 300 pixels
                     ),
                 ),
                 # KPI 2
@@ -117,7 +125,8 @@ team_analysis_layout = html.Div(
 
 @callback(Output("mov-plot", "figure"), Input("team-selector", "value"))
 def update_mov(selected_team):
-    filtered_df = mov_df[mov_df["full_team"] == selected_team]
+    # filtered_df = mov_df[mov_df["full_team"] == selected_team]
+    filtered_df = mov_df.query(f"full_team == '{selected_team}'")
 
     fig = px.bar(
         filtered_df,
@@ -130,5 +139,26 @@ def update_mov(selected_team):
 
     # Customize the tooltip display
     fig.update_traces(texttemplate="%{text}", textposition="outside")
+
+    return fig
+
+
+@callback(
+    Output("team-player-efficiency-plot", "figure"), Input("team-selector", "value")
+)
+def update_team_player_efficiency(selected_team):
+    team_player_efficiency = scorers_df.query(f"full_team == '{selected_team}'")
+
+    fig = px.scatter(
+        team_player_efficiency,
+        x="season_avg_ppg",
+        y="season_ts_percent",
+        color="top5_candidates",
+        text="player",
+        labels={"season_avg_ppg": "Season Avg PPG", "season_ts_percent": "Season TS%"},
+    )
+
+    # Customize the tooltip display
+    # fig.update_traces(texttemplate="%{text}", textposition="outside")
 
     return fig
