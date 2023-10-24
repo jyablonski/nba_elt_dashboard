@@ -24,6 +24,7 @@ schedule_layout = html.Div(
                         {"label": "Future Schedule", "value": "future-schedule"},
                     ],
                     value="tonights-games",
+                    clearable=False,
                 ),
                 html.Div(id="schedule-table"),
             ],
@@ -89,14 +90,13 @@ def update_data_table(selected_value):
 
 
 @callback(Output("game-types-plot", "figure"), Input("game-types-plot", "hoverData"))
-def update_chart(hoverData):
-    # Create a bar chart with Plotly Express
+def update_game_types(hoverData):
     fig = px.bar(
         game_types_df,
         x="game_type",
         y="n",
-        text="explanation",  # Set text to display on hover (custom tooltip)
-        labels={"n": "Count", "game_type": "Type"},  # Rename the y-axis label
+        text="explanation",
+        labels={"n": "Count", "game_type": "Type"},
     )
 
     # Customize the tooltip display

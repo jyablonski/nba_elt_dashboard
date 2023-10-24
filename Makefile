@@ -89,9 +89,12 @@ test:
 
 .PHONY: lint
 lint:
+lint:
 	@if [ -z "$$VIRTUAL_ENV" ]; then \
         echo "Virtual environment not activated. Activating Poetry environment..."; \
-        poetry shell; \
+        poetry run black .; \
+        poetry run ruff check .; \
+    else \
+        black .; \
+        ruff check .; \
     fi
-	@ black .
-	@ ruff check .

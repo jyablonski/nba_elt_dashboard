@@ -1,10 +1,11 @@
 from dash import callback, dash_table, dcc, html
 from dash.dependencies import Input, Output
+import plotly.express as px
 
-from src.data_cols.injuries import injuries_cols
+from src.data_cols.injuries import injuries_columns
 from src.data_cols.standings import standings_columns
 from src.data_cols.transactions import transactions_columns
-from src.data import injuries_df, standings_df, team_names, transactions_df
+from src.data import injuries_df, mov_df, standings_df, team_names, transactions_df
 
 team_analysis_layout = html.Div(
     [
@@ -14,12 +15,13 @@ team_analysis_layout = html.Div(
                 # KPI 1
                 html.Div(
                     dcc.Dropdown(
-                        id="select-team-selector",
+                        id="team-selector",
                         options=[{"label": team, "value": team} for team in team_names],
                         value=team_names[0],
+                        clearable=False,
+                        style={'width': '250px'}  # Set the width to 300 pixels
                     ),
                 ),
-                html.Div(id="selected-team-output"),
                 # KPI 2
                 html.Div(
                     [
@@ -113,8 +115,20 @@ team_analysis_layout = html.Div(
 )
 
 
-@callback(
-    Output("selected-team-output", "children"), [Input("select-team-selector", "value")]
-)
-def update_selected_team(selected_team):
-    return f"Selected team: {selected_team}"
+@callback(Output("mov-plot", "figure"), Input("team-selector", "value"))
+def update_mov(selected_team):
+    filtered_df = mov_df[mov_df["full_team"] == selected_team]
+
+    fig = px.bar(
+        filtered_df,
+        x="date",
+        y="mov",
+        text="team",
+        color="outcome",
+        labels={"date": "Date", "mov": "Margin of Victory"},
+    )
+
+    # Customize the tooltip display
+    fig.update_traces(texttemplate="%{text}", textposition="outside")
+
+    return fig

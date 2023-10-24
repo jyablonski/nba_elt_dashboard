@@ -1,4 +1,4 @@
-injuries_cols = [
+injuries_columns = [
     dict(id="player_logo", name="", presentation="markdown"),
     dict(id="player", name="Player"),
     dict(id="status", name="Status"),

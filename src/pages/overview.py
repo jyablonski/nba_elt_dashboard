@@ -175,22 +175,24 @@ overview_layout = (
     Input("season-selector", "value"),
 )
 def update_graph(selected_season):
-    if selected_season == "regular_season":
-        # Create the scatter plot using Plotly Express
+    if selected_season == "Regular Season":
+        filtered_df = scorers_df.query("season_avg_ppg >= 20")
+
         fig = px.scatter(
-            scorers_df,
+            filtered_df,
             x="season_avg_ppg",
-            y="season_avg_ts_percent",
+            y="season_ts_percent",
             color="top5_candidates",
-            # hover_name="player",
-            # hover_data=["team"],
+            hover_name="player",
+            hover_data=["team"],
         )
 
         return fig
     else:
-        # Create the scatter plot using Plotly Express
+        filtered_playoffs_df = scorers_df.query("playoffs_avg_ppg >= 20")
+
         fig = px.scatter(
-            scorers_df,
+            filtered_playoffs_df,
             x="playoffs_avg_ppg",
             y="playoffs_ts_percent",
             color="top5_candidates",
