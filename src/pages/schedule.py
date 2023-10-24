@@ -5,7 +5,27 @@ import plotly.express as px
 from src.data_cols.game_types import game_types_columns
 from src.data_cols.ml_predictions import ml_predictions_columns
 from src.data_cols.schedule import schedule_columns
-from src.data import game_types_df, schedule_df, tonights_games_ml_df
+from src.data import (
+    game_types_df,
+    past_schedule_analysis_df,
+    preseason_odds_df,
+    schedule_df,
+    team_blown_leads_df,
+    tonights_games_ml_df,
+)
+
+past_schedule_analysis_df = past_schedule_analysis_df.sort_values(
+    by="pct_vs_below_500", ascending=True
+)
+
+preseason_odds_df = preseason_odds_df.sort_values(
+    by="wins_differential", ascending=True
+)
+
+team_blown_leads_df = team_blown_leads_df.query(
+    f"season_type == 'Regular Season'"
+).sort_values(by="net_comebacks", ascending=True)
+
 
 schedule_layout = html.Div(
     [
@@ -35,6 +55,28 @@ schedule_layout = html.Div(
         ),
         html.Div(
             [
+                html.Div(
+                    dcc.Dropdown(
+                        id="schedule-plot-selector",
+                        options=[
+                            {
+                                "label": "Stength of Schedule (as of Today)",
+                                "value": "strength-of-schedule",
+                            },
+                            {
+                                "label": "Vegas Preseason Over / Under Odds",
+                                "value": "vegas-preseason-odds",
+                            },
+                            {
+                                "label": "Team Comebacks Analysis (Regular Season)",
+                                "value": "team-comebacks",
+                            },
+                        ],
+                        value="strength-of-schedule",
+                        clearable=False,
+                        style={"width": "250px"},
+                    ),
+                ),
                 dcc.Graph(
                     id="game-types-plot",
                     config={
@@ -43,7 +85,7 @@ schedule_layout = html.Div(
                     style={"width": "50%", "display": "inline-block"},
                 ),
                 dcc.Graph(
-                    id="schedule-picker-plot",
+                    id="schedule-plot",
                     config={
                         "displayModeBar": False
                     },  # Optional: Hide the plotly toolbar
@@ -103,3 +145,50 @@ def update_game_types(hoverData):
     fig.update_traces(texttemplate="%{text}", textposition="outside")
 
     return fig
+
+
+@callback(
+    Output("schedule-plot", "figure"),
+    Input("schedule-plot-selector", "value"),
+)
+def update_schedule_plot(selected_schedule_plot):
+    if selected_schedule_plot == "strength-of-schedule":
+        fig = px.bar(
+            past_schedule_analysis_df,
+            x="pct_vs_below_500",
+            y="team",
+            text="team",
+        )
+
+        # Customize the tooltip display
+        fig.update_traces(texttemplate="%{text}", textposition="outside")
+
+        return fig
+    elif selected_schedule_plot == "vegas-preseason-odds":
+        fig = px.bar(
+            preseason_odds_df,
+            x="wins_differential",
+            y="team",
+            text="team",
+            color="wins_differential",
+            color_discrete_map={True: "lightblue", False: "red"},
+        )
+
+        # Customize the tooltip display
+        fig.update_traces(texttemplate="%{text}", textposition="outside")
+
+        return fig
+    else:
+        fig = px.bar(
+            team_blown_leads_df,
+            x="net_comebacks",
+            y="team",
+            text="team",
+            color="net_comebacks",
+            color_discrete_map={True: "lightblue", False: "red"},
+        )
+
+        # Customize the tooltip display
+        fig.update_traces(texttemplate="%{text}", textposition="outside")
+
+        return fig

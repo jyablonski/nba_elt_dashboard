@@ -3,13 +3,11 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 
 from src.data_cols.injuries import injuries_columns
-from src.data_cols.standings import standings_columns
 from src.data_cols.transactions import transactions_columns
 from src.data import (
     injuries_df,
     mov_df,
     scorers_df,
-    standings_df,
     team_adv_stats_df,
     team_names,
     transactions_df,
@@ -27,7 +25,7 @@ team_analysis_layout = html.Div(
                         options=[{"label": team, "value": team} for team in team_names],
                         value=team_names[0],
                         clearable=False,
-                        style={"width": "250px"},  # Set the width to 300 pixels
+                        style={"width": "250px"},
                     ),
                 ),
                 # KPI 2
@@ -77,42 +75,14 @@ team_analysis_layout = html.Div(
                 html.Div(
                     [
                         html.H1("Team Injuries"),
-                        dash_table.DataTable(
-                            id="team-injuries-table",
-                            columns=standings_columns,
-                            data=standings_df.query('conference == "Western"').to_dict(
-                                "records"
-                            ),
-                            hidden_columns=[
-                                "active_protocols",
-                                "conference",
-                                "team",
-                            ],
-                            css=[{"selector": ".show-hide", "rule": "display: none"}],
-                        ),
+                        html.Div(id="injuries-table"),
                     ],
-                    style={
-                        "width": "49%",
-                        "display": "inline-block",
-                        "margin-right": "30px",
-                    },
+                    style={"width": "49%", "display": "inline-block"},
                 ),
                 html.Div(
                     [
                         html.H1("Team Transactions"),
-                        dash_table.DataTable(
-                            id="team-transactions-table",
-                            columns=standings_columns,
-                            data=standings_df.query('conference == "Eastern"').to_dict(
-                                "records"
-                            ),
-                            hidden_columns=[
-                                "active_protocols",
-                                "conference",
-                                "team",
-                            ],
-                            css=[{"selector": ".show-hide", "rule": "display: none"}],
-                        ),
+                        html.Div(id="transactions-table"),
                     ],
                     style={"width": "49%", "display": "inline-block"},
                 ),
@@ -125,7 +95,6 @@ team_analysis_layout = html.Div(
 
 @callback(Output("mov-plot", "figure"), Input("team-selector", "value"))
 def update_mov(selected_team):
-    # filtered_df = mov_df[mov_df["full_team"] == selected_team]
     filtered_df = mov_df.query(f"full_team == '{selected_team}'")
 
     fig = px.bar(
@@ -137,7 +106,6 @@ def update_mov(selected_team):
         labels={"date": "Date", "mov": "Margin of Victory"},
     )
 
-    # Customize the tooltip display
     fig.update_traces(texttemplate="%{text}", textposition="outside")
 
     return fig
@@ -158,7 +126,31 @@ def update_team_player_efficiency(selected_team):
         labels={"season_avg_ppg": "Season Avg PPG", "season_ts_percent": "Season TS%"},
     )
 
-    # Customize the tooltip display
-    # fig.update_traces(texttemplate="%{text}", textposition="outside")
-
     return fig
+
+
+@callback(Output("injuries-table", "children"), Input("team-selector", "value"))
+def update_injuries(selected_team):
+    filtered_injuries = injuries_df.query(f"team == '{selected_team}'")
+
+    return (
+        dash_table.DataTable(
+            columns=injuries_columns,
+            data=filtered_injuries.to_dict("records"),
+            css=[{"selector": ".show-hide", "rule": "display: none"}],
+        ),
+    )
+
+
+@callback(Output("transactions-table", "children"), Input("team-selector", "value"))
+def update_transactions(selected_team):
+    filtered_transactions = transactions_df.query(
+        f'transaction.str.contains("{selected_team}")', engine="python"
+    )
+    return (
+        dash_table.DataTable(
+            columns=transactions_columns,
+            data=filtered_transactions.to_dict("records"),
+            css=[{"selector": ".show-hide", "rule": "display: none"}],
+        ),
+    )

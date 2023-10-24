@@ -1,7 +1,8 @@
 injuries_columns = [
-    dict(id="player_logo", name="", presentation="markdown"),
     dict(id="player", name="Player"),
+    dict(id="team", name="Team"),
+    dict(id="date", name="Date"),
     dict(id="status", name="Status"),
-    dict(id="continuous_games_missed", name="Continuous Games Missed"),
-    dict(id="average_ppg", name="Average PPG"),
+    dict(id="injury", name="Injury"),
+    dict(id="description", name="Description"),
 ]

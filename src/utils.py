@@ -77,7 +77,6 @@ def pbp_transformer(df: pd.DataFrame):
 
     tot = sum(result_df["Leading"] + result_df["TIE"])
     result_df["pct_leading"] = round(result_df["Leading"] / tot, 3)
-    time_tied = 1 - sum(result_df["pct_leading"])
 
     # Drop the "Trailing" column
     result_df.drop(columns=["Trailing"], inplace=True)
