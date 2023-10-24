@@ -107,7 +107,7 @@ about_layout = html.Div(
             ]
         ),
         html.Br(),
-        html.P("Version: 0.0.1"),
+        html.P("Version: 0.0.2"),
     ],
     className="custom-padding",
 )
