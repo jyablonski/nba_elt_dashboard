@@ -24,7 +24,6 @@ recent_games_layout = html.Div(
             [
                 html.Div(
                     [
-                        # html.H1("Western Conference"),
                         dash_table.DataTable(
                             id="player-recent-games-table",
                             columns=recent_games_players_columns,
@@ -45,7 +44,6 @@ recent_games_layout = html.Div(
                 ),
                 html.Div(
                     [
-                        # html.H1("Eastern Conference"),
                         dash_table.DataTable(
                             id="team-recent-games-table",
                             columns=recent_games_teams_columns,
@@ -89,6 +87,7 @@ recent_games_layout = html.Div(
                                 {"label": game, "value": game}
                                 for game in yesterdays_games
                             ],
+                            clearable=False,
                             value=yesterdays_games[0],
                         ),
                     ],

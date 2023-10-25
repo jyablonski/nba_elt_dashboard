@@ -16,14 +16,14 @@ def pbp_transformer(df: pd.DataFrame):
     Returns:
         Pandas DataFrame of pbp Data for the Line Chart in Recent Games Tab
     """
-
+    print(f"Running PBP Transformer")
     # Define a function for handling missing values
     def replace_na(series, value):
         return series.fillna(value)
 
     # Equivalent of R's dplyr functions in Python using pandas and numpy
     team_colors = df[["scoring_team", "leading_team_text"]].copy().drop_duplicates()
-    try_df = df[df["scoring_team"] != "TIE"]
+    try_df = df.copy().query("scoring_team != 'TIE'")
     try_df["prev_time"] = try_df["time_remaining_final"].shift()
     try_df["prev_time"] = replace_na(try_df["prev_time"], 48.0)
     try_df["time_difference"] = round(

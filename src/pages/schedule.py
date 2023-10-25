@@ -74,21 +74,15 @@ schedule_layout = html.Div(
                         ],
                         value="strength-of-schedule",
                         clearable=False,
-                        style={"width": "250px"},
+                        style={"width": "350px"},
                     ),
                 ),
                 dcc.Graph(
                     id="game-types-plot",
-                    config={
-                        "displayModeBar": False
-                    },
                     style={"width": "50%", "display": "inline-block"},
                 ),
                 dcc.Graph(
                     id="schedule-plot",
-                    # config={
-                    #     "displayModeBar": False
-                    # },
                     style={"width": "50%", "display": "inline-block"},
                 ),
             ]
@@ -102,7 +96,7 @@ schedule_layout = html.Div(
 @callback(
     Output("schedule-table", "children"), [Input("schedule-table-selector", "value")]
 )
-def update_data_table(selected_value):
+def update_schedule_table(selected_value):
     if selected_value == "tonights-games":
         return (
             dash_table.DataTable(
@@ -132,7 +126,7 @@ def update_data_table(selected_value):
 
 
 @callback(Output("game-types-plot", "figure"), Input("game-types-plot", "hoverData"))
-def update_game_types(hoverData):
+def update_game_types_plot(hoverData):
     fig = px.bar(
         game_types_df,
         x="game_type",

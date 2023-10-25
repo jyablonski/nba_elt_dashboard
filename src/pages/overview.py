@@ -138,19 +138,16 @@ overview_layout = (
                                 {"label": "Regular Season", "value": "Regular Season"},
                                 {"label": "Playoffs", "value": "Playoffs"},
                             ],
-                            value="Regular Season",  # Default selected value
+                            clearable=False,
+                            value="Regular Season",
                         )
                     ),
                     dcc.Graph(
                         id="player-scoring-efficiency-plot",
-                        config={
-                            "displayModeBar": False
-                        },  # Optional: Hide the plotly toolbar
                         style={"width": "50%", "display": "inline-block"},
                     ),
                     dcc.Graph(
                         id="team-ratings-plot",
-                        config={"displayModeBar": False},
                         style={"width": "50%", "display": "inline-block"},
                         figure=px.scatter(
                             team_ratings_df,
@@ -169,7 +166,6 @@ overview_layout = (
                 [
                     dcc.Graph(
                         id="player-value-analysis-plot",
-                        config={"displayModeBar": False},
                         style={"width": "50%", "display": "inline-block"},
                         figure=px.scatter(
                             contract_value_analysis_df,
@@ -192,7 +188,6 @@ overview_layout = (
                     ),
                     dcc.Graph(
                         id="contract-bar-plot",
-                        config={"displayModeBar": False},
                         style={"width": "50%", "display": "inline-block"},
                         figure=px.bar(
                             team_contracts_analysis_df,
@@ -264,9 +259,15 @@ def update_graph(selected_season):
             x="season_avg_ppg",
             y="season_ts_percent",
             color="top5_candidates",
+            color_discrete_map={
+                "Top 5 MVP Candidate": "orange",
+                "Other": "grey",
+            },
             hover_name="player",
             hover_data=["team"],
         )
+
+        fig.update_layout(legend_title_text="")
 
         return fig
     else:
@@ -277,9 +278,15 @@ def update_graph(selected_season):
             x="playoffs_avg_ppg",
             y="playoffs_ts_percent",
             color="top5_candidates",
-            # hover_name="player",
-            # hover_data=["team"],
+            color_discrete_map={
+                "Top 5 MVP Candidate": "orange",
+                "Other": "grey",
+            },
+            hover_name="player",
+            hover_data=["team"],
         )
+
+        fig.update_layout(legend_title_text="")
 
         return fig
 

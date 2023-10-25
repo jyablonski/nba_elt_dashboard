@@ -113,7 +113,6 @@ social_media_analysis_layout = html.Div(
                 ),
                 dcc.Graph(
                     id="social-media-plot",
-                    config={"displayModeBar": False},
                     style={"width": "100%", "display": "inline-block"},
                 ),
             ]
