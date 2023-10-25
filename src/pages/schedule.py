@@ -81,14 +81,14 @@ schedule_layout = html.Div(
                     id="game-types-plot",
                     config={
                         "displayModeBar": False
-                    },  # Optional: Hide the plotly toolbar
+                    },
                     style={"width": "50%", "display": "inline-block"},
                 ),
                 dcc.Graph(
                     id="schedule-plot",
-                    config={
-                        "displayModeBar": False
-                    },  # Optional: Hide the plotly toolbar
+                    # config={
+                    #     "displayModeBar": False
+                    # },
                     style={"width": "50%", "display": "inline-block"},
                 ),
             ]
