@@ -21,11 +21,14 @@ services:
     image: nba_elt_dashboard_local
     environment:
       - IP=postgres
-      - RDS_USER=nba_dashboard_user
+      - RDS_USER=postgres
       - RDS_PW=postgres
       - RDS_DB=postgres
       - RDS_SCHEMA=nba_prod
       - ENV_TYPE=docker_dev
+      - OTEL_EXPORTER_OTLP_ENDPOINT=https://api.honeycomb.io
+      - OTEL_EXPORTER_OTLP_HEADERS=x-honeycomb-team=bababooiee
+      - OTEL_SERVICE_NAME=nba-elt-dashboard-dev
     restart: always
     ports:
       - 9000:9000
@@ -39,6 +42,8 @@ services:
       - ${PWD}/src/:/home/appuser/src
       - ${PWD}/static/:/home/appuser/static
       - ${PWD}/config.yaml:/home/appuser/config.yaml
+      - ${PWD}/tests/:/home/appuser/tests
+    command: python3 -m pytest -v
 
 networks:
   dashboard_network:

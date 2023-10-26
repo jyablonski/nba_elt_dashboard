@@ -15,10 +15,8 @@ from src.data import (
 
 team_analysis_layout = html.Div(
     [
-        # Single div to contain all four KPIs
         html.Div(
             [
-                # KPI 1
                 html.Div(
                     dcc.Dropdown(
                         id="team-selector",
@@ -28,30 +26,9 @@ team_analysis_layout = html.Div(
                         style={"width": "250px"},
                     ),
                 ),
-                # KPI 2
-                html.Div(
-                    [
-                        html.Div("KPI 2 Value", style={"fontSize": 24}),
-                        html.Div("KPI 2 Description"),
-                    ],
-                    className="kpi-box",
-                ),
-                # KPI 3
-                html.Div(
-                    [
-                        html.Div("KPI 3 Value", style={"fontSize": 24}),
-                        html.Div("KPI 3 Description"),
-                    ],
-                    className="kpi-box",
-                ),
-                # KPI 4
-                html.Div(
-                    [
-                        html.Div("KPI 4 Value", style={"fontSize": 24}),
-                        html.Div("KPI 4 Description"),
-                    ],
-                    className="kpi-box",
-                ),
+                html.Div(id="kpi-boxes-1"),
+                html.Div(id="kpi-boxes-2"),
+                html.Div(id="kpi-boxes-3"),
             ],
             className="kpi-container",
             style={"display": "flex", "justify-content": "space-between"},
@@ -124,6 +101,7 @@ def update_team_player_efficiency(selected_team):
         color="top5_candidates",
         text="player",
         labels={"season_avg_ppg": "Season Avg PPG", "season_ts_percent": "Season TS%"},
+        hover_name="player",
     )
 
     return fig
@@ -138,6 +116,13 @@ def update_injuries(selected_team):
             columns=injuries_columns,
             data=filtered_injuries.to_dict("records"),
             css=[{"selector": ".show-hide", "rule": "display: none"}],
+            sort_action="native",
+            page_size=10,
+            style_cell={
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "maxWidth": 0,
+            },
         ),
     )
 
@@ -152,5 +137,54 @@ def update_transactions(selected_team):
             columns=transactions_columns,
             data=filtered_transactions.to_dict("records"),
             css=[{"selector": ".show-hide", "rule": "display: none"}],
+            sort_action="native",
+            page_size=10,
+            style_cell={
+                "overflow": "hidden",
+                "textOverflow": "ellipsis",
+                "maxWidth": 0,
+            },
         ),
     )
+
+
+# Define callback to update KPI boxes
+@callback(Output("kpi-boxes-1", "children"), [Input("team-selector", "value")])
+def update_kpi_boxes_1(selected_team):
+    kpi_values = team_adv_stats_df.query(f"team == '{selected_team}'")
+
+    kpi_box_content = [
+        html.Div("Team Ratings", style={"fontSize": 24}),
+        html.Div(f"Net Rating: {kpi_values['nrtg'].iloc[0]}"),
+        html.Div(f"Offensive Rating: {kpi_values['ortg'].iloc[0]}"),
+        html.Div(f"Defensive Rating: {kpi_values['drtg'].iloc[0]}"),
+    ]
+
+    return kpi_box_content
+
+
+@callback(Output("kpi-boxes-2", "children"), [Input("team-selector", "value")])
+def update_kpi_boxes_2(selected_team):
+    kpi_values = team_adv_stats_df.query(f"team == '{selected_team}'")
+
+    kpi_box_content = [
+        html.Div("Advanced Stats", style={"fontSize": 24}),
+        html.Div(f"SRS: {kpi_values['srs'].iloc[0]}"),
+        html.Div(f"Pace: {kpi_values['pace'].iloc[0]}"),
+        html.Div(f"TS %: {kpi_values['ts_percent'].iloc[0]:.1%}"),
+    ]
+
+    return kpi_box_content
+
+
+@callback(Output("kpi-boxes-3", "children"), [Input("team-selector", "value")])
+def update_kpi_boxes_3(selected_team):
+    kpi_values = team_adv_stats_df.query(f"team == '{selected_team}'")
+
+    kpi_box_content = [
+        html.Div("Opponent Stats", style={"fontSize": 24}),
+        html.Div(f"TOV %: {kpi_values['tov_percent_opp'].iloc[0]}%"),
+        html.Div(f"eFG %: {kpi_values['efg_percent_opp'].iloc[0]:.1%}"),
+    ]
+
+    return kpi_box_content

@@ -1,5 +1,7 @@
 from dash import html
 
+from src.data import last_pulled_timestamp
+
 about_layout = html.Div(
     [
         html.Link(
@@ -15,7 +17,7 @@ about_layout = html.Div(
             [
                 html.Li(
                     [
-                        "All NBA Game log, schedule, standings, and play-by-play data \
+                        "All NBA Game log, schedule, and play-by-play data \
                         is webscraped daily from ",
                         html.A(
                             "basketball-reference",
@@ -25,7 +27,7 @@ about_layout = html.Div(
                 ),
                 html.Li(
                     [
-                        "Reddit Comments are Scraped directly from the Top Posts on ",
+                        "Reddit Comments are scraped directly from the Top Posts on ",
                         html.A("r/nba", href="https://www.reddit.com/r/nba/"),
                         " via their API",
                     ]
@@ -107,6 +109,7 @@ about_layout = html.Div(
             ]
         ),
         html.Br(),
+        html.P(f"Test: {last_pulled_timestamp}"),
         html.P("Version: 0.0.2"),
     ],
     className="custom-padding",

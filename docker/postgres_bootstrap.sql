@@ -1011,13 +1011,47 @@ CREATE TABLE reddit_comments(
     neg numeric
 );
 
-INSERT INTO reddit_comments (scrape_date, author, comment, flair, score, url, compound, pos, neu, neg)
-VALUES (current_date, 'rattatatouille', 'Jokic putting up a dismal effort', 'Spurs', 5875, 
-        'https://www.reddit.com/r/nba/comments/12c4y8y/nikola_jokic_disasterclass_against_houston_14/',
-        -0.6124, 0, 0.846, 0.154),
-       (current_date, 'KaiserKaiba', 'NBA scriptwriters working overtime right now', null, 2829,
-        'https://www.reddit.com/r/nba/comments/12c4y8y/nikola_jokic_disasterclass_against_houston_14/',
-        0, 0, 1, 0);
+INSERT INTO reddit_comments (scrape_date,author,"comment",flair,score,url,compound,pos,neu,neg) VALUES
+	 ('2023-10-26','aaa1','Bro how do you get crossed by Andre Drummond 😭😭','Mavs',5412,'https://www.reddit.com/r/nba/comments/17gkehh/highlight_andre_drummomd_welcomes_chet_to_the/',0,0,1,0),
+	 ('2023-10-26','aaa2','That’s a pretty fuckin good answer','Celtics',3185,'https://www.reddit.com/r/nba/comments/17g8or6/you_could_win_anywhere_but_why_here/',0.7269,0.67,0.33,0),
+	 ('2023-10-26','aaa3','6’7 285lb tank splitting the double like prime D-Rose is insane','Lakers',2949,'https://www.reddit.com/r/nba/comments/17gkse6/highlight_zion_williamson_with_two_dunk_of_the/',-0.0516,0.176,0.634,0.19),
+	 ('2023-10-26','aaa4','"Thank you, Giannis."  \*camera pans to side\* "Damian, same question."','SuperSonics',2878,'https://www.reddit.com/r/nba/comments/17g8or6/you_could_win_anywhere_but_why_here/',0.3612,0.217,0.783,0),
+	 ('2023-10-26','aaa5','I’m shocked they had one to lose','Bucks',2724,'https://www.reddit.com/r/nba/comments/17gdano/charania_the_suns_have_lost_their_2024/',-0.6124,0,0.5,0.5),
+	 ('2023-10-26','aaa6','I''m big on Chet but this a hell of a lowlight lmao','Nuggets',2687,'https://www.reddit.com/r/nba/comments/17gkehh/highlight_andre_drummomd_welcomes_chet_to_the/',-0.8126,0.222,0.29,0.488),
+	 ('2023-10-26','aaa7','Damn Drummond almost broke Chet in half without even touching him',NULL,2480,'https://www.reddit.com/r/nba/comments/17gkehh/highlight_andre_drummomd_welcomes_chet_to_the/',-0.6378,0,0.633,0.367),
+	 ('2023-10-26','aaa8','ZAIRE WILLIAMSON','Pelicans',1937,'https://www.reddit.com/r/nba/comments/17gkse6/highlight_zion_williamson_with_two_dunk_of_the/',0,0,1,0),
+	 ('2023-10-26','aaa9','This was Adam Silver''s way of punishing Barkley for pressing him over rampant domestic violence within the league. /s','Suns',1921,'https://www.reddit.com/r/nba/comments/17gdano/charania_the_suns_have_lost_their_2024/',-0.8271,0,0.688,0.312),
+	 ('2023-10-26','aab1','He is rejecting Jalen Green and his lifestyle','Magic',1895,'https://www.reddit.com/r/nba/comments/17gkco2/highlight_minister_isaac_destroys_jalen_green/',-0.4588,0,0.7,0.3);
+INSERT INTO reddit_comments (scrape_date,author,"comment",flair,score,url,compound,pos,neu,neg) VALUES
+	 ('2023-10-26','aab2','Damn Milwaukee is so lucky to have him','Timberwolves',1782,'https://www.reddit.com/r/nba/comments/17g8or6/you_could_win_anywhere_but_why_here/',0.2302,0.294,0.487,0.219),
+	 ('2023-10-26','aab3','Snatch blocks are the best play in basketball change my mind','Thunder',1633,'https://www.reddit.com/r/nba/comments/17gkghx/highlight_mark_williams_snatches_trae_youngs_shot/',0.6908,0.4,0.485,0.115),
+	 ('2023-10-26','aab4','WELCOME TO THE NBA LIL MAN
+
+Chet already got posterized by Vooch and Andre lol','Bulls',1567,'https://www.reddit.com/r/nba/comments/17gkehh/highlight_andre_drummomd_welcomes_chet_to_the/',0.7603,0.334,0.666,0),
+	 ('2023-10-26','aab5','can we honestly say we have ever heard Giannis with an L in any presser? Dude is just a kind and intelligent human and it shows again and again.','Celtics',1453,'https://www.reddit.com/r/nba/comments/17g8or6/you_could_win_anywhere_but_why_here/',0.8555,0.281,0.719,0),
+	 ('2023-10-26','aab6','Dunking aside, his handle is ridiculous when he’s got it going','Wizards',1349,'https://www.reddit.com/r/nba/comments/17gkse6/highlight_zion_williamson_with_two_dunk_of_the/',-0.3612,0,0.8,0.2),
+	 ('2023-10-26','aab7','Well non-Spurs fans, it''s been fun. See you in twenty years','Jazz',1223,'https://www.reddit.com/r/nba/comments/17gln0p/highlight_victor_wembanyama_nails_a_26footer_for/',0.6597,0.375,0.625,0),
+	 ('2023-10-26','aab8','One hell of a showing for Kristaps in the garden.',NULL,1217,'https://www.reddit.com/r/nba/comments/17glk3k/post_game_thread_the_boston_celtics_10_defeat_the/',-0.6808,0,0.635,0.365),
+	 ('2023-10-26','aab9','we are!
+
+Everyone in Milwaukee knew his character halfway through his rookie year when he took a cab to Western Union and [wired literally all of his money home to his family](https://sports.yahoo.com/blogs/nba-ball-dont-lie/giannis-antetokounmpo-had-to-run-to-a-bucks-game-after-losing-cab-fare-003315158.html?a20=1&guccounter=1) in Greece forgetting to leave himself enough money to get a cab ride to the stadium for the game that day. So, he started running and was a mile or so down the sidewalk towards the stadium when a season ticket holder recognized him and gave him a ride the rest of the way. Season ticket holder also told a reporter I guess, or we would''ve never found out about this. Anyway, that one story tells you pretty much all you need to know about his character and loyalty.','Bucks',1154,'https://www.reddit.com/r/nba/comments/17g8or6/you_could_win_anywhere_but_why_here/',0.7777,0.059,0.931,0.01),
+	 ('2023-10-26','aac1','My only takeaway from this game is that Luka was the best player on the court.',NULL,1141,'https://www.reddit.com/r/nba/comments/17go4lg/highlight_time_winding_down_as_luka_puts_the/',0.6369,0.219,0.781,0),
+	 ('2023-10-26','aac2','This is the shit the talking heads never mention when talking about Giannis staying or leaving Milwaukee. His Milwaukee ties are DEEP. The former owner and Senator Herb Kohl helped get his family to the US. The bucks helped his family get his brothers into good schools. A former bucks staffer taught Giannis how to drive and Giannis would crash on his couch when he was lonely. I’m not saying the Bucks should hold these things over Giannis head, I’m saying these things really matter to Giannis and are definitely a factor in his decision making that the media never mentions. His relationship with the Bucks is different than every other stars relationship with their team',NULL,1128,'https://www.reddit.com/r/nba/comments/17g8or6/you_could_win_anywhere_but_why_here/',0.6997,0.089,0.87,0.042);
+INSERT INTO reddit_comments (scrape_date,author,"comment",flair,score,url,compound,pos,neu,neg) VALUES
+	 ('2023-10-26','aac3','Kristaps'' ability to have an incredible first quarter then disappear for the second/third quarter and then magically re-appear late into the fourth quarter with a random huge bucket is going to be studied by scientists in the near future.','Wizards',1040,'https://www.reddit.com/r/nba/comments/17glk3k/post_game_thread_the_boston_celtics_10_defeat_the/',0.4019,0.111,0.843,0.046),
+	 ('2023-10-26','aac4','People joke, but the Suns have almost zero assets to move, so this hurts that limited cache even more.',NULL,973,'https://www.reddit.com/r/nba/comments/17gdano/charania_the_suns_have_lost_their_2024/',-0.7634,0.124,0.576,0.3),
+	 ('2023-10-26','aac5','you’d think they’d get their audio figured out for the Wemby debut','TrailBlazers',961,'https://www.reddit.com/r/nba/comments/17gln0p/highlight_victor_wembanyama_nails_a_26footer_for/',0,0,1,0),
+	 ('2023-10-26','aac6','LIGHT THE BEAM BABY',NULL,941,'https://www.reddit.com/r/nba/comments/17gmpwf/highlight_a_fox_steal_leads_to_a_malik_monk_poster/',0,0,1,0),
+	 ('2023-10-26','aac7','In 5 years it will be booker and a bunch of g Leaguers','TrailBlazers',921,'https://www.reddit.com/r/nba/comments/17gdano/charania_the_suns_have_lost_their_2024/',0,0,1,0),
+	 ('2023-10-26','aac8','The Cade agenda is so back','Pistons',900,'https://www.reddit.com/r/nba/comments/17gllf4/cade_cunningham_tonight_in_the_loss_to_miami_30/',0,0,1,0),
+	 ('2023-10-26','aac9','aghhh! my virgin ears!','TrailBlazers',896,'https://www.reddit.com/r/nba/comments/17go8ay/highlight_luka_traumatizes_children_everywhere_by/',0,0,1,0),
+	 ('2023-10-26','aad1','Good. Lord.
+
+Thats a shot and a half.','Nets',894,'https://www.reddit.com/r/nba/comments/17go4lg/highlight_time_winding_down_as_luka_puts_the/',0.4404,0.367,0.633,0),
+	 ('2023-10-26','aad2','Rhino ballerina with the ball on a string. Insane.','Pelicans',887,'https://www.reddit.com/r/nba/comments/17gkse6/highlight_zion_williamson_with_two_dunk_of_the/',-0.4019,0,0.722,0.278),
+	 ('2023-10-26','aad3','Spurs guards do not want to pass to wemby lmao
+
+Luka is absolutely insane','Heat',849,'https://www.reddit.com/r/nba/comments/17go4ch/victor_wembanyama_in_his_longawaited_nba_debut_15/',0.1742,0.204,0.575,0.221);
 
 DROP TABLE IF EXISTS reddit_sentiment_time_series;
 CREATE TABLE IF NOT EXISTS reddit_sentiment_time_series

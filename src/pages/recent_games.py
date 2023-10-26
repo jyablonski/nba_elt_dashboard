@@ -5,13 +5,11 @@ import plotly.express as px
 from src.data_cols.injury_tracker import injury_tracker_columns
 from src.data_cols.recent_games_players import recent_games_players_columns
 from src.data_cols.recent_games_teams import recent_games_teams_columns
-from src.data_cols.standings import standings_columns
 from src.data import (
     injury_tracker_df,
     recent_games_players_df,
     recent_games_teams_df,
     pbp_df,
-    standings_df,
 )
 from src.utils import pbp_transformer
 
@@ -28,12 +26,17 @@ recent_games_layout = html.Div(
                             id="player-recent-games-table",
                             columns=recent_games_players_columns,
                             data=recent_games_players_df.to_dict("records"),
-                            # hidden_columns=[
-                            #     "active_protocols",
-                            #     "conference",
-                            #     "team",
-                            # ],
                             css=[{"selector": ".show-hide", "rule": "display: none"}],
+                            sort_action="native",
+                            page_size=15,
+                            style_cell_conditional=[
+                                {"if": {"column_id": "player_logo"}, "width": "8%"},
+                                {"if": {"column_id": "player"}, "width": "16%"},
+                                {"if": {"column_id": "outcome"}, "width": "2%"},
+                                {"if": {"column_id": "salary"}, "width": "4%"},
+                                {"if": {"column_id": "pts"}, "width": "4%"},
+                                {"if": {"column_id": "game_ts_percent"}, "width": "4%"},
+                            ],
                         ),
                     ],
                     style={
@@ -71,6 +74,9 @@ recent_games_layout = html.Div(
                             #     "team",
                             # ],
                             css=[{"selector": ".show-hide", "rule": "display: none"}],
+                            style_data_conditional=[
+                                {"if": {"column_id": "player"}, "textAlign": "left"}
+                            ],
                         ),
                     ],
                     style={"width": "32%", "display": "inline-block"},
@@ -91,7 +97,7 @@ recent_games_layout = html.Div(
                             value=yesterdays_games[0],
                         ),
                     ],
-                    style={"width": "15%", "float": "left"},
+                    style={"width": "25%", "float": "left"},
                 ),
                 html.Div(
                     [
@@ -142,6 +148,7 @@ def update_data_table(selected_value):
             "margin_score": "Score Differential",
         },
         title="Score Differential by Quarter",
+        hover_name="scoring_team",
     ).update_traces(
         marker=dict(
             color=filtered_pbp[

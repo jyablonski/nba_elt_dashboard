@@ -1,4 +1,26 @@
+from dash import html
+import dash_bootstrap_components as dbc
+
 import pandas as pd
+
+
+def calculate_prediction_value(df: pd.DataFrame):
+    """ """
+    df["home_is_great_value"] = (
+        (df["home_moneyline_raw"].ge(-130) | df["home_moneyline_raw"].ge(200))
+        & (df["home_team_predicted_win_pct"] >= 0.55)
+        | (df["home_moneyline_raw"] >= 170)
+        & (df["home_team_predicted_win_pct"] >= 0.50)
+    ).astype(int)
+
+    df["away_is_great_value"] = (
+        (df["away_moneyline_raw"].ge(-130) | df["away_moneyline_raw"].ge(200))
+        & (df["away_team_predicted_win_pct"] >= 0.55)
+        | (df["away_moneyline_raw"] >= 170)
+        & (df["away_team_predicted_win_pct"] >= 0.50)
+    ).astype(int)
+
+    return df
 
 
 def pbp_transformer(df: pd.DataFrame):
@@ -17,6 +39,7 @@ def pbp_transformer(df: pd.DataFrame):
         Pandas DataFrame of pbp Data for the Line Chart in Recent Games Tab
     """
     print(f"Running PBP Transformer")
+
     # Define a function for handling missing values
     def replace_na(series, value):
         return series.fillna(value)
@@ -104,3 +127,41 @@ def pbp_transformer(df: pd.DataFrame):
     # final_df = mydf[["text", "tied_text"]]
 
     return result_df, try_df
+
+
+def generate_card(name: str, description: str, kpi_value: str, color: str):
+    """
+    Function to generate cards for KPIs
+
+    Args:
+        name (str):
+
+        description (str):
+
+        kpi_value: The KPI Value or BAN to put in the Card
+
+        color: Color of the top bar
+
+    Returns
+        HTML Card
+    """
+
+    return dbc.Col(
+        dbc.Card(
+            [
+                dbc.CardBody(
+                    [
+                        html.H4(name, className="card-title"),
+                        html.P(description, className="card-desc"),
+                        html.P(f"{kpi_value:,}", className="card-text"),
+                        html.P("Key Metric", className="card-kpi"),
+                    ],
+                    className="text-center mx-auto",
+                )
+            ],
+            style={
+                "background": f"linear-gradient(to bottom, {color} 100%, #FFFFFF 0%)"
+            },
+        ),
+        className="col-auto mb-3",
+    )

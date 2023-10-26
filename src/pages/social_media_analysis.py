@@ -1,4 +1,5 @@
 from dash import callback, dash_table, dcc, html
+import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import plotly.express as px
 
@@ -9,6 +10,8 @@ from src.data import (
     social_media_aggs_df,
     team_names_abbreviations,
 )
+from src.utils import generate_card
+
 
 social_media_analysis_layout = html.Div(
     [
@@ -94,8 +97,27 @@ social_media_analysis_layout = html.Div(
                     columns=reddit_comments_columns,
                     data=reddit_comments_df.to_dict("records"),
                     css=[{"selector": ".show-hide", "rule": "display: none"}],
+                    style_cell={
+                        "overflow": "hidden",
+                        "textOverflow": "ellipsis",
+                        "maxWidth": 0,
+                    },
+                    sort_action="native",
+                    page_size=15,
+                    merge_duplicate_headers=True,
+                    style_cell_conditional=[
+                        {"if": {"column_id": "scrape_date"}, "width": "8%"},
+                        {"if": {"column_id": "flair"}, "width": "8%"},
+                        {"if": {"column_id": "comment"}, "width": "40%"},
+                        {"if": {"column_id": "score"}, "width": "6%"},
+                        {"if": {"column_id": "compound"}, "width": "5%"},
+                        {"if": {"column_id": "pos"}, "width": "4%"},
+                        {"if": {"column_id": "neg"}, "width": "4%"},
+                        {"if": {"column_id": "neu"}, "width": "4%"},
+                        {"if": {"column_id": "url"}, "width": "8%"},
+                    ],
                 ),
-            ]
+            ],
         ),
         html.Div(
             [
@@ -114,6 +136,34 @@ social_media_analysis_layout = html.Div(
                 dcc.Graph(
                     id="social-media-plot",
                     style={"width": "100%", "display": "inline-block"},
+                ),
+            ]
+        ),
+        html.Div(
+            [
+                html.H1("Card Component", className="text-center"),
+                dbc.Row(
+                    [
+                        generate_card(
+                            name="John Doe",
+                            description="Business Owner",
+                            kpi_value=2,
+                            color="green",
+                        ),
+                        generate_card(
+                            name="John Doe2",
+                            description="Business Owner2",
+                            kpi_value=3,
+                            color="green",
+                        ),
+                        generate_card(
+                            name="John Doe3",
+                            description="Business Owner3",
+                            kpi_value=1123 - 1414,
+                            color="green",
+                        ),
+                    ],
+                    className="cards justify-content-center",
                 ),
             ]
         ),

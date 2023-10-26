@@ -21,7 +21,9 @@ from src.pages.team_analysis import team_analysis_layout
 
 print("whole app is loading boi")
 app = dash.Dash(
-    __name__, assets_folder="../static", external_stylesheets=[dbc.themes.COSMO]
+    __name__,
+    assets_folder="../static",
+    external_stylesheets=[dbc.themes.COSMO],
 )
 app.title = "NBA Dashboard"
 
@@ -54,29 +56,6 @@ app.layout = html.Div(
         html.Div(id="tab-content"),
     ]
 )
-
-
-# @app.callback(
-#     Output("team-ratings-plot", "figure"),
-#     Input("tabs", "value"),
-# )
-# def update_graph(tab):
-#     if tab == "overview":
-#         # Add the lines and logos to the graph's figure
-#         figure = px.scatter(
-#             team_ratings_df,
-#             x="ortg",
-#             y="drtg",
-#             text="team",
-#             labels={
-#                 "ortg": "Offensive Rating (ORTG)",
-#                 "drtg": "Defensive Rating (DRTG)",
-#             },
-#         )
-#         figure["data"] += [average_ortg_line, average_drtg_line]
-#         figure["layout"]["images"] = team_logos
-#         return {"data": figure.data, "layout": figure.layout}
-
 
 if __name__ == "__main__":
     app.run_server(debug=True, host="0.0.0.0", port=9000)

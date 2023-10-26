@@ -36,7 +36,7 @@ overview_layout = (
                                 f"{bans_df['win_pct'][0] * 100:.0f}% - {bans_df['win_pct'][1] * 100:.0f}% Win Percentage Splits"
                             ),
                         ],
-                        className="kpi-box",
+                        className=".kpi-card",
                     ),
                     # KPI 2
                     html.Div(
@@ -47,7 +47,7 @@ overview_layout = (
                                 f"{((bans_df['avg_pts'][0] - bans_df['last_yr_ppg'][0]) / bans_df['avg_pts'][0]) * 100:.2f}% difference from Last Season"
                             ),
                         ],
-                        className="kpi-box",
+                        className="kpi-card",
                     ),
                     # KPI 3
                     html.Div(
@@ -97,6 +97,8 @@ overview_layout = (
                                 css=[
                                     {"selector": ".show-hide", "rule": "display: none"}
                                 ],
+                                sort_action="native",
+                                page_size=15,
                             ),
                         ],
                         style={
@@ -158,6 +160,7 @@ overview_layout = (
                                 "ortg": "Offensive Rating (ORTG)",
                                 "drtg": "Defensive Rating (DRTG)",
                             },
+                            hover_name="team",
                         ),
                     ),
                 ]
@@ -182,8 +185,10 @@ overview_layout = (
                                 "player": "Player",
                                 "team": "Team",
                                 "salary": "Salary",
-                                "player_mvp_calc_avg": "Player MVP Category",
+                                "player_mvp_calc_avg": "Player MVP Metric",
+                                "color_var": "Value Type",
                             },
+                            hover_name="player",
                         ),
                     ),
                     dcc.Graph(
@@ -199,6 +204,7 @@ overview_layout = (
                                 "team_pct_salary_earned": "Team % Salary Earned",
                                 "team": "Team",
                             },
+                            hover_name="team",
                         ),
                     ),
                 ]
@@ -263,8 +269,15 @@ def update_graph(selected_season):
                 "Top 5 MVP Candidate": "orange",
                 "Other": "grey",
             },
+            labels={
+                "player": "Player",
+                "team": "Team",
+                "season_avg_ppg": "Average PPG",
+                "season_ts_percent": "Average TS%",
+                "top5_candidates": "Type",
+            },
             hover_name="player",
-            hover_data=["team"],
+            hover_data=["team", "season_ts_percent"],
         )
 
         fig.update_layout(legend_title_text="")
@@ -283,7 +296,7 @@ def update_graph(selected_season):
                 "Other": "grey",
             },
             hover_name="player",
-            hover_data=["team"],
+            hover_data=["team", "playoffs_ts_percent"],
         )
 
         fig.update_layout(legend_title_text="")

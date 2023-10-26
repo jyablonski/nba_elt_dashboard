@@ -1,8 +1,9 @@
+from datetime import datetime
+
 from dash import callback, dash_table, dcc, html
 from dash.dependencies import Input, Output
 import plotly.express as px
 
-from src.data_cols.game_types import game_types_columns
 from src.data_cols.ml_predictions import ml_predictions_columns
 from src.data_cols.schedule import schedule_columns
 from src.data import (
@@ -13,7 +14,12 @@ from src.data import (
     team_blown_leads_df,
     tonights_games_ml_df,
 )
+from src.utils import calculate_prediction_value
 
+tonights_games_ml_df = tonights_games_ml_df[
+    tonights_games_ml_df["proper_date"] == datetime.now().date()
+]
+# tonights_games_ml_df2 = calculate_prediction_value(df=tonights_games_ml_df)
 past_schedule_analysis_df = past_schedule_analysis_df.sort_values(
     by="pct_vs_below_500", ascending=True
 )
@@ -108,6 +114,19 @@ def update_schedule_table(selected_value):
                 #     "team",
                 # ],
                 css=[{"selector": ".show-hide", "rule": "display: none"}],
+                sort_action="native",
+                page_size=15,
+                # style_data_conditional=[
+                #     {
+                #         "if": {
+                #             "filter_query": "{{Home Team}} = {}".format(
+                #                 tonights_games_ml_df["home_team"]
+                #             ),
+                #         },
+                #         "backgroundColor": "#FF4136",
+                #         "color": "white",
+                #     },
+                # ],
             ),
         )
     elif selected_value == "future-schedule":
@@ -121,6 +140,8 @@ def update_schedule_table(selected_value):
                 #     "team",
                 # ],
                 css=[{"selector": ".show-hide", "rule": "display: none"}],
+                sort_action="native",
+                page_size=15,
             ),
         )
 
