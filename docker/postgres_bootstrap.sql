@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS bans
 );
 INSERT INTO bans(
 	upcoming_games, upcoming_game_date, location, tot_wins, games_played, avg_pts, last_yr_ppg, scrape_time, win_pct, league_ts_percent, last_updated_at, run_type, most_recent_game, sum_active_protocols, sum_active_protocols_lastwk, protocols_differential, protocols_pct_diff, protocols_text)
-	VALUES (3, current_date, 'H', 714, 1230, 114.68, 112.1, current_timestamp, 0.580, 0.581, current_timestamp, 'dbt_docker', current_date, 0, 0, 0, 0, 'No Difference'),
-           (3, current_date, 'A', 516, 1230, 114.68, 112.1, current_timestamp, 0.420, 0.581, current_timestamp, 'dbt_docker', current_date, 0, 0, 0, 0, 'No Difference');
+	VALUES (3, current_date, 'H', 714, 1230, 114.68, 112.1, current_timestamp, 0.580, 0.581, current_timestamp, 'dbt_docker', current_date, 0, 0, 0, 0, 'No Difference from 7 days ago'),
+           (3, current_date, 'A', 516, 1230, 114.68, 112.1, current_timestamp, 0.420, 0.581, current_timestamp, 'dbt_docker', current_date, 0, 0, 0, 0, 'No Difference from 7 days ago');
 
 DROP TABLE IF EXISTS contract_value_analysis;
 CREATE TABLE IF NOT EXISTS contract_value_analysis (
@@ -640,6 +640,53 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Trevor Keels','< $5 M','NYK',3,-1.28,1000000,82,79,7.19,0.003,0.300,'Bad Value',0.75,0.25),
 	 ('Alondes Williams','< $5 M','BKN',1,-3.75,1000000,82,81,7.19,0.000,0.000,'Bad Value',0.75,0.25);
 
+DROP TABLE IF EXISTS past_schedule_analysis;
+CREATE TABLE IF NOT EXISTS past_schedule_analysis (
+	team text NULL,
+	win_pct numeric NULL,
+	avg_win_pct_opp numeric NULL,
+	home_record text NULL,
+	road_record text NULL,
+	above_record text NULL,
+	below_record text NULL,
+	pct_vs_above_500 numeric NULL,
+	pct_vs_below_500 numeric NULL,
+	record text NULL
+);
+
+INSERT INTO past_schedule_analysis (team,win_pct,avg_win_pct_opp,home_record,road_record,above_record,below_record,pct_vs_above_500,pct_vs_below_500,record) VALUES
+	 ('LAC',0.537,0.494,'23 - 18','21 - 20','20 - 27','24 - 11',0.573,0.427,'44 - 38'),
+	 ('IND',0.427,0.507,'20 - 21','15 - 26','18 - 33','17 - 14',0.622,0.378,'35 - 47'),
+	 ('WAS',0.427,0.507,'19 - 22','16 - 25','16 - 35','19 - 12',0.622,0.378,'35 - 47'),
+	 ('UTA',0.451,0.501,'23 - 18','14 - 27','22 - 29','15 - 16',0.622,0.378,'37 - 45'),
+	 ('ATL',0.500,0.500,'24 - 17','17 - 24','19 - 28','22 - 13',0.573,0.427,'41 - 41'),
+	 ('MIL',0.707,0.493,'32 - 9','26 - 15','31 - 17','27 - 7',0.585,0.415,'58 - 24'),
+	 ('CHI',0.488,0.504,'22 - 19','18 - 23','21 - 30','19 - 12',0.622,0.378,'40 - 42'),
+	 ('CHA',0.329,0.507,'13 - 28','14 - 27','14 - 37','13 - 18',0.622,0.378,'27 - 55'),
+	 ('DET',0.207,0.515,'9 - 32','8 - 33','7 - 44','10 - 21',0.622,0.378,'17 - 65'),
+	 ('HOU',0.268,0.509,'14 - 27','8 - 33','10 - 42','12 - 18',0.634,0.366,'22 - 60');
+INSERT INTO past_schedule_analysis (team,win_pct,avg_win_pct_opp,home_record,road_record,above_record,below_record,pct_vs_above_500,pct_vs_below_500,record) VALUES
+	 ('POR',0.402,0.502,'17 - 24','16 - 25','15 - 36','18 - 13',0.622,0.378,'33 - 49'),
+	 ('BOS',0.695,0.493,'32 - 9','25 - 16','33 - 15','24 - 10',0.585,0.415,'57 - 25'),
+	 ('PHX',0.549,0.502,'28 - 13','17 - 24','24 - 26','21 - 11',0.610,0.390,'45 - 37'),
+	 ('MIA',0.537,0.503,'27 - 14','17 - 24','24 - 24','20 - 14',0.585,0.415,'44 - 38'),
+	 ('CLE',0.622,0.496,'31 - 10','20 - 21','21 - 26','30 - 5',0.573,0.427,'51 - 31'),
+	 ('MIN',0.512,0.496,'22 - 19','20 - 21','25 - 22','17 - 18',0.573,0.427,'42 - 40'),
+	 ('OKC',0.488,0.499,'24 - 17','16 - 25','19 - 33','21 - 9',0.634,0.366,'40 - 42'),
+	 ('NYK',0.573,0.500,'23 - 18','24 - 17','24 - 25','23 - 10',0.598,0.402,'47 - 35'),
+	 ('MEM',0.622,0.489,'35 - 6','16 - 25','24 - 23','27 - 8',0.573,0.427,'51 - 31'),
+	 ('SAS',0.268,0.505,'14 - 27','8 - 33','11 - 40','11 - 20',0.622,0.378,'22 - 60');
+INSERT INTO past_schedule_analysis (team,win_pct,avg_win_pct_opp,home_record,road_record,above_record,below_record,pct_vs_above_500,pct_vs_below_500,record) VALUES
+	 ('ORL',0.415,0.504,'20 - 21','14 - 27','19 - 32','15 - 16',0.622,0.378,'34 - 48'),
+	 ('PHI',0.659,0.499,'29 - 12','25 - 16','30 - 18','24 - 10',0.585,0.415,'54 - 28'),
+	 ('DAL',0.463,0.497,'23 - 18','15 - 26','23 - 28','15 - 16',0.622,0.378,'38 - 44'),
+	 ('TOR',0.500,0.505,'27 - 14','14 - 27','19 - 30','22 - 11',0.598,0.402,'41 - 41'),
+	 ('SAC',0.585,0.491,'23 - 18','25 - 16','22 - 26','26 - 8',0.585,0.415,'48 - 34'),
+	 ('NOP',0.512,0.495,'27 - 14','15 - 26','19 - 28','23 - 12',0.573,0.427,'42 - 40'),
+	 ('GSW',0.537,0.497,'33 - 8','11 - 30','23 - 26','21 - 12',0.598,0.402,'44 - 38'),
+	 ('DEN',0.646,0.489,'34 - 7','19 - 22','29 - 18','24 - 11',0.573,0.427,'53 - 29'),
+	 ('LAL',0.524,0.497,'23 - 18','20 - 21','21 - 27','22 - 12',0.585,0.415,'43 - 39'),
+	 ('BKN',0.549,0.504,'23 - 18','22 - 19','23 - 25','22 - 12',0.585,0.415,'45 - 37');
 
 DROP TABLE IF EXISTS pbp;
 CREATE TABLE IF NOT EXISTS pbp
@@ -670,127 +717,128 @@ CREATE TABLE IF NOT EXISTS pbp
     max_home_lead numeric,
     max_away_lead numeric,
     winning_team text COLLATE pg_catalog."default",
-    losing_team text COLLATE pg_catalog."default"
+    losing_team text COLLATE pg_catalog."default",
+	leading_team_text text
 );
 
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team) VALUES
-	 ('12:00','Jump ball: B. Adebayo vs. N. Jokić (J. Murray gains possession)',48.00,'1st Quarter','Jump ball: B. Adebayo vs. N. Jokić (J. Murray gains possession)','Jump ball: B. Adebayo vs. N. Jokić (J. Murray gains possession)','Jump ball: B. Adebayo vs. N. Jokić (J. Murray gains possession)','DEN','MIA',0,0,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA'),
-	 ('11:39','B. Adebayo makes 2-pt dunk from 2 ft',47.65,'1st Quarter','+2','2-0',NULL,'DEN','MIA',2,0,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('10:35','M. Strus makes 3-pt jump shot from 27 ft (assist by G. Vincent)',46.58,'1st Quarter','+3','5-0',NULL,'DEN','MIA',5,0,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('10:00','K. Caldwell-Pope makes 2-pt jump shot from 15 ft',46.00,'1st Quarter',NULL,'5-2','+2','DEN','MIA',5,2,-3,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('8:15','K. Caldwell-Pope makes 2-pt jump shot from 9 ft (assist by J. Murray)',44.25,'1st Quarter',NULL,'5-4','+2','DEN','MIA',5,4,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('7:48','A. Gordon makes 2-pt jump shot from 10 ft',43.80,'1st Quarter',NULL,'5-6','+2','DEN','MIA',5,6,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('6:47','J. Murray makes 2-pt dunk from 2 ft',42.78,'1st Quarter',NULL,'5-8','+2','DEN','MIA',5,8,3,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('6:18','M. Porter makes 2-pt jump shot from 12 ft (assist by N. Jokić)',42.30,'1st Quarter',NULL,'5-10','+2','DEN','MIA',5,10,5,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('5:57','J. Green makes 2-pt dunk from 2 ft (assist by M. Porter)',41.95,'1st Quarter',NULL,'5-12','+2','DEN','MIA',5,12,7,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('5:41','M. Strus makes 2-pt layup from 4 ft (assist by J. Butler)',41.68,'1st Quarter','+2','7-12',NULL,'DEN','MIA',7,12,5,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team) VALUES
-	 ('5:41','M. Strus makes free throw 1 of 1',41.68,'1st Quarter','+1','8-12',NULL,'DEN','MIA',8,12,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('5:28','N. Jokić makes 3-pt jump shot from 26 ft (assist by J. Green)',41.47,'1st Quarter',NULL,'8-15','+3','DEN','MIA',8,15,7,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('4:55','M. Porter makes free throw 2 of 2',40.92,'1st Quarter',NULL,'8-16','+1','DEN','MIA',8,16,8,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('4:42','B. Adebayo makes 2-pt dunk from 1 ft (assist by M. Strus)',40.70,'1st Quarter','+2','10-16',NULL,'DEN','MIA',10,16,6,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('4:11','C. Martin makes 2-pt layup from 2 ft (assist by K. Lowry)',40.18,'1st Quarter','+2','12-16',NULL,'DEN','MIA',12,16,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('3:46','M. Strus makes 2-pt dunk from 3 ft (assist by K. Lowry)',39.77,'1st Quarter','+2','14-16',NULL,'DEN','MIA',14,16,2,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('3:27','J. Green makes 2-pt layup from 3 ft (assist by N. Jokić)',39.45,'1st Quarter',NULL,'14-18','+2','DEN','MIA',14,18,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('3:15','B. Adebayo makes 2-pt jump shot from 9 ft (assist by K. Lowry)',39.25,'1st Quarter','+2','16-18',NULL,'DEN','MIA',16,18,2,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('2:42','B. Adebayo makes free throw 1 of 1',38.70,'1st Quarter','+1','19-18',NULL,'DEN','MIA',19,18,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('2:42','B. Adebayo makes 2-pt layup from 2 ft',38.70,'1st Quarter','+2','18-18',NULL,'DEN','MIA',18,18,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team) VALUES
-	 ('2:14','B. Adebayo makes 2-pt jump shot from 7 ft',38.23,'1st Quarter','+2','21-18',NULL,'DEN','MIA',21,18,-3,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('2:14','B. Adebayo makes free throw 1 of 1',38.23,'1st Quarter','+1','22-18',NULL,'DEN','MIA',22,18,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('1:09','M. Porter makes 2-pt layup from 2 ft',37.15,'1st Quarter',NULL,'22-20','+2','DEN','MIA',22,20,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('0:39','M. Porter makes 2-pt jump shot from 11 ft (assist by J. Murray)',36.65,'1st Quarter',NULL,'22-22','+2','DEN','MIA',22,22,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('0:21','B. Adebayo makes 2-pt hook shot at rim',36.35,'1st Quarter','+2','24-22',NULL,'DEN','MIA',24,22,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('0:00','End of 1st quarter',36.00,'1st Quarter','End of 1st quarter','End of 1st quarter','End of 1st quarter','DEN','MIA',24,22,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA'),
-	 ('12:00','Start of 2nd quarter',36.00,'2nd Quarter','Start of 2nd quarter','Start of 2nd quarter','Start of 2nd quarter','DEN','MIA',24,22,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA'),
-	 ('11:39','J. Butler makes 2-pt layup from 3 ft',35.65,'2nd Quarter','+2','26-22',NULL,'DEN','MIA',26,22,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('11:13','J. Butler makes free throw 2 of 2',35.22,'2nd Quarter','+1','28-22',NULL,'DEN','MIA',28,22,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('11:13','J. Butler makes free throw 1 of 2',35.22,'2nd Quarter','+1','27-22',NULL,'DEN','MIA',27,22,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team) VALUES
-	 ('10:17','A. Gordon makes free throw 2 of 2',34.28,'2nd Quarter',NULL,'28-23','+1','DEN','MIA',28,23,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('9:59','C. Braun makes 2-pt layup from 3 ft (assist by M. Porter)',33.98,'2nd Quarter',NULL,'28-25','+2','DEN','MIA',28,25,-3,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('9:46','J. Butler makes free throw 2 of 2',33.77,'2nd Quarter','+1','30-25',NULL,'DEN','MIA',30,25,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('9:46','J. Butler makes free throw 1 of 2',33.77,'2nd Quarter','+1','29-25',NULL,'DEN','MIA',29,25,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('9:32','B. Brown makes 2-pt layup from 3 ft (assist by J. Murray)',33.53,'2nd Quarter',NULL,'30-27','+2','DEN','MIA',30,27,-3,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('9:09','C. Martin makes free throw 2 of 2',33.15,'2nd Quarter','+1','32-27',NULL,'DEN','MIA',32,27,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('9:09','C. Martin makes free throw 1 of 2',33.15,'2nd Quarter','+1','31-27',NULL,'DEN','MIA',31,27,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('8:22','C. Martin makes 2-pt layup from 5 ft',32.37,'2nd Quarter','+2','34-27',NULL,'DEN','MIA',34,27,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('8:04','N. Jokić makes 2-pt jump shot from 5 ft (assist by C. Braun)',32.07,'2nd Quarter',NULL,'34-29','+2','DEN','MIA',34,29,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('7:47','D. Robinson makes 3-pt jump shot from 24 ft (assist by J. Butler)',31.78,'2nd Quarter','+3','37-29',NULL,'DEN','MIA',37,29,-8,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team) VALUES
-	 ('7:17','D. Robinson makes 2-pt layup from 3 ft (assist by B. Adebayo)',31.28,'2nd Quarter','+2','39-29',NULL,'DEN','MIA',39,29,-10,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('6:56','N. Jokić makes 2-pt layup from 3 ft',30.93,'2nd Quarter',NULL,'39-31','+2','DEN','MIA',39,31,-8,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('6:17','K. Caldwell-Pope makes 2-pt jump shot from 17 ft (assist by N. Jokić)',30.28,'2nd Quarter',NULL,'39-33','+2','DEN','MIA',39,33,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('5:46','B. Brown makes 2-pt dunk from 1 ft (assist by K. Caldwell-Pope)',29.77,'2nd Quarter',NULL,'39-35','+2','DEN','MIA',39,35,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('5:23','K. Lowry makes 3-pt jump shot from 23 ft',29.38,'2nd Quarter','+3','42-35',NULL,'DEN','MIA',42,35,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('5:00','N. Jokić makes 2-pt jump shot from 7 ft (assist by J. Murray)',29.00,'2nd Quarter',NULL,'42-37','+2','DEN','MIA',42,37,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('4:29','J. Murray makes 2-pt jump shot from 16 ft',28.48,'2nd Quarter',NULL,'42-39','+2','DEN','MIA',42,39,-3,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('4:14','K. Lowry makes 3-pt jump shot from 25 ft',28.23,'2nd Quarter','+3','45-39',NULL,'DEN','MIA',45,39,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('3:32','J. Butler makes 2-pt dunk from 1 ft',27.53,'2nd Quarter','+2','47-39',NULL,'DEN','MIA',47,39,-8,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('2:41','C. Braun makes 2-pt layup from 3 ft',26.68,'2nd Quarter',NULL,'47-41','+2','DEN','MIA',47,41,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team) VALUES
-	 ('2:13','C. Braun makes free throw 1 of 2',26.22,'2nd Quarter',NULL,'47-42','+1','DEN','MIA',47,42,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('1:59','B. Adebayo makes 2-pt layup from 3 ft (assist by G. Vincent)',25.98,'2nd Quarter','+2','49-42',NULL,'DEN','MIA',49,42,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('1:34','B. Adebayo makes 2-pt jump shot from 3 ft',25.57,'2nd Quarter','+2','51-42',NULL,'DEN','MIA',51,42,-9,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('0:25','M. Porter makes 2-pt dunk from 1 ft (assist by N. Jokić)',24.42,'2nd Quarter',NULL,'51-44','+2','DEN','MIA',51,44,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('12:00','Start of 3rd quarter',24.00,'3rd Quarter','Start of 3rd quarter','Start of 3rd quarter','Start of 3rd quarter','DEN','MIA',51,44,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA'),
-	 ('0:00','End of 2nd quarter',24.00,'2nd Quarter','End of 2nd quarter','End of 2nd quarter','End of 2nd quarter','DEN','MIA',51,44,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA'),
-	 ('11:28','N. Jokić makes 2-pt jump shot from 4 ft',23.47,'3rd Quarter',NULL,'51-46','+2','DEN','MIA',51,46,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('11:28','N. Jokić makes free throw 1 of 1',23.47,'3rd Quarter',NULL,'51-47','+1','DEN','MIA',51,47,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('11:17','M. Strus makes 2-pt jump shot from 9 ft (assist by G. Vincent)',23.28,'3rd Quarter','+2','53-47',NULL,'DEN','MIA',53,47,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('10:40','G. Vincent makes 2-pt jump shot from 22 ft',22.67,'3rd Quarter','+2','55-47',NULL,'DEN','MIA',55,47,-8,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team) VALUES
-	 ('9:17','M. Porter makes 2-pt jump shot from 3 ft',21.28,'3rd Quarter',NULL,'55-49','+2','DEN','MIA',55,49,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('8:45','J. Murray makes 2-pt layup from 3 ft',20.75,'3rd Quarter',NULL,'55-51','+2','DEN','MIA',55,51,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('8:33','K. Love makes 3-pt jump shot from 26 ft (assist by J. Butler)',20.55,'3rd Quarter','+3','58-51',NULL,'DEN','MIA',58,51,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('8:14','N. Jokić makes 2-pt hook shot from 4 ft',20.23,'3rd Quarter',NULL,'58-53','+2','DEN','MIA',58,53,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('8:00','G. Vincent makes 2-pt jump shot from 20 ft',20.00,'3rd Quarter','+2','60-53',NULL,'DEN','MIA',60,53,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('7:45','A. Gordon makes free throw 1 of 2',19.75,'3rd Quarter',NULL,'60-54','+1','DEN','MIA',60,54,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('7:32','N. Jokić makes 2-pt layup at rim',19.53,'3rd Quarter',NULL,'60-56','+2','DEN','MIA',60,56,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('7:02','N. Jokić makes free throw 2 of 2',19.03,'3rd Quarter',NULL,'60-57','+1','DEN','MIA',60,57,-3,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('6:46','J. Murray makes 3-pt jump shot from 23 ft (assist by M. Porter)',18.77,'3rd Quarter',NULL,'60-60','+3','DEN','MIA',60,60,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('5:47','M. Strus makes 2-pt layup from 3 ft (assist by J. Butler)',17.78,'3rd Quarter','+2','62-60',NULL,'DEN','MIA',62,60,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team) VALUES
-	 ('3:58','C. Martin makes 2-pt layup from 3 ft (assist by K. Lowry)',15.97,'3rd Quarter','+2','64-60',NULL,'DEN','MIA',64,60,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('3:18','Jump ball: B. Brown vs. G. Vincent (K. Caldwell-Pope gains possession)',15.30,'3rd Quarter','Jump ball: B. Brown vs. G. Vincent (K. Caldwell-Pope gains possession)','Jump ball: B. Brown vs. G. Vincent (K. Caldwell-Pope gains possession)','Jump ball: B. Brown vs. G. Vincent (K. Caldwell-Pope gains possession)','DEN','MIA',64,60,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA'),
-	 ('2:45','B. Brown makes 2-pt layup at rim',14.75,'3rd Quarter',NULL,'64-62','+2','DEN','MIA',64,62,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('2:25','M. Porter makes 2-pt layup from 2 ft',14.42,'3rd Quarter',NULL,'64-64','+2','DEN','MIA',64,64,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('2:05','G. Vincent makes 2-pt jump shot from 8 ft (assist by D. Robinson)',14.08,'3rd Quarter','+2','66-64',NULL,'DEN','MIA',66,64,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('1:49','C. Braun makes free throw 2 of 2',13.82,'3rd Quarter',NULL,'66-66','+1','DEN','MIA',66,66,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('1:49','C. Braun makes free throw 1 of 2',13.82,'3rd Quarter',NULL,'66-65','+1','DEN','MIA',66,65,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('1:31','M. Porter makes 3-pt jump shot from 25 ft',13.52,'3rd Quarter',NULL,'66-69','+3','DEN','MIA',66,69,3,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('1:10','B. Adebayo makes 2-pt jump shot from 13 ft (assist by D. Robinson)',13.17,'3rd Quarter','+2','68-69',NULL,'DEN','MIA',68,69,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('0:54','N. Jokić makes free throw 2 of 2',12.90,'3rd Quarter',NULL,'68-70','+1','DEN','MIA',68,70,2,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team) VALUES
-	 ('0:33','K. Lowry makes 3-pt jump shot from 30 ft',12.55,'3rd Quarter','+3','71-70',NULL,'DEN','MIA',71,70,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('12:00','Start of 4th quarter',12.00,'4th Quarter','Start of 4th quarter','Start of 4th quarter','Start of 4th quarter','DEN','MIA',71,70,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA'),
-	 ('0:00','End of 3rd quarter',12.00,'3rd Quarter','End of 3rd quarter','End of 3rd quarter','End of 3rd quarter','DEN','MIA',71,70,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA'),
-	 ('11:39','N. Jokić makes 2-pt hook shot from 3 ft (assist by J. Murray)',11.65,'4th Quarter',NULL,'71-72','+2','DEN','MIA',71,72,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('11:00','J. Murray makes 3-pt jump shot from 25 ft (assist by A. Gordon)',11.00,'4th Quarter',NULL,'71-75','+3','DEN','MIA',71,75,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('10:32','C. Martin makes 2-pt layup from 3 ft (assist by J. Butler)',10.53,'4th Quarter','+2','73-75',NULL,'DEN','MIA',73,75,2,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('10:03','N. Jokić makes 2-pt jump shot from 4 ft (assist by J. Murray)',10.05,'4th Quarter',NULL,'73-77','+2','DEN','MIA',73,77,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('9:38','K. Lowry makes 3-pt jump shot from 23 ft (assist by D. Robinson)',9.63,'4th Quarter','+3','76-77',NULL,'DEN','MIA',76,77,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('9:18','N. Jokić makes 2-pt jump shot from 10 ft (assist by B. Brown)',9.30,'4th Quarter',NULL,'76-79','+2','DEN','MIA',76,79,3,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('6:43','J. Murray makes 2-pt jump shot from 14 ft',6.72,'4th Quarter',NULL,'76-81','+2','DEN','MIA',76,81,5,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team) VALUES
-	 ('4:43','N. Jokić makes 2-pt jump shot from 6 ft (assist by K. Caldwell-Pope)',4.72,'4th Quarter',NULL,'76-83','+2','DEN','MIA',76,83,7,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('4:29','J. Butler makes 3-pt jump shot from 24 ft (assist by C. Martin)',4.48,'4th Quarter','+3','79-83',NULL,'DEN','MIA',79,83,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('4:06','K. Caldwell-Pope makes 3-pt jump shot from 25 ft (assist by J. Murray)',4.10,'4th Quarter',NULL,'79-86','+3','DEN','MIA',79,86,7,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('3:47','J. Butler makes 3-pt jump shot from 26 ft',3.78,'4th Quarter','+3','82-86',NULL,'DEN','MIA',82,86,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('3:21','J. Butler makes free throw 3 of 3',3.35,'4th Quarter','+1','85-86',NULL,'DEN','MIA',85,86,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('3:21','J. Butler makes free throw 2 of 3',3.35,'4th Quarter','+1','84-86',NULL,'DEN','MIA',84,86,2,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('3:21','J. Butler makes free throw 1 of 3',3.35,'4th Quarter','+1','83-86',NULL,'DEN','MIA',83,86,3,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('2:47','J. Butler makes 2-pt jump shot from 10 ft',2.78,'4th Quarter','+2','87-86',NULL,'DEN','MIA',87,86,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('2:24','N. Jokić makes 2-pt layup from 4 ft (assist by J. Murray)',2.40,'4th Quarter',NULL,'87-88','+2','DEN','MIA',87,88,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('1:58','J. Butler makes free throw 1 of 2',1.97,'4th Quarter','+1','88-88',NULL,'DEN','MIA',88,88,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team) VALUES
-	 ('1:58','J. Butler makes free throw 2 of 2',1.97,'4th Quarter','+1','89-88',NULL,'DEN','MIA',89,88,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA'),
-	 ('1:31','B. Brown makes 2-pt layup at rim',1.52,'4th Quarter',NULL,'89-90','+2','DEN','MIA',89,90,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('0:24','K. Caldwell-Pope makes free throw 2 of 2',0.40,'4th Quarter',NULL,'89-92','+1','DEN','MIA',89,92,3,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('0:24','K. Caldwell-Pope makes free throw 1 of 2',0.40,'4th Quarter',NULL,'89-91','+1','DEN','MIA',89,91,2,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('0:14','B. Brown makes free throw 1 of 2',0.23,'4th Quarter',NULL,'89-93','+1','DEN','MIA',89,93,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('0:14','B. Brown makes free throw 2 of 2',0.23,'4th Quarter',NULL,'89-94','+1','DEN','MIA',89,94,5,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA'),
-	 ('0:00','End of 4th quarter',0.00,'4th Quarter','End of 4th quarter','End of 4th quarter','End of 4th quarter','DEN','MIA',89,94,5,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA');
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+	 ('12:00','Jump ball: B. Adebayo vs. N. Jokić (J. Murray gains possession)',48.00,'1st Quarter','Jump ball: B. Adebayo vs. N. Jokić (J. Murray gains possession)','Jump ball: B. Adebayo vs. N. Jokić (J. Murray gains possession)','Jump ball: B. Adebayo vs. N. Jokić (J. Murray gains possession)','DEN','MIA',0,0,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA','TIE'),
+	 ('11:39','B. Adebayo makes 2-pt dunk from 2 ft',47.65,'1st Quarter','+2','2-0',NULL,'DEN','MIA',2,0,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('10:35','M. Strus makes 3-pt jump shot from 27 ft (assist by G. Vincent)',46.58,'1st Quarter','+3','5-0',NULL,'DEN','MIA',5,0,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('10:00','K. Caldwell-Pope makes 2-pt jump shot from 15 ft',46.00,'1st Quarter',NULL,'5-2','+2','DEN','MIA',5,2,-3,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('8:15','K. Caldwell-Pope makes 2-pt jump shot from 9 ft (assist by J. Murray)',44.25,'1st Quarter',NULL,'5-4','+2','DEN','MIA',5,4,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('7:48','A. Gordon makes 2-pt jump shot from 10 ft',43.80,'1st Quarter',NULL,'5-6','+2','DEN','MIA',5,6,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('6:47','J. Murray makes 2-pt dunk from 2 ft',42.78,'1st Quarter',NULL,'5-8','+2','DEN','MIA',5,8,3,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('6:18','M. Porter makes 2-pt jump shot from 12 ft (assist by N. Jokić)',42.30,'1st Quarter',NULL,'5-10','+2','DEN','MIA',5,10,5,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('5:57','J. Green makes 2-pt dunk from 2 ft (assist by M. Porter)',41.95,'1st Quarter',NULL,'5-12','+2','DEN','MIA',5,12,7,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('5:41','M. Strus makes 2-pt layup from 4 ft (assist by J. Butler)',41.68,'1st Quarter','+2','7-12',NULL,'DEN','MIA',7,12,5,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing');
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+	 ('5:41','M. Strus makes free throw 1 of 1',41.68,'1st Quarter','+1','8-12',NULL,'DEN','MIA',8,12,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
+	 ('5:28','N. Jokić makes 3-pt jump shot from 26 ft (assist by J. Green)',41.47,'1st Quarter',NULL,'8-15','+3','DEN','MIA',8,15,7,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('4:55','M. Porter makes free throw 2 of 2',40.92,'1st Quarter',NULL,'8-16','+1','DEN','MIA',8,16,8,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('4:42','B. Adebayo makes 2-pt dunk from 1 ft (assist by M. Strus)',40.70,'1st Quarter','+2','10-16',NULL,'DEN','MIA',10,16,6,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
+	 ('4:11','C. Martin makes 2-pt layup from 2 ft (assist by K. Lowry)',40.18,'1st Quarter','+2','12-16',NULL,'DEN','MIA',12,16,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
+	 ('3:46','M. Strus makes 2-pt dunk from 3 ft (assist by K. Lowry)',39.77,'1st Quarter','+2','14-16',NULL,'DEN','MIA',14,16,2,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
+	 ('3:27','J. Green makes 2-pt layup from 3 ft (assist by N. Jokić)',39.45,'1st Quarter',NULL,'14-18','+2','DEN','MIA',14,18,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('3:15','B. Adebayo makes 2-pt jump shot from 9 ft (assist by K. Lowry)',39.25,'1st Quarter','+2','16-18',NULL,'DEN','MIA',16,18,2,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
+	 ('2:42','B. Adebayo makes free throw 1 of 1',38.70,'1st Quarter','+1','19-18',NULL,'DEN','MIA',19,18,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('2:42','B. Adebayo makes 2-pt layup from 2 ft',38.70,'1st Quarter','+2','18-18',NULL,'DEN','MIA',18,18,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','TIE');
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+	 ('2:14','B. Adebayo makes 2-pt jump shot from 7 ft',38.23,'1st Quarter','+2','21-18',NULL,'DEN','MIA',21,18,-3,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('2:14','B. Adebayo makes free throw 1 of 1',38.23,'1st Quarter','+1','22-18',NULL,'DEN','MIA',22,18,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('1:09','M. Porter makes 2-pt layup from 2 ft',37.15,'1st Quarter',NULL,'22-20','+2','DEN','MIA',22,20,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('0:39','M. Porter makes 2-pt jump shot from 11 ft (assist by J. Murray)',36.65,'1st Quarter',NULL,'22-22','+2','DEN','MIA',22,22,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','TIE'),
+	 ('0:21','B. Adebayo makes 2-pt hook shot at rim',36.35,'1st Quarter','+2','24-22',NULL,'DEN','MIA',24,22,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('12:00','Start of 2nd quarter',36.00,'2nd Quarter','Start of 2nd quarter','Start of 2nd quarter','Start of 2nd quarter','DEN','MIA',24,22,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA','Trailing'),
+	 ('0:00','End of 1st quarter',36.00,'1st Quarter','End of 1st quarter','End of 1st quarter','End of 1st quarter','DEN','MIA',24,22,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA','Trailing'),
+	 ('11:39','J. Butler makes 2-pt layup from 3 ft',35.65,'2nd Quarter','+2','26-22',NULL,'DEN','MIA',26,22,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('11:13','J. Butler makes free throw 2 of 2',35.22,'2nd Quarter','+1','28-22',NULL,'DEN','MIA',28,22,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('11:13','J. Butler makes free throw 1 of 2',35.22,'2nd Quarter','+1','27-22',NULL,'DEN','MIA',27,22,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading');
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+	 ('10:17','A. Gordon makes free throw 2 of 2',34.28,'2nd Quarter',NULL,'28-23','+1','DEN','MIA',28,23,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('9:59','C. Braun makes 2-pt layup from 3 ft (assist by M. Porter)',33.98,'2nd Quarter',NULL,'28-25','+2','DEN','MIA',28,25,-3,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('9:46','J. Butler makes free throw 2 of 2',33.77,'2nd Quarter','+1','30-25',NULL,'DEN','MIA',30,25,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('9:46','J. Butler makes free throw 1 of 2',33.77,'2nd Quarter','+1','29-25',NULL,'DEN','MIA',29,25,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('9:32','B. Brown makes 2-pt layup from 3 ft (assist by J. Murray)',33.53,'2nd Quarter',NULL,'30-27','+2','DEN','MIA',30,27,-3,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('9:09','C. Martin makes free throw 2 of 2',33.15,'2nd Quarter','+1','32-27',NULL,'DEN','MIA',32,27,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('9:09','C. Martin makes free throw 1 of 2',33.15,'2nd Quarter','+1','31-27',NULL,'DEN','MIA',31,27,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('8:22','C. Martin makes 2-pt layup from 5 ft',32.37,'2nd Quarter','+2','34-27',NULL,'DEN','MIA',34,27,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('8:04','N. Jokić makes 2-pt jump shot from 5 ft (assist by C. Braun)',32.07,'2nd Quarter',NULL,'34-29','+2','DEN','MIA',34,29,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('7:47','D. Robinson makes 3-pt jump shot from 24 ft (assist by J. Butler)',31.78,'2nd Quarter','+3','37-29',NULL,'DEN','MIA',37,29,-8,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading');
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+	 ('7:17','D. Robinson makes 2-pt layup from 3 ft (assist by B. Adebayo)',31.28,'2nd Quarter','+2','39-29',NULL,'DEN','MIA',39,29,-10,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('6:56','N. Jokić makes 2-pt layup from 3 ft',30.93,'2nd Quarter',NULL,'39-31','+2','DEN','MIA',39,31,-8,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('6:17','K. Caldwell-Pope makes 2-pt jump shot from 17 ft (assist by N. Jokić)',30.28,'2nd Quarter',NULL,'39-33','+2','DEN','MIA',39,33,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('5:46','B. Brown makes 2-pt dunk from 1 ft (assist by K. Caldwell-Pope)',29.77,'2nd Quarter',NULL,'39-35','+2','DEN','MIA',39,35,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('5:23','K. Lowry makes 3-pt jump shot from 23 ft',29.38,'2nd Quarter','+3','42-35',NULL,'DEN','MIA',42,35,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('5:00','N. Jokić makes 2-pt jump shot from 7 ft (assist by J. Murray)',29.00,'2nd Quarter',NULL,'42-37','+2','DEN','MIA',42,37,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('4:29','J. Murray makes 2-pt jump shot from 16 ft',28.48,'2nd Quarter',NULL,'42-39','+2','DEN','MIA',42,39,-3,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('4:14','K. Lowry makes 3-pt jump shot from 25 ft',28.23,'2nd Quarter','+3','45-39',NULL,'DEN','MIA',45,39,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('3:32','J. Butler makes 2-pt dunk from 1 ft',27.53,'2nd Quarter','+2','47-39',NULL,'DEN','MIA',47,39,-8,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('2:41','C. Braun makes 2-pt layup from 3 ft',26.68,'2nd Quarter',NULL,'47-41','+2','DEN','MIA',47,41,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing');
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+	 ('2:13','C. Braun makes free throw 1 of 2',26.22,'2nd Quarter',NULL,'47-42','+1','DEN','MIA',47,42,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('1:59','B. Adebayo makes 2-pt layup from 3 ft (assist by G. Vincent)',25.98,'2nd Quarter','+2','49-42',NULL,'DEN','MIA',49,42,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('1:34','B. Adebayo makes 2-pt jump shot from 3 ft',25.57,'2nd Quarter','+2','51-42',NULL,'DEN','MIA',51,42,-9,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('0:25','M. Porter makes 2-pt dunk from 1 ft (assist by N. Jokić)',24.42,'2nd Quarter',NULL,'51-44','+2','DEN','MIA',51,44,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('12:00','Start of 3rd quarter',24.00,'3rd Quarter','Start of 3rd quarter','Start of 3rd quarter','Start of 3rd quarter','DEN','MIA',51,44,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA','Trailing'),
+	 ('0:00','End of 2nd quarter',24.00,'2nd Quarter','End of 2nd quarter','End of 2nd quarter','End of 2nd quarter','DEN','MIA',51,44,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA','Trailing'),
+	 ('11:28','N. Jokić makes 2-pt jump shot from 4 ft',23.47,'3rd Quarter',NULL,'51-46','+2','DEN','MIA',51,46,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('11:28','N. Jokić makes free throw 1 of 1',23.47,'3rd Quarter',NULL,'51-47','+1','DEN','MIA',51,47,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('11:17','M. Strus makes 2-pt jump shot from 9 ft (assist by G. Vincent)',23.28,'3rd Quarter','+2','53-47',NULL,'DEN','MIA',53,47,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('10:40','G. Vincent makes 2-pt jump shot from 22 ft',22.67,'3rd Quarter','+2','55-47',NULL,'DEN','MIA',55,47,-8,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading');
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+	 ('9:17','M. Porter makes 2-pt jump shot from 3 ft',21.28,'3rd Quarter',NULL,'55-49','+2','DEN','MIA',55,49,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('8:45','J. Murray makes 2-pt layup from 3 ft',20.75,'3rd Quarter',NULL,'55-51','+2','DEN','MIA',55,51,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('8:33','K. Love makes 3-pt jump shot from 26 ft (assist by J. Butler)',20.55,'3rd Quarter','+3','58-51',NULL,'DEN','MIA',58,51,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('8:14','N. Jokić makes 2-pt hook shot from 4 ft',20.23,'3rd Quarter',NULL,'58-53','+2','DEN','MIA',58,53,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('8:00','G. Vincent makes 2-pt jump shot from 20 ft',20.00,'3rd Quarter','+2','60-53',NULL,'DEN','MIA',60,53,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('7:45','A. Gordon makes free throw 1 of 2',19.75,'3rd Quarter',NULL,'60-54','+1','DEN','MIA',60,54,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('7:32','N. Jokić makes 2-pt layup at rim',19.53,'3rd Quarter',NULL,'60-56','+2','DEN','MIA',60,56,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('7:02','N. Jokić makes free throw 2 of 2',19.03,'3rd Quarter',NULL,'60-57','+1','DEN','MIA',60,57,-3,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('6:46','J. Murray makes 3-pt jump shot from 23 ft (assist by M. Porter)',18.77,'3rd Quarter',NULL,'60-60','+3','DEN','MIA',60,60,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','TIE'),
+	 ('5:47','M. Strus makes 2-pt layup from 3 ft (assist by J. Butler)',17.78,'3rd Quarter','+2','62-60',NULL,'DEN','MIA',62,60,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading');
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+	 ('3:58','C. Martin makes 2-pt layup from 3 ft (assist by K. Lowry)',15.97,'3rd Quarter','+2','64-60',NULL,'DEN','MIA',64,60,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('3:18','Jump ball: B. Brown vs. G. Vincent (K. Caldwell-Pope gains possession)',15.30,'3rd Quarter','Jump ball: B. Brown vs. G. Vincent (K. Caldwell-Pope gains possession)','Jump ball: B. Brown vs. G. Vincent (K. Caldwell-Pope gains possession)','Jump ball: B. Brown vs. G. Vincent (K. Caldwell-Pope gains possession)','DEN','MIA',64,60,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA','Trailing'),
+	 ('2:45','B. Brown makes 2-pt layup at rim',14.75,'3rd Quarter',NULL,'64-62','+2','DEN','MIA',64,62,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('2:25','M. Porter makes 2-pt layup from 2 ft',14.42,'3rd Quarter',NULL,'64-64','+2','DEN','MIA',64,64,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','TIE'),
+	 ('2:05','G. Vincent makes 2-pt jump shot from 8 ft (assist by D. Robinson)',14.08,'3rd Quarter','+2','66-64',NULL,'DEN','MIA',66,64,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('1:49','C. Braun makes free throw 1 of 2',13.82,'3rd Quarter',NULL,'66-65','+1','DEN','MIA',66,65,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
+	 ('1:49','C. Braun makes free throw 2 of 2',13.82,'3rd Quarter',NULL,'66-66','+1','DEN','MIA',66,66,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','TIE'),
+	 ('1:31','M. Porter makes 3-pt jump shot from 25 ft',13.52,'3rd Quarter',NULL,'66-69','+3','DEN','MIA',66,69,3,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('1:10','B. Adebayo makes 2-pt jump shot from 13 ft (assist by D. Robinson)',13.17,'3rd Quarter','+2','68-69',NULL,'DEN','MIA',68,69,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
+	 ('0:54','N. Jokić makes free throw 2 of 2',12.90,'3rd Quarter',NULL,'68-70','+1','DEN','MIA',68,70,2,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading');
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+	 ('0:33','K. Lowry makes 3-pt jump shot from 30 ft',12.55,'3rd Quarter','+3','71-70',NULL,'DEN','MIA',71,70,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('12:00','Start of 4th quarter',12.00,'4th Quarter','Start of 4th quarter','Start of 4th quarter','Start of 4th quarter','DEN','MIA',71,70,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA','Trailing'),
+	 ('0:00','End of 3rd quarter',12.00,'3rd Quarter','End of 3rd quarter','End of 3rd quarter','End of 3rd quarter','DEN','MIA',71,70,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA','Trailing'),
+	 ('11:39','N. Jokić makes 2-pt hook shot from 3 ft (assist by J. Murray)',11.65,'4th Quarter',NULL,'71-72','+2','DEN','MIA',71,72,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('11:00','J. Murray makes 3-pt jump shot from 25 ft (assist by A. Gordon)',11.00,'4th Quarter',NULL,'71-75','+3','DEN','MIA',71,75,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('10:32','C. Martin makes 2-pt layup from 3 ft (assist by J. Butler)',10.53,'4th Quarter','+2','73-75',NULL,'DEN','MIA',73,75,2,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
+	 ('10:03','N. Jokić makes 2-pt jump shot from 4 ft (assist by J. Murray)',10.05,'4th Quarter',NULL,'73-77','+2','DEN','MIA',73,77,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('9:38','K. Lowry makes 3-pt jump shot from 23 ft (assist by D. Robinson)',9.63,'4th Quarter','+3','76-77',NULL,'DEN','MIA',76,77,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
+	 ('9:18','N. Jokić makes 2-pt jump shot from 10 ft (assist by B. Brown)',9.30,'4th Quarter',NULL,'76-79','+2','DEN','MIA',76,79,3,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('6:43','J. Murray makes 2-pt jump shot from 14 ft',6.72,'4th Quarter',NULL,'76-81','+2','DEN','MIA',76,81,5,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading');
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+	 ('4:43','N. Jokić makes 2-pt jump shot from 6 ft (assist by K. Caldwell-Pope)',4.72,'4th Quarter',NULL,'76-83','+2','DEN','MIA',76,83,7,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('4:29','J. Butler makes 3-pt jump shot from 24 ft (assist by C. Martin)',4.48,'4th Quarter','+3','79-83',NULL,'DEN','MIA',79,83,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
+	 ('4:06','K. Caldwell-Pope makes 3-pt jump shot from 25 ft (assist by J. Murray)',4.10,'4th Quarter',NULL,'79-86','+3','DEN','MIA',79,86,7,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('3:47','J. Butler makes 3-pt jump shot from 26 ft',3.78,'4th Quarter','+3','82-86',NULL,'DEN','MIA',82,86,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
+	 ('3:21','J. Butler makes free throw 2 of 3',3.35,'4th Quarter','+1','84-86',NULL,'DEN','MIA',84,86,2,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
+	 ('3:21','J. Butler makes free throw 1 of 3',3.35,'4th Quarter','+1','83-86',NULL,'DEN','MIA',83,86,3,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
+	 ('3:21','J. Butler makes free throw 3 of 3',3.35,'4th Quarter','+1','85-86',NULL,'DEN','MIA',85,86,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
+	 ('2:47','J. Butler makes 2-pt jump shot from 10 ft',2.78,'4th Quarter','+2','87-86',NULL,'DEN','MIA',87,86,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
+	 ('2:24','N. Jokić makes 2-pt layup from 4 ft (assist by J. Murray)',2.40,'4th Quarter',NULL,'87-88','+2','DEN','MIA',87,88,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('1:58','J. Butler makes free throw 2 of 2',1.97,'4th Quarter','+1','89-88',NULL,'DEN','MIA',89,88,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading');
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+	 ('1:58','J. Butler makes free throw 1 of 2',1.97,'4th Quarter','+1','88-88',NULL,'DEN','MIA',88,88,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','TIE'),
+	 ('1:31','B. Brown makes 2-pt layup at rim',1.52,'4th Quarter',NULL,'89-90','+2','DEN','MIA',89,90,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('0:24','K. Caldwell-Pope makes free throw 1 of 2',0.40,'4th Quarter',NULL,'89-91','+1','DEN','MIA',89,91,2,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('0:24','K. Caldwell-Pope makes free throw 2 of 2',0.40,'4th Quarter',NULL,'89-92','+1','DEN','MIA',89,92,3,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('0:14','B. Brown makes free throw 1 of 2',0.23,'4th Quarter',NULL,'89-93','+1','DEN','MIA',89,93,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('0:14','B. Brown makes free throw 2 of 2',0.23,'4th Quarter',NULL,'89-94','+1','DEN','MIA',89,94,5,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
+	 ('0:00','End of 4th quarter',0.00,'4th Quarter','End of 4th quarter','End of 4th quarter','End of 4th quarter','DEN','MIA',89,94,5,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA','Trailing');
 
 DROP TABLE IF EXISTS standings;
 CREATE TABLE standings(
@@ -861,11 +909,72 @@ CREATE TABLE scorers(
     mvp_rank bigint
 );
 
-INSERT INTO scorers (player, team, full_team, season_avg_ppg, playoffs_avg_ppg, season_ts_percent, playoffs_ts_percent, games_played, playoffs_games_played,
-                          ppg_rank, top20_scorers, player_mvp_calc_adj, games_missed, penalized_games_missed, top5_candidates, mvp_rank)
-VALUES ('Nikola Jokic', 'DEN', 'Denver Nuggets', 24.8, null, 0.702, null, 68, null, 23, 'Other', 48.70, 11, 0, 'Top 5 MVP Candidate', 1),
-       ('Shai Gilgeous-Alexander', 'OKC', 'Okalahoma City Thunder', 31.5, null, 0.628, null, 67, null, 4, 'Top 20 Scorers', 44.10, 13, 0,
-        'Top 5 MVP Candidate', 5);
+INSERT INTO scorers (player,team,full_team,season_avg_ppg,playoffs_avg_ppg,season_ts_percent,playoffs_ts_percent,games_played,playoffs_games_played,ppg_rank,top20_scorers,player_mvp_calc_adj,games_missed,penalized_games_missed,top5_candidates,mvp_rank) VALUES
+	 ('Nikola Jokic','DEN','Denver Nuggets',24.5,30.0,0.701,0.635,69,19,24,'Other',48.30,13,0,'Top 5 MVP Candidate',1),
+	 ('Luka Doncic','DAL','Dallas Mavericks',32.4,NULL,0.609,NULL,66,NULL,2,'Top 20 Scorers',48.10,16,0,'Top 5 MVP Candidate',2),
+	 ('Joel Embiid','PHI','Philadelphia 76ers',33.1,23.7,0.655,0.561,66,9,1,'Top 20 Scorers',47.80,16,0,'Top 5 MVP Candidate',3),
+	 ('Shai Gilgeous-Alexander','OKC','Oklahoma City Thunder',31.4,NULL,0.626,NULL,68,NULL,4,'Top 20 Scorers',44.00,14,0,'Top 5 MVP Candidate',4),
+	 ('Jayson Tatum','BOS','Boston Celtics',30.1,27.2,0.607,0.585,74,20,6,'Top 20 Scorers',43.80,8,0,'Top 5 MVP Candidate',5),
+	 ('Giannis Antetokounmpo','MIL','Milwaukee Bucks',31.1,23.3,0.605,0.525,63,3,5,'Top 20 Scorers',42.86,19,3,'Other',6),
+	 ('Trae Young','ATL','Atlanta Hawks',26.2,29.2,0.573,0.521,73,6,15,'Top 20 Scorers',39.90,9,0,'Other',7),
+	 ('Donovan Mitchell','CLE','Cleveland Cavaliers',28.3,23.2,0.614,0.518,68,5,10,'Top 20 Scorers',39.20,14,0,'Other',8),
+	 ('Ja Morant','MEM','Memphis Grizzlies',26.2,24.6,0.557,0.524,61,5,14,'Top 20 Scorers',37.26,21,5,'Other',9),
+	 ('Pascal Siakam','TOR','Toronto Raptors',24.2,NULL,0.565,NULL,71,NULL,26,'Other',37.10,11,0,'Other',10);
+INSERT INTO scorers (player,team,full_team,season_avg_ppg,playoffs_avg_ppg,season_ts_percent,playoffs_ts_percent,games_played,playoffs_games_played,ppg_rank,top20_scorers,player_mvp_calc_adj,games_missed,penalized_games_missed,top5_candidates,mvp_rank) VALUES
+	 ('Damian Lillard','POR','Portland Trail Blazers',32.2,NULL,0.645,NULL,58,NULL,3,'Top 20 Scorers',36.88,24,8,'Other',11),
+	 ('De''Aaron Fox','SAC','Sacramento Kings',25.0,27.4,0.599,0.524,73,7,20,'Top 20 Scorers',36.60,9,0,'Other',12),
+	 ('Darius Garland','CLE','Cleveland Cavaliers',21.6,20.6,0.587,0.566,69,5,37,'Other',36.30,13,0,'Other',13),
+	 ('Jaylen Brown','BOS','Boston Celtics',26.6,22.7,0.581,0.570,67,20,13,'Top 20 Scorers',35.80,15,0,'Other',14),
+	 ('Domantas Sabonis','SAC','Sacramento Kings',19.1,16.4,0.667,0.517,79,7,64,'Other',35.60,3,0,'Other',15),
+	 ('Kyrie Irving','DAL','Dallas Mavericks',27.1,NULL,0.613,NULL,60,NULL,12,'Top 20 Scorers',35.38,22,6,'Other',16),
+	 ('Jalen Brunson','NYK','New York Knicks',24.0,27.8,0.597,0.589,68,11,27,'Other',35.30,14,0,'Other',17),
+	 ('DeMar DeRozan','CHI','Chicago Bulls',24.5,NULL,0.592,NULL,74,NULL,25,'Other',35.10,8,0,'Other',19),
+	 ('Fred VanVleet','TOR','Toronto Raptors',19.3,NULL,0.540,NULL,69,NULL,62,'Other',35.10,13,0,'Other',18),
+	 ('Jrue Holiday','MIL','Milwaukee Bucks',19.3,17.8,0.586,0.491,67,5,61,'Other',35.10,15,0,'Other',20);
+INSERT INTO scorers (player,team,full_team,season_avg_ppg,playoffs_avg_ppg,season_ts_percent,playoffs_ts_percent,games_played,playoffs_games_played,ppg_rank,top20_scorers,player_mvp_calc_adj,games_missed,penalized_games_missed,top5_candidates,mvp_rank) VALUES
+	 ('Julius Randle','NYK','New York Knicks',25.1,16.6,0.582,0.485,77,10,19,'Top 20 Scorers',35.00,5,0,'Other',21),
+	 ('Jimmy Butler','MIA','Miami Heat',22.9,26.9,0.647,0.565,64,22,33,'Other',34.66,18,2,'Other',22),
+	 ('Anthony Edwards','MIN','Minnesota Timberwolves',24.6,31.6,0.563,0.602,79,5,23,'Other',34.60,3,0,'Other',23),
+	 ('James Harden','PHI','Philadelphia 76ers',21.0,20.3,0.607,0.538,58,11,43,'Other',34.27,24,8,'Other',24),
+	 ('LeBron James','LAL','Los Angeles Lakers',28.9,23.5,0.584,0.573,55,15,9,'Top 20 Scorers',33.77,27,11,'Other',25),
+	 ('Stephen Curry','GSW','Golden State Warriors',29.4,30.5,0.656,0.588,56,13,7,'Top 20 Scorers',33.68,26,10,'Other',26),
+	 ('Lauri Markkanen','UTA','Utah Jazz',25.6,NULL,0.640,NULL,66,NULL,18,'Top 20 Scorers',33.50,16,0,'Other',27),
+	 ('Kristaps Porzingis','WAS','Washington Wizards',23.2,NULL,0.627,NULL,65,NULL,31,'Other',33.03,17,1,'Other',28),
+	 ('Anthony Davis','LAL','Los Angeles Lakers',25.9,22.7,0.626,0.603,56,15,17,'Top 20 Scorers',32.64,26,10,'Other',29),
+	 ('Dejounte Murray','ATL','Atlanta Hawks',20.5,23.0,0.540,0.538,74,5,49,'Other',32.10,8,0,'Other',30);
+INSERT INTO scorers (player,team,full_team,season_avg_ppg,playoffs_avg_ppg,season_ts_percent,playoffs_ts_percent,games_played,playoffs_games_played,ppg_rank,top20_scorers,player_mvp_calc_adj,games_missed,penalized_games_missed,top5_candidates,mvp_rank) VALUES
+	 ('Jamal Murray','DEN','Denver Nuggets',20.0,26.2,0.571,0.584,65,19,57,'Other',32.05,17,1,'Other',31),
+	 ('Zach LaVine','CHI','Chicago Bulls',24.8,NULL,0.607,NULL,77,NULL,21,'Other',32.00,5,0,'Other',32),
+	 ('Kevin Durant','PHX','Phoenix Suns',29.1,29.0,0.677,0.599,47,11,8,'Top 20 Scorers',31.50,35,19,'Other',33),
+	 ('CJ McCollum','NOP','New Orleans Pelicans',20.9,NULL,0.541,NULL,75,NULL,44,'Other',31.30,7,0,'Other',34),
+	 ('Bam Adebayo','MIA','Miami Heat',20.4,17.9,0.592,0.530,75,23,50,'Other',30.80,7,0,'Other',35),
+	 ('Tyrese Haliburton','IND','Indiana Pacers',20.7,NULL,0.624,NULL,56,NULL,47,'Other',30.64,26,10,'Other',36),
+	 ('Jaren Jackson','MEM','Memphis Grizzlies',18.6,18.0,0.613,0.546,63,6,65,'Other',30.08,19,3,'Other',37),
+	 ('Devin Booker','PHX','Phoenix Suns',27.8,33.7,0.601,0.686,53,11,11,'Top 20 Scorers',29.25,29,13,'Other',38),
+	 ('Mikal Bridges','BKN','Brooklyn Nets',20.1,23.5,0.587,0.539,83,4,55,'Other',28.90,-1,0,'Other',39),
+	 ('Tyler Herro','MIA','Miami Heat',20.1,12.0,0.566,0.667,67,1,54,'Other',28.80,15,0,'Other',41);
+INSERT INTO scorers (player,team,full_team,season_avg_ppg,playoffs_avg_ppg,season_ts_percent,playoffs_ts_percent,games_played,playoffs_games_played,ppg_rank,top20_scorers,player_mvp_calc_adj,games_missed,penalized_games_missed,top5_candidates,mvp_rank) VALUES
+	 ('Aaron Gordon','DEN','Denver Nuggets',16.3,12.8,0.617,0.578,68,19,82,'Other',28.80,14,0,'Other',40),
+	 ('Evan Mobley','CLE','Cleveland Cavaliers',16.2,9.8,0.590,0.476,79,5,84,'Other',28.80,3,0,'Other',42),
+	 ('Spencer Dinwiddie','BKN','Brooklyn Nets',17.3,16.5,0.573,0.544,79,4,74,'Other',28.30,3,0,'Other',44),
+	 ('Klay Thompson','GSW','Golden State Warriors',21.9,18.5,0.576,0.525,69,13,36,'Other',28.30,13,0,'Other',43),
+	 ('Nikola Vucevic','CHI','Chicago Bulls',17.6,NULL,0.594,NULL,82,NULL,71,'Other',28.20,0,0,'Other',45),
+	 ('D''Angelo Russell','LAL','Los Angeles Lakers',17.8,13.9,0.606,0.516,71,15,69,'Other',28.00,11,0,'Other',46),
+	 ('Paul George','LAC','Los Angeles Clippers',23.8,NULL,0.588,NULL,56,NULL,29,'Other',27.92,26,10,'Other',47),
+	 ('Zion Williamson','NOP','New Orleans Pelicans',26.0,NULL,0.652,NULL,29,NULL,16,'Top 20 Scorers',27.83,53,37,'Other',48),
+	 ('Russell Westbrook','LAC','Los Angeles Clippers',15.9,23.6,0.513,0.509,73,5,87,'Other',27.70,9,0,'Other',49),
+	 ('Scottie Barnes','TOR','Toronto Raptors',15.3,NULL,0.524,NULL,77,NULL,90,'Other',27.70,5,0,'Other',50);
+INSERT INTO scorers (player,team,full_team,season_avg_ppg,playoffs_avg_ppg,season_ts_percent,playoffs_ts_percent,games_played,playoffs_games_played,ppg_rank,top20_scorers,player_mvp_calc_adj,games_missed,penalized_games_missed,top5_candidates,mvp_rank) VALUES
+	 ('Desmond Bane','MEM','Memphis Grizzlies',21.5,23.5,0.606,0.548,58,6,39,'Other',27.64,24,8,'Other',51),
+	 ('Brook Lopez','MIL','Milwaukee Bucks',15.9,19.0,0.630,0.653,78,5,86,'Other',27.50,4,0,'Other',52),
+	 ('Kawhi Leonard','LAC','Los Angeles Clippers',23.8,34.5,0.623,0.670,52,2,28,'Other',27.23,30,14,'Other',53),
+	 ('Josh Giddey','OKC','Oklahoma City Thunder',16.6,NULL,0.533,NULL,76,NULL,81,'Other',27.20,6,0,'Other',54),
+	 ('Kyle Kuzma','WAS','Washington Wizards',21.2,NULL,0.544,NULL,64,NULL,40,'Other',26.98,18,2,'Other',55),
+	 ('Chris Paul','PHX','Phoenix Suns',13.9,12.4,0.555,0.469,59,7,112,'Other',26.57,23,7,'Other',56),
+	 ('Terry Rozier','CHA','Charlotte Hornets',21.1,NULL,0.517,NULL,63,NULL,42,'Other',26.51,19,3,'Other',57),
+	 ('Jarrett Allen','CLE','Cleveland Cavaliers',14.3,9.4,0.670,0.608,68,5,104,'Other',26.20,14,0,'Other',58),
+	 ('Paolo Banchero','ORL','Orlando Magic',20.0,NULL,0.529,NULL,72,NULL,58,'Other',26.10,10,0,'Other',59),
+	 ('LaMelo Ball','CHA','Charlotte Hornets',23.3,NULL,0.541,NULL,36,NULL,30,'Other',26.10,46,30,'Other',60);
 
 DROP TABLE IF EXISTS twitter_comments;
 CREATE TABLE twitter_comments(
@@ -902,13 +1011,47 @@ CREATE TABLE reddit_comments(
     neg numeric
 );
 
-INSERT INTO reddit_comments (scrape_date, author, comment, flair, score, url, compound, pos, neu, neg)
-VALUES (current_date, 'rattatatouille', 'Jokic putting up a dismal effort', 'Spurs', 5875, 
-        'https://www.reddit.com/r/nba/comments/12c4y8y/nikola_jokic_disasterclass_against_houston_14/',
-        -0.6124, 0, 0.846, 0.154),
-       (current_date, 'KaiserKaiba', 'NBA scriptwriters working overtime right now', null, 2829,
-        'https://www.reddit.com/r/nba/comments/12c4y8y/nikola_jokic_disasterclass_against_houston_14/',
-        0, 0, 1, 0);
+INSERT INTO reddit_comments (scrape_date,author,"comment",flair,score,url,compound,pos,neu,neg) VALUES
+	 ('2023-10-26','aaa1','Bro how do you get crossed by Andre Drummond 😭😭','Mavs',5412,'https://www.reddit.com/r/nba/comments/17gkehh/highlight_andre_drummomd_welcomes_chet_to_the/',0,0,1,0),
+	 ('2023-10-26','aaa2','That’s a pretty fuckin good answer','Celtics',3185,'https://www.reddit.com/r/nba/comments/17g8or6/you_could_win_anywhere_but_why_here/',0.7269,0.67,0.33,0),
+	 ('2023-10-26','aaa3','6’7 285lb tank splitting the double like prime D-Rose is insane','Lakers',2949,'https://www.reddit.com/r/nba/comments/17gkse6/highlight_zion_williamson_with_two_dunk_of_the/',-0.0516,0.176,0.634,0.19),
+	 ('2023-10-26','aaa4','"Thank you, Giannis."  \*camera pans to side\* "Damian, same question."','SuperSonics',2878,'https://www.reddit.com/r/nba/comments/17g8or6/you_could_win_anywhere_but_why_here/',0.3612,0.217,0.783,0),
+	 ('2023-10-26','aaa5','I’m shocked they had one to lose','Bucks',2724,'https://www.reddit.com/r/nba/comments/17gdano/charania_the_suns_have_lost_their_2024/',-0.6124,0,0.5,0.5),
+	 ('2023-10-26','aaa6','I''m big on Chet but this a hell of a lowlight lmao','Nuggets',2687,'https://www.reddit.com/r/nba/comments/17gkehh/highlight_andre_drummomd_welcomes_chet_to_the/',-0.8126,0.222,0.29,0.488),
+	 ('2023-10-26','aaa7','Damn Drummond almost broke Chet in half without even touching him',NULL,2480,'https://www.reddit.com/r/nba/comments/17gkehh/highlight_andre_drummomd_welcomes_chet_to_the/',-0.6378,0,0.633,0.367),
+	 ('2023-10-26','aaa8','ZAIRE WILLIAMSON','Pelicans',1937,'https://www.reddit.com/r/nba/comments/17gkse6/highlight_zion_williamson_with_two_dunk_of_the/',0,0,1,0),
+	 ('2023-10-26','aaa9','This was Adam Silver''s way of punishing Barkley for pressing him over rampant domestic violence within the league. /s','Suns',1921,'https://www.reddit.com/r/nba/comments/17gdano/charania_the_suns_have_lost_their_2024/',-0.8271,0,0.688,0.312),
+	 ('2023-10-26','aab1','He is rejecting Jalen Green and his lifestyle','Magic',1895,'https://www.reddit.com/r/nba/comments/17gkco2/highlight_minister_isaac_destroys_jalen_green/',-0.4588,0,0.7,0.3);
+INSERT INTO reddit_comments (scrape_date,author,"comment",flair,score,url,compound,pos,neu,neg) VALUES
+	 ('2023-10-26','aab2','Damn Milwaukee is so lucky to have him','Timberwolves',1782,'https://www.reddit.com/r/nba/comments/17g8or6/you_could_win_anywhere_but_why_here/',0.2302,0.294,0.487,0.219),
+	 ('2023-10-26','aab3','Snatch blocks are the best play in basketball change my mind','Thunder',1633,'https://www.reddit.com/r/nba/comments/17gkghx/highlight_mark_williams_snatches_trae_youngs_shot/',0.6908,0.4,0.485,0.115),
+	 ('2023-10-26','aab4','WELCOME TO THE NBA LIL MAN
+
+Chet already got posterized by Vooch and Andre lol','Bulls',1567,'https://www.reddit.com/r/nba/comments/17gkehh/highlight_andre_drummomd_welcomes_chet_to_the/',0.7603,0.334,0.666,0),
+	 ('2023-10-26','aab5','can we honestly say we have ever heard Giannis with an L in any presser? Dude is just a kind and intelligent human and it shows again and again.','Celtics',1453,'https://www.reddit.com/r/nba/comments/17g8or6/you_could_win_anywhere_but_why_here/',0.8555,0.281,0.719,0),
+	 ('2023-10-26','aab6','Dunking aside, his handle is ridiculous when he’s got it going','Wizards',1349,'https://www.reddit.com/r/nba/comments/17gkse6/highlight_zion_williamson_with_two_dunk_of_the/',-0.3612,0,0.8,0.2),
+	 ('2023-10-26','aab7','Well non-Spurs fans, it''s been fun. See you in twenty years','Jazz',1223,'https://www.reddit.com/r/nba/comments/17gln0p/highlight_victor_wembanyama_nails_a_26footer_for/',0.6597,0.375,0.625,0),
+	 ('2023-10-26','aab8','One hell of a showing for Kristaps in the garden.',NULL,1217,'https://www.reddit.com/r/nba/comments/17glk3k/post_game_thread_the_boston_celtics_10_defeat_the/',-0.6808,0,0.635,0.365),
+	 ('2023-10-26','aab9','we are!
+
+Everyone in Milwaukee knew his character halfway through his rookie year when he took a cab to Western Union and [wired literally all of his money home to his family](https://sports.yahoo.com/blogs/nba-ball-dont-lie/giannis-antetokounmpo-had-to-run-to-a-bucks-game-after-losing-cab-fare-003315158.html?a20=1&guccounter=1) in Greece forgetting to leave himself enough money to get a cab ride to the stadium for the game that day. So, he started running and was a mile or so down the sidewalk towards the stadium when a season ticket holder recognized him and gave him a ride the rest of the way. Season ticket holder also told a reporter I guess, or we would''ve never found out about this. Anyway, that one story tells you pretty much all you need to know about his character and loyalty.','Bucks',1154,'https://www.reddit.com/r/nba/comments/17g8or6/you_could_win_anywhere_but_why_here/',0.7777,0.059,0.931,0.01),
+	 ('2023-10-26','aac1','My only takeaway from this game is that Luka was the best player on the court.',NULL,1141,'https://www.reddit.com/r/nba/comments/17go4lg/highlight_time_winding_down_as_luka_puts_the/',0.6369,0.219,0.781,0),
+	 ('2023-10-26','aac2','This is the shit the talking heads never mention when talking about Giannis staying or leaving Milwaukee. His Milwaukee ties are DEEP. The former owner and Senator Herb Kohl helped get his family to the US. The bucks helped his family get his brothers into good schools. A former bucks staffer taught Giannis how to drive and Giannis would crash on his couch when he was lonely. I’m not saying the Bucks should hold these things over Giannis head, I’m saying these things really matter to Giannis and are definitely a factor in his decision making that the media never mentions. His relationship with the Bucks is different than every other stars relationship with their team',NULL,1128,'https://www.reddit.com/r/nba/comments/17g8or6/you_could_win_anywhere_but_why_here/',0.6997,0.089,0.87,0.042);
+INSERT INTO reddit_comments (scrape_date,author,"comment",flair,score,url,compound,pos,neu,neg) VALUES
+	 ('2023-10-26','aac3','Kristaps'' ability to have an incredible first quarter then disappear for the second/third quarter and then magically re-appear late into the fourth quarter with a random huge bucket is going to be studied by scientists in the near future.','Wizards',1040,'https://www.reddit.com/r/nba/comments/17glk3k/post_game_thread_the_boston_celtics_10_defeat_the/',0.4019,0.111,0.843,0.046),
+	 ('2023-10-26','aac4','People joke, but the Suns have almost zero assets to move, so this hurts that limited cache even more.',NULL,973,'https://www.reddit.com/r/nba/comments/17gdano/charania_the_suns_have_lost_their_2024/',-0.7634,0.124,0.576,0.3),
+	 ('2023-10-26','aac5','you’d think they’d get their audio figured out for the Wemby debut','TrailBlazers',961,'https://www.reddit.com/r/nba/comments/17gln0p/highlight_victor_wembanyama_nails_a_26footer_for/',0,0,1,0),
+	 ('2023-10-26','aac6','LIGHT THE BEAM BABY',NULL,941,'https://www.reddit.com/r/nba/comments/17gmpwf/highlight_a_fox_steal_leads_to_a_malik_monk_poster/',0,0,1,0),
+	 ('2023-10-26','aac7','In 5 years it will be booker and a bunch of g Leaguers','TrailBlazers',921,'https://www.reddit.com/r/nba/comments/17gdano/charania_the_suns_have_lost_their_2024/',0,0,1,0),
+	 ('2023-10-26','aac8','The Cade agenda is so back','Pistons',900,'https://www.reddit.com/r/nba/comments/17gllf4/cade_cunningham_tonight_in_the_loss_to_miami_30/',0,0,1,0),
+	 ('2023-10-26','aac9','aghhh! my virgin ears!','TrailBlazers',896,'https://www.reddit.com/r/nba/comments/17go8ay/highlight_luka_traumatizes_children_everywhere_by/',0,0,1,0),
+	 ('2023-10-26','aad1','Good. Lord.
+
+Thats a shot and a half.','Nets',894,'https://www.reddit.com/r/nba/comments/17go4lg/highlight_time_winding_down_as_luka_puts_the/',0.4404,0.367,0.633,0),
+	 ('2023-10-26','aad2','Rhino ballerina with the ball on a string. Insane.','Pelicans',887,'https://www.reddit.com/r/nba/comments/17gkse6/highlight_zion_williamson_with_two_dunk_of_the/',-0.4019,0,0.722,0.278),
+	 ('2023-10-26','aad3','Spurs guards do not want to pass to wemby lmao
+
+Luka is absolutely insane','Heat',849,'https://www.reddit.com/r/nba/comments/17go4ch/victor_wembanyama_in_his_longawaited_nba_debut_15/',0.1742,0.204,0.575,0.221);
 
 DROP TABLE IF EXISTS reddit_sentiment_time_series;
 CREATE TABLE IF NOT EXISTS reddit_sentiment_time_series
@@ -991,7 +1134,7 @@ VALUES ('09a97226ecd7b666dd516039ce752720', 'Myles Turner', 'IND', 'Indiana Pace
         'IND', 'Indiana Pacers', 'Tues, Apr 4, 2023', 'Out', 'Ankle', 4, 4, 0, current_date);
 
 
-DROP TABLE IF EXISTS game_types;
+DROP TABLE IF EXISTS injury_tracker;
 CREATE TABLE IF NOT EXISTS injury_tracker
 (
     player_logo text COLLATE pg_catalog."default",
@@ -1104,6 +1247,568 @@ CREATE TABLE IF NOT EXISTS mov
     mov numeric,
     record text COLLATE pg_catalog."default"
 );
+
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('DEN','Denver Nuggets',1319,'2023-06-12','W','MIA',94,89,5,'53 - 29'),
+	 ('DEN','Denver Nuggets',1318,'2023-06-09','W','MIA',108,95,13,'53 - 29'),
+	 ('DEN','Denver Nuggets',1317,'2023-06-07','W','MIA',109,94,15,'53 - 29'),
+	 ('DEN','Denver Nuggets',1316,'2023-06-04','L','MIA',108,111,-3,'53 - 29'),
+	 ('DEN','Denver Nuggets',1315,'2023-06-01','W','MIA',104,93,11,'53 - 29'),
+	 ('DEN','Denver Nuggets',1309,'2023-05-20','W','LAL',119,108,11,'53 - 29'),
+	 ('DEN','Denver Nuggets',1307,'2023-05-18','W','LAL',108,103,5,'53 - 29'),
+	 ('DEN','Denver Nuggets',1305,'2023-05-16','W','LAL',132,126,6,'53 - 29'),
+	 ('DEN','Denver Nuggets',1301,'2023-05-11','W','PHX',125,100,25,'53 - 29'),
+	 ('DEN','Denver Nuggets',1297,'2023-05-09','W','PHX',118,102,16,'53 - 29');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('DEN','Denver Nuggets',1293,'2023-05-07','L','PHX',124,129,-5,'53 - 29'),
+	 ('DEN','Denver Nuggets',1289,'2023-05-05','L','PHX',114,121,-7,'53 - 29'),
+	 ('DEN','Denver Nuggets',1283,'2023-05-01','W','PHX',97,87,10,'53 - 29'),
+	 ('DEN','Denver Nuggets',1279,'2023-04-29','W','PHX',125,107,18,'53 - 29'),
+	 ('DEN','Denver Nuggets',1270,'2023-04-25','W','MIN',112,109,3,'53 - 29'),
+	 ('DEN','Denver Nuggets',1265,'2023-04-23','L','MIN',108,114,-6,'53 - 29'),
+	 ('DEN','Denver Nuggets',1258,'2023-04-21','W','MIN',120,111,9,'53 - 29'),
+	 ('DEN','Denver Nuggets',1250,'2023-04-19','W','MIN',122,113,9,'53 - 29'),
+	 ('DEN','Denver Nuggets',1241,'2023-04-16','W','MIN',109,80,29,'53 - 29'),
+	 ('DEN','Denver Nuggets',1221,'2023-04-09','W','SAC',109,95,14,'53 - 29');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('DEN','Denver Nuggets',1213,'2023-04-08','L','UTA',114,118,-4,'53 - 29'),
+	 ('DEN','Denver Nuggets',1198,'2023-04-06','L','PHX',115,119,-4,'53 - 29'),
+	 ('DEN','Denver Nuggets',1181,'2023-04-04','L','HOU',103,124,-21,'53 - 29'),
+	 ('DEN','Denver Nuggets',1168,'2023-04-02','W','GSW',112,110,2,'53 - 29'),
+	 ('DEN','Denver Nuggets',1152,'2023-03-31','L','PHX',93,100,-7,'53 - 29'),
+	 ('DEN','Denver Nuggets',1147,'2023-03-30','L','NOP',88,107,-19,'53 - 29'),
+	 ('DEN','Denver Nuggets',1124,'2023-03-27','W','PHI',116,111,5,'53 - 29'),
+	 ('DEN','Denver Nuggets',1109,'2023-03-25','W','MIL',129,106,23,'53 - 29'),
+	 ('DEN','Denver Nuggets',1086,'2023-03-22','W','WAS',118,104,14,'53 - 29'),
+	 ('DEN','Denver Nuggets',1064,'2023-03-19','W','BKN',108,102,6,'53 - 29');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('DEN','Denver Nuggets',1057,'2023-03-18','L','NYK',110,116,-6,'53 - 29'),
+	 ('DEN','Denver Nuggets',1043,'2023-03-16','W','DET',119,100,19,'53 - 29'),
+	 ('DEN','Denver Nuggets',1029,'2023-03-14','L','TOR',110,125,-15,'53 - 29'),
+	 ('DEN','Denver Nuggets',1014,'2023-03-12','L','BKN',120,122,-2,'53 - 29'),
+	 ('DEN','Denver Nuggets',1001,'2023-03-10','L','SAS',120,128,-8,'53 - 29'),
+	 ('DEN','Denver Nuggets',987,'2023-03-08','L','CHI',96,117,-21,'53 - 29'),
+	 ('DEN','Denver Nuggets',973,'2023-03-06','W','TOR',118,113,5,'53 - 29'),
+	 ('DEN','Denver Nuggets',949,'2023-03-03','W','MEM',113,97,16,'53 - 29'),
+	 ('DEN','Denver Nuggets',926,'2023-02-28','W','HOU',133,112,21,'53 - 29'),
+	 ('DEN','Denver Nuggets',913,'2023-02-26','W','LAC',134,124,10,'53 - 29');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('DEN','Denver Nuggets',904,'2023-02-25','L','MEM',94,112,-18,'53 - 29'),
+	 ('DEN','Denver Nuggets',886,'2023-02-23','W','CLE',115,109,6,'53 - 29'),
+	 ('DEN','Denver Nuggets',878,'2023-02-15','W','DAL',118,109,9,'53 - 29'),
+	 ('DEN','Denver Nuggets',861,'2023-02-13','W','MIA',112,108,4,'53 - 29'),
+	 ('DEN','Denver Nuggets',847,'2023-02-11','W','CHA',119,105,14,'53 - 29'),
+	 ('DEN','Denver Nuggets',832,'2023-02-09','L','ORL',104,115,-11,'53 - 29'),
+	 ('DEN','Denver Nuggets',818,'2023-02-07','W','MIN',146,112,34,'53 - 29'),
+	 ('DEN','Denver Nuggets',803,'2023-02-05','L','MIN',98,128,-30,'53 - 29'),
+	 ('DEN','Denver Nuggets',792,'2023-02-04','W','ATL',128,108,20,'53 - 29'),
+	 ('DEN','Denver Nuggets',780,'2023-02-02','W','GSW',134,117,17,'53 - 29');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('DEN','Denver Nuggets',767,'2023-01-31','W','NOP',122,113,9,'53 - 29'),
+	 ('DEN','Denver Nuggets',746,'2023-01-28','L','PHI',119,126,-7,'53 - 29'),
+	 ('DEN','Denver Nuggets',722,'2023-01-25','L','MIL',99,107,-8,'53 - 29'),
+	 ('DEN','Denver Nuggets',718,'2023-01-24','W','NOP',99,98,1,'53 - 29'),
+	 ('DEN','Denver Nuggets',701,'2023-01-22','L','OKC',99,101,-2,'53 - 29'),
+	 ('DEN','Denver Nuggets',687,'2023-01-20','W','IND',134,111,23,'53 - 29'),
+	 ('DEN','Denver Nuggets',672,'2023-01-18','W','MIN',122,118,4,'53 - 29'),
+	 ('DEN','Denver Nuggets',666,'2023-01-17','W','POR',122,113,9,'53 - 29'),
+	 ('DEN','Denver Nuggets',651,'2023-01-15','W','ORL',119,116,3,'53 - 29'),
+	 ('DEN','Denver Nuggets',634,'2023-01-13','W','LAC',115,103,12,'53 - 29');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('DEN','Denver Nuggets',621,'2023-01-11','W','PHX',126,97,29,'53 - 29'),
+	 ('DEN','Denver Nuggets',606,'2023-01-09','W','LAL',122,109,13,'53 - 29'),
+	 ('DEN','Denver Nuggets',584,'2023-01-06','W','CLE',121,108,13,'53 - 29'),
+	 ('DEN','Denver Nuggets',577,'2023-01-05','W','LAC',122,91,31,'53 - 29'),
+	 ('DEN','Denver Nuggets',555,'2023-01-02','L','MIN',111,124,-13,'53 - 29'),
+	 ('DEN','Denver Nuggets',547,'2023-01-01','W','BOS',123,111,12,'53 - 29'),
+	 ('DEN','Denver Nuggets',531,'2022-12-30','W','MIA',124,119,5,'53 - 29'),
+	 ('DEN','Denver Nuggets',517,'2022-12-28','L','SAC',126,127,-1,'53 - 29'),
+	 ('DEN','Denver Nuggets',509,'2022-12-27','W','SAC',113,106,7,'53 - 29'),
+	 ('DEN','Denver Nuggets',495,'2022-12-25','W','PHX',128,125,3,'53 - 29');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('DEN','Denver Nuggets',486,'2022-12-23','W','POR',120,107,13,'53 - 29'),
+	 ('DEN','Denver Nuggets',462,'2022-12-20','W','MEM',105,91,14,'53 - 29'),
+	 ('DEN','Denver Nuggets',447,'2022-12-18','W','CHA',119,115,4,'53 - 29'),
+	 ('DEN','Denver Nuggets',434,'2022-12-16','L','LAL',108,126,-18,'53 - 29'),
+	 ('DEN','Denver Nuggets',418,'2022-12-14','W','WAS',141,128,13,'53 - 29'),
+	 ('DEN','Denver Nuggets',391,'2022-12-10','W','UTA',115,110,5,'53 - 29'),
+	 ('DEN','Denver Nuggets',374,'2022-12-08','W','POR',121,120,1,'53 - 29'),
+	 ('DEN','Denver Nuggets',361,'2022-12-06','L','DAL',115,116,-1,'53 - 29'),
+	 ('DEN','Denver Nuggets',347,'2022-12-04','L','NOP',106,121,-15,'53 - 29'),
+	 ('DEN','Denver Nuggets',326,'2022-12-02','L','ATL',109,117,-8,'53 - 29');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('DEN','Denver Nuggets',317,'2022-11-30','W','HOU',120,100,20,'53 - 29'),
+	 ('DEN','Denver Nuggets',304,'2022-11-28','W','HOU',129,113,16,'53 - 29'),
+	 ('DEN','Denver Nuggets',278,'2022-11-25','W','LAC',114,104,10,'53 - 29'),
+	 ('DEN','Denver Nuggets',266,'2022-11-23','W','OKC',131,126,5,'53 - 29'),
+	 ('DEN','Denver Nuggets',257,'2022-11-22','L','DET',108,110,-2,'53 - 29'),
+	 ('DEN','Denver Nuggets',243,'2022-11-20','W','DAL',98,97,1,'53 - 29'),
+	 ('DEN','Denver Nuggets',227,'2022-11-18','L','DAL',99,127,-28,'53 - 29'),
+	 ('DEN','Denver Nuggets',216,'2022-11-16','L','NYK',103,106,-3,'53 - 29'),
+	 ('DEN','Denver Nuggets',193,'2022-11-13','W','CHI',126,103,23,'53 - 29'),
+	 ('DEN','Denver Nuggets',176,'2022-11-11','L','BOS',112,131,-19,'53 - 29');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('DEN','Denver Nuggets',166,'2022-11-09','W','IND',122,119,3,'53 - 29'),
+	 ('DEN','Denver Nuggets',150,'2022-11-07','W','SAS',115,109,6,'53 - 29'),
+	 ('DEN','Denver Nuggets',135,'2022-11-05','W','SAS',126,101,25,'53 - 29'),
+	 ('DEN','Denver Nuggets',118,'2022-11-03','W','OKC',122,110,12,'53 - 29'),
+	 ('DEN','Denver Nuggets',91,'2022-10-30','L','LAL',110,121,-11,'53 - 29'),
+	 ('DEN','Denver Nuggets',74,'2022-10-28','W','UTA',117,101,16,'53 - 29'),
+	 ('DEN','Denver Nuggets',61,'2022-10-26','W','LAL',110,99,11,'53 - 29'),
+	 ('DEN','Denver Nuggets',46,'2022-10-24','L','POR',110,135,-25,'53 - 29'),
+	 ('DEN','Denver Nuggets',31,'2022-10-22','W','OKC',122,117,5,'53 - 29'),
+	 ('DEN','Denver Nuggets',22,'2022-10-21','W','GSW',128,123,5,'53 - 29');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('DEN','Denver Nuggets',9,'2022-10-19','L','UTA',102,123,-21,'53 - 29'),
+	 ('MIL','Milwaukee Bucks',1275,'2023-04-26','L','MIA',126,128,-2,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1268,'2023-04-24','L','MIA',114,119,-5,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1262,'2023-04-22','L','MIA',99,121,-22,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1252,'2023-04-19','W','MIA',138,122,16,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1244,'2023-04-16','L','MIA',117,130,-13,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1229,'2023-04-09','L','TOR',105,121,-16,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1210,'2023-04-07','L','MEM',114,137,-23,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1192,'2023-04-05','W','CHI',105,92,13,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1186,'2023-04-04','W','WAS',140,128,12,'58 - 24');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('MIL','Milwaukee Bucks',1171,'2023-04-02','W','PHI',117,104,13,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1146,'2023-03-30','L','BOS',99,140,-41,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1140,'2023-03-29','W','IND',149,136,13,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1125,'2023-03-27','W','DET',126,117,9,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1109,'2023-03-25','L','DEN',106,129,-23,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1104,'2023-03-24','W','UTA',144,116,28,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1091,'2023-03-22','W','SAS',130,94,36,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1069,'2023-03-19','W','TOR',118,111,7,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1044,'2023-03-16','L','IND',123,139,-16,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1032,'2023-03-14','W','PHX',116,104,12,'58 - 24');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('MIL','Milwaukee Bucks',1026,'2023-03-13','W','SAC',133,124,9,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',1009,'2023-03-11','L','GSW',116,125,-9,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',992,'2023-03-09','W','BKN',118,113,5,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',983,'2023-03-07','W','ORL',134,123,11,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',968,'2023-03-05','W','WAS',117,111,6,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',958,'2023-03-04','L','PHI',130,133,-3,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',939,'2023-03-01','W','ORL',139,117,22,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',923,'2023-02-28','W','BKN',118,104,14,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',916,'2023-02-26','W','PHX',104,101,3,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',899,'2023-02-24','W','MIA',128,99,29,'58 - 24');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('MIL','Milwaukee Bucks',882,'2023-02-16','W','CHI',112,100,12,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',867,'2023-02-14','W','BOS',131,125,6,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',840,'2023-02-10','W','LAC',119,106,13,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',833,'2023-02-09','W','LAL',115,106,9,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',814,'2023-02-06','W','POR',127,108,19,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',800,'2023-02-04','W','MIA',123,115,8,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',782,'2023-02-02','W','LAC',106,105,1,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',764,'2023-01-31','W','CHA',124,115,9,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',755,'2023-01-29','W','NOP',135,110,25,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',738,'2023-01-27','W','IND',141,131,10,'58 - 24');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('MIL','Milwaukee Bucks',722,'2023-01-25','W','DEN',107,99,8,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',709,'2023-01-23','W','DET',150,130,20,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',694,'2023-01-21','L','CLE',102,114,-12,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',668,'2023-01-17','W','TOR',130,122,8,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',661,'2023-01-16','W','IND',132,119,13,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',646,'2023-01-14','L','MIA',95,111,-16,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',630,'2023-01-12','L','MIA',102,108,-6,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',618,'2023-01-11','W','ATL',114,105,9,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',608,'2023-01-09','W','NYK',111,107,4,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',582,'2023-01-06','L','CHA',109,138,-29,'58 - 24');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('MIL','Milwaukee Bucks',572,'2023-01-04','W','TOR',104,101,3,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',562,'2023-01-03','W','WAS',123,113,10,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',549,'2023-01-01','L','WAS',95,118,-23,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',533,'2022-12-30','W','MIN',123,114,9,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',516,'2022-12-28','L','CHI',113,119,-6,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',493,'2022-12-25','L','BOS',118,139,-21,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',480,'2022-12-23','L','BKN',100,118,-18,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',470,'2022-12-21','L','CLE',106,114,-8,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',458,'2022-12-19','W','NOP',128,119,9,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',443,'2022-12-17','W','UTA',123,97,26,'58 - 24');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('MIL','Milwaukee Bucks',426,'2022-12-15','L','MEM',101,142,-41,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',410,'2022-12-13','W','GSW',128,111,17,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',398,'2022-12-11','L','HOU',92,97,-5,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',380,'2022-12-09','W','DAL',106,105,1,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',373,'2022-12-07','W','SAC',126,113,13,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',359,'2022-12-05','W','ORL',109,102,7,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',337,'2022-12-03','W','CHA',105,96,9,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',334,'2022-12-02','L','LAL',129,133,-4,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',322,'2022-11-30','W','NYK',109,103,6,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',294,'2022-11-27','W','DAL',124,115,9,'58 - 24');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('MIL','Milwaukee Bucks',277,'2022-11-25','W','CLE',117,102,15,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',264,'2022-11-23','L','CHI',113,118,-5,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',254,'2022-11-21','W','POR',119,111,8,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',233,'2022-11-18','L','PHI',102,110,-8,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',214,'2022-11-16','W','CLE',113,98,15,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',199,'2022-11-14','L','ATL',106,121,-15,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',181,'2022-11-11','L','SAS',93,111,-18,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',170,'2022-11-09','W','OKC',136,132,4,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',144,'2022-11-07','L','ATL',98,117,-19,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',137,'2022-11-05','W','OKC',108,94,14,'58 - 24');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('MIL','Milwaukee Bucks',129,'2022-11-04','W','MIN',115,102,13,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',111,'2022-11-02','W','DET',116,91,25,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',99,'2022-10-31','W','DET',110,108,2,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',81,'2022-10-29','W','ATL',123,115,8,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',78,'2022-10-28','W','NYK',119,108,11,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',57,'2022-10-26','W','BKN',110,99,11,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',33,'2022-10-22','W','HOU',125,105,20,'58 - 24'),
+	 ('MIL','Milwaukee Bucks',16,'2022-10-20','W','PHI',90,88,2,'58 - 24'),
+	 ('LAC','Los Angeles Clippers',1271,'2023-04-25','L','PHX',130,136,-6,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1260,'2023-04-22','L','PHX',100,112,-12,'44 - 38');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('LAC','Los Angeles Clippers',1255,'2023-04-20','L','PHX',124,129,-5,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1249,'2023-04-18','L','PHX',109,123,-14,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1242,'2023-04-16','W','PHX',115,110,5,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1225,'2023-04-09','W','PHX',119,114,5,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1214,'2023-04-08','W','POR',136,125,11,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1195,'2023-04-05','W','LAL',125,118,7,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1162,'2023-04-01','L','NOP',114,122,-8,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1156,'2023-03-31','L','MEM',94,108,-14,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1141,'2023-03-29','W','MEM',141,132,9,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1122,'2023-03-27','W','CHI',124,112,12,'44 - 38');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('LAC','Los Angeles Clippers',1110,'2023-03-25','L','NOP',110,131,-21,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1095,'2023-03-23','W','OKC',127,105,22,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1080,'2023-03-21','L','OKC',100,101,-1,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1067,'2023-03-19','W','POR',117,102,15,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1060,'2023-03-18','L','ORL',108,113,-5,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1039,'2023-03-15','W','GSW',134,126,8,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',1010,'2023-03-11','W','NYK',106,95,11,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',990,'2023-03-08','W','TOR',108,100,8,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',967,'2023-03-05','W','MEM',135,129,6,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',951,'2023-03-03','L','SAC',127,128,-1,'44 - 38');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('LAC','Los Angeles Clippers',942,'2023-03-02','L','GSW',91,115,-24,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',928,'2023-02-28','L','MIN',101,108,-7,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',913,'2023-02-26','L','DEN',124,134,-10,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',898,'2023-02-24','L','SAC',175,176,-1,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',883,'2023-02-16','W','PHX',116,107,9,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',868,'2023-02-14','W','GSW',134,124,10,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',840,'2023-02-10','L','MIL',106,119,-13,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',824,'2023-02-08','L','DAL',104,110,-6,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',807,'2023-02-06','W','BKN',124,116,8,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',798,'2023-02-04','W','NYK',134,128,6,'44 - 38');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('LAC','Los Angeles Clippers',782,'2023-02-02','L','MIL',105,106,-1,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',765,'2023-01-31','W','CHI',108,103,5,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',753,'2023-01-29','L','CLE',99,122,-23,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',741,'2023-01-28','W','ATL',120,113,7,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',735,'2023-01-26','W','SAS',138,100,38,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',719,'2023-01-24','W','LAL',133,115,18,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',700,'2023-01-22','W','DAL',112,98,14,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',688,'2023-01-20','W','SAS',131,126,5,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',674,'2023-01-18','L','UTA',103,126,-23,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',667,'2023-01-17','L','PHI',110,120,-10,'44 - 38');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('LAC','Los Angeles Clippers',653,'2023-01-15','W','HOU',121,100,21,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',634,'2023-01-13','L','DEN',103,115,-12,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',613,'2023-01-10','W','DAL',113,101,12,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',596,'2023-01-08','L','ATL',108,112,-4,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',587,'2023-01-06','L','MIN',115,128,-13,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',577,'2023-01-05','L','DEN',91,122,-31,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',558,'2023-01-02','L','MIA',100,110,-10,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',543,'2022-12-31','L','IND',130,131,-1,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',523,'2022-12-29','L','BOS',110,116,-6,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',510,'2022-12-27','W','TOR',124,113,11,'44 - 38');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('LAC','Los Angeles Clippers',501,'2022-12-26','W','DET',142,131,11,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',488,'2022-12-23','L','PHI',114,119,-5,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',469,'2022-12-21','W','CHA',126,105,21,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',440,'2022-12-17','W','WAS',102,93,9,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',425,'2022-12-15','L','PHX',95,111,-16,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',420,'2022-12-14','W','MIN',99,88,11,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',404,'2022-12-12','W','BOS',113,93,20,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',392,'2022-12-10','W','WAS',114,107,7,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',376,'2022-12-08','L','MIA',110,115,-5,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',370,'2022-12-07','L','ORL',111,116,-5,'44 - 38');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('LAC','Los Angeles Clippers',354,'2022-12-05','W','CHA',119,117,2,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',340,'2022-12-03','L','SAC',96,123,-27,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',319,'2022-11-30','L','UTA',112,125,-13,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',311,'2022-11-29','W','POR',118,112,6,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',296,'2022-11-27','W','IND',114,100,14,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',278,'2022-11-25','L','DEN',104,114,-10,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',268,'2022-11-23','L','GSW',107,124,-17,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',252,'2022-11-21','W','UTA',121,114,7,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',237,'2022-11-19','W','SAS',119,97,22,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',222,'2022-11-17','W','DET',96,91,5,'44 - 38');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('LAC','Los Angeles Clippers',207,'2022-11-15','L','DAL',101,103,-2,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',204,'2022-11-14','W','HOU',122,106,16,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',185,'2022-11-12','L','BKN',95,110,-15,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',168,'2022-11-09','W','LAL',114,101,13,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',149,'2022-11-07','W','CLE',119,117,2,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',142,'2022-11-06','L','UTA',102,110,-8,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',127,'2022-11-04','W','SAS',113,106,7,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',112,'2022-11-02','W','HOU',109,101,8,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',100,'2022-10-31','W','HOU',95,93,2,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',94,'2022-10-30','L','NOP',91,112,-21,'44 - 38');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('LAC','Los Angeles Clippers',68,'2022-10-27','L','OKC',110,118,-8,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',55,'2022-10-25','L','OKC',94,108,-14,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',40,'2022-10-23','L','PHX',95,112,-17,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',34,'2022-10-22','W','SAC',111,109,2,'44 - 38'),
+	 ('LAC','Los Angeles Clippers',15,'2022-10-20','W','LAL',103,97,6,'44 - 38'),
+	 ('CHA','Charlotte Hornets',1218,'2023-04-09','W','CLE',106,95,11,'27 - 55'),
+	 ('CHA','Charlotte Hornets',1205,'2023-04-07','L','HOU',109,112,-3,'27 - 55'),
+	 ('CHA','Charlotte Hornets',1179,'2023-04-04','L','TOR',100,120,-20,'27 - 55'),
+	 ('CHA','Charlotte Hornets',1165,'2023-04-02','L','TOR',108,128,-20,'27 - 55'),
+	 ('CHA','Charlotte Hornets',1150,'2023-03-31','L','CHI',91,121,-30,'27 - 55');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('CHA','Charlotte Hornets',1132,'2023-03-28','W','OKC',137,134,3,'27 - 55'),
+	 ('CHA','Charlotte Hornets',1116,'2023-03-26','W','DAL',110,104,6,'27 - 55'),
+	 ('CHA','Charlotte Hornets',1098,'2023-03-24','W','DAL',117,109,8,'27 - 55'),
+	 ('CHA','Charlotte Hornets',1094,'2023-03-23','L','NOP',96,115,-19,'27 - 55'),
+	 ('CHA','Charlotte Hornets',1071,'2023-03-20','W','IND',115,109,6,'27 - 55'),
+	 ('CHA','Charlotte Hornets',1049,'2023-03-17','L','PHI',82,121,-39,'27 - 55'),
+	 ('CHA','Charlotte Hornets',1028,'2023-03-14','L','CLE',104,120,-16,'27 - 55'),
+	 ('CHA','Charlotte Hornets',1015,'2023-03-12','L','CLE',108,114,-6,'27 - 55'),
+	 ('CHA','Charlotte Hornets',1005,'2023-03-11','L','UTA',111,119,-8,'27 - 55'),
+	 ('CHA','Charlotte Hornets',993,'2023-03-09','W','DET',113,103,10,'27 - 55');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('CHA','Charlotte Hornets',978,'2023-03-07','W','NYK',112,105,7,'27 - 55'),
+	 ('CHA','Charlotte Hornets',961,'2023-03-05','L','BKN',86,102,-16,'27 - 55'),
+	 ('CHA','Charlotte Hornets',947,'2023-03-03','L','ORL',106,117,-11,'27 - 55'),
+	 ('CHA','Charlotte Hornets',934,'2023-03-01','L','PHX',91,105,-14,'27 - 55'),
+	 ('CHA','Charlotte Hornets',919,'2023-02-27','W','DET',117,106,11,'27 - 55'),
+	 ('CHA','Charlotte Hornets',903,'2023-02-25','W','MIA',108,103,5,'27 - 55'),
+	 ('CHA','Charlotte Hornets',896,'2023-02-24','W','MIN',121,113,8,'27 - 55'),
+	 ('CHA','Charlotte Hornets',875,'2023-02-15','W','SAS',120,110,10,'27 - 55'),
+	 ('CHA','Charlotte Hornets',856,'2023-02-13','W','ATL',144,138,6,'27 - 55'),
+	 ('CHA','Charlotte Hornets',847,'2023-02-11','L','DEN',105,119,-14,'27 - 55');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('CHA','Charlotte Hornets',834,'2023-02-10','L','BOS',116,127,-11,'27 - 55'),
+	 ('CHA','Charlotte Hornets',822,'2023-02-08','L','WAS',104,118,-14,'27 - 55'),
+	 ('CHA','Charlotte Hornets',801,'2023-02-05','L','ORL',113,119,-6,'27 - 55'),
+	 ('CHA','Charlotte Hornets',786,'2023-02-03','L','DET',112,118,-6,'27 - 55'),
+	 ('CHA','Charlotte Hornets',777,'2023-02-02','L','CHI',98,114,-16,'27 - 55'),
+	 ('CHA','Charlotte Hornets',764,'2023-01-31','L','MIL',115,124,-9,'27 - 55'),
+	 ('CHA','Charlotte Hornets',752,'2023-01-29','W','MIA',122,117,5,'27 - 55'),
+	 ('CHA','Charlotte Hornets',732,'2023-01-26','W','CHI',111,96,15,'27 - 55'),
+	 ('CHA','Charlotte Hornets',714,'2023-01-24','L','PHX',97,128,-31,'27 - 55'),
+	 ('CHA','Charlotte Hornets',708,'2023-01-23','L','UTA',102,120,-18,'27 - 55');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('CHA','Charlotte Hornets',692,'2023-01-21','W','ATL',122,118,4,'27 - 55'),
+	 ('CHA','Charlotte Hornets',670,'2023-01-18','W','HOU',122,117,5,'27 - 55'),
+	 ('CHA','Charlotte Hornets',657,'2023-01-16','L','BOS',118,130,-12,'27 - 55'),
+	 ('CHA','Charlotte Hornets',642,'2023-01-14','L','BOS',106,122,-16,'27 - 55'),
+	 ('CHA','Charlotte Hornets',627,'2023-01-12','L','TOR',114,124,-10,'27 - 55'),
+	 ('CHA','Charlotte Hornets',611,'2023-01-10','L','TOR',120,132,-12,'27 - 55'),
+	 ('CHA','Charlotte Hornets',598,'2023-01-08','L','IND',111,116,-5,'27 - 55'),
+	 ('CHA','Charlotte Hornets',582,'2023-01-06','W','MIL',138,109,29,'27 - 55'),
+	 ('CHA','Charlotte Hornets',566,'2023-01-04','L','MEM',107,131,-24,'27 - 55'),
+	 ('CHA','Charlotte Hornets',552,'2023-01-02','L','LAL',115,121,-6,'27 - 55');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('CHA','Charlotte Hornets',538,'2022-12-31','L','BKN',106,123,-17,'27 - 55'),
+	 ('CHA','Charlotte Hornets',524,'2022-12-29','W','OKC',121,113,8,'27 - 55'),
+	 ('CHA','Charlotte Hornets',507,'2022-12-27','L','GSW',105,110,-5,'27 - 55'),
+	 ('CHA','Charlotte Hornets',499,'2022-12-26','L','POR',113,124,-11,'27 - 55'),
+	 ('CHA','Charlotte Hornets',482,'2022-12-23','W','LAL',134,130,4,'27 - 55'),
+	 ('CHA','Charlotte Hornets',469,'2022-12-21','L','LAC',105,126,-21,'27 - 55'),
+	 ('CHA','Charlotte Hornets',453,'2022-12-19','W','SAC',125,119,6,'27 - 55'),
+	 ('CHA','Charlotte Hornets',447,'2022-12-18','L','DEN',115,119,-4,'27 - 55'),
+	 ('CHA','Charlotte Hornets',428,'2022-12-16','L','ATL',106,125,-19,'27 - 55'),
+	 ('CHA','Charlotte Hornets',415,'2022-12-14','L','DET',134,141,-7,'27 - 55');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('CHA','Charlotte Hornets',396,'2022-12-11','L','PHI',113,131,-18,'27 - 55'),
+	 ('CHA','Charlotte Hornets',378,'2022-12-09','L','NYK',102,121,-19,'27 - 55'),
+	 ('CHA','Charlotte Hornets',364,'2022-12-07','L','BKN',116,122,-6,'27 - 55'),
+	 ('CHA','Charlotte Hornets',354,'2022-12-05','L','LAC',117,119,-2,'27 - 55'),
+	 ('CHA','Charlotte Hornets',337,'2022-12-03','L','MIL',96,105,-9,'27 - 55'),
+	 ('CHA','Charlotte Hornets',329,'2022-12-02','W','WAS',117,116,1,'27 - 55'),
+	 ('CHA','Charlotte Hornets',301,'2022-11-28','L','BOS',105,140,-35,'27 - 55'),
+	 ('CHA','Charlotte Hornets',275,'2022-11-25','W','MIN',110,108,2,'27 - 55'),
+	 ('CHA','Charlotte Hornets',263,'2022-11-23','W','PHI',107,101,6,'27 - 55'),
+	 ('CHA','Charlotte Hornets',241,'2022-11-20','L','WAS',102,106,-4,'27 - 55');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('CHA','Charlotte Hornets',225,'2022-11-18','L','CLE',122,132,-10,'27 - 55'),
+	 ('CHA','Charlotte Hornets',212,'2022-11-16','L','IND',113,125,-12,'27 - 55'),
+	 ('CHA','Charlotte Hornets',201,'2022-11-14','W','ORL',112,105,7,'27 - 55'),
+	 ('CHA','Charlotte Hornets',187,'2022-11-12','L','MIA',115,132,-17,'27 - 55'),
+	 ('CHA','Charlotte Hornets',173,'2022-11-10','L','MIA',112,117,-5,'27 - 55'),
+	 ('CHA','Charlotte Hornets',162,'2022-11-09','L','POR',95,105,-10,'27 - 55'),
+	 ('CHA','Charlotte Hornets',147,'2022-11-07','L','WAS',100,108,-8,'27 - 55'),
+	 ('CHA','Charlotte Hornets',133,'2022-11-05','L','BKN',94,98,-4,'27 - 55'),
+	 ('CHA','Charlotte Hornets',122,'2022-11-04','L','MEM',99,130,-31,'27 - 55'),
+	 ('CHA','Charlotte Hornets',109,'2022-11-02','L','CHI',88,106,-18,'27 - 55');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('CHA','Charlotte Hornets',98,'2022-10-31','L','SAC',108,115,-7,'27 - 55'),
+	 ('CHA','Charlotte Hornets',83,'2022-10-29','W','GSW',120,113,7,'27 - 55'),
+	 ('CHA','Charlotte Hornets',72,'2022-10-28','L','ORL',93,113,-20,'27 - 55'),
+	 ('CHA','Charlotte Hornets',58,'2022-10-26','L','NYK',131,134,-3,'27 - 55'),
+	 ('CHA','Charlotte Hornets',37,'2022-10-23','W','ATL',126,109,17,'27 - 55'),
+	 ('CHA','Charlotte Hornets',20,'2022-10-21','L','NOP',112,124,-12,'27 - 55'),
+	 ('CHA','Charlotte Hornets',5,'2022-10-19','W','SAS',129,102,27,'27 - 55'),
+	 ('NOP','New Orleans Pelicans',1234,'2023-04-12','L','OKC',118,123,-5,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',1230,'2023-04-09','L','MIN',108,113,-5,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',1212,'2023-04-07','W','NYK',113,105,8,'42 - 40');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('NOP','New Orleans Pelicans',1196,'2023-04-05','W','MEM',138,131,7,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',1187,'2023-04-04','L','SAC',103,121,-18,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',1162,'2023-04-01','W','LAC',122,114,8,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',1147,'2023-03-30','W','DEN',107,88,19,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',1133,'2023-03-28','L','GSW',109,120,-11,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',1128,'2023-03-27','W','POR',124,90,34,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',1110,'2023-03-25','W','LAC',131,110,21,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',1094,'2023-03-23','W','CHA',115,96,19,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',1081,'2023-03-21','W','SAS',119,84,35,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',1066,'2023-03-19','W','HOU',117,107,10,'42 - 40');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('NOP','New Orleans Pelicans',1053,'2023-03-17','L','HOU',112,114,-2,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',1031,'2023-03-14','L','LAL',108,123,-15,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',1017,'2023-03-12','W','POR',127,110,17,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',1012,'2023-03-11','L','OKC',96,110,-14,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',989,'2023-03-08','W','DAL',113,106,7,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',976,'2023-03-06','L','SAC',108,123,-15,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',950,'2023-03-03','L','GSW',99,108,-9,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',940,'2023-03-01','W','POR',121,110,11,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',921,'2023-02-27','L','ORL',93,101,-8,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',907,'2023-02-25','L','NYK',106,128,-22,'42 - 40');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('NOP','New Orleans Pelicans',891,'2023-02-23','L','TOR',110,115,-5,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',880,'2023-02-15','L','LAL',102,120,-18,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',866,'2023-02-13','W','OKC',103,100,3,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',835,'2023-02-10','L','CLE',107,118,-11,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',815,'2023-02-07','W','ATL',116,107,9,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',805,'2023-02-05','W','SAC',136,104,32,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',799,'2023-02-04','W','LAL',131,126,5,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',779,'2023-02-02','L','DAL',106,111,-5,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',767,'2023-01-31','L','DEN',113,122,-9,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',755,'2023-01-29','L','MIL',110,135,-25,'42 - 40');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('NOP','New Orleans Pelicans',749,'2023-01-28','L','WAS',103,113,-10,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',727,'2023-01-25','L','MIN',102,111,-9,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',718,'2023-01-24','L','DEN',98,99,-1,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',704,'2023-01-22','L','MIA',96,100,-4,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',690,'2023-01-20','L','ORL',110,123,-13,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',676,'2023-01-18','L','MIA',98,124,-26,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',658,'2023-01-16','L','CLE',103,113,-10,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',635,'2023-01-13','W','DET',116,110,6,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',619,'2023-01-11','L','BOS',114,125,-11,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',609,'2023-01-09','W','WAS',132,112,20,'42 - 40');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('NOP','New Orleans Pelicans',593,'2023-01-07','L','DAL',117,127,-10,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',581,'2023-01-06','L','BKN',102,108,-6,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',569,'2023-01-04','W','HOU',119,108,11,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',559,'2023-01-02','L','PHI',111,120,-9,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',544,'2022-12-31','L','MEM',101,116,-15,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',534,'2022-12-30','W','PHI',127,116,11,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',521,'2022-12-28','W','MIN',119,118,1,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',502,'2022-12-26','W','IND',113,93,20,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',490,'2022-12-23','W','OKC',128,125,3,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',477,'2022-12-22','W','SAS',126,117,9,'42 - 40');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('NOP','New Orleans Pelicans',458,'2022-12-19','L','MIL',119,128,-9,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',444,'2022-12-17','L','PHX',114,118,-4,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',427,'2022-12-15','L','UTA',129,132,-3,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',412,'2022-12-13','L','UTA',100,121,-21,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',399,'2022-12-11','W','PHX',129,124,5,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',385,'2022-12-09','W','PHX',128,117,11,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',367,'2022-12-07','W','DET',104,98,6,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',347,'2022-12-04','W','DEN',121,106,15,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',336,'2022-12-02','W','SAS',117,99,18,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',323,'2022-11-30','W','TOR',126,108,18,'42 - 40');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('NOP','New Orleans Pelicans',307,'2022-11-28','W','OKC',105,101,4,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',282,'2022-11-25','L','MEM',111,132,-21,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',271,'2022-11-23','W','SAS',129,110,19,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',250,'2022-11-21','W','GSW',128,83,45,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',224,'2022-11-18','L','BOS',109,117,-8,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',213,'2022-11-16','W','CHI',124,110,14,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',208,'2022-11-15','W','MEM',113,102,11,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',189,'2022-11-12','W','HOU',119,106,13,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',175,'2022-11-10','L','POR',95,106,-11,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',163,'2022-11-09','W','CHI',115,111,4,'42 - 40');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('NOP','New Orleans Pelicans',154,'2022-11-07','L','IND',122,129,-7,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',132,'2022-11-05','L','ATL',121,124,-3,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',125,'2022-11-04','W','GSW',114,105,9,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',113,'2022-11-02','L','LAL',117,120,-3,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',94,'2022-10-30','W','LAC',112,91,21,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',79,'2022-10-28','L','PHX',111,124,-13,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',52,'2022-10-25','W','DAL',113,111,2,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',43,'2022-10-23','L','UTA',121,122,-1,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',20,'2022-10-21','W','CHA',124,112,12,'42 - 40'),
+	 ('NOP','New Orleans Pelicans',4,'2022-10-19','W','BKN',130,108,22,'42 - 40');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('SAS','San Antonio Spurs',1220,'2023-04-09','W','DAL',138,117,21,'22 - 60'),
+	 ('SAS','San Antonio Spurs',1215,'2023-04-08','L','MIN',131,151,-20,'22 - 60'),
+	 ('SAS','San Antonio Spurs',1201,'2023-04-06','W','POR',129,127,2,'22 - 60'),
+	 ('SAS','San Antonio Spurs',1188,'2023-04-04','L','PHX',94,115,-21,'22 - 60'),
+	 ('SAS','San Antonio Spurs',1175,'2023-04-02','W','SAC',142,134,8,'22 - 60'),
+	 ('SAS','San Antonio Spurs',1154,'2023-03-31','L','GSW',115,130,-15,'22 - 60'),
+	 ('SAS','San Antonio Spurs',1145,'2023-03-29','L','UTA',117,128,-11,'22 - 60'),
+	 ('SAS','San Antonio Spurs',1115,'2023-03-26','L','BOS',93,137,-44,'22 - 60'),
+	 ('SAS','San Antonio Spurs',1106,'2023-03-24','L','WAS',124,136,-12,'22 - 60'),
+	 ('SAS','San Antonio Spurs',1091,'2023-03-22','L','MIL',94,130,-36,'22 - 60');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('SAS','San Antonio Spurs',1081,'2023-03-21','L','NOP',84,119,-35,'22 - 60'),
+	 ('SAS','San Antonio Spurs',1063,'2023-03-19','W','ATL',126,118,8,'22 - 60'),
+	 ('SAS','San Antonio Spurs',1054,'2023-03-17','L','MEM',120,126,-6,'22 - 60'),
+	 ('SAS','San Antonio Spurs',1038,'2023-03-15','L','DAL',128,137,-9,'22 - 60'),
+	 ('SAS','San Antonio Spurs',1034,'2023-03-14','W','ORL',132,114,18,'22 - 60'),
+	 ('SAS','San Antonio Spurs',1018,'2023-03-12','L','OKC',90,102,-12,'22 - 60'),
+	 ('SAS','San Antonio Spurs',1001,'2023-03-10','W','DEN',128,120,8,'22 - 60'),
+	 ('SAS','San Antonio Spurs',966,'2023-03-05','L','HOU',110,142,-32,'22 - 60'),
+	 ('SAS','San Antonio Spurs',957,'2023-03-04','L','HOU',110,122,-12,'22 - 60'),
+	 ('SAS','San Antonio Spurs',943,'2023-03-02','W','IND',110,99,11,'22 - 60');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('SAS','San Antonio Spurs',931,'2023-02-28','W','UTA',102,94,8,'22 - 60'),
+	 ('SAS','San Antonio Spurs',908,'2023-02-25','L','UTA',102,118,-16,'22 - 60'),
+	 ('SAS','San Antonio Spurs',887,'2023-02-23','L','DAL',116,142,-26,'22 - 60'),
+	 ('SAS','San Antonio Spurs',875,'2023-02-15','L','CHA',110,120,-10,'22 - 60'),
+	 ('SAS','San Antonio Spurs',859,'2023-02-13','L','CLE',109,117,-8,'22 - 60'),
+	 ('SAS','San Antonio Spurs',845,'2023-02-11','L','ATL',106,125,-19,'22 - 60'),
+	 ('SAS','San Antonio Spurs',837,'2023-02-10','L','DET',131,138,-7,'22 - 60'),
+	 ('SAS','San Antonio Spurs',829,'2023-02-08','L','TOR',98,112,-14,'22 - 60'),
+	 ('SAS','San Antonio Spurs',809,'2023-02-06','L','CHI',104,128,-24,'22 - 60'),
+	 ('SAS','San Antonio Spurs',790,'2023-02-03','L','PHI',125,137,-12,'22 - 60');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('SAS','San Antonio Spurs',775,'2023-02-01','L','SAC',109,119,-10,'22 - 60'),
+	 ('SAS','San Antonio Spurs',763,'2023-01-30','L','WAS',106,127,-21,'22 - 60'),
+	 ('SAS','San Antonio Spurs',750,'2023-01-28','L','PHX',118,128,-10,'22 - 60'),
+	 ('SAS','San Antonio Spurs',735,'2023-01-26','L','LAC',100,138,-38,'22 - 60'),
+	 ('SAS','San Antonio Spurs',726,'2023-01-25','L','LAL',104,113,-9,'22 - 60'),
+	 ('SAS','San Antonio Spurs',712,'2023-01-23','L','POR',127,147,-20,'22 - 60'),
+	 ('SAS','San Antonio Spurs',688,'2023-01-20','L','LAC',126,131,-5,'22 - 60'),
+	 ('SAS','San Antonio Spurs',665,'2023-01-17','W','BKN',106,98,8,'22 - 60'),
+	 ('SAS','San Antonio Spurs',655,'2023-01-15','L','SAC',119,132,-13,'22 - 60'),
+	 ('SAS','San Antonio Spurs',636,'2023-01-13','L','GSW',113,144,-31,'22 - 60');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('SAS','San Antonio Spurs',625,'2023-01-11','L','MEM',129,135,-6,'22 - 60'),
+	 ('SAS','San Antonio Spurs',607,'2023-01-09','L','MEM',113,121,-8,'22 - 60'),
+	 ('SAS','San Antonio Spurs',591,'2023-01-07','L','BOS',116,121,-5,'22 - 60'),
+	 ('SAS','San Antonio Spurs',585,'2023-01-06','W','DET',121,109,12,'22 - 60'),
+	 ('SAS','San Antonio Spurs',574,'2023-01-04','L','NYK',114,117,-3,'22 - 60'),
+	 ('SAS','San Antonio Spurs',551,'2023-01-02','L','BKN',103,139,-36,'22 - 60'),
+	 ('SAS','San Antonio Spurs',540,'2022-12-31','L','DAL',125,126,-1,'22 - 60'),
+	 ('SAS','San Antonio Spurs',528,'2022-12-29','W','NYK',122,115,7,'22 - 60'),
+	 ('SAS','San Antonio Spurs',513,'2022-12-27','L','OKC',114,130,-16,'22 - 60'),
+	 ('SAS','San Antonio Spurs',504,'2022-12-26','W','UTA',126,122,4,'22 - 60');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('SAS','San Antonio Spurs',491,'2022-12-23','L','ORL',113,133,-20,'22 - 60'),
+	 ('SAS','San Antonio Spurs',477,'2022-12-22','L','NOP',117,126,-9,'22 - 60'),
+	 ('SAS','San Antonio Spurs',456,'2022-12-19','W','HOU',124,105,19,'22 - 60'),
+	 ('SAS','San Antonio Spurs',442,'2022-12-17','L','MIA',101,111,-10,'22 - 60'),
+	 ('SAS','San Antonio Spurs',422,'2022-12-14','L','POR',112,128,-16,'22 - 60'),
+	 ('SAS','San Antonio Spurs',405,'2022-12-12','W','CLE',112,111,1,'22 - 60'),
+	 ('SAS','San Antonio Spurs',393,'2022-12-10','W','MIA',115,111,4,'22 - 60'),
+	 ('SAS','San Antonio Spurs',375,'2022-12-08','W','HOU',118,109,9,'22 - 60'),
+	 ('SAS','San Antonio Spurs',351,'2022-12-04','L','PHX',95,133,-38,'22 - 60'),
+	 ('SAS','San Antonio Spurs',336,'2022-12-02','L','NOP',99,117,-18,'22 - 60');
+INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+	 ('SAS','San Antonio Spurs',324,'2022-11-30','L','OKC',111,119,-8,'22 - 60'),
+	 ('SAS','San Antonio Spurs',288,'2022-11-26','L','LAL',138,143,-5,'22 - 60'),
+	 ('SAS','San Antonio Spurs',281,'2022-11-25','L','LAL',94,105,-11,'22 - 60'),
+	 ('SAS','San Antonio Spurs',271,'2022-11-23','L','NOP',110,129,-19,'22 - 60'),
+	 ('SAS','San Antonio Spurs',246,'2022-11-20','L','LAL',92,123,-31,'22 - 60'),
+	 ('SAS','San Antonio Spurs',237,'2022-11-19','L','LAC',97,119,-22,'22 - 60'),
+	 ('SAS','San Antonio Spurs',223,'2022-11-17','L','SAC',112,130,-18,'22 - 60'),
+	 ('SAS','San Antonio Spurs',210,'2022-11-15','L','POR',110,117,-7,'22 - 60'),
+	 ('SAS','San Antonio Spurs',203,'2022-11-14','L','GSW',95,132,-37,'22 - 60'),
+	 ('SAS','San Antonio Spurs',181,'2022-11-11','W','MIL',111,93,18,'22 - 60');
 
 DROP TABLE IF EXISTS feature_flags;
 CREATE TABLE IF NOT EXISTS feature_flags
@@ -1552,6 +2257,130 @@ INSERT INTO team_ratings (team,team_acronym,w,l,ortg,drtg,nrtg,team_logo,nrtg_ra
 	 ('Houston Rockets','HOU',22,60,111.4,119.3,-7.9,'logos/hou.png','28th','29th','27th'),
 	 ('Detroit Pistons','DET',17,65,110.7,118.9,-8.2,'logos/det.png','29th','28th','28th'),
 	 ('San Antonio Spurs','SAS',22,60,110.2,120,-9.8,'logos/sas.png','30th','30th','29th');
+
+DROP TABLE IF EXISTS team_record_daily_rollup;
+CREATE TABLE IF NOT EXISTS team_record_daily_rollup (
+	team text NULL,
+	"date" date NULL,
+	conference text NULL,
+	running_total_games_played int8 NULL,
+	running_total_wins int8 NULL,
+	running_total_losses numeric NULL,
+	running_total_win_pct numeric NULL,
+	record_as_of_date text NULL,
+	"rank" text NULL
+);
+
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('BOS','2022-10-18','Eastern',1,1,0,1.000,'1-0','1st'),
+	 ('PHI','2022-10-18','Eastern',1,0,1,0.000,'0-1','2nd'),
+	 ('CHA','2022-10-19','Eastern',1,1,0,1.000,'1-0','1st'),
+	 ('BOS','2022-10-19','Eastern',1,1,0,1.000,'1-0','2nd'),
+	 ('DET','2022-10-19','Eastern',1,1,0,1.000,'1-0','3rd'),
+	 ('WAS','2022-10-19','Eastern',1,1,0,1.000,'1-0','4th'),
+	 ('TOR','2022-10-19','Eastern',1,1,0,1.000,'1-0','5th'),
+	 ('CHI','2022-10-19','Eastern',1,1,0,1.000,'1-0','6th'),
+	 ('ATL','2022-10-19','Eastern',1,1,0,1.000,'1-0','7th'),
+	 ('IND','2022-10-19','Eastern',1,0,1,0.000,'0-1','8th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('BKN','2022-10-19','Eastern',1,0,1,0.000,'0-1','9th'),
+	 ('PHI','2022-10-19','Eastern',1,0,1,0.000,'0-1','10th'),
+	 ('ORL','2022-10-19','Eastern',1,0,1,0.000,'0-1','11th'),
+	 ('CLE','2022-10-19','Eastern',1,0,1,0.000,'0-1','12th'),
+	 ('NYK','2022-10-19','Eastern',1,0,1,0.000,'0-1','13th'),
+	 ('MIA','2022-10-19','Eastern',1,0,1,0.000,'0-1','14th'),
+	 ('ATL','2022-10-20','Eastern',1,1,0,1.000,'1-0','1st'),
+	 ('WAS','2022-10-20','Eastern',1,1,0,1.000,'1-0','2nd'),
+	 ('MIL','2022-10-20','Eastern',1,1,0,1.000,'1-0','3rd'),
+	 ('CHA','2022-10-20','Eastern',1,1,0,1.000,'1-0','4th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('CHI','2022-10-20','Eastern',1,1,0,1.000,'1-0','5th'),
+	 ('TOR','2022-10-20','Eastern',1,1,0,1.000,'1-0','6th'),
+	 ('BOS','2022-10-20','Eastern',1,1,0,1.000,'1-0','7th'),
+	 ('DET','2022-10-20','Eastern',1,1,0,1.000,'1-0','8th'),
+	 ('PHI','2022-10-20','Eastern',2,0,2,0.000,'0-2','9th'),
+	 ('CLE','2022-10-20','Eastern',1,0,1,0.000,'0-1','10th'),
+	 ('MIA','2022-10-20','Eastern',1,0,1,0.000,'0-1','11th'),
+	 ('ORL','2022-10-20','Eastern',1,0,1,0.000,'0-1','12th'),
+	 ('BKN','2022-10-20','Eastern',1,0,1,0.000,'0-1','13th'),
+	 ('NYK','2022-10-20','Eastern',1,0,1,0.000,'0-1','14th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('IND','2022-10-20','Eastern',1,0,1,0.000,'0-1','15th'),
+	 ('ATL','2022-10-21','Eastern',2,2,0,1.000,'2-0','1st'),
+	 ('WAS','2022-10-21','Eastern',2,2,0,1.000,'2-0','2nd'),
+	 ('BOS','2022-10-21','Eastern',2,2,0,1.000,'2-0','3rd'),
+	 ('MIL','2022-10-21','Eastern',1,1,0,1.000,'1-0','4th'),
+	 ('DET','2022-10-21','Eastern',2,1,1,0.500,'1-1','5th'),
+	 ('BKN','2022-10-21','Eastern',2,1,1,0.500,'1-1','6th'),
+	 ('CHA','2022-10-21','Eastern',2,1,1,0.500,'1-1','7th'),
+	 ('TOR','2022-10-21','Eastern',2,1,1,0.500,'1-1','8th'),
+	 ('NYK','2022-10-21','Eastern',2,1,1,0.500,'1-1','9th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('CHI','2022-10-21','Eastern',2,1,1,0.500,'1-1','10th'),
+	 ('IND','2022-10-21','Eastern',2,0,2,0.000,'0-2','11th'),
+	 ('MIA','2022-10-21','Eastern',2,0,2,0.000,'0-2','12th'),
+	 ('CLE','2022-10-21','Eastern',1,0,1,0.000,'0-1','13th'),
+	 ('ORL','2022-10-21','Eastern',2,0,2,0.000,'0-2','14th'),
+	 ('PHI','2022-10-21','Eastern',2,0,2,0.000,'0-2','15th'),
+	 ('ATL','2022-10-22','Eastern',2,2,0,1.000,'2-0','1st'),
+	 ('BOS','2022-10-22','Eastern',3,3,0,1.000,'3-0','2nd'),
+	 ('WAS','2022-10-22','Eastern',2,2,0,1.000,'2-0','3rd'),
+	 ('MIL','2022-10-22','Eastern',2,2,0,1.000,'2-0','4th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('BKN','2022-10-22','Eastern',2,1,1,0.500,'1-1','5th'),
+	 ('CLE','2022-10-22','Eastern',2,1,1,0.500,'1-1','6th'),
+	 ('NYK','2022-10-22','Eastern',2,1,1,0.500,'1-1','7th'),
+	 ('CHA','2022-10-22','Eastern',2,1,1,0.500,'1-1','8th'),
+	 ('TOR','2022-10-22','Eastern',3,1,2,0.333,'1-2','9th'),
+	 ('IND','2022-10-22','Eastern',3,1,2,0.333,'1-2','10th'),
+	 ('MIA','2022-10-22','Eastern',3,1,2,0.333,'1-2','11th'),
+	 ('CHI','2022-10-22','Eastern',3,1,2,0.333,'1-2','12th'),
+	 ('DET','2022-10-22','Eastern',3,1,2,0.333,'1-2','13th'),
+	 ('PHI','2022-10-22','Eastern',3,0,3,0.000,'0-3','14th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('ORL','2022-10-22','Eastern',3,0,3,0.000,'0-3','15th'),
+	 ('BOS','2022-10-23','Eastern',3,3,0,1.000,'3-0','1st'),
+	 ('MIL','2022-10-23','Eastern',2,2,0,1.000,'2-0','2nd'),
+	 ('CLE','2022-10-23','Eastern',3,2,1,0.667,'2-1','3rd'),
+	 ('ATL','2022-10-23','Eastern',3,2,1,0.667,'2-1','4th'),
+	 ('WAS','2022-10-23','Eastern',3,2,1,0.667,'2-1','5th'),
+	 ('CHA','2022-10-23','Eastern',3,2,1,0.667,'2-1','6th'),
+	 ('BKN','2022-10-23','Eastern',2,1,1,0.500,'1-1','7th'),
+	 ('NYK','2022-10-23','Eastern',2,1,1,0.500,'1-1','8th'),
+	 ('CHI','2022-10-23','Eastern',3,1,2,0.333,'1-2','9th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('IND','2022-10-23','Eastern',3,1,2,0.333,'1-2','10th'),
+	 ('DET','2022-10-23','Eastern',3,1,2,0.333,'1-2','11th'),
+	 ('TOR','2022-10-23','Eastern',3,1,2,0.333,'1-2','12th'),
+	 ('MIA','2022-10-23','Eastern',3,1,2,0.333,'1-2','13th'),
+	 ('PHI','2022-10-23','Eastern',3,0,3,0.000,'0-3','14th'),
+	 ('ORL','2022-10-23','Eastern',3,0,3,0.000,'0-3','15th'),
+	 ('MIL','2022-10-24','Eastern',2,2,0,1.000,'2-0','1st'),
+	 ('BOS','2022-10-24','Eastern',4,3,1,0.750,'3-1','2nd'),
+	 ('WAS','2022-10-24','Eastern',3,2,1,0.667,'2-1','3rd'),
+	 ('NYK','2022-10-24','Eastern',3,2,1,0.667,'2-1','4th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('ATL','2022-10-24','Eastern',3,2,1,0.667,'2-1','5th'),
+	 ('CLE','2022-10-24','Eastern',3,2,1,0.667,'2-1','6th'),
+	 ('CHA','2022-10-24','Eastern',3,2,1,0.667,'2-1','7th'),
+	 ('CHI','2022-10-24','Eastern',4,2,2,0.500,'2-2','8th'),
+	 ('TOR','2022-10-24','Eastern',4,2,2,0.500,'2-2','9th'),
+	 ('DET','2022-10-24','Eastern',3,1,2,0.333,'1-2','10th'),
+	 ('BKN','2022-10-24','Eastern',3,1,2,0.333,'1-2','11th'),
+	 ('PHI','2022-10-24','Eastern',4,1,3,0.250,'1-3','12th'),
+	 ('MIA','2022-10-24','Eastern',4,1,3,0.250,'1-3','13th'),
+	 ('IND','2022-10-24','Eastern',4,1,3,0.250,'1-3','14th');
+INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games_played,running_total_wins,running_total_losses,running_total_win_pct,record_as_of_date,"rank") VALUES
+	 ('ORL','2022-10-24','Eastern',4,0,4,0.000,'0-4','15th'),
+	 ('MIL','2022-10-25','Eastern',2,2,0,1.000,'2-0','1st'),
+	 ('BOS','2022-10-25','Eastern',4,3,1,0.750,'3-1','2nd'),
+	 ('WAS','2022-10-25','Eastern',4,3,1,0.750,'3-1','3rd'),
+	 ('CLE','2022-10-25','Eastern',3,2,1,0.667,'2-1','4th'),
+	 ('CHA','2022-10-25','Eastern',3,2,1,0.667,'2-1','5th'),
+	 ('NYK','2022-10-25','Eastern',3,2,1,0.667,'2-1','6th'),
+	 ('ATL','2022-10-25','Eastern',3,2,1,0.667,'2-1','7th'),
+	 ('CHI','2022-10-25','Eastern',4,2,2,0.500,'2-2','8th'),
+	 ('TOR','2022-10-25','Eastern',4,2,2,0.500,'2-2','9th');
 
 DROP TABLE IF EXISTS ml_models.tonights_games_ml;
 CREATE TABLE IF NOT EXISTS ml_models.tonights_games_ml

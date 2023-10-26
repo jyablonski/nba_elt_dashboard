@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import yaml
 
@@ -46,7 +47,7 @@ def sql_connection(user: str, password: str, host: str, database: str, schema: s
         # defining schema to connect to
         echo=False,
     )
-    print(f"SQL Engine created for {schema}")
+    print(f"SQL Engine created for {schema} at {datetime.now()}")
     return connection
 
 
@@ -59,21 +60,21 @@ def get_data(
     if schema is None:
         df = pd.read_sql_query(
             sql=f""" 
-            select * \
-            from {table_name} \
+            select *
+            from {table_name}
             limit {limit_amount};""",
             con=conn,
         )
     else:
         df = pd.read_sql_query(
             sql=f"""
-                select * \
-                from {schema}.{table_name} \
+                select *
+                from {schema}.{table_name}
                 limit {limit_amount};""",
             con=conn,
         )
 
-    print(f"Grabbed {len(df)} Rows from {table_name}")
+    print(f"Grabbed {len(df)} Rows from {table_name} at {datetime.now()}")
     return df
 
 

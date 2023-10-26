@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nba-elt-dashboard"
-version = "0.0.1"
+version = "0.0.2"
 description = "NBA Dashboard Project"
 authors = ["jyablonski9 <jyablonski9@gmail.com>"]
 readme = "README.md"
@@ -14,21 +14,24 @@ pandas = "^2.1.1"
 pyyaml = "^6.0.1"
 dash-bootstrap-components = "^1.5.0"
 
+[tool.poetry.group.test]
+optional = true
 
-[tool.poetry.group.dev.dependencies]
+[tool.poetry.group.test.dependencies]
 pytest = "^7.4.2"
 
+[tool.poetry.group.dev]
+optional = true
 
-[tool.poetry.group.local_dev.dependencies]
+[tool.poetry.group.dev.dependencies]
 ipykernel = "^6.25.2"
 black = "^23.10.0"
 ruff = "^0.1.1"
+bump2version = "^1.0.1"
 
 
 [tool.pytest.ini_options]
-filterwarnings =[
-    "ignore::DeprecationWarning",
-]
+filterwarnings = ["ignore::DeprecationWarning"]
 testpaths = ["tests"]
 markers = [
     "wip: work in progress",
