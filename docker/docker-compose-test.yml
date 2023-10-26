@@ -6,7 +6,7 @@ services:
     ports:
      - 5432:5432
     environment:
-     - POSTGRES_USER=postgres
+     - POSTGRES_USER=nba_dashboard_user
      - POSTGRES_PASSWORD=postgres
      - POSTGRES_DB=postgres
     volumes:
@@ -14,21 +14,18 @@ services:
     networks: 
       - dashboard_network
 
-  dash_app:
+  dash_app_test_runner:
     build:
         context: ../
         dockerfile: docker/Dockerfile
-    image: nba_elt_dashboard_local
+    image: nba_elt_dashboard_local_test
     environment:
       - IP=postgres
-      - RDS_USER=postgres
+      - RDS_USER=nba_dashboard_user
       - RDS_PW=postgres
       - RDS_DB=postgres
       - RDS_SCHEMA=nba_prod
       - ENV_TYPE=docker_dev
-      - OTEL_EXPORTER_OTLP_ENDPOINT=https://api.honeycomb.io
-      - OTEL_EXPORTER_OTLP_HEADERS=x-honeycomb-team=bababooiee
-      - OTEL_SERVICE_NAME=nba-elt-dashboard-dev
     restart: always
     ports:
       - 9000:9000

@@ -20,6 +20,10 @@ test:
 docker-build:
 	docker build -f docker/Dockerfile -t nba_elt_dashboard_local .
 
+.PHONY: docker-build-test
+docker-build-test:
+	docker build -f docker/Dockerfile.test -t nba_elt_dashboard_local_test .
+
 .PHONY: docker-run
 docker-run:
 	docker run --rm python_docker_local
@@ -85,7 +89,7 @@ follow-logs:
 .PHONY: test
 test:
 	@docker compose -f docker/docker-compose-test.yml down
-	@docker compose -f docker/docker-compose-test.yml up --exit-code-from dash_app_runner
+	@docker compose -f docker/docker-compose-test.yml up --exit-code-from dash_app_test_runner
 
 .PHONY: lint
 lint:
