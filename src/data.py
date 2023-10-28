@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from src.database import get_data, engine
 
 team_names = [
@@ -96,6 +94,7 @@ source_tables = [
     "team_ratings",
     "transactions",
     "twitter_comments",
+    "ml_models.schedule_tonights_games",
     "ml_models.tonights_games_ml",
 ]
 
@@ -106,5 +105,3 @@ with engine.begin() as connection:
             globals()[f"{table_name}_df"] = get_data(table_name=table, conn=connection)
         else:
             globals()[f"{table}_df"] = get_data(table_name=table, conn=connection)
-
-    last_pulled_timestamp = datetime.now()

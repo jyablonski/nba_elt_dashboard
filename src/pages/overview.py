@@ -79,7 +79,15 @@ overview_layout = (
             ),
             html.Div(
                 [
-                    # Left side (Western Conference)
+                    html.Br(),
+                    html.Div(
+                        f"Last Updated {(bans_df['scrape_time'][0]).strftime('%A, %B %d %-I:%M %p UTC')}"
+                    ),
+                ]
+            ),
+            html.Div(
+                [
+                    html.Br(),
                     html.Div(
                         [
                             html.H1("Western Conference"),
@@ -174,21 +182,35 @@ overview_layout = (
                             contract_value_analysis_df,
                             x="salary",
                             y="player_mvp_calc_avg",
+                            labels={
+                                "salary": "Salary",
+                                "player_mvp_calc_avg": "Average MVP Score",
+                            },
                             color="color_var",
                             color_discrete_map={
                                 "Superstars": "purple",
                                 "Great Value": "green",
                                 "Normal": "gray",
                                 "Bad Value": "red",
-                            },  # Apply the custom color scale
-                            labels={
-                                "player": "Player",
-                                "team": "Team",
-                                "salary": "Salary",
-                                "player_mvp_calc_avg": "Player MVP Metric",
-                                "color_var": "Value Type",
                             },
-                            hover_name="player",
+                        ).update_traces(
+                            hoverlabel=dict(
+                                bgcolor="white", font_size=12, font_family="Rockwell"
+                            ),
+                            customdata=contract_value_analysis_df[
+                                [
+                                    "player",
+                                    "team",
+                                    "player_mvp_calc_avg",
+                                    "salary",
+                                    "color_var",
+                                ]
+                            ],
+                            hovertemplate="<b>%{customdata[0]}</b><br>"
+                            "%{customdata[1]}<br>"
+                            "<b>Average MVP Score:</b> %{customdata[2]}<br>"
+                            "<b>Salary:</b> $%{customdata[3]:.0f}<br>"
+                            "<b>Type:</b> %{customdata[4]}<br>",
                         ),
                     ),
                     dcc.Graph(
@@ -264,23 +286,40 @@ def update_graph(selected_season):
             filtered_df,
             x="season_avg_ppg",
             y="season_ts_percent",
+            labels={
+                "season_avg_ppg": "Average PPG",
+                "season_ts_percent": "Average TS%",
+            },
             color="top5_candidates",
             color_discrete_map={
                 "Top 5 MVP Candidate": "orange",
                 "Other": "grey",
             },
-            labels={
-                "player": "Player",
-                "team": "Team",
-                "season_avg_ppg": "Average PPG",
-                "season_ts_percent": "Average TS%",
-                "top5_candidates": "Type",
-            },
-            hover_name="player",
-            hover_data=["team", "season_ts_percent"],
         )
 
         fig.update_layout(legend_title_text="")
+
+        fig.update_traces(
+            marker=dict(
+                size=8,
+            ),
+            mode="markers",
+            hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+            customdata=filtered_df[
+                [
+                    "player",
+                    "team",
+                    "season_avg_ppg",
+                    "season_ts_percent",
+                    "top5_candidates",
+                ]
+            ],
+            hovertemplate="<b>%{customdata[0]}</b><br>"
+            "%{customdata[1]}<br>"
+            "<b>Average PPG:</b> %{customdata[2]}<br>"
+            "<b>Average TS%:</b> %{customdata[3]:.1%}<br>"
+            "<b>Type:</b> %{customdata[4]}",
+        )
 
         return fig
     else:
@@ -302,17 +341,3 @@ def update_graph(selected_season):
         fig.update_layout(legend_title_text="")
 
         return fig
-
-    # # Create a bar chart with Plotly Express
-    # fig = px.bar(
-    #     game_types_df,
-    #     x="game_type",
-    #     y="n",
-    #     text="explanation",  # Set text to display on hover (custom tooltip)
-    #     labels={"n": "Count", "game_type": "Type"},  # Rename the y-axis label
-    # )
-
-    # # Customize the tooltip display
-    # fig.update_traces(texttemplate="%{text}", textposition="outside")
-
-    # return fig

@@ -1,5 +1,4 @@
 from dash import callback, dash_table, dcc, html
-import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import plotly.express as px
 
@@ -10,8 +9,6 @@ from src.data import (
     social_media_aggs_df,
     team_names_abbreviations,
 )
-from src.utils import generate_card
-
 
 social_media_analysis_layout = html.Div(
     [
@@ -90,6 +87,7 @@ social_media_analysis_layout = html.Div(
             className="kpi-container",
             style={"display": "flex", "justify-content": "space-between"},
         ),
+        html.Br(),
         html.Div(
             [
                 dash_table.DataTable(
@@ -139,34 +137,34 @@ social_media_analysis_layout = html.Div(
                 ),
             ]
         ),
-        html.Div(
-            [
-                html.H1("Card Component", className="text-center"),
-                dbc.Row(
-                    [
-                        generate_card(
-                            name="John Doe",
-                            description="Business Owner",
-                            kpi_value=2,
-                            color="green",
-                        ),
-                        generate_card(
-                            name="John Doe2",
-                            description="Business Owner2",
-                            kpi_value=3,
-                            color="green",
-                        ),
-                        generate_card(
-                            name="John Doe3",
-                            description="Business Owner3",
-                            kpi_value=1123 - 1414,
-                            color="green",
-                        ),
-                    ],
-                    className="cards justify-content-center",
-                ),
-            ]
-        ),
+        # html.Div(
+        #     [
+        #         html.H1("Card Component", className="text-center"),
+        #         dbc.Row(
+        #             [
+        #                 generate_card(
+        #                     name="John Doe",
+        #                     description="Business Owner",
+        #                     kpi_value=2,
+        #                     color="green",
+        #                 ),
+        #                 generate_card(
+        #                     name="John Doe2",
+        #                     description="Business Owner2",
+        #                     kpi_value=3,
+        #                     color="green",
+        #                 ),
+        #                 generate_card(
+        #                     name="John Doe3",
+        #                     description="Business Owner3",
+        #                     kpi_value=1123 - 1414,
+        #                     color="green",
+        #                 ),
+        #             ],
+        #             className="cards justify-content-center",
+        #         ),
+        #     ]
+        # ),
     ],
     className="custom-padding",
 )
@@ -196,6 +194,18 @@ def update_reddit_team_sentiment(selected_team):
         },
     )
 
-    fig.update_traces(texttemplate="%{text}", textposition="outside")
+    fig.update_traces(
+        hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+        customdata=filtered_team_sentiment[
+            [
+                "scrape_date",
+                "num_comments",
+                "game_outcome",
+            ]
+        ],
+        hovertemplate="<b>%{customdata[0]}</b><br>"
+        "<b>Total Comments:</b> %{customdata[1]}<br>"
+        "<b>Game Outcome:</b> %{customdata[2]}<br>",
+    )
 
     return fig

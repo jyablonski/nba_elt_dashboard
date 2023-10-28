@@ -1,8 +1,7 @@
 .custom-padding {
     padding-left: 15px;
     padding-right: 15px;
-    background-color: #0f1218;
-    ;
+    /* background-color: #0f1218; */
 }
 
 .player-headshot-container {
@@ -51,4 +50,9 @@
 
 .cards {
     margin-top: 3rem;
+}
+
+img[src*="/nba"] {
+    width: 150px;
+    height: 100px;
 }

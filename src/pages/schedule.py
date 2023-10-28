@@ -1,25 +1,17 @@
-from datetime import datetime
-
 from dash import callback, dash_table, dcc, html
 from dash.dependencies import Input, Output
 import plotly.express as px
 
-from src.data_cols.ml_predictions import ml_predictions_columns
 from src.data_cols.schedule import schedule_columns
 from src.data import (
     game_types_df,
     past_schedule_analysis_df,
     preseason_odds_df,
     schedule_df,
+    schedule_tonights_games_df,
     team_blown_leads_df,
-    tonights_games_ml_df,
 )
-from src.utils import calculate_prediction_value
 
-tonights_games_ml_df = tonights_games_ml_df[
-    tonights_games_ml_df["proper_date"] == datetime.now().date()
-]
-# tonights_games_ml_df2 = calculate_prediction_value(df=tonights_games_ml_df)
 past_schedule_analysis_df = past_schedule_analysis_df.sort_values(
     by="pct_vs_below_500", ascending=True
 )
@@ -29,7 +21,7 @@ preseason_odds_df = preseason_odds_df.sort_values(
 )
 
 team_blown_leads_df = team_blown_leads_df.query(
-    f"season_type == 'Regular Season'"
+    "season_type == 'Regular Season'"
 ).sort_values(by="net_comebacks", ascending=True)
 
 
@@ -51,16 +43,23 @@ schedule_layout = html.Div(
                     ],
                     value="tonights-games",
                     clearable=False,
+                    style={
+                        "width": "300px",
+                    },
                 ),
-                html.Div(id="schedule-table"),
-            ],
-            style={
-                "width": "98%",
-                "display": "inline-block",
-            },
+                html.Br(),
+                html.Div(
+                    id="schedule-table",
+                    style={
+                        "width": "98%",
+                        "display": "inline-block",
+                    },
+                ),
+            ]
         ),
         html.Div(
             [
+                html.Br(),
                 html.Div(
                     dcc.Dropdown(
                         id="schedule-plot-selector",
@@ -80,8 +79,11 @@ schedule_layout = html.Div(
                         ],
                         value="strength-of-schedule",
                         clearable=False,
-                        style={"width": "350px"},
+                        style={
+                            "width": "350px",
+                        },
                     ),
+                    style={"display": "flex", "justify-content": "flex-end"},
                 ),
                 dcc.Graph(
                     id="game-types-plot",
@@ -106,27 +108,28 @@ def update_schedule_table(selected_value):
     if selected_value == "tonights-games":
         return (
             dash_table.DataTable(
-                columns=ml_predictions_columns,
-                data=tonights_games_ml_df.to_dict("records"),
-                # hidden_columns=[
-                #     "active_protocols",
-                #     "conference",
-                #     "team",
-                # ],
+                columns=schedule_columns,
+                data=schedule_tonights_games_df.to_dict("records"),
                 css=[{"selector": ".show-hide", "rule": "display: none"}],
                 sort_action="native",
                 page_size=15,
-                # style_data_conditional=[
-                #     {
-                #         "if": {
-                #             "filter_query": "{{Home Team}} = {}".format(
-                #                 tonights_games_ml_df["home_team"]
-                #             ),
-                #         },
-                #         "backgroundColor": "#FF4136",
-                #         "color": "white",
-                #     },
-                # ],
+                merge_duplicate_headers=True,
+                style_data_conditional=[
+                    {
+                        "if": {
+                            "filter_query": "{home_is_great_value} = 1",
+                            "column_id": "home_team_odds",
+                        },
+                        "backgroundColor": "green",
+                    },
+                    {
+                        "if": {
+                            "filter_query": "{away_is_great_value} = 1",
+                            "column_id": "away_team_odds",
+                        },
+                        "backgroundColor": "green",
+                    },
+                ],
             ),
         )
     elif selected_value == "future-schedule":
@@ -153,7 +156,8 @@ def update_game_types_plot(hoverData):
         x="game_type",
         y="n",
         text="explanation",
-        labels={"n": "Count", "game_type": "Type"},
+        labels={"n": "Count", "game_type": "Type", "explanation": "Explanation"},
+        hover_name="game_type",
     )
 
     # Customize the tooltip display
@@ -173,6 +177,8 @@ def update_schedule_plot(selected_schedule_plot):
             x="pct_vs_below_500",
             y="team",
             text="team",
+            labels={"team": "Team", "pct_vs_below_500": "% Games Below .500 Teams"},
+            hover_name="team",
         )
 
         # Customize the tooltip display
@@ -186,7 +192,9 @@ def update_schedule_plot(selected_schedule_plot):
             y="team",
             text="team",
             color="wins_differential",
-            color_discrete_map={True: "lightblue", False: "red"},
+            color_continuous_scale="RdYlGn",
+            labels={"team": "Team", "wins_differential": "Wins Differential"},
+            hover_name="team",
         )
 
         # Customize the tooltip display
@@ -200,7 +208,9 @@ def update_schedule_plot(selected_schedule_plot):
             y="team",
             text="team",
             color="net_comebacks",
-            color_discrete_map={True: "lightblue", False: "red"},
+            color_continuous_scale="RdYlGn",
+            labels={"team": "Team", "net_comebacks": "Net Comebacks"},
+            hover_name="team",
         )
 
         # Customize the tooltip display

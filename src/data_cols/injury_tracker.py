@@ -4,7 +4,7 @@ injury_tracker_columns = [
     dict(id="player_logo", name="", presentation="markdown"),
     dict(
         id="player",
-        name="Player",
+        name="",
         presentation="markdown",
     ),
     dict(id="status", name="Status"),

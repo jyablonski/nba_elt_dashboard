@@ -1184,6 +1184,37 @@ INSERT INTO schedule (date, day, avg_team_rank, start_time, home_team, away_team
 VALUES (current_date, 'Monday', 16, '7:00 PM', 'Indiana Pacers', 'New York Knicks', 300, -365),
        (current_date, 'Monday', 20, '7:00 PM', 'New York Knicks', 'Indiana Pacers', -365, 300);
 
+DROP TABLE IF EXISTS ml_models.schedule_tonights_games;
+CREATE TABLE IF NOT EXISTS ml_models.schedule_tonights_games(
+	home_team text NULL,
+	away_team text NULL,
+	home_team_odds text NULL,
+	away_team_odds text NULL,
+	start_time text NULL,
+	proper_date date NULL,
+	avg_team_rank numeric NULL,
+	home_moneyline float8 NULL,
+	away_moneyline float8 NULL,
+	home_team_predicted_win_pct float8 NULL,
+	away_team_predicted_win_pct float8 NULL,
+	home_is_great_value int4 NULL,
+	away_is_great_value int4 NULL
+);
+
+INSERT INTO ml_models.schedule_tonights_games (home_team,away_team,home_team_odds,away_team_odds,start_time,proper_date,avg_team_rank,home_moneyline,away_moneyline,home_team_predicted_win_pct,away_team_predicted_win_pct,home_is_great_value,away_is_great_value) VALUES
+	 ('Charlotte Hornets','Detroit Pistons','Charlotte Hornets (-170)','Detroit Pistons (+140)','7:00 PM','2023-10-27',6,-170.0,140.0,0.876,0.124,0,0),
+	 ('Memphis Grizzlies','Denver Nuggets','Memphis Grizzlies (+165)','Denver Nuggets (-200)','7:00 PM','2023-10-27',4,165.0,-200.0,0.198,0.802,1,0),
+	 ('Cleveland Cavaliers','Oklahoma City Thunder','Cleveland Cavaliers (-160)','Oklahoma City Thunder (+130)','7:30 PM','2023-10-27',16,-160.0,130.0,0.597,0.403,0,0),
+	 ('Boston Celtics','Miami Heat','Boston Celtics (-325)','Miami Heat (+250)','7:30 PM','2023-10-27',12.5,-325.0,250.0,0.487,0.513,0,1),
+	 ('Atlanta Hawks','New York Knicks','Atlanta Hawks (-125)','New York Knicks (+105)','7:30 PM','2023-10-27',4.5,-125.0,105.0,0.531,0.469,1,0),
+	 ('Chicago Bulls','Toronto Raptors','Chicago Bulls (-140)','Toronto Raptors (+115)','8:00 PM','2023-10-27',23.5,-140.0,115.0,0.111,0.889,0,1),
+	 ('San Antonio Spurs','Houston Rockets','San Antonio Spurs (-130)','Houston Rockets (+110)','8:00 PM','2023-10-27',21,-130.0,110.0,0.284,0.716,0,1),
+	 ('Dallas Mavericks','Brooklyn Nets','Dallas Mavericks (-240)','Brooklyn Nets (+190)','8:30 PM','2023-10-27',3.5,-240.0,190.0,0.878,0.122,0,0),
+	 ('Utah Jazz','Los Angeles Clippers','Utah Jazz (+130)','Los Angeles Clippers (-152)','9:30 PM','2023-10-27',9,130.0,-152.0,0.158,0.842,0,0),
+	 ('Sacramento Kings','Golden State Warriors','Sacramento Kings (-160)','Golden State Warriors (+130)','10:00 PM','2023-10-27',11,-160.0,130.0,0.779,0.221,1,0);
+INSERT INTO ml_models.schedule_tonights_games (home_team,away_team,home_team_odds,away_team_odds,start_time,proper_date,avg_team_rank,home_moneyline,away_moneyline,home_team_predicted_win_pct,away_team_predicted_win_pct,home_is_great_value,away_is_great_value) VALUES
+	 ('Portland Trail Blazers','Orlando Magic','Portland Trail Blazers (+115)','Orlando Magic (-140)','10:00 PM','2023-10-27',13,115.0,-140.0,0.332,0.668,0,0);
+
 DROP TABLE IF EXISTS social_media_aggs;
 CREATE TABLE IF NOT EXISTS social_media_aggs
 (

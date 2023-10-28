@@ -4,25 +4,6 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 
 
-def calculate_prediction_value(df: pd.DataFrame):
-    """ """
-    df["home_is_great_value"] = (
-        (df["home_moneyline_raw"].ge(-130) | df["home_moneyline_raw"].ge(200))
-        & (df["home_team_predicted_win_pct"] >= 0.55)
-        | (df["home_moneyline_raw"] >= 170)
-        & (df["home_team_predicted_win_pct"] >= 0.50)
-    ).astype(int)
-
-    df["away_is_great_value"] = (
-        (df["away_moneyline_raw"].ge(-130) | df["away_moneyline_raw"].ge(200))
-        & (df["away_team_predicted_win_pct"] >= 0.55)
-        | (df["away_moneyline_raw"] >= 170)
-        & (df["away_team_predicted_win_pct"] >= 0.50)
-    ).astype(int)
-
-    return df
-
-
 def pbp_transformer(df: pd.DataFrame):
     """
     *** WARNING ***
@@ -38,7 +19,7 @@ def pbp_transformer(df: pd.DataFrame):
     Returns:
         Pandas DataFrame of pbp Data for the Line Chart in Recent Games Tab
     """
-    print(f"Running PBP Transformer")
+    print("Running PBP Transformer")
 
     # Define a function for handling missing values
     def replace_na(series, value):

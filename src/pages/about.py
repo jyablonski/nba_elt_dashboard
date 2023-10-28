@@ -1,7 +1,5 @@
 from dash import html
 
-from src.data import last_pulled_timestamp
-
 about_layout = html.Div(
     [
         html.Link(
@@ -50,6 +48,12 @@ about_layout = html.Div(
             [
                 html.Li(
                     html.A(
+                        "Dashboard",
+                        href="https://github.com/jyablonski/nba_elt_dashboard",
+                    )
+                ),
+                html.Li(
+                    html.A(
                         "Ingestion Script",
                         href="https://github.com/jyablonski/python_docker",
                     )
@@ -62,8 +66,8 @@ about_layout = html.Div(
                 ),
                 html.Li(
                     html.A(
-                        "Terraform",
-                        href="https://github.com/jyablonski/aws_terraform",
+                        "ML Pipeline",
+                        href="https://github.com/jyablonski/nba_elt_mlflow",
                     ),
                 ),
                 html.Li(
@@ -74,14 +78,14 @@ about_layout = html.Div(
                 ),
                 html.Li(
                     html.A(
-                        "ML Pipeline",
-                        href="https://github.com/jyablonski/nba_elt_mlflow",
+                        "Airflow Proof of Concept",
+                        href="https://github.com/jyablonski/nba_elt_airflow",
                     ),
                 ),
                 html.Li(
                     html.A(
-                        "Airflow Proof of Concept",
-                        href="https://github.com/jyablonski/nba_elt_airflow",
+                        "Terraform",
+                        href="https://github.com/jyablonski/aws_terraform",
                     ),
                 ),
             ]
@@ -102,14 +106,10 @@ about_layout = html.Div(
                 ),
                 html.Br(),
                 html.Br(),
-                html.A(
-                    html.Img(src="../assets/edshot.png", height="150px"),
-                    href="https://github.com/jyablonski",
-                ),
+                html.A(html.Img(src="../assets/edshot.png", height="150px")),
             ]
         ),
         html.Br(),
-        html.P(f"Test: {last_pulled_timestamp}"),
         html.P("Version: 0.0.2"),
     ],
     className="custom-padding",

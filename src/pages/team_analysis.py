@@ -15,6 +15,7 @@ from src.data import (
 
 team_analysis_layout = html.Div(
     [
+        html.Br(),
         html.Div(
             [
                 html.Div(
@@ -78,12 +79,30 @@ def update_mov(selected_team):
         filtered_df,
         x="date",
         y="mov",
-        text="team",
         color="outcome",
-        labels={"date": "Date", "mov": "Margin of Victory"},
+        labels={
+            "date": "Date",
+            "opponent": "Opponent",
+            "mov": "Margin of Victory",
+            "outcome": "Outcome",
+        },
+        hover_name="date",
     )
 
-    fig.update_traces(texttemplate="%{text}", textposition="outside")
+    fig.update_traces(
+        hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+        customdata=filtered_df[
+            [
+                "date",
+                "opponent",
+                "mov",
+                "outcome",
+            ]
+        ],
+        hovertemplate="<b>%{customdata[0]}</b> vs <b>%{customdata[1]}</b><br>"
+        "<b>Margin of Victory:</b> %{customdata[2]}<br>"
+        "<b>Outcome:</b> %{customdata[3]}<br>",
+    )
 
     return fig
 
@@ -101,7 +120,22 @@ def update_team_player_efficiency(selected_team):
         color="top5_candidates",
         text="player",
         labels={"season_avg_ppg": "Season Avg PPG", "season_ts_percent": "Season TS%"},
-        hover_name="player",
+    )
+
+    fig.update_traces(
+        hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+        customdata=team_player_efficiency[
+            [
+                "player",
+                "season_avg_ppg",
+                "season_ts_percent",
+                "top5_candidates",
+            ]
+        ],
+        hovertemplate="<b>%{customdata[0]}</b><br>"
+        "<b>Average PPG:</b> %{customdata[1]}<br>"
+        "<b>Average TS%:</b> %{customdata[2]:.1%}<br>"
+        "<b>Type:</b> %{customdata[3]}<br>",
     )
 
     return fig

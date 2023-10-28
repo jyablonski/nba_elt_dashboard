@@ -20,6 +20,35 @@ recent_games_layout = html.Div(
     [
         html.Div(
             [
+                html.Br(),
+                html.Div(
+                    [
+                        dcc.Dropdown(
+                            id="game-selector",
+                            options=[
+                                {"label": game, "value": game}
+                                for game in yesterdays_games
+                            ],
+                            clearable=False,
+                            value=yesterdays_games[0],
+                        ),
+                    ],
+                    style={"width": "25%", "float": "left"},
+                ),
+                html.Div(
+                    [
+                        dcc.Graph(
+                            id="pbp-analysis-plot",
+                            config={"displayModeBar": False},
+                        ),
+                    ],
+                    style={"width": "99%", "float": "left"},
+                ),
+            ]
+        ),
+        html.Div(
+            [
+                html.Br(),
                 html.Div(
                     [
                         dash_table.DataTable(
@@ -28,14 +57,22 @@ recent_games_layout = html.Div(
                             data=recent_games_players_df.to_dict("records"),
                             css=[{"selector": ".show-hide", "rule": "display: none"}],
                             sort_action="native",
+                            # style_table={"maxWidth": "100px"},
                             page_size=15,
                             style_cell_conditional=[
-                                {"if": {"column_id": "player_logo"}, "width": "8%"},
+                                {"if": {"column_id": "player_logo"}, "width": "50%"},
                                 {"if": {"column_id": "player"}, "width": "16%"},
                                 {"if": {"column_id": "outcome"}, "width": "2%"},
                                 {"if": {"column_id": "salary"}, "width": "4%"},
                                 {"if": {"column_id": "pts"}, "width": "4%"},
                                 {"if": {"column_id": "game_ts_percent"}, "width": "4%"},
+                            ],
+                            style_data_conditional=[
+                                {
+                                    "if": {"column_id": "player_logo"},
+                                    "width": "50px",
+                                    "white-space": "normal",  # Allow the image to resize within the cell
+                                },
                             ],
                         ),
                     ],
@@ -63,50 +100,15 @@ recent_games_layout = html.Div(
                 ),
                 html.Div(
                     [
-                        html.H1("Eastern Conference"),
+                        html.H1("Injury Report"),
                         dash_table.DataTable(
                             id="injury-tracker-table",
                             columns=injury_tracker_columns,
                             data=injury_tracker_df.to_dict("records"),
-                            # hidden_columns=[
-                            #     "active_protocols",
-                            #     "conference",
-                            #     "team",
-                            # ],
                             css=[{"selector": ".show-hide", "rule": "display: none"}],
-                            style_data_conditional=[
-                                {"if": {"column_id": "player"}, "textAlign": "left"}
-                            ],
                         ),
                     ],
                     style={"width": "32%", "display": "inline-block"},
-                ),
-            ]
-        ),
-        html.Div(
-            [
-                html.Div(
-                    [
-                        dcc.Dropdown(
-                            id="game-selector",
-                            options=[
-                                {"label": game, "value": game}
-                                for game in yesterdays_games
-                            ],
-                            clearable=False,
-                            value=yesterdays_games[0],
-                        ),
-                    ],
-                    style={"width": "25%", "float": "left"},
-                ),
-                html.Div(
-                    [
-                        dcc.Graph(
-                            id="pbp-analysis-plot",
-                            config={"displayModeBar": False},
-                        ),
-                    ],
-                    style={"width": "85%", "float": "left"},
                 ),
             ]
         ),
@@ -121,7 +123,8 @@ recent_games_layout = html.Div(
 )
 def render_images(data):
     for row in data:
-        row["player_logo"] = f'![Player Logo]({row["player_logo"]})'
+        row["player_logo"] = f'![Missing Image]({row["player_logo"]})'
+
     return data
 
 
@@ -131,7 +134,8 @@ def render_images(data):
 )
 def render_images_injuries(data):
     for row in data:
-        row["player_logo"] = f'![Player Logo]({row["player_logo"]})'
+        row["player_logo"] = f'![Missing Image]({row["player_logo"]})'
+
     return data
 
 
@@ -144,19 +148,50 @@ def update_data_table(selected_value):
         x="time_remaining_final",
         y="margin_score",
         labels={
-            "time_remaining_final": "Quarter",
             "margin_score": "Score Differential",
+            "time_remaining_final": "",
         },
-        title="Score Differential by Quarter",
+        title="Game Plot",
         hover_name="scoring_team",
     ).update_traces(
         marker=dict(
-            color=filtered_pbp[
-                "scoring_team_color"
-            ],  # Color based on 'scoring_team_color'
-            size=8,  # Adjust the size of the markers as needed
+            color=filtered_pbp["scoring_team_color"],
+            size=8,
         ),
         mode="markers+lines",  # Combine markers and lines
+        hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+        customdata=filtered_pbp[
+            [
+                "play",
+                "time_quarter",
+                "quarter",
+                "leading_team_text",
+                "score",
+            ]
+        ],
+        hovertemplate="<b>Timestamp:</b> %{customdata[1]} in the %{customdata[2]}<br>"
+        "<b>Scoring Team:</b> %{hovertext} (%{customdata[3]} %{customdata[4]})<br>"
+        "<b>Play:</b> %{customdata[0]}<br>",
     )
 
+    # yeeeahhh mfer
+    figure.update_xaxes(
+        autorange="reversed",
+        ticktext=[
+            "1st Quarter",
+            "2nd Quarter",
+            "3rd Quarter",
+            "4th Quarter",
+            "End of 4th Quarter",
+            "1st OT",
+            "2nd OT",
+            "3rd OT",
+            "4th OT",
+        ],
+        tickvals=[48.00, 36.00, 24.00, 12.00, 0.00, -5.00, -10.00, -15.00, -20.00],
+    )
+
+    figure.update_layout(
+        plot_bgcolor="rgba(0, 0, 0, 0)", paper_bgcolor="rgba(0, 0, 0, 0)"
+    )
     return figure
