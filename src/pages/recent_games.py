@@ -60,8 +60,8 @@ recent_games_layout = html.Div(
                             data=recent_games_players_df.to_dict("records"),
                             css=[{"selector": ".show-hide", "rule": "display: none"}],
                             sort_action="native",
-                            # style_table={"maxWidth": "100px"},
                             page_size=15,
+                            style_cell={"background-color": "#15171a"},
                             style_cell_conditional=[
                                 {"if": {"column_id": "player_logo"}, "width": "18%"},
                                 {"if": {"column_id": "player"}, "width": "16%"},
@@ -89,6 +89,7 @@ recent_games_layout = html.Div(
                             columns=recent_games_teams_columns,
                             data=recent_games_teams_df.to_dict("records"),
                             css=[{"selector": ".show-hide", "rule": "display: none"}],
+                            style_cell={"background-color": "#15171a"},
                         ),
                     ],
                     width=6,
@@ -138,36 +139,43 @@ def render_images(data):
 def update_data_table(selected_value):
     filtered_pbp = pbp_plot_df.query(f"game_description == '{selected_value}'")
 
-    figure = px.scatter(
-        filtered_pbp,
-        x="time_remaining_final",
-        y="margin_score",
-        labels={
-            "margin_score": "Score Differential",
-            "time_remaining_final": "",
-        },
-        title="Game Plot",
-        # hover_name="scoring_team",
-    ).update_traces(
-        marker=dict(
-            color=filtered_pbp["scoring_team_color"],
-            size=8,
-        ),
-        mode="markers+lines",  # Combine markers and lines
-        hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-        customdata=filtered_pbp[
-            [
-                "play",
-                "time_quarter",
-                "quarter",
-                "leading_team_text",
-                "score",
-                "game_plot_team_text",
-            ]
-        ],
-        hovertemplate="<b>Timestamp:</b> %{customdata[1]} in the %{customdata[2]}<br>"
-        "<b>Scoring Team:</b> %{customdata[5]} (%{customdata[3]} %{customdata[4]})<br>"
-        "<b>Play:</b> %{customdata[0]}<br>",
+    figure = (
+        px.scatter(
+            filtered_pbp,
+            x="time_remaining_final",
+            y="margin_score",
+            labels={
+                "margin_score": "Score Differential",
+                "time_remaining_final": "",
+            },
+            title="Game Plot",
+            # hover_name="scoring_team",
+        )
+        .update_traces(
+            marker=dict(
+                color=filtered_pbp["scoring_team_color"],
+                size=8,
+            ),
+            mode="markers+lines",  # Combine markers and lines
+            hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+            customdata=filtered_pbp[
+                [
+                    "play",
+                    "time_quarter",
+                    "quarter",
+                    "leading_team_text",
+                    "score",
+                    "game_plot_team_text",
+                ]
+            ],
+            hovertemplate="<b>Timestamp:</b> %{customdata[1]} in the %{customdata[2]}<br>"
+            "<b>Scoring Team:</b> %{customdata[5]} (%{customdata[3]} %{customdata[4]})<br>"
+            "<b>Play:</b> %{customdata[0]}<br>",
+        )
+        .update_layout(
+            font_color="white",
+            title_font_color="white",
+        )
     )
 
     # yeeeahhh mfer
@@ -185,6 +193,20 @@ def update_data_table(selected_value):
             "4th OT",
         ],
         tickvals=[48.00, 36.00, 24.00, 12.00, 0.00, -5.00, -10.00, -15.00, -20.00],
+        showline=True,
+        linecolor="white",
+        linewidth=1,
+        row=1,
+        col=1,
+        mirror=True,
+    )
+    figure.update_yaxes(
+        showline=True,
+        linecolor="white",
+        linewidth=1,
+        row=1,
+        col=1,
+        mirror=True,
     )
 
     figure.update_layout(

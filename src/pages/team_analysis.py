@@ -1,5 +1,6 @@
 from dash import callback, dash_table, dcc, html
 from dash.dependencies import Input, Output
+import dash_bootstrap_components as dbc
 import plotly.express as px
 
 from src.data_cols.injuries import injuries_columns
@@ -15,7 +16,6 @@ from src.data import (
 
 team_analysis_layout = html.Div(
     [
-        html.Br(),
         html.Div(
             [
                 html.Div(
@@ -24,46 +24,60 @@ team_analysis_layout = html.Div(
                         options=[{"label": team, "value": team} for team in team_names],
                         value=team_names[0],
                         clearable=False,
-                        style={"width": "250px"},
                     ),
+                    className="kpi-card",
                 ),
-                html.Div(id="kpi-boxes-1"),
-                html.Div(id="kpi-boxes-2"),
-                html.Div(id="kpi-boxes-3"),
+                html.Div(
+                    id="kpi-boxes-1",
+                    className="kpi-card",
+                ),
+                html.Div(
+                    id="kpi-boxes-2",
+                    className="kpi-card",
+                ),
+                html.Div(
+                    id="kpi-boxes-3",
+                    className="kpi-card",
+                ),
             ],
             className="kpi-container",
             style={"display": "flex", "justify-content": "space-between"},
         ),
-        html.Div(
+        html.Br(),
+        dbc.Row(
             [
-                dcc.Graph(
-                    id="mov-plot",
-                    config={"displayModeBar": False},
-                    style={"width": "50%", "display": "inline-block"},
+                dbc.Col(
+                    dcc.Graph(
+                        id="mov-plot",
+                        config={"displayModeBar": False},
+                    ),
+                    width=6,
                 ),
-                dcc.Graph(
-                    id="team-player-efficiency-plot",
-                    config={"displayModeBar": False},
-                    style={"width": "50%", "display": "inline-block"},
+                dbc.Col(
+                    dcc.Graph(
+                        id="team-player-efficiency-plot",
+                        config={"displayModeBar": False},
+                    ),
+                    width=6,
                 ),
             ]
         ),
         html.Br(),
-        html.Div(
+        dbc.Row(
             [
-                html.Div(
+                dbc.Col(
                     [
                         html.H1("Team Injuries"),
                         html.Div(id="injuries-table"),
                     ],
-                    style={"width": "49%", "display": "inline-block"},
+                    width=6,
                 ),
-                html.Div(
+                dbc.Col(
                     [
                         html.H1("Team Transactions"),
                         html.Div(id="transactions-table"),
                     ],
-                    style={"width": "49%", "display": "inline-block"},
+                    width=6,
                 ),
             ]
         ),

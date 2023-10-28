@@ -6,9 +6,10 @@ about_layout = html.Div(
             rel="stylesheet",
             href="../assets/styles.css",
         ),
-        html.H1("About this Project"),
+        html.H1("About this Project", style={"text-align": "left"}),
         html.P(
-            "This dashboard shows up to date information about the 2023-24 NBA Season."
+            "This dashboard shows up to date information about the 2023-24 NBA Season.  "
+            "It's built w/ Dash and hosted on AWS via ECS & Route53"
         ),
         html.H3("Data"),
         html.Ul(
@@ -78,12 +79,6 @@ about_layout = html.Div(
                 ),
                 html.Li(
                     html.A(
-                        "Airflow Proof of Concept",
-                        href="https://github.com/jyablonski/nba_elt_airflow",
-                    ),
-                ),
-                html.Li(
-                    html.A(
                         "Terraform",
                         href="https://github.com/jyablonski/aws_terraform",
                     ),
@@ -96,12 +91,12 @@ about_layout = html.Div(
             [
                 "Connect with me on ",
                 html.A(
-                    html.Img(src="../assets/github.png", height="30px"),
+                    html.Img(src="../assets/linkedin.png", height="30px"),
                     href="https://www.linkedin.com/in/jyablonski",
                 ),
                 " and ",
                 html.A(
-                    html.Img(src="../assets/linkedin.png", height="30px"),
+                    html.Img(src="../assets/github.png", height="30px"),
                     href="https://github.com/jyablonski",
                 ),
                 html.Br(),

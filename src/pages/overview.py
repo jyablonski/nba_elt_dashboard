@@ -98,6 +98,7 @@ overview_layout = (
                                 data=standings_df.query(
                                     'conference == "Western"'
                                 ).to_dict("records"),
+                                style_cell={"background-color": "#15171a"},
                                 hidden_columns=[
                                     "active_protocols",
                                     "conference",
@@ -124,6 +125,7 @@ overview_layout = (
                                 data=standings_df.query(
                                     'conference == "Eastern"'
                                 ).to_dict("records"),
+                                style_cell={"background-color": "#15171a"},
                                 hidden_columns=[
                                     "active_protocols",
                                     "conference",
@@ -225,7 +227,7 @@ overview_layout = (
                                 hovertemplate="<b>%{customdata[0]}</b><br>"
                                 "%{customdata[1]}<br>"
                                 "<b>Average MVP Score:</b> %{customdata[2]}<br>"
-                                "<b>Salary:</b> $%{customdata[3]:.0f}<br>"
+                                "<b>Salary:</b> $%{customdata[3]:,}<br>"
                                 "<b>Type:</b> %{customdata[4]}<br>",
                             ),
                         ),
@@ -247,7 +249,26 @@ overview_layout = (
                                     "team_pct_salary_earned": "Team % Salary Earned",
                                     "team": "Team",
                                 },
-                                hover_name="team",
+                            ).update_traces(
+                                hoverlabel=dict(
+                                    bgcolor="white",
+                                    font_size=12,
+                                    font_family="Rockwell",
+                                ),
+                                customdata=team_contracts_analysis_df[
+                                    [
+                                        "team",
+                                        "win_percentage",
+                                        "sum_salary_earned",
+                                        "sum_salary_earned_max",
+                                        "team_pct_salary_earned",
+                                    ]
+                                ],
+                                hovertemplate="<b>%{customdata[0]}</b><br>"
+                                "<b>Win %:</b> %{customdata[1]:.1%}<br>"
+                                "<b>Salary Earned:</b> %{customdata[2]:$,}<br>"
+                                "<b>Value Lost from Injury:</b> %{customdata[3]:$,}<br>"
+                                "<b>% Salary Earned:</b> %{customdata[4]:.1%}<br>",
                             ),
                         ),
                         width={"size": 6},

@@ -1,5 +1,6 @@
 from dash import callback, dash_table, dcc, html
 from dash.dependencies import Input, Output
+import dash_bootstrap_components as dbc
 import plotly.express as px
 
 from src.data_cols.reddit_comments import reddit_comments_columns
@@ -83,52 +84,65 @@ social_media_analysis_layout = html.Div(
             style={"display": "flex", "justify-content": "space-between"},
         ),
         html.Br(),
-        html.Div(
+        dbc.Row(
             [
-                dash_table.DataTable(
-                    id="social-media-table",
-                    columns=reddit_comments_columns,
-                    data=reddit_comments_df.to_dict("records"),
-                    css=[{"selector": ".show-hide", "rule": "display: none"}],
-                    style_cell={
-                        "overflow": "hidden",
-                        "textOverflow": "ellipsis",
-                        "maxWidth": 0,
-                    },
-                    sort_action="native",
-                    page_size=15,
-                    merge_duplicate_headers=True,
-                    style_cell_conditional=[
-                        {"if": {"column_id": "scrape_date"}, "width": "8%"},
-                        {"if": {"column_id": "flair"}, "width": "8%"},
-                        {"if": {"column_id": "comment"}, "width": "40%"},
-                        {"if": {"column_id": "score"}, "width": "6%"},
-                        {"if": {"column_id": "compound"}, "width": "5%"},
-                        {"if": {"column_id": "pos"}, "width": "4%"},
-                        {"if": {"column_id": "neg"}, "width": "4%"},
-                        {"if": {"column_id": "neu"}, "width": "4%"},
-                        {"if": {"column_id": "url"}, "width": "8%"},
-                    ],
+                dbc.Col(
+                    dash_table.DataTable(
+                        id="social-media-table",
+                        columns=reddit_comments_columns,
+                        data=reddit_comments_df.to_dict("records"),
+                        css=[{"selector": ".show-hide", "rule": "display: none"}],
+                        style_cell={
+                            "overflow": "hidden",
+                            "textOverflow": "ellipsis",
+                            "maxWidth": 0,
+                            "background-color": "#15171a",
+                        },
+                        sort_action="native",
+                        page_size=15,
+                        merge_duplicate_headers=True,
+                        style_cell_conditional=[
+                            {"if": {"column_id": "scrape_date"}, "width": "8%"},
+                            {"if": {"column_id": "flair"}, "width": "8%"},
+                            {"if": {"column_id": "comment"}, "width": "40%"},
+                            {"if": {"column_id": "score"}, "width": "6%"},
+                            {"if": {"column_id": "compound"}, "width": "5%"},
+                            {"if": {"column_id": "pos"}, "width": "4%"},
+                            {"if": {"column_id": "neg"}, "width": "4%"},
+                            {"if": {"column_id": "neu"}, "width": "4%"},
+                            {"if": {"column_id": "url"}, "width": "8%"},
+                        ],
+                    ),
+                    width=12,
                 ),
             ],
         ),
-        html.Div(
+        html.Br(),
+        dbc.Row(
             [
-                html.Div(
-                    dcc.Dropdown(
-                        id="social-media-team-selector",
-                        options=[
-                            {"label": team, "value": team}
-                            for team in team_names_abbreviations
-                        ],
-                        value="GSW",
-                        clearable=False,
-                        style={"width": "250px"},
+                dbc.Col(
+                    dbc.Row(
+                        dbc.Col(
+                            dcc.Dropdown(
+                                id="social-media-team-selector",
+                                options=[
+                                    {"label": team, "value": team}
+                                    for team in team_names_abbreviations
+                                ],
+                                value="GSW",
+                                clearable=False,
+                                style={"width": "250px"},
+                            ),
+                            width=2,
+                        )
                     ),
                 ),
-                dcc.Graph(
-                    id="social-media-plot",
-                    style={"width": "100%", "display": "inline-block"},
+                dbc.Col(
+                    dcc.Graph(
+                        id="social-media-plot",
+                        style={"width": "100%", "display": "inline-block"},
+                    ),
+                    width=12,
                 ),
             ]
         ),
@@ -184,7 +198,7 @@ def update_reddit_team_sentiment(selected_team):
             "NO GAME": "grey",
         },
         labels={
-            "scrape_date": "Scrape Date",
+            "scrape_date": "",
             "num_comments": "Number of Comments",
         },
     )

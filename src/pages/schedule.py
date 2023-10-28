@@ -1,5 +1,6 @@
 from dash import callback, dash_table, dcc, html
 from dash.dependencies import Input, Output
+import dash_bootstrap_components as dbc
 import plotly.express as px
 
 from src.data_cols.schedule import schedule_columns
@@ -27,75 +28,92 @@ team_blown_leads_df = team_blown_leads_df.query(
 
 schedule_layout = html.Div(
     [
-        html.Div(
+        dbc.Row(
             [
-                "Moneyline Odds for tonight's games provided by ",
-                html.A(
-                    html.Img(src="../assets/draftkings.png", height="60px"),
-                    href="https://www.draftkings.com",
-                ),
+                dbc.Col(
+                    [
+                        "Moneyline Odds for tonight's games provided by ",
+                        html.A(
+                            html.Img(src="../assets/draftkings.png", height="60px"),
+                            href="https://www.draftkings.com",
+                        ),
+                    ]
+                )
             ],
         ),
-        html.Div(
+        dbc.Row(
             [
-                html.H1("Upcoming Games", style={"text-align": "left"}),
-                dcc.Dropdown(
-                    id="schedule-table-selector",
-                    options=[
-                        {"label": "Tonight's Games", "value": "tonights-games"},
-                        {"label": "Future Schedule", "value": "future-schedule"},
+                dbc.Col(
+                    [
+                        html.H1("Upcoming Games", style={"text-align": "left"}),
+                        dcc.Dropdown(
+                            id="schedule-table-selector",
+                            options=[
+                                {"label": "Tonight's Games", "value": "tonights-games"},
+                                {
+                                    "label": "Future Schedule",
+                                    "value": "future-schedule",
+                                },
+                            ],
+                            value="tonights-games",
+                            clearable=False,
+                        ),
                     ],
-                    value="tonights-games",
-                    clearable=False,
-                    style={
-                        "width": "300px",
-                    },
-                ),
-                html.Br(),
-                html.Div(
-                    id="schedule-table",
-                    style={
-                        "width": "98%",
-                        "display": "inline-block",
-                    },
+                    width=3,
                 ),
             ]
         ),
-        html.Div(
+        dbc.Row(
             [
                 html.Br(),
-                html.Div(
-                    dcc.Dropdown(
-                        id="schedule-plot-selector",
-                        options=[
-                            {
-                                "label": "Stength of Schedule (as of Today)",
-                                "value": "strength-of-schedule",
-                            },
-                            {
-                                "label": "Vegas Preseason Over / Under Odds",
-                                "value": "vegas-preseason-odds",
-                            },
-                            {
-                                "label": "Team Comebacks Analysis (Regular Season)",
-                                "value": "team-comebacks",
-                            },
-                        ],
-                        value="strength-of-schedule",
-                        clearable=False,
-                        style={
-                            "width": "350px",
-                        },
+                dbc.Col(
+                    id="schedule-table",
+                    width=12,
+                ),
+            ]
+        ),
+        html.Br(),
+        dbc.Row(
+            [
+                dbc.Row(
+                    dbc.Col(
+                        dcc.Dropdown(
+                            id="schedule-plot-selector",
+                            options=[
+                                {
+                                    "label": "Stength of Schedule (as of Today)",
+                                    "value": "strength-of-schedule",
+                                },
+                                {
+                                    "label": "Vegas Preseason Over / Under Odds",
+                                    "value": "vegas-preseason-odds",
+                                },
+                                {
+                                    "label": "Team Comebacks Analysis (Regular Season)",
+                                    "value": "team-comebacks",
+                                },
+                            ],
+                            value="strength-of-schedule",
+                            clearable=False,
+                        ),
+                        width={"size": 3, "offset": 9},
                     ),
-                    style={"display": "flex", "justify-content": "flex-end"},
                 ),
-                dcc.Graph(
-                    id="game-types-plot",
-                    style={"width": "50%", "display": "inline-block"},
-                ),
-                dcc.Graph(
-                    id="schedule-plot",
-                    style={"width": "50%", "display": "inline-block"},
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            dcc.Graph(
+                                id="game-types-plot",
+                            ),
+                            width=6,
+                        ),
+                        dbc.Col(
+                            dcc.Graph(
+                                id="schedule-plot",
+                            ),
+                            width=6,
+                        ),
+                    ]
                 ),
             ]
         ),
@@ -118,6 +136,7 @@ def update_schedule_table(selected_value):
                 sort_action="native",
                 page_size=15,
                 merge_duplicate_headers=True,
+                style_cell={"background-color": "#15171a"},
                 style_data_conditional=[
                     {
                         "if": {
@@ -159,13 +178,23 @@ def update_game_types_plot(hoverData):
         game_types_df,
         x="game_type",
         y="n",
-        text="explanation",
+        text="n",
         labels={"n": "Count", "game_type": "Type", "explanation": "Explanation"},
-        hover_name="game_type",
     )
 
-    # Customize the tooltip display
-    fig.update_traces(texttemplate="%{text}", textposition="outside")
+    fig.update_traces(
+        hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+        customdata=game_types_df[
+            [
+                "game_type",
+                "n",
+                "explanation",
+            ]
+        ],
+        hovertemplate="<b>Game Type:</b> %{customdata[0]}<br>"
+        "<b># Games:</b> %{customdata[1]}<br>"
+        "<b>Explanation:</b> %{customdata[0]}s are defined as the Margin of Victory being %{customdata[2]}<br>",
+    )
 
     return fig
 
@@ -180,31 +209,70 @@ def update_schedule_plot(selected_schedule_plot):
             past_schedule_analysis_df,
             x="pct_vs_below_500",
             y="team",
-            text="team",
             labels={"team": "Team", "pct_vs_below_500": "% Games Below .500 Teams"},
-            hover_name="team",
         )
 
-        # Customize the tooltip display
-        fig.update_traces(texttemplate="%{text}", textposition="outside")
-
+        fig.update_traces(
+            hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+            customdata=past_schedule_analysis_df[
+                [
+                    "team",
+                    "win_pct",
+                    "avg_win_pct_opp",
+                    "home_record",
+                    "road_record",
+                    "above_record",
+                    "below_record",
+                    "pct_vs_above_500",
+                    "pct_vs_below_500",
+                    "record",
+                ]
+            ],
+            hovertemplate="<b>%{customdata[0]}</b><br>"
+            "<b>Record:</b> %{customdata[9]}<br>"
+            "<b>Win %:</b> %{customdata[1]:.1%}<br>"
+            "<b>AVG Win % Opp.:</b> %{customdata[2]:.1%}<br>"
+            "<b>Home Record:</b> %{customdata[3]}<br>"
+            "<b>Road Record:</b> %{customdata[4]}<br>"
+            "<b>Record vs Above .500 Teams:</b> %{customdata[5]}<br>"
+            "<b>Record vs Below .500 Teams:</b> %{customdata[6]}<br>"
+            "<b>% Games vs Above .500 Teams:</b> %{customdata[7]:.1%}<br>"
+            "<b>% Games vs Below .500 Teams:</b> %{customdata[8]:.1%}",
+        )
         return fig
+
     elif selected_schedule_plot == "vegas-preseason-odds":
         fig = px.bar(
             preseason_odds_df,
             x="wins_differential",
             y="team",
-            text="team",
+            text="wins_differential",
             color="wins_differential",
             color_continuous_scale="RdYlGn",
             labels={"team": "Team", "wins_differential": "Wins Differential"},
-            hover_name="team",
         )
 
-        # Customize the tooltip display
-        fig.update_traces(texttemplate="%{text}", textposition="outside")
-
+        fig.update_traces(
+            hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+            customdata=preseason_odds_df[
+                [
+                    "team",
+                    "wins_differential",
+                    "predicted_stats",
+                    "projected_stats",
+                    "over_under",
+                    "championship_odds",
+                ]
+            ],
+            hovertemplate="<b>%{customdata[0]}</b><br>"
+            "<b>Wins Differential:</b> %{customdata[1]}<br>"
+            "<b>Preseason Over / Under:</b> %{customdata[2]}<br>"
+            "<b>Projected Stats:</b> %{customdata[3]}<br>"
+            "<b>Status:</b> %{customdata[4]}<br>"
+            "<b>Championship Odds:</b> %{customdata[5]}<br>",
+        )
         return fig
+
     else:
         fig = px.bar(
             team_blown_leads_df,
@@ -214,10 +282,24 @@ def update_schedule_plot(selected_schedule_plot):
             color="net_comebacks",
             color_continuous_scale="RdYlGn",
             labels={"team": "Team", "net_comebacks": "Net Comebacks"},
-            hover_name="team",
         )
 
-        # Customize the tooltip display
-        fig.update_traces(texttemplate="%{text}", textposition="outside")
-
+        fig.update_traces(
+            hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+            customdata=team_blown_leads_df[
+                [
+                    "team",
+                    "blown_leads_10pt",
+                    "blown_lead_rank",
+                    "team_comebacks_10pt",
+                    "comeback_rank",
+                    "net_comebacks",
+                    "net_rank",
+                ]
+            ],
+            hovertemplate="<b>%{customdata[0]}</b><br>"
+            "<b>10+ Pt Blown Leads:</b> %{customdata[1]} (%{customdata[2]})<br>"
+            "<b>10+ Pt Comebacks:</b> %{customdata[3]} (%{customdata[4]})<br>"
+            "<b>Net Comebacks:</b> %{customdata[5]} (%{customdata[6]})<br>",
+        )
         return fig

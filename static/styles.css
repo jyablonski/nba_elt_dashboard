@@ -63,11 +63,11 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/* THIS IS BREAKING CONDITIONAL FORMATTING SCHEDULE */
 /* DASH TABLE CELLS */
-.dash-spreadsheet td {
+/* .dash-spreadsheet td {
     background-color: #15171a !important;
-    /* background-color: #272b30 !important; */
-}
+} */
 
 
 /* DASH TABLE COLUMNS */
