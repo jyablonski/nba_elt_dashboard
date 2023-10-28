@@ -1,7 +1,7 @@
 # NBA ELT Dashboard
 ![Tests](https://github.com/jyablonski/nba_elt_dashboard/actions/workflows/test.yml/badge.svg) ![Deployment](https://github.com/jyablonski/nba_elt_dashboard/actions/workflows/deploy.yml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/jyablonski/nba_elt_dashboard/badge.svg?branch=master)](https://coveralls.io/github/jyablonski/nba_elt_dashboard?branch=master) ![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)
 
-Version: 0.0.2
+Version: 0.0.3
 
 ## [Dashboard](https://nbadashboard.jyablonski.dev)
 
