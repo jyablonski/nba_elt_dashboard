@@ -48,6 +48,7 @@ team_analysis_layout = html.Div(
                 ),
             ]
         ),
+        html.Br(),
         html.Div(
             [
                 html.Div(

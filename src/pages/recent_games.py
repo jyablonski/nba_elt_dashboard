@@ -1,12 +1,13 @@
 from dash import callback, dash_table, dcc, html
 from dash.dependencies import Input, Output
+import dash_bootstrap_components as dbc
 import plotly.express as px
 
-from src.data_cols.injury_tracker import injury_tracker_columns
+# from src.data_cols.injury_tracker import injury_tracker_columns
 from src.data_cols.recent_games_players import recent_games_players_columns
 from src.data_cols.recent_games_teams import recent_games_teams_columns
 from src.data import (
-    injury_tracker_df,
+    # injury_tracker_df,
     recent_games_players_df,
     recent_games_teams_df,
     pbp_df,
@@ -18,10 +19,11 @@ yesterdays_games = pbp_df["game_description"].drop_duplicates()
 
 recent_games_layout = html.Div(
     [
-        html.Div(
+        html.Br(),
+        dbc.Row(
             [
                 html.Br(),
-                html.Div(
+                dbc.Col(
                     [
                         dcc.Dropdown(
                             id="game-selector",
@@ -33,24 +35,25 @@ recent_games_layout = html.Div(
                             value=yesterdays_games[0],
                         ),
                     ],
-                    style={"width": "25%", "float": "left"},
+                    width=3,
                 ),
-                html.Div(
+                dbc.Col(
                     [
                         dcc.Graph(
                             id="pbp-analysis-plot",
                             config={"displayModeBar": False},
                         ),
                     ],
-                    style={"width": "99%", "float": "left"},
+                    width=12,
                 ),
             ]
         ),
-        html.Div(
+        # html.Br(),
+        dbc.Row(
             [
-                html.Br(),
-                html.Div(
+                dbc.Col(
                     [
+                        html.H1("Top Players"),
                         dash_table.DataTable(
                             id="player-recent-games-table",
                             columns=recent_games_players_columns,
@@ -60,7 +63,7 @@ recent_games_layout = html.Div(
                             # style_table={"maxWidth": "100px"},
                             page_size=15,
                             style_cell_conditional=[
-                                {"if": {"column_id": "player_logo"}, "width": "50%"},
+                                {"if": {"column_id": "player_logo"}, "width": "18%"},
                                 {"if": {"column_id": "player"}, "width": "16%"},
                                 {"if": {"column_id": "outcome"}, "width": "2%"},
                                 {"if": {"column_id": "salary"}, "width": "4%"},
@@ -76,40 +79,32 @@ recent_games_layout = html.Div(
                             ],
                         ),
                     ],
-                    style={
-                        "width": "32%",
-                        "display": "inline-block",
-                        "margin-right": "30px",
-                    },
+                    width=6,
                 ),
-                html.Div(
+                dbc.Col(
                     [
+                        html.H1("Team Victories"),
                         dash_table.DataTable(
                             id="team-recent-games-table",
                             columns=recent_games_teams_columns,
                             data=recent_games_teams_df.to_dict("records"),
-                            # hidden_columns=[
-                            #     "active_protocols",
-                            #     "conference",
-                            #     "team",
-                            # ],
                             css=[{"selector": ".show-hide", "rule": "display: none"}],
                         ),
                     ],
-                    style={"width": "32%", "display": "inline-block"},
+                    width=6,
                 ),
-                html.Div(
-                    [
-                        html.H1("Injury Report"),
-                        dash_table.DataTable(
-                            id="injury-tracker-table",
-                            columns=injury_tracker_columns,
-                            data=injury_tracker_df.to_dict("records"),
-                            css=[{"selector": ".show-hide", "rule": "display: none"}],
-                        ),
-                    ],
-                    style={"width": "32%", "display": "inline-block"},
-                ),
+                # html.Div(
+                #     [
+                #         html.H1("Injury Report"),
+                #         dash_table.DataTable(
+                #             id="injury-tracker-table",
+                #             columns=injury_tracker_columns,
+                #             data=injury_tracker_df.to_dict("records"),
+                #             css=[{"selector": ".show-hide", "rule": "display: none"}],
+                #         ),
+                #     ],
+                #     style={"width": "32%", "display": "inline-block"},
+                # ),
             ]
         ),
     ],
@@ -128,15 +123,15 @@ def render_images(data):
     return data
 
 
-@callback(
-    Output("injury-tracker-table", "data"),
-    Input("injury-tracker-table", "data"),
-)
-def render_images_injuries(data):
-    for row in data:
-        row["player_logo"] = f'![Missing Image]({row["player_logo"]})'
+# @callback(
+#     Output("injury-tracker-table", "data"),
+#     Input("injury-tracker-table", "data"),
+# )
+# def render_images_injuries(data):
+#     for row in data:
+#         row["player_logo"] = f'![Missing Image]({row["player_logo"]})'
 
-    return data
+#     return data
 
 
 @callback(Output("pbp-analysis-plot", "figure"), [Input("game-selector", "value")])
@@ -152,7 +147,7 @@ def update_data_table(selected_value):
             "time_remaining_final": "",
         },
         title="Game Plot",
-        hover_name="scoring_team",
+        # hover_name="scoring_team",
     ).update_traces(
         marker=dict(
             color=filtered_pbp["scoring_team_color"],
@@ -167,10 +162,11 @@ def update_data_table(selected_value):
                 "quarter",
                 "leading_team_text",
                 "score",
+                "game_plot_team_text",
             ]
         ],
         hovertemplate="<b>Timestamp:</b> %{customdata[1]} in the %{customdata[2]}<br>"
-        "<b>Scoring Team:</b> %{hovertext} (%{customdata[3]} %{customdata[4]})<br>"
+        "<b>Scoring Team:</b> %{customdata[5]} (%{customdata[3]} %{customdata[4]})<br>"
         "<b>Play:</b> %{customdata[0]}<br>",
     )
 

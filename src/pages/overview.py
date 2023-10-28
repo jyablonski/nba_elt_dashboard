@@ -1,4 +1,5 @@
 from dash import callback, dash_table, dcc, html
+import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import plotly.express as px
 import plotly.graph_objects as go
@@ -36,7 +37,7 @@ overview_layout = (
                                 f"{bans_df['win_pct'][0] * 100:.0f}% - {bans_df['win_pct'][1] * 100:.0f}% Win Percentage Splits"
                             ),
                         ],
-                        className=".kpi-card",
+                        className="kpi-card",
                     ),
                     # KPI 2
                     html.Div(
@@ -59,7 +60,7 @@ overview_layout = (
                             html.Div("Active Players in COVID Protocols"),
                             html.Div(bans_df["protocols_text"][0]),
                         ],
-                        className="kpi-box",
+                        className="kpi-card",
                     ),
                     # KPI 4
                     html.Div(
@@ -71,7 +72,7 @@ overview_layout = (
                             html.Div(f"{bans_df['upcoming_games'][0]} Upcoming Games"),
                             html.Div(""),
                         ],
-                        className="kpi-box",
+                        className="kpi-card",
                     ),
                 ],
                 className="kpi-container",
@@ -85,10 +86,10 @@ overview_layout = (
                     ),
                 ]
             ),
-            html.Div(
+            html.Br(),
+            dbc.Row(
                 [
-                    html.Br(),
-                    html.Div(
+                    dbc.Col(
                         [
                             html.H1("Western Conference"),
                             dash_table.DataTable(
@@ -103,20 +104,18 @@ overview_layout = (
                                     "team",
                                 ],
                                 css=[
-                                    {"selector": ".show-hide", "rule": "display: none"}
+                                    {
+                                        "selector": ".show-hide",
+                                        "rule": "display: none",
+                                    }
                                 ],
                                 sort_action="native",
                                 page_size=15,
                             ),
                         ],
-                        style={
-                            "width": "49%",
-                            "display": "inline-block",
-                            "margin-right": "30px",
-                        },
+                        width=6,
                     ),
-                    # Right side (Eastern Conference)
-                    html.Div(
+                    dbc.Col(
                         [
                             html.H1("Eastern Conference"),
                             dash_table.DataTable(
@@ -131,105 +130,129 @@ overview_layout = (
                                     "team",
                                 ],
                                 css=[
-                                    {"selector": ".show-hide", "rule": "display: none"}
+                                    {
+                                        "selector": ".show-hide",
+                                        "rule": "display: none",
+                                    }
                                 ],
+                                sort_action="native",
+                                page_size=15,
                             ),
                         ],
-                        style={"width": "49%", "display": "inline-block"},
+                        width=6,
                     ),
                 ]
             ),
-            html.Div(
-                [
-                    html.Div(
-                        dcc.Dropdown(
-                            id="season-selector",
-                            options=[
-                                {"label": "Regular Season", "value": "Regular Season"},
-                                {"label": "Playoffs", "value": "Playoffs"},
-                            ],
-                            clearable=False,
-                            value="Regular Season",
-                        )
-                    ),
-                    dcc.Graph(
-                        id="player-scoring-efficiency-plot",
-                        style={"width": "50%", "display": "inline-block"},
-                    ),
-                    dcc.Graph(
-                        id="team-ratings-plot",
-                        style={"width": "50%", "display": "inline-block"},
-                        figure=px.scatter(
-                            team_ratings_df,
-                            x="ortg",
-                            y="drtg",
-                            text="team",
-                            labels={
-                                "ortg": "Offensive Rating (ORTG)",
-                                "drtg": "Defensive Rating (DRTG)",
+            html.Br(),
+            dbc.Row(
+                dbc.Col(
+                    dcc.Dropdown(
+                        id="season-selector",
+                        options=[
+                            {
+                                "label": "Regular Season",
+                                "value": "Regular Season",
                             },
-                            hover_name="team",
-                        ),
+                            {"label": "Playoffs", "value": "Playoffs"},
+                        ],
+                        clearable=False,
+                        value="Regular Season",
                     ),
-                ]
+                    width={"size": 3},  # Set the width to 50% (6 out of 12 columns)
+                )
             ),
-            html.Div(
+            dbc.Row(
                 [
-                    dcc.Graph(
-                        id="player-value-analysis-plot",
-                        style={"width": "50%", "display": "inline-block"},
-                        figure=px.scatter(
-                            contract_value_analysis_df,
-                            x="salary",
-                            y="player_mvp_calc_avg",
-                            labels={
-                                "salary": "Salary",
-                                "player_mvp_calc_avg": "Average MVP Score",
-                            },
-                            color="color_var",
-                            color_discrete_map={
-                                "Superstars": "purple",
-                                "Great Value": "green",
-                                "Normal": "gray",
-                                "Bad Value": "red",
-                            },
-                        ).update_traces(
-                            hoverlabel=dict(
-                                bgcolor="white", font_size=12, font_family="Rockwell"
+                    dbc.Col(
+                        dcc.Graph(id="player-scoring-efficiency-plot"),
+                        width=6,
+                    ),
+                    dbc.Col(
+                        dcc.Graph(
+                            id="team-ratings-plot",
+                            figure=px.scatter(
+                                team_ratings_df,
+                                x="ortg",
+                                y="drtg",
+                                text="team",
+                                labels={
+                                    "ortg": "Offensive Rating (ORTG)",
+                                    "drtg": "Defensive Rating (DRTG)",
+                                },
+                                hover_name="team",
                             ),
-                            customdata=contract_value_analysis_df[
-                                [
-                                    "player",
-                                    "team",
-                                    "player_mvp_calc_avg",
-                                    "salary",
-                                    "color_var",
-                                ]
-                            ],
-                            hovertemplate="<b>%{customdata[0]}</b><br>"
-                            "%{customdata[1]}<br>"
-                            "<b>Average MVP Score:</b> %{customdata[2]}<br>"
-                            "<b>Salary:</b> $%{customdata[3]:.0f}<br>"
-                            "<b>Type:</b> %{customdata[4]}<br>",
                         ),
-                    ),
-                    dcc.Graph(
-                        id="contract-bar-plot",
-                        style={"width": "50%", "display": "inline-block"},
-                        figure=px.bar(
-                            team_contracts_analysis_df,
-                            x="team_pct_salary_earned",
-                            y="team",
-                            color="win_percentage",
-                            color_continuous_scale=[(0, "red"), (1, "green")],
-                            labels={
-                                "team_pct_salary_earned": "Team % Salary Earned",
-                                "team": "Team",
-                            },
-                            hover_name="team",
-                        ),
+                        width=6,
                     ),
                 ]
+            ),
+            html.Br(),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        dcc.Graph(
+                            id="player-value-analysis-plot",
+                            figure=px.scatter(
+                                contract_value_analysis_df,
+                                x="salary",
+                                y="player_mvp_calc_avg",
+                                labels={
+                                    "salary": "Salary",
+                                    "player_mvp_calc_avg": "Average MVP Score",
+                                },
+                                color="color_var",
+                                color_discrete_map={
+                                    "Superstars": "purple",
+                                    "Great Value": "green",
+                                    "Normal": "gray",
+                                    "Bad Value": "red",
+                                },
+                            ).update_traces(
+                                hoverlabel=dict(
+                                    bgcolor="white",
+                                    font_size=12,
+                                    font_family="Rockwell",
+                                ),
+                                customdata=contract_value_analysis_df[
+                                    [
+                                        "player",
+                                        "team",
+                                        "player_mvp_calc_avg",
+                                        "salary",
+                                        "color_var",
+                                    ]
+                                ],
+                                hovertemplate="<b>%{customdata[0]}</b><br>"
+                                "%{customdata[1]}<br>"
+                                "<b>Average MVP Score:</b> %{customdata[2]}<br>"
+                                "<b>Salary:</b> $%{customdata[3]:.0f}<br>"
+                                "<b>Type:</b> %{customdata[4]}<br>",
+                            ),
+                        ),
+                        width={"size": 6},
+                    ),
+                    dbc.Col(
+                        dcc.Graph(
+                            id="contract-bar-plot",
+                            figure=px.bar(
+                                team_contracts_analysis_df,
+                                x="team_pct_salary_earned",
+                                y="team",
+                                color="win_percentage",
+                                color_continuous_scale=[
+                                    (0, "red"),
+                                    (1, "green"),
+                                ],
+                                labels={
+                                    "team_pct_salary_earned": "Team % Salary Earned",
+                                    "team": "Team",
+                                },
+                                hover_name="team",
+                            ),
+                        ),
+                        width={"size": 6},
+                    ),
+                ],
             ),
         ],
         className="custom-padding",

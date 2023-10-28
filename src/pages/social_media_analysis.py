@@ -18,8 +18,6 @@ social_media_analysis_layout = html.Div(
                 # KPI 1
                 html.Div(
                     [
-                        html.Div("Social Media Scraping", style={"fontSize": 24}),
-                        # Add images for Reddit and Twitter
                         html.Div(
                             [
                                 html.Img(
@@ -33,27 +31,24 @@ social_media_analysis_layout = html.Div(
                             ]
                         ),
                     ],
-                    className="kpi-box",
+                    className="kpi-card",
                 ),
                 # KPI 2
                 html.Div(
                     [
-                        # html.Div("KPI 2 Value", style={"fontSize": 24}),
-                        # html.Div("KPI 2 Description"),
-                        html.Div(
-                            dcc.Dropdown(
-                                id="social-media-selector",
-                                options=[
-                                    {"label": "Reddit", "value": "reddit"},
-                                    {"label": "Twitter", "value": "twitter"},
-                                ],
-                                value="reddit",
-                                clearable=False,
-                                style={"width": "500px"},
-                            ),
+                        html.H4(f"Select a Social Media Type"),
+                        dcc.Dropdown(
+                            id="social-media-selector",
+                            options=[
+                                {"label": "Reddit", "value": "reddit"},
+                                {"label": "Twitter", "value": "twitter"},
+                            ],
+                            value="reddit",
+                            clearable=False,
+                            className="dash-dropdown",
                         ),
                     ],
-                    className="kpi-box",
+                    className="kpi-card",
                 ),
                 # KPI 3
                 html.Div(
@@ -67,7 +62,7 @@ social_media_analysis_layout = html.Div(
                             f"{social_media_aggs_df['reddit_pct_difference'][0]}% difference from average"
                         ),
                     ],
-                    className="kpi-box",
+                    className="kpi-card",
                 ),
                 # KPI 4
                 html.Div(
@@ -81,7 +76,7 @@ social_media_analysis_layout = html.Div(
                             f"{social_media_aggs_df['twitter_pct_difference'][0]}% difference from average"
                         ),
                     ],
-                    className="kpi-box",
+                    className="kpi-card",
                 ),
             ],
             className="kpi-container",

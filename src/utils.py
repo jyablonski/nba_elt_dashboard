@@ -57,6 +57,13 @@ def pbp_transformer(df: pd.DataFrame):
         ignore_index=True,
     )
 
+    try_df["game_plot_team_text"] = try_df.apply(
+        lambda row: row["home_fill"]
+        if row["scoring_team"] == row["home_team"]
+        else row["away_fill"],
+        axis=1,
+    )
+
     summarized_df = (
         try_df.groupby(["scoring_team", "leading_team_text"])["time_difference"]
         .sum()

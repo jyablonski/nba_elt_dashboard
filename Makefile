@@ -1,8 +1,3 @@
-# Lints all python files
-.PHONY: lint
-lint: 
-	black src/app.py src/utils.py tests/conftest.py tests/unit_test.py
-
 .PHONY: create-venv
 create-venv:
 	poetry install
@@ -10,11 +5,6 @@ create-venv:
 .PHONY: venv
 venv:
 	poetry shell
-
-.PHONY: test
-test:
-	@docker compose -f docker/docker-compose-test.yml down
-	@docker compose -f docker/docker-compose-test.yml up --exit-code-from ingestion_script_test_runner
 
 .PHONY: docker-build
 docker-build:
@@ -92,7 +82,6 @@ test:
 	@docker compose -f docker/docker-compose-test.yml up --exit-code-from dash_app_test_runner
 
 .PHONY: lint
-lint:
 lint:
 	@if [ -z "$$VIRTUAL_ENV" ]; then \
         echo "Virtual environment not activated. Activating Poetry environment..."; \

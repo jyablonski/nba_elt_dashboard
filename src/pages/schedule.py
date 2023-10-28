@@ -27,14 +27,18 @@ team_blown_leads_df = team_blown_leads_df.query(
 
 schedule_layout = html.Div(
     [
-        "Moneyline Odds for tonight's games provided by ",
-        html.A(
-            html.Img(src="../assets/draftkings.png", height="60px"),
-            href="https://www.draftkings.com",
+        html.Div(
+            [
+                "Moneyline Odds for tonight's games provided by ",
+                html.A(
+                    html.Img(src="../assets/draftkings.png", height="60px"),
+                    href="https://www.draftkings.com",
+                ),
+            ],
         ),
         html.Div(
             [
-                html.H1("Upcoming Games"),
+                html.H1("Upcoming Games", style={"text-align": "left"}),
                 dcc.Dropdown(
                     id="schedule-table-selector",
                     options=[
