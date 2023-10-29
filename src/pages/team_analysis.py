@@ -1,5 +1,6 @@
 from dash import callback, dash_table, dcc, html
 from dash.dependencies import Input, Output
+import dash_bootstrap_components as dbc
 import plotly.express as px
 
 from src.data_cols.injuries import injuries_columns
@@ -23,45 +24,66 @@ team_analysis_layout = html.Div(
                         options=[{"label": team, "value": team} for team in team_names],
                         value=team_names[0],
                         clearable=False,
-                        style={"width": "250px"},
                     ),
+                    className="kpi-card",
                 ),
-                html.Div(id="kpi-boxes-1"),
-                html.Div(id="kpi-boxes-2"),
-                html.Div(id="kpi-boxes-3"),
+                html.Div(
+                    id="kpi-boxes-1",
+                    className="kpi-card",
+                ),
+                html.Div(
+                    id="kpi-boxes-2",
+                    className="kpi-card",
+                ),
+                html.Div(
+                    id="kpi-boxes-3",
+                    className="kpi-card",
+                ),
             ],
             className="kpi-container",
             style={"display": "flex", "justify-content": "space-between"},
         ),
-        html.Div(
+        html.Br(),
+        dbc.Row(
             [
-                dcc.Graph(
-                    id="mov-plot",
-                    config={"displayModeBar": False},
-                    style={"width": "50%", "display": "inline-block"},
+                dbc.Col(
+                    [
+                        html.H3("Game Margin of Victory"),
+                        dcc.Graph(
+                            id="mov-plot",
+                            config={"displayModeBar": False},
+                        ),
+                    ],
+                    width=6,
                 ),
-                dcc.Graph(
-                    id="team-player-efficiency-plot",
-                    config={"displayModeBar": False},
-                    style={"width": "50%", "display": "inline-block"},
+                dbc.Col(
+                    [
+                        html.H3("Player Scoring Efficiency"),
+                        dcc.Graph(
+                            id="team-player-efficiency-plot",
+                            config={"displayModeBar": False},
+                        ),
+                    ],
+                    width=6,
                 ),
             ]
         ),
-        html.Div(
+        html.Br(),
+        dbc.Row(
             [
-                html.Div(
+                dbc.Col(
                     [
-                        html.H1("Team Injuries"),
+                        html.H3("Team Injuries"),
                         html.Div(id="injuries-table"),
                     ],
-                    style={"width": "49%", "display": "inline-block"},
+                    width=6,
                 ),
-                html.Div(
+                dbc.Col(
                     [
-                        html.H1("Team Transactions"),
+                        html.H3("Team Transactions"),
                         html.Div(id="transactions-table"),
                     ],
-                    style={"width": "49%", "display": "inline-block"},
+                    width=6,
                 ),
             ]
         ),
@@ -78,12 +100,31 @@ def update_mov(selected_team):
         filtered_df,
         x="date",
         y="mov",
-        text="team",
+        labels={
+            "date": "Date",
+            "opponent": "Opponent",
+            "mov": "Margin of Victory",
+            "outcome": "Outcome",
+        },
         color="outcome",
-        labels={"date": "Date", "mov": "Margin of Victory"},
+        color_discrete_map={
+            "W": "green",
+            "L": "red",
+        },
+        custom_data=[
+            "date",
+            "opponent",
+            "mov",
+            "outcome",
+        ],
     )
 
-    fig.update_traces(texttemplate="%{text}", textposition="outside")
+    fig.update_traces(
+        hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+        hovertemplate="<b>%{customdata[0]}</b> vs <b>%{customdata[1]}</b><br>"
+        "<b>Margin of Victory:</b> %{customdata[2]}<br>"
+        "<b>Outcome:</b> %{customdata[3]}<br>",
+    )
 
     return fig
 
@@ -101,7 +142,20 @@ def update_team_player_efficiency(selected_team):
         color="top5_candidates",
         text="player",
         labels={"season_avg_ppg": "Season Avg PPG", "season_ts_percent": "Season TS%"},
-        hover_name="player",
+        custom_data=[
+            "player",
+            "season_avg_ppg",
+            "season_ts_percent",
+            "top5_candidates",
+        ],
+    )
+
+    fig.update_traces(
+        hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+        hovertemplate="<b>%{customdata[0]}</b><br>"
+        "<b>Average PPG:</b> %{customdata[1]}<br>"
+        "<b>Average TS%:</b> %{customdata[2]:.1%}<br>"
+        "<b>Type:</b> %{customdata[3]}<br>",
     )
 
     return fig
@@ -122,6 +176,7 @@ def update_injuries(selected_team):
                 "overflow": "hidden",
                 "textOverflow": "ellipsis",
                 "maxWidth": 0,
+                "background-color": "#15171a",
             },
         ),
     )
@@ -143,6 +198,7 @@ def update_transactions(selected_team):
                 "overflow": "hidden",
                 "textOverflow": "ellipsis",
                 "maxWidth": 0,
+                "background-color": "#15171a",
             },
         ),
     )

@@ -1,8 +1,7 @@
 .custom-padding {
     padding-left: 15px;
     padding-right: 15px;
-    background-color: #0f1218;
-    ;
+    /* background-color: #0f1218; */
 }
 
 .player-headshot-container {
@@ -51,4 +50,88 @@
 
 .cards {
     margin-top: 3rem;
+}
+
+
+img[src*="/nba"] {
+    width: 150px;
+    height: 100px;
+    display: block;
+    /* Make the image a block element */
+    margin: 0 auto;
+    /* Center the image horizontally */
+}
+
+body {
+    font-size: 15px;
+    color: rgb(230, 224, 224);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* THIS IS BREAKING CONDITIONAL FORMATTING SCHEDULE */
+/* DASH TABLE CELLS */
+/* .dash-spreadsheet td {
+    background-color: #15171a !important;
+} */
+
+
+/* DASH TABLE COLUMNS */
+.dash-spreadsheet th {
+    background-color: #222222 !important;
+}
+
+/* Optional: To style the table itself */
+.dash-spreadsheet {
+    border: 2px solid rgb(0, 0, 0) !important;
+}
+
+.kpi-card {
+    width: 25%;
+    border: 2px solid #000000;
+    /* Add borders as needed */
+    padding: 10px;
+    margin: 5px;
+    text-align: center;
+    background-color: #15171a;
+    /* Add background color as needed */
+}
+
+h1, h3{
+    text-align: center;
+}
+
+.Select-control {
+    background-color: rgb(25, 25, 25) !important;
+    color: white;
+}
+
+.Select-menu-outer {
+    background-color: rgb(25, 25, 25);
+    color: white;
+}
+
+.Select-value-label {
+    color: white !important;
+}
+
+/* player images  */
+img[src*="/nba"] {
+    width: 150px;
+    height: 100px;
+    display: block;
+    margin: 0 auto;
+
+    /* center that mfer */
+    transform: translateY(4px);
+}
+
+/* team logos */
+.team-data-table img {
+    max-width: 75px;
+    max-height: 75px;
+    display: block;
+    margin: 0 auto;
+
+    /* center that mfer */
+    transform: translateY(8px);
 }

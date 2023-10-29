@@ -1,26 +1,8 @@
 from dash import html
 import dash_bootstrap_components as dbc
-
 import pandas as pd
-
-
-def calculate_prediction_value(df: pd.DataFrame):
-    """ """
-    df["home_is_great_value"] = (
-        (df["home_moneyline_raw"].ge(-130) | df["home_moneyline_raw"].ge(200))
-        & (df["home_team_predicted_win_pct"] >= 0.55)
-        | (df["home_moneyline_raw"] >= 170)
-        & (df["home_team_predicted_win_pct"] >= 0.50)
-    ).astype(int)
-
-    df["away_is_great_value"] = (
-        (df["away_moneyline_raw"].ge(-130) | df["away_moneyline_raw"].ge(200))
-        & (df["away_team_predicted_win_pct"] >= 0.55)
-        | (df["away_moneyline_raw"] >= 170)
-        & (df["away_team_predicted_win_pct"] >= 0.50)
-    ).astype(int)
-
-    return df
+import plotly.express as px
+import plotly.graph_objects as go
 
 
 def pbp_transformer(df: pd.DataFrame):
@@ -38,30 +20,21 @@ def pbp_transformer(df: pd.DataFrame):
     Returns:
         Pandas DataFrame of pbp Data for the Line Chart in Recent Games Tab
     """
-    print(f"Running PBP Transformer")
+    print("Running PBP Transformer")
 
-    # Define a function for handling missing values
     def replace_na(series, value):
         return series.fillna(value)
 
-    # Equivalent of R's dplyr functions in Python using pandas and numpy
-    team_colors = df[["scoring_team", "leading_team_text"]].copy().drop_duplicates()
-    try_df = df.copy().query("scoring_team != 'TIE'")
-    try_df["prev_time"] = try_df["time_remaining_final"].shift()
-    try_df["prev_time"] = replace_na(try_df["prev_time"], 48.0)
-    try_df["time_difference"] = round(
-        60 * (try_df["prev_time"] - try_df["time_remaining_final"])
+    pbp_events = df.copy().query("scoring_team != 'TIE'")
+    pbp_events["prev_time"] = pbp_events["time_remaining_final"].shift()
+    pbp_events["prev_time"] = replace_na(pbp_events["prev_time"], 48.0)
+    pbp_events["time_difference"] = round(
+        60 * (pbp_events["prev_time"] - pbp_events["time_remaining_final"])
     )
-    try_df["time_difference"] = replace_na(try_df["time_difference"], 0)
-    last_record_team = try_df.tail(1)
+    pbp_events["time_difference"] = replace_na(pbp_events["time_difference"], 0)
+    last_record_team = pbp_events.tail(1)
 
-    # Create an empty DataFrame
-    mydf = pd.DataFrame(
-        columns=["scoring_team", "Trailing_time", "Leading_time", "Tied_time"]
-    )
-
-    # Group and summarize the try_df DataFrame
-    try_df = try_df._append(
+    pbp_events = pbp_events._append(
         {
             "scoring_team": last_record_team["scoring_team"].values[0],
             "quarter": last_record_team["quarter"].values[0],
@@ -76,57 +49,37 @@ def pbp_transformer(df: pd.DataFrame):
         ignore_index=True,
     )
 
-    summarized_df = (
-        try_df.groupby(["scoring_team", "leading_team_text"])["time_difference"]
+    pbp_events["game_plot_team_text"] = pbp_events.apply(
+        lambda row: row["home_fill"]
+        if row["scoring_team"] == row["home_team"]
+        else row["away_fill"],
+        axis=1,
+    )
+
+    pbp_kpis = (
+        pbp_events.groupby(["scoring_team", "leading_team_text"])["time_difference"]
         .sum()
         .reset_index()
     )
-    summarized_df = summarized_df.pivot_table(
+    pbp_kpis = pbp_kpis.pivot_table(
         index="scoring_team",
         columns="leading_team_text",
         values="time_difference",
         fill_value=0,
     ).reset_index()
 
-    # Create a copy of the original DataFrame
-    result_df = summarized_df.copy()
-
     # Update "Leading" values by adding "Trailing" to the opponent's "Leading"
-    for index, row in result_df.iterrows():
+    for index, row in pbp_kpis.iterrows():
         opponent_team = "DEN" if row["scoring_team"] == "MIA" else "MIA"
-        result_df.loc[result_df["scoring_team"] == opponent_team, "Leading"] += row[
+        pbp_kpis.loc[pbp_kpis["scoring_team"] == opponent_team, "Leading"] += row[
             "Trailing"
         ]
 
-    tot = sum(result_df["Leading"] + result_df["TIE"])
-    result_df["pct_leading"] = round(result_df["Leading"] / tot, 3)
+    tot = sum(pbp_kpis["Leading"] + pbp_kpis["TIE"])
+    pbp_kpis["pct_leading"] = round(pbp_kpis["Leading"] / tot, 3)
+    pbp_kpis.drop(columns=["Trailing"], inplace=True)
 
-    # Drop the "Trailing" column
-    result_df.drop(columns=["Trailing"], inplace=True)
-    # # Simulating team_colors DataFrame (you can populate it with actual data)
-    # team_colors = df.drop_duplicates(subset=["scoring_team", "scoring_team_color"])[["scoring_team", "scoring_team_color"]]
-
-    # # Join the DataFrames
-    # mydf = mydf.merge(team_colors, on="scoring_team", how="left")
-    # mydf["text"] = (
-    #     "<span style='color:"
-    #     + mydf["scoring_team_color"]
-    #     + ";'>"
-    #     + mydf["scoring_team"]
-    #     + "</span> led for "
-    #     + (mydf["pct_leadtime"] * 100).astype(str)
-    #     + " % of the Game"
-    # )
-    # mydf["tied_text"] = (
-    #     "The teams were tied for "
-    #     + (mydf["pct_tiedtime"] * 100).astype(str)
-    #     + " % of the Game"
-    # )
-
-    # # Select the desired columns for the final DataFrame
-    # final_df = mydf[["text", "tied_text"]]
-
-    return result_df, try_df
+    return pbp_kpis, pbp_events
 
 
 def generate_card(name: str, description: str, kpi_value: str, color: str):
@@ -165,3 +118,60 @@ def generate_card(name: str, description: str, kpi_value: str, color: str):
         ),
         className="col-auto mb-3",
     )
+
+
+def generate_team_ratings_figure(df):
+    team_ratings_fig = px.scatter(
+        df,
+        x="ortg",
+        y="drtg",
+        labels={
+            "ortg": "Offensive Rating",
+            "drtg": "Defensive Rating",
+        },
+        custom_data=[
+            "team",
+            "ortg",
+            "drtg",
+            "nrtg",
+            "drtg_rank",
+            "ortg_rank",
+            "nrtg_rank",
+        ],
+    )
+    team_logos = []
+    for i, row in df.iterrows():
+        team_logos.append(
+            go.layout.Image(
+                source=f"../assets/{row['team_logo']}",
+                x=row["ortg"],
+                y=row["drtg"],
+                xref="x",
+                yref="y",
+                xanchor="center",
+                yanchor="middle",
+                sizex=2.0,
+                sizey=2.0,
+            )
+        )
+
+    layout = go.Layout(images=team_logos)
+    team_ratings_fig.update_layout(layout)
+
+    team_ratings_fig.update_yaxes(
+        autorange="reversed",
+    )
+    team_ratings_fig.update_traces(
+        mode="markers",
+        marker=dict(
+            size=18,
+            opacity=0,
+        ),
+        hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+        hovertemplate="<b>%{customdata[0]}</b><br>"
+        "<b>Offensive Rating:</b> %{customdata[1]} (%{customdata[4]})<br>"
+        "<b>Defensive Rating:</b> %{customdata[2]} (%{customdata[5]})<br>"
+        "<b>Net Rating:</b> %{customdata[3]} (%{customdata[6]})<br>",
+    )
+
+    return team_ratings_fig

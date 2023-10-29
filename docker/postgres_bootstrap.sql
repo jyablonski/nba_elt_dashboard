@@ -1170,19 +1170,86 @@ VALUES ('20 pt Game', 'Regular Season', 356, 'between 11 and 20 points'),
 
 DROP TABLE IF EXISTS schedule;
 CREATE TABLE schedule(
-    date date,
-    day text,
-    avg_team_rank bigint,
-    start_time text,
-    home_team text,
-    away_team text,
-    home_moneyline_raw numeric,
-    away_moneyline_raw numeric
+	"date" date NULL,
+	"day" text NULL,
+	proper_time timestamp NULL,
+	avg_team_rank int8 NULL,
+	start_time text NULL,
+	home_team text NULL,
+	away_team text NULL,
+	home_moneyline_raw numeric NULL,
+	away_moneyline_raw numeric NULL,
+	home_team_logo text NULL,
+	away_team_logo text NULL,
+	home_team_odds text NULL,
+	away_team_odds text NULL
 );
 
-INSERT INTO schedule (date, day, avg_team_rank, start_time, home_team, away_team, home_moneyline_raw, away_moneyline_raw)
-VALUES (current_date, 'Monday', 16, '7:00 PM', 'Indiana Pacers', 'New York Knicks', 300, -365),
-       (current_date, 'Monday', 20, '7:00 PM', 'New York Knicks', 'Indiana Pacers', -365, 300);
+INSERT INTO schedule ("date","day",proper_time,avg_team_rank,start_time,home_team,away_team,home_moneyline_raw,away_moneyline_raw,home_team_logo,away_team_logo,home_team_odds,away_team_odds) VALUES
+	 ('2023-10-29','Sunday   ','2023-10-29 03:30:00.000',4,'3:30 PM','Oklahoma City Thunder','Denver Nuggets',125,-150,'logos/okc.png','logos/den.png','Oklahoma City Thunder (+125)','Denver Nuggets (-150)'),
+	 ('2023-10-29','Sunday   ','2023-10-29 07:00:00.000',15,'7:00 PM','Milwaukee Bucks','Atlanta Hawks',-300,240,'logos/mil.png','logos/atl.png','Milwaukee Bucks (-300)','Atlanta Hawks (+240)'),
+	 ('2023-10-29','Sunday   ','2023-10-29 07:00:00.000',20,'7:00 PM','Houston Rockets','Golden State Warriors',160,-190,'logos/hou.png','logos/gsw.png','Houston Rockets (+160)','Golden State Warriors (-190)'),
+	 ('2023-10-29','Sunday   ','2023-10-29 07:30:00.000',20,'7:30 PM','Philadelphia 76ers','Portland Trail Blazers',-500,375,'logos/phi.png','logos/por.png','Philadelphia 76ers (-500)','Portland Trail Blazers (+375)'),
+	 ('2023-10-29','Sunday   ','2023-10-29 09:00:00.000',16,'9:00 PM','Los Angeles Clippers','San Antonio Spurs',-375,300,'logos/lac.png','logos/sas.png','Los Angeles Clippers (-375)','San Antonio Spurs (+300)'),
+	 ('2023-10-29','Sunday   ','2023-10-29 09:00:00.000',16,'9:00 PM','Sacramento Kings','Los Angeles Lakers',-150,125,'logos/sac.png','logos/lal.png','Sacramento Kings (-150)','Los Angeles Lakers (+125)'),
+	 (current_date + INTERVAL '1 DAY','Monday   ',current_timestamp + INTERVAL '1 DAY',10,'7:00 PM','Washington Wizards','Boston Celtics',NULL,NULL,'logos/was.png','logos/bos.png','Washington Wizards','Boston Celtics'),
+	 (current_date + INTERVAL '1 DAY','Monday   ',current_timestamp + INTERVAL '1 DAY',23,'7:00 PM','Charlotte Hornets','Brooklyn Nets',NULL,NULL,'logos/cha.png','logos/bkn.png','Charlotte Hornets','Brooklyn Nets'),
+	 (current_date + INTERVAL '1 DAY','Monday   ',current_timestamp + INTERVAL '1 DAY',14,'7:00 PM','Indiana Pacers','Chicago Bulls',NULL,NULL,'logos/ind.png','logos/chi.png','Indiana Pacers','Chicago Bulls'),
+	 (current_date + INTERVAL '1 DAY','Monday   ',current_timestamp + INTERVAL '1 DAY',26,'7:30 PM','Toronto Raptors','Portland Trail Blazers',NULL,NULL,'logos/tor.png','logos/por.png','Toronto Raptors','Portland Trail Blazers');
+INSERT INTO schedule ("date","day",proper_time,avg_team_rank,start_time,home_team,away_team,home_moneyline_raw,away_moneyline_raw,home_team_logo,away_team_logo,home_team_odds,away_team_odds) VALUES
+	 ('2023-10-30','Monday   ','2023-10-30 07:30:00.000',19,'7:30 PM','Atlanta Hawks','Minnesota Timberwolves',NULL,NULL,'logos/atl.png','logos/min.png','Atlanta Hawks','Minnesota Timberwolves'),
+	 ('2023-10-30','Monday   ','2023-10-30 08:00:00.000',12,'8:00 PM','Milwaukee Bucks','Miami Heat',NULL,NULL,'logos/mil.png','logos/mia.png','Milwaukee Bucks','Miami Heat'),
+	 ('2023-10-30','Monday   ','2023-10-30 08:00:00.000',15,'8:00 PM','Memphis Grizzlies','Dallas Mavericks',NULL,NULL,'logos/mem.png','logos/dal.png','Memphis Grizzlies','Dallas Mavericks'),
+	 ('2023-10-30','Monday   ','2023-10-30 08:00:00.000',10,'8:00 PM','New Orleans Pelicans','Golden State Warriors',NULL,NULL,'logos/nop.png','logos/gsw.png','New Orleans Pelicans','Golden State Warriors'),
+	 ('2023-10-30','Monday   ','2023-10-30 08:00:00.000',9,'8:00 PM','Oklahoma City Thunder','Detroit Pistons',NULL,NULL,'logos/okc.png','logos/det.png','Oklahoma City Thunder','Detroit Pistons'),
+	 ('2023-10-30','Monday   ','2023-10-30 09:00:00.000',12,'9:00 PM','Denver Nuggets','Utah Jazz',NULL,NULL,'logos/den.png','logos/uta.png','Denver Nuggets','Utah Jazz'),
+	 ('2023-10-30','Monday   ','2023-10-30 10:30:00.000',10,'10:30 PM','Los Angeles Lakers','Orlando Magic',NULL,NULL,'logos/lal.png','logos/orl.png','Los Angeles Lakers','Orlando Magic'),
+	 ('2023-10-31','Tuesday  ','2023-10-31 07:30:00.000',21,'7:30 PM','Cleveland Cavaliers','New York Knicks',NULL,NULL,'logos/cle.png','logos/nyk.png','Cleveland Cavaliers','New York Knicks'),
+	 ('2023-10-31','Tuesday  ','2023-10-31 10:00:00.000',14,'10:00 PM','Phoenix Suns','San Antonio Spurs',NULL,NULL,'logos/phx.png','logos/sas.png','Phoenix Suns','San Antonio Spurs'),
+	 ('2023-10-31','Tuesday  ','2023-10-31 10:30:00.000',10,'10:30 PM','Los Angeles Clippers','Orlando Magic',NULL,NULL,'logos/lac.png','logos/orl.png','Los Angeles Clippers','Orlando Magic');
+INSERT INTO schedule ("date","day",proper_time,avg_team_rank,start_time,home_team,away_team,home_moneyline_raw,away_moneyline_raw,home_team_logo,away_team_logo,home_team_odds,away_team_odds) VALUES
+	 ('2023-11-01','Wednesday','2023-11-01 07:00:00.000',14,'7:00 PM','Toronto Raptors','Milwaukee Bucks',NULL,NULL,'logos/tor.png','logos/mil.png','Toronto Raptors','Milwaukee Bucks'),
+	 ('2023-11-01','Wednesday','2023-11-01 07:00:00.000',19,'7:00 PM','Detroit Pistons','Portland Trail Blazers',NULL,NULL,'logos/det.png','logos/por.png','Detroit Pistons','Portland Trail Blazers'),
+	 ('2023-11-01','Wednesday','2023-11-01 07:30:00.000',22,'7:30 PM','Atlanta Hawks','Washington Wizards',NULL,NULL,'logos/atl.png','logos/was.png','Atlanta Hawks','Washington Wizards'),
+	 ('2023-11-01','Wednesday','2023-11-01 07:30:00.000',4,'7:30 PM','Boston Celtics','Indiana Pacers',NULL,NULL,'logos/bos.png','logos/ind.png','Boston Celtics','Indiana Pacers'),
+	 ('2023-11-01','Wednesday','2023-11-01 07:30:00.000',25,'7:30 PM','Miami Heat','Brooklyn Nets',NULL,NULL,'logos/mia.png','logos/bkn.png','Miami Heat','Brooklyn Nets'),
+	 ('2023-11-01','Wednesday','2023-11-01 07:30:00.000',21,'7:30 PM','New York Knicks','Cleveland Cavaliers',NULL,NULL,'logos/nyk.png','logos/cle.png','New York Knicks','Cleveland Cavaliers'),
+	 ('2023-11-01','Wednesday','2023-11-01 07:30:00.000',7,'7:30 PM','Oklahoma City Thunder','New Orleans Pelicans',NULL,NULL,'logos/okc.png','logos/nop.png','Oklahoma City Thunder','New Orleans Pelicans'),
+	 ('2023-11-01','Wednesday','2023-11-01 08:00:00.000',6,'8:00 PM','Minnesota Timberwolves','Denver Nuggets',NULL,NULL,'logos/min.png','logos/den.png','Minnesota Timberwolves','Denver Nuggets'),
+	 ('2023-11-01','Wednesday','2023-11-01 08:00:00.000',21,'8:00 PM','Houston Rockets','Charlotte Hornets',NULL,NULL,'logos/hou.png','logos/cha.png','Houston Rockets','Charlotte Hornets'),
+	 ('2023-11-01','Wednesday','2023-11-01 08:30:00.000',12,'8:30 PM','Dallas Mavericks','Chicago Bulls',NULL,NULL,'logos/dal.png','logos/chi.png','Dallas Mavericks','Chicago Bulls');
+
+
+DROP TABLE IF EXISTS ml_models.schedule_tonights_games;
+CREATE TABLE IF NOT EXISTS ml_models.schedule_tonights_games(
+	home_team text NULL,
+	away_team text NULL,
+	home_team_odds text NULL,
+	away_team_odds text NULL,
+	start_time text NULL,
+	proper_date date NULL,
+	avg_team_rank numeric NULL,
+	home_moneyline float8 NULL,
+	away_moneyline float8 NULL,
+	home_team_predicted_win_pct float8 NULL,
+	away_team_predicted_win_pct float8 NULL,
+	home_is_great_value int4 NULL,
+	away_is_great_value int4 NULL
+);
+
+INSERT INTO ml_models.schedule_tonights_games (home_team,away_team,home_team_odds,away_team_odds,start_time,proper_date,avg_team_rank,home_moneyline,away_moneyline,home_team_predicted_win_pct,away_team_predicted_win_pct,home_is_great_value,away_is_great_value) VALUES
+	 ('Charlotte Hornets','Detroit Pistons','Charlotte Hornets (-170)','Detroit Pistons (+140)','7:00 PM',current_date,6,-170.0,140.0,0.876,0.124,0,0),
+	 ('Memphis Grizzlies','Denver Nuggets','Memphis Grizzlies (+165)','Denver Nuggets (-200)','7:00 PM',current_date,4,165.0,-200.0,0.198,0.802,1,0),
+	 ('Cleveland Cavaliers','Oklahoma City Thunder','Cleveland Cavaliers (-160)','Oklahoma City Thunder (+130)','7:30 PM',current_date,16,-160.0,130.0,0.597,0.403,0,0),
+	 ('Boston Celtics','Miami Heat','Boston Celtics (-325)','Miami Heat (+250)','7:30 PM',current_date,12.5,-325.0,250.0,0.487,0.513,0,1),
+	 ('Atlanta Hawks','New York Knicks','Atlanta Hawks (-125)','New York Knicks (+105)','7:30 PM',current_date,4.5,-125.0,105.0,0.531,0.469,1,0),
+	 ('Chicago Bulls','Toronto Raptors','Chicago Bulls (-140)','Toronto Raptors (+115)','8:00 PM',current_date,23.5,-140.0,115.0,0.111,0.889,0,1),
+	 ('San Antonio Spurs','Houston Rockets','San Antonio Spurs (-130)','Houston Rockets (+110)','8:00 PM',current_date,21,-130.0,110.0,0.284,0.716,0,1),
+	 ('Dallas Mavericks','Brooklyn Nets','Dallas Mavericks (-240)','Brooklyn Nets (+190)','8:30 PM',current_date,3.5,-240.0,190.0,0.878,0.122,0,0),
+	 ('Utah Jazz','Los Angeles Clippers','Utah Jazz (+130)','Los Angeles Clippers (-152)','9:30 PM',current_date,9,130.0,-152.0,0.158,0.842,0,0),
+	 ('Sacramento Kings','Golden State Warriors','Sacramento Kings (-160)','Golden State Warriors (+130)','10:00 PM',current_date,11,-160.0,130.0,0.779,0.221,1,0);
+INSERT INTO ml_models.schedule_tonights_games (home_team,away_team,home_team_odds,away_team_odds,start_time,proper_date,avg_team_rank,home_moneyline,away_moneyline,home_team_predicted_win_pct,away_team_predicted_win_pct,home_is_great_value,away_is_great_value) VALUES
+	 ('Portland Trail Blazers','Orlando Magic','Portland Trail Blazers (+115)','Orlando Magic (-140)','10:00 PM',current_date,13,115.0,-140.0,0.332,0.668,0,0);
 
 DROP TABLE IF EXISTS social_media_aggs;
 CREATE TABLE IF NOT EXISTS social_media_aggs
@@ -2125,42 +2192,45 @@ CREATE TABLE IF NOT EXISTS team_contracts_analysis (
 	sum_salary_earned numeric NULL,
 	sum_salary_earned_max numeric NULL,
 	team_pct_salary_earned numeric NULL,
-	record text NULL
+	record text NULL,
+	value_lost_from_injury numeric NULL,
+	team_pct_salary_lost numeric NULL
 );
 
-INSERT INTO team_contracts_analysis (team,win_percentage,sum_salary_earned,sum_salary_earned_max,team_pct_salary_earned,record) VALUES
-	 ('PHI',0.659,12946100046,16398920388,0.789,'54 - 28'),
-	 ('DEN',0.646,13717005100,16936420056,0.810,'53 - 29'),
-	 ('CHI',0.488,10217270968,11323345150,0.902,'40 - 42'),
-	 ('DET',0.207,4819130794,7760974460,0.621,'17 - 65'),
-	 ('MEM',0.622,9919816478,13295218502,0.746,'51 - 31'),
-	 ('MIA',0.537,12780871393,17102948608,0.747,'44 - 38'),
-	 ('NYK',0.573,10168829872,12752826714,0.797,'47 - 35'),
-	 ('MIN',0.512,9157038732,12845087784,0.713,'42 - 40'),
-	 ('DAL',0.463,9174517716,12484684828,0.735,'38 - 44'),
-	 ('SAS',0.268,5314811864,7586264932,0.701,'22 - 60');
-INSERT INTO team_contracts_analysis (team,win_percentage,sum_salary_earned,sum_salary_earned_max,team_pct_salary_earned,record) VALUES
-	 ('ATL',0.500,11595214515,13852182920,0.837,'41 - 41'),
-	 ('NOP',0.512,9412946869,14195509622,0.663,'42 - 40'),
-	 ('LAL',0.524,9816844956,13296545672,0.738,'43 - 39'),
-	 ('BKN',0.549,10818189483,14474249844,0.747,'45 - 37'),
-	 ('BOS',0.695,11456714545,13938046678,0.822,'57 - 25'),
-	 ('POR',0.402,9126437807,12394179296,0.736,'33 - 49'),
-	 ('LAC',0.537,11763775814,16232238496,0.725,'44 - 38'),
-	 ('ORL',0.415,5492586761,8996355710,0.611,'34 - 48'),
-	 ('WAS',0.427,9457703118,13221773644,0.715,'35 - 47'),
-	 ('SAC',0.585,10562539867,11935223082,0.885,'48 - 34');
-INSERT INTO team_contracts_analysis (team,win_percentage,sum_salary_earned,sum_salary_earned_max,team_pct_salary_earned,record) VALUES
-	 ('CLE',0.622,9560480874,11754481552,0.813,'51 - 31'),
-	 ('UTA',0.451,6099900573,8609745554,0.708,'37 - 45'),
-	 ('MIL',0.707,11650924225,15795128886,0.738,'58 - 24'),
-	 ('OKC',0.488,5711091230,7276504602,0.785,'40 - 42'),
-	 ('HOU',0.268,3763667962,4753225202,0.792,'22 - 60'),
-	 ('PHX',0.549,10206452528,15046596232,0.678,'45 - 37'),
-	 ('TOR',0.500,12174866405,15617561986,0.780,'41 - 41'),
-	 ('GSW',0.537,13114560933,17448380414,0.752,'44 - 38'),
-	 ('IND',0.427,6045280829,7837835356,0.771,'35 - 47'),
-	 ('CHA',0.329,4585776355,7811946644,0.587,'27 - 55');
+INSERT INTO team_contracts_analysis (team,win_percentage,sum_salary_earned,sum_salary_earned_max,team_pct_salary_earned,record,value_lost_from_injury,team_pct_salary_lost) VALUES
+	 ('LAC',0.500,317528198,325538866,0.975,'1 - 1',8010668,0.025),
+	 ('MIA',0.500,331793212,338596162,0.980,'1 - 1',6802950,0.020),
+	 ('BKN',0.000,257028984,294353038,0.873,'0 - 2',37324054,0.127),
+	 ('BOS',1.000,347839584,352417888,0.987,'2 - 0',4578304,0.013),
+	 ('MIN',0.000,150768429,150768429,1.000,'0 - 1',0,0.000),
+	 ('DAL',1.000,280609928,284609928,0.986,'2 - 0',4000000,0.014),
+	 ('CHA',0.500,176924984,179388944,0.986,'1 - 1',2463960,0.014),
+	 ('TOR',0.500,276380434,288130434,0.959,'1 - 1',11750000,0.041),
+	 ('NOP',1.000,157282665,157282665,1.000,'1 - 0',0,0.000),
+	 ('UTA',0.500,256029127,271959104,0.941,'1 - 1',15929977,0.059);
+INSERT INTO team_contracts_analysis (team,win_percentage,sum_salary_earned,sum_salary_earned_max,team_pct_salary_earned,record,value_lost_from_injury,team_pct_salary_lost) VALUES
+	 ('ATL',0.000,273975664,273975664,1.000,'0 - 2',0,0.000),
+	 ('PHX',0.500,220682084,256698284,0.860,'1 - 1',36016200,0.140),
+	 ('POR',0.000,272917422,300991608,0.907,'0 - 2',28074186,0.093),
+	 ('ORL',1.000,240322880,261928458,0.918,'2 - 0',21605578,0.082),
+	 ('GSW',0.500,358882582,360902288,0.994,'1 - 1',2019706,0.006),
+	 ('MEM',0.000,148436610,165600246,0.896,'0 - 2',17163636,0.104),
+	 ('LAL',0.500,306953892,308673756,0.994,'1 - 1',1719864,0.006),
+	 ('NYK',0.500,267603364,267603364,1.000,'1 - 1',0,0.000),
+	 ('CLE',0.500,229042037,268757164,0.852,'1 - 1',39715127,0.148),
+	 ('DEN',1.000,335146362,337577442,0.993,'2 - 0',2431080,0.007);
+INSERT INTO team_contracts_analysis (team,win_percentage,sum_salary_earned,sum_salary_earned_max,team_pct_salary_earned,record,value_lost_from_injury,team_pct_salary_lost) VALUES
+	 ('OKC',1.000,184163077,200087110,0.920,'2 - 0',15924033,0.080),
+	 ('IND',1.000,117585263,117585263,1.000,'1 - 0',0,0.000),
+	 ('SAC',0.500,266280720,270228322,0.985,'1 - 1',3947602,0.015),
+	 ('CHI',0.500,277250604,282201364,0.982,'1 - 1',4950760,0.018),
+	 ('HOU',0.000,257461168,270699034,0.951,'0 - 2',13237866,0.049),
+	 ('DET',0.500,178401758,178401758,1.000,'1 - 1',0,0.000),
+	 ('PHI',0.000,122204866,122204866,1.000,'0 - 1',0,0.000),
+	 ('WAS',0.000,118580703,118580703,1.000,'0 - 1',0,0.000),
+	 ('MIL',1.000,179884655,179884655,1.000,'1 - 0',0,0.000),
+	 ('SAS',0.500,174204188,174204188,1.000,'1 - 1',0,0.000);
+
 
 DROP TABLE IF EXISTS team_game_types;
 CREATE TABLE IF NOT EXISTS team_game_types (
