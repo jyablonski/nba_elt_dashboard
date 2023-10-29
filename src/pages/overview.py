@@ -22,6 +22,59 @@ team_contracts_analysis_df = team_contracts_analysis_df.sort_values(
     by="team_pct_salary_earned", ascending=True
 )
 
+##
+# Create a trace for the scatter plot
+scatter_trace = go.Scatter(
+    x=team_ratings_df["ortg"],
+    y=team_ratings_df["drtg"],
+    mode="markers",
+    marker=dict(
+        size=15,
+        opacity=0,
+    ),
+    textposition="top center",
+    customdata=[
+        team_ratings_df["team"],
+        team_ratings_df["ortg"],
+        team_ratings_df["drtg"],
+        team_ratings_df["nrtg"],
+        team_ratings_df["drtg_rank"],
+        team_ratings_df["ortg_rank"],
+        team_ratings_df["nrtg_rank"],
+    ],
+    hovertemplate="<b>%{team}</b><br>"
+    "%{customdata[1]}<br>"
+    "<b>Average MVP Score:</b> %{customdata[2]}<br>"
+    "<b>Salary:</b> $%{customdata[3]:,}<br>"
+    "<b>Type:</b> %{customdata[4]}<br>",
+)
+
+# Create image markers
+team_logos = []
+for i, row in team_ratings_df.iterrows():
+    team_logo = row["team_logo"]
+    team_logos.append(
+        go.layout.Image(
+            source=f"../assets/{team_logo}",  # Assuming logos are in an 'assets' directory
+            x=row["ortg"],  # X coordinate
+            y=row["drtg"],  # Y coordinate
+            xref="x",
+            yref="y",
+            xanchor="center",
+            yanchor="middle",
+            sizex=2.0,  # Adjust the size as needed
+            sizey=2.0,
+        )
+    )
+
+# Add image markers to the layout
+layout = go.Layout(images=team_logos)
+
+# Combine the scatter trace and layout with images
+figure = {"data": [scatter_trace], "layout": layout}
+
+
+##
 # it's not baaaaaaad idk
 overview_layout = (
     html.Div(
@@ -176,17 +229,7 @@ overview_layout = (
                     dbc.Col(
                         dcc.Graph(
                             id="team-ratings-plot",
-                            figure=px.scatter(
-                                team_ratings_df,
-                                x="ortg",
-                                y="drtg",
-                                text="team",
-                                labels={
-                                    "ortg": "Offensive Rating (ORTG)",
-                                    "drtg": "Defensive Rating (DRTG)",
-                                },
-                                hover_name="team",
-                            ),
+                            figure=figure,
                         ),
                         width=6,
                     ),
