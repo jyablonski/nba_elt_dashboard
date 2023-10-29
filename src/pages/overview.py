@@ -346,10 +346,34 @@ def update_graph(selected_season):
                 "Top 5 MVP Candidate": "orange",
                 "Other": "grey",
             },
-            hover_name="player",
-            hover_data=["team", "playoffs_ts_percent"],
+            labels={
+                "playoffs_avg_ppg": "Average PPG",
+                "playoffs_ts_percent": "Average TS%",
+            },
+            custom_data=[
+                "player",
+                "team",
+                "playoffs_avg_ppg",
+                "playoffs_ts_percent",
+                "top5_candidates",
+            ],
         )
 
         fig.update_layout(legend_title_text="")
+
+        fig.update_traces(
+            marker=dict(
+                size=8,
+            ),
+            mode="markers",
+            hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+            hovertemplate="<b>%{customdata[0]}</b><br>"
+            "%{customdata[1]}<br>"
+            "<b>Average PPG:</b> %{customdata[2]}<br>"
+            "<b>Average TS%:</b> %{customdata[3]:.1%}<br>"
+            "<b>Type:</b> %{customdata[4]}",
+        )
+
+        return fig
 
         return fig
