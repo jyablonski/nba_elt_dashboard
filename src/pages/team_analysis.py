@@ -135,18 +135,16 @@ def update_team_player_efficiency(selected_team):
         color="top5_candidates",
         text="player",
         labels={"season_avg_ppg": "Season Avg PPG", "season_ts_percent": "Season TS%"},
+        custom_data=[
+            "player",
+            "season_avg_ppg",
+            "season_ts_percent",
+            "top5_candidates",
+        ],
     )
 
     fig.update_traces(
         hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-        customdata=team_player_efficiency[
-            [
-                "player",
-                "season_avg_ppg",
-                "season_ts_percent",
-                "top5_candidates",
-            ]
-        ],
         hovertemplate="<b>%{customdata[0]}</b><br>"
         "<b>Average PPG:</b> %{customdata[1]}<br>"
         "<b>Average TS%:</b> %{customdata[2]:.1%}<br>"
@@ -171,6 +169,7 @@ def update_injuries(selected_team):
                 "overflow": "hidden",
                 "textOverflow": "ellipsis",
                 "maxWidth": 0,
+                "background-color": "#15171a",
             },
         ),
     )
@@ -192,6 +191,7 @@ def update_transactions(selected_team):
                 "overflow": "hidden",
                 "textOverflow": "ellipsis",
                 "maxWidth": 0,
+                "background-color": "#15171a",
             },
         ),
     )

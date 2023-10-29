@@ -52,9 +52,14 @@
     margin-top: 3rem;
 }
 
+
 img[src*="/nba"] {
     width: 150px;
     height: 100px;
+    display: block;
+    /* Make the image a block element */
+    margin: 0 auto;
+    /* Center the image horizontally */
 }
 
 body {
@@ -107,4 +112,26 @@ h1 {
 
 .Select-value-label {
     color: white !important;
+}
+
+/* player images  */
+img[src*="/nba"] {
+    width: 150px;
+    height: 100px;
+    display: block;
+    margin: 0 auto;
+
+    /* center that mfer */
+    transform: translateY(4px);
+}
+
+/* team logos */
+.team-data-table img {
+    max-width: 75px;
+    max-height: 75px;
+    display: block;
+    margin: 0 auto;
+
+    /* center that mfer */
+    transform: translateY(8px);
 }

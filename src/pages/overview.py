@@ -14,6 +14,10 @@ from src.data import (
     team_ratings_df,
 )
 
+contract_value_analysis_df2 = contract_value_analysis_df.copy()
+# contract_value_analysis_df = contract_value_analysis_df.sort_values(
+#     by="salary", ascending=True
+# )
 team_contracts_analysis_df = team_contracts_analysis_df.sort_values(
     by="team_pct_salary_earned", ascending=True
 )
@@ -202,6 +206,13 @@ overview_layout = (
                                     "salary": "Salary",
                                     "player_mvp_calc_avg": "Average MVP Score",
                                 },
+                                custom_data=[
+                                    "player",
+                                    "team",
+                                    "player_mvp_calc_avg",
+                                    "salary",
+                                    "color_var",
+                                ],
                                 color="color_var",
                                 color_discrete_map={
                                     "Superstars": "purple",
@@ -215,15 +226,6 @@ overview_layout = (
                                     font_size=12,
                                     font_family="Rockwell",
                                 ),
-                                customdata=contract_value_analysis_df[
-                                    [
-                                        "player",
-                                        "team",
-                                        "player_mvp_calc_avg",
-                                        "salary",
-                                        "color_var",
-                                    ]
-                                ],
                                 hovertemplate="<b>%{customdata[0]}</b><br>"
                                 "%{customdata[1]}<br>"
                                 "<b>Average MVP Score:</b> %{customdata[2]}<br>"
@@ -249,26 +251,27 @@ overview_layout = (
                                     "team_pct_salary_earned": "Team % Salary Earned",
                                     "team": "Team",
                                 },
+                                custom_data=[
+                                    "team",
+                                    "win_percentage",
+                                    "sum_salary_earned",
+                                    "sum_salary_earned_max",
+                                    "team_pct_salary_earned",
+                                    "value_lost_from_injury",
+                                    "team_pct_salary_lost",
+                                ],
                             ).update_traces(
                                 hoverlabel=dict(
                                     bgcolor="white",
                                     font_size=12,
                                     font_family="Rockwell",
                                 ),
-                                customdata=team_contracts_analysis_df[
-                                    [
-                                        "team",
-                                        "win_percentage",
-                                        "sum_salary_earned",
-                                        "sum_salary_earned_max",
-                                        "team_pct_salary_earned",
-                                    ]
-                                ],
                                 hovertemplate="<b>%{customdata[0]}</b><br>"
                                 "<b>Win %:</b> %{customdata[1]:.1%}<br>"
-                                "<b>Salary Earned:</b> %{customdata[2]:$,}<br>"
-                                "<b>Value Lost from Injury:</b> %{customdata[3]:$,}<br>"
-                                "<b>% Salary Earned:</b> %{customdata[4]:.1%}<br>",
+                                "<b>% Salary Value Earned:</b> %{customdata[4]:.1%}<br>"
+                                "<b>% Salary Value Lost from Injury:</b> %{customdata[6]:.1%}<br>"
+                                "<b>Total Salary Value Earned:</b> %{customdata[2]:$,}<br>"
+                                "<b>Total Salary Value Lost from Injury:</b> %{customdata[5]:$,}",
                             ),
                         ),
                         width={"size": 6},
@@ -280,24 +283,24 @@ overview_layout = (
     ),
 )
 
-avg_ortg = team_ratings_df["ortg"].mean()
-avg_drtg = team_ratings_df["drtg"].mean()
+# avg_ortg = team_ratings_df["ortg"].mean()
+# avg_drtg = team_ratings_df["drtg"].mean()
 
-average_ortg_line = go.Scatter(
-    x=[avg_ortg, avg_ortg],
-    y=[team_ratings_df["drtg"].min(), team_ratings_df["drtg"].max()],
-    mode="lines",
-    name="Average ORTG",
-    line=dict(color="red", dash="dash"),
-)
+# average_ortg_line = go.Scatter(
+#     x=[avg_ortg, avg_ortg],
+#     y=[team_ratings_df["drtg"].min(), team_ratings_df["drtg"].max()],
+#     mode="lines",
+#     name="Average ORTG",
+#     line=dict(color="red", dash="dash"),
+# )
 
-average_drtg_line = go.Scatter(
-    x=[team_ratings_df["ortg"].min(), team_ratings_df["ortg"].max()],
-    y=[avg_drtg, avg_drtg],
-    mode="lines",
-    name="Average DRTG",
-    line=dict(color="blue", dash="dash"),
-)
+# average_drtg_line = go.Scatter(
+#     x=[team_ratings_df["ortg"].min(), team_ratings_df["ortg"].max()],
+#     y=[avg_drtg, avg_drtg],
+#     mode="lines",
+#     name="Average DRTG",
+#     line=dict(color="blue", dash="dash"),
+# )
 
 # Add team logos using image annotations
 team_logos = []
@@ -339,6 +342,13 @@ def update_graph(selected_season):
                 "Top 5 MVP Candidate": "orange",
                 "Other": "grey",
             },
+            custom_data=[
+                "player",
+                "team",
+                "season_avg_ppg",
+                "season_ts_percent",
+                "top5_candidates",
+            ],
         )
 
         fig.update_layout(legend_title_text="")
@@ -349,15 +359,6 @@ def update_graph(selected_season):
             ),
             mode="markers",
             hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-            customdata=filtered_df[
-                [
-                    "player",
-                    "team",
-                    "season_avg_ppg",
-                    "season_ts_percent",
-                    "top5_candidates",
-                ]
-            ],
             hovertemplate="<b>%{customdata[0]}</b><br>"
             "%{customdata[1]}<br>"
             "<b>Average PPG:</b> %{customdata[2]}<br>"

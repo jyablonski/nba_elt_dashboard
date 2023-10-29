@@ -201,17 +201,15 @@ def update_reddit_team_sentiment(selected_team):
             "scrape_date": "",
             "num_comments": "Number of Comments",
         },
+        custom_data=[
+            "scrape_date",
+            "num_comments",
+            "game_outcome",
+        ],
     )
 
     fig.update_traces(
         hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-        customdata=filtered_team_sentiment[
-            [
-                "scrape_date",
-                "num_comments",
-                "game_outcome",
-            ]
-        ],
         hovertemplate="<b>%{customdata[0]}</b><br>"
         "<b>Total Comments:</b> %{customdata[1]}<br>"
         "<b>Game Outcome:</b> %{customdata[2]}<br>",

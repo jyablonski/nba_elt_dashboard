@@ -180,17 +180,15 @@ def update_game_types_plot(hoverData):
         y="n",
         text="n",
         labels={"n": "Count", "game_type": "Type", "explanation": "Explanation"},
+        custom_data=[
+            "game_type",
+            "n",
+            "explanation",
+        ],
     )
 
     fig.update_traces(
         hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-        customdata=game_types_df[
-            [
-                "game_type",
-                "n",
-                "explanation",
-            ]
-        ],
         hovertemplate="<b>Game Type:</b> %{customdata[0]}<br>"
         "<b># Games:</b> %{customdata[1]}<br>"
         "<b>Explanation:</b> %{customdata[0]}s are defined as the Margin of Victory being %{customdata[2]}<br>",
@@ -210,24 +208,22 @@ def update_schedule_plot(selected_schedule_plot):
             x="pct_vs_below_500",
             y="team",
             labels={"team": "Team", "pct_vs_below_500": "% Games Below .500 Teams"},
+            custom_data=[
+                "team",
+                "win_pct",
+                "avg_win_pct_opp",
+                "home_record",
+                "road_record",
+                "above_record",
+                "below_record",
+                "pct_vs_above_500",
+                "pct_vs_below_500",
+                "record",
+            ],
         )
 
         fig.update_traces(
             hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-            customdata=past_schedule_analysis_df[
-                [
-                    "team",
-                    "win_pct",
-                    "avg_win_pct_opp",
-                    "home_record",
-                    "road_record",
-                    "above_record",
-                    "below_record",
-                    "pct_vs_above_500",
-                    "pct_vs_below_500",
-                    "record",
-                ]
-            ],
             hovertemplate="<b>%{customdata[0]}</b><br>"
             "<b>Record:</b> %{customdata[9]}<br>"
             "<b>Win %:</b> %{customdata[1]:.1%}<br>"
@@ -250,20 +246,18 @@ def update_schedule_plot(selected_schedule_plot):
             color="wins_differential",
             color_continuous_scale="RdYlGn",
             labels={"team": "Team", "wins_differential": "Wins Differential"},
+            custom_data=[
+                "team",
+                "wins_differential",
+                "predicted_stats",
+                "projected_stats",
+                "over_under",
+                "championship_odds",
+            ],
         )
 
         fig.update_traces(
             hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-            customdata=preseason_odds_df[
-                [
-                    "team",
-                    "wins_differential",
-                    "predicted_stats",
-                    "projected_stats",
-                    "over_under",
-                    "championship_odds",
-                ]
-            ],
             hovertemplate="<b>%{customdata[0]}</b><br>"
             "<b>Wins Differential:</b> %{customdata[1]}<br>"
             "<b>Preseason Over / Under:</b> %{customdata[2]}<br>"
@@ -282,21 +276,19 @@ def update_schedule_plot(selected_schedule_plot):
             color="net_comebacks",
             color_continuous_scale="RdYlGn",
             labels={"team": "Team", "net_comebacks": "Net Comebacks"},
+            custom_data=[
+                "team",
+                "blown_leads_10pt",
+                "blown_lead_rank",
+                "team_comebacks_10pt",
+                "comeback_rank",
+                "net_comebacks",
+                "net_rank",
+            ],
         )
 
         fig.update_traces(
             hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-            customdata=team_blown_leads_df[
-                [
-                    "team",
-                    "blown_leads_10pt",
-                    "blown_lead_rank",
-                    "team_comebacks_10pt",
-                    "comeback_rank",
-                    "net_comebacks",
-                    "net_rank",
-                ]
-            ],
             hovertemplate="<b>%{customdata[0]}</b><br>"
             "<b>10+ Pt Blown Leads:</b> %{customdata[1]} (%{customdata[2]})<br>"
             "<b>10+ Pt Comebacks:</b> %{customdata[3]} (%{customdata[4]})<br>"

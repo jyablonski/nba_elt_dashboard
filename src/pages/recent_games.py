@@ -17,6 +17,15 @@ from src.utils import pbp_transformer
 pbp_plot_kpis, pbp_plot_df = pbp_transformer(pbp_df)
 yesterdays_games = pbp_df["game_description"].drop_duplicates()
 
+
+# # Define a custom function to generate image HTML or a fallback text
+# def generate_image_html(image_path, fallback_text="Missing Image"):
+#     if image_path:
+#         return html.Img(src=f"../assets/{image_path}", style={"width": "50px"})
+#     else:
+#         return fallback_text
+
+
 recent_games_layout = html.Div(
     [
         html.Br(),
@@ -74,7 +83,7 @@ recent_games_layout = html.Div(
                                 {
                                     "if": {"column_id": "player_logo"},
                                     "width": "50px",
-                                    "white-space": "normal",  # Allow the image to resize within the cell
+                                    "white-space": "normal",
                                 },
                             ],
                         ),
@@ -84,12 +93,48 @@ recent_games_layout = html.Div(
                 dbc.Col(
                     [
                         html.H1("Team Victories"),
-                        dash_table.DataTable(
-                            id="team-recent-games-table",
-                            columns=recent_games_teams_columns,
-                            data=recent_games_teams_df.to_dict("records"),
-                            css=[{"selector": ".show-hide", "rule": "display: none"}],
-                            style_cell={"background-color": "#15171a"},
+                        html.Div(
+                            dash_table.DataTable(
+                                id="team-recent-games-table",
+                                columns=recent_games_teams_columns,
+                                data=recent_games_teams_df.to_dict("records"),
+                                css=[
+                                    {"selector": ".show-hide", "rule": "display: none"}
+                                ],
+                                style_cell={"background-color": "#15171a"},
+                                merge_duplicate_headers=True,
+                                style_cell_conditional=[
+                                    {"if": {"column_id": "team_logo"}, "width": "18%"},
+                                    {"if": {"column_id": "opp_logo"}, "width": "18%"},
+                                    {"if": {"column_id": "pts_scored"}, "width": "16%"},
+                                    {
+                                        "if": {"column_id": "max_team_lead"},
+                                        "width": "2%",
+                                    },
+                                    {
+                                        "if": {"column_id": "pts_scored_opp"},
+                                        "width": "4%",
+                                    },
+                                    {
+                                        "if": {"column_id": "opp_max_lead"},
+                                        "width": "4%",
+                                    },
+                                    {"if": {"column_id": "mov"}, "width": "4%"},
+                                ],
+                                style_data_conditional=[
+                                    {
+                                        "if": {"column_id": "team_logo"},
+                                        "width": "50px",
+                                        "white-space": "normal",
+                                    },
+                                    {
+                                        "if": {"column_id": "opp_logo"},
+                                        "width": "50px",
+                                        "white-space": "normal",
+                                    },
+                                ],
+                            ),
+                            className="team-data-table",
                         ),
                     ],
                     width=6,
@@ -124,6 +169,18 @@ def render_images(data):
     return data
 
 
+@callback(
+    Output("team-recent-games-table", "data"),
+    Input("team-recent-games-table", "data"),
+)
+def render_team_images(data):
+    for row in data:
+        row["team_logo"] = f'![Missing Image](assets/{row["team_logo"]})'
+        row["opp_logo"] = f'![Missing Image](assets/{row["opp_logo"]})'
+
+    return data
+
+
 # @callback(
 #     Output("injury-tracker-table", "data"),
 #     Input("injury-tracker-table", "data"),
@@ -150,6 +207,14 @@ def update_data_table(selected_value):
             },
             title="Game Plot",
             # hover_name="scoring_team",
+            custom_data=[
+                "play",
+                "time_quarter",
+                "quarter",
+                "leading_team_text",
+                "score",
+                "game_plot_team_text",
+            ],
         )
         .update_traces(
             marker=dict(
@@ -158,16 +223,6 @@ def update_data_table(selected_value):
             ),
             mode="markers+lines",  # Combine markers and lines
             hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-            customdata=filtered_pbp[
-                [
-                    "play",
-                    "time_quarter",
-                    "quarter",
-                    "leading_team_text",
-                    "score",
-                    "game_plot_team_text",
-                ]
-            ],
             hovertemplate="<b>Timestamp:</b> %{customdata[1]} in the %{customdata[2]}<br>"
             "<b>Scoring Team:</b> %{customdata[5]} (%{customdata[3]} %{customdata[4]})<br>"
             "<b>Play:</b> %{customdata[0]}<br>",
