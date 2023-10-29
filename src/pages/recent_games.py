@@ -18,22 +18,16 @@ pbp_plot_kpis, pbp_plot_df = pbp_transformer(pbp_df)
 yesterdays_games = pbp_df["game_description"].drop_duplicates()
 
 
-# # Define a custom function to generate image HTML or a fallback text
-# def generate_image_html(image_path, fallback_text="Missing Image"):
-#     if image_path:
-#         return html.Img(src=f"../assets/{image_path}", style={"width": "50px"})
-#     else:
-#         return fallback_text
-
-
 recent_games_layout = html.Div(
     [
         html.Br(),
+        html.H3("Play by Play Plot"),
         dbc.Row(
             [
                 html.Br(),
                 dbc.Col(
                     [
+                        html.H4("Select a Game"),
                         dcc.Dropdown(
                             id="game-selector",
                             options=[

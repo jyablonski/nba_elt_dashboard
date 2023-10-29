@@ -3,7 +3,8 @@ from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import plotly.express as px
 
-from src.data_cols.schedule import schedule_columns
+from src.data_cols.future_schedule import future_schedule_columns
+from src.data_cols.tonights_schedule import tonights_schedule_columns
 from src.data import (
     game_types_df,
     past_schedule_analysis_df,
@@ -51,8 +52,8 @@ schedule_layout = html.Div(
                             options=[
                                 {"label": "Tonight's Games", "value": "tonights-games"},
                                 {
-                                    "label": "Future Schedule",
-                                    "value": "future-schedule",
+                                    "label": "Full Schedule",
+                                    "value": "full-schedule",
                                 },
                             ],
                             value="tonights-games",
@@ -102,15 +103,21 @@ schedule_layout = html.Div(
                 dbc.Row(
                     [
                         dbc.Col(
-                            dcc.Graph(
-                                id="game-types-plot",
-                            ),
+                            [
+                                html.H3("League Average Margins of Victory"),
+                                dcc.Graph(
+                                    id="game-types-plot",
+                                ),
+                            ],
                             width=6,
                         ),
                         dbc.Col(
-                            dcc.Graph(
-                                id="schedule-plot",
-                            ),
+                            [
+                                html.H3("Team Schedule Analysis"),
+                                dcc.Graph(
+                                    id="schedule-plot",
+                                ),
+                            ],
                             width=6,
                         ),
                     ]
@@ -122,7 +129,6 @@ schedule_layout = html.Div(
 )
 
 
-# Define a callback to update the selected data table
 @callback(
     Output("schedule-table", "children"), [Input("schedule-table-selector", "value")]
 )
@@ -130,7 +136,7 @@ def update_schedule_table(selected_value):
     if selected_value == "tonights-games":
         return (
             dash_table.DataTable(
-                columns=schedule_columns,
+                columns=tonights_schedule_columns,
                 data=schedule_tonights_games_df.to_dict("records"),
                 css=[{"selector": ".show-hide", "rule": "display: none"}],
                 sort_action="native",
@@ -155,19 +161,15 @@ def update_schedule_table(selected_value):
                 ],
             ),
         )
-    elif selected_value == "future-schedule":
+    elif selected_value == "full-schedule":
         return (
             dash_table.DataTable(
-                columns=schedule_columns,
+                columns=future_schedule_columns,
                 data=schedule_df.to_dict("records"),
-                # hidden_columns=[
-                #     "active_protocols",
-                #     "conference",
-                #     "team",
-                # ],
                 css=[{"selector": ".show-hide", "rule": "display: none"}],
                 sort_action="native",
                 page_size=15,
+                style_cell={"background-color": "#15171a"},
             ),
         )
 

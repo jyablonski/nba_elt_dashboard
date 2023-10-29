@@ -47,17 +47,23 @@ team_analysis_layout = html.Div(
         dbc.Row(
             [
                 dbc.Col(
-                    dcc.Graph(
-                        id="mov-plot",
-                        config={"displayModeBar": False},
-                    ),
+                    [
+                        html.H3("Game Margin of Victory"),
+                        dcc.Graph(
+                            id="mov-plot",
+                            config={"displayModeBar": False},
+                        ),
+                    ],
                     width=6,
                 ),
                 dbc.Col(
-                    dcc.Graph(
-                        id="team-player-efficiency-plot",
-                        config={"displayModeBar": False},
-                    ),
+                    [
+                        html.H3("Player Scoring Efficiency"),
+                        dcc.Graph(
+                            id="team-player-efficiency-plot",
+                            config={"displayModeBar": False},
+                        ),
+                    ],
                     width=6,
                 ),
             ]
@@ -67,14 +73,14 @@ team_analysis_layout = html.Div(
             [
                 dbc.Col(
                     [
-                        html.H1("Team Injuries"),
+                        html.H3("Team Injuries"),
                         html.Div(id="injuries-table"),
                     ],
                     width=6,
                 ),
                 dbc.Col(
                     [
-                        html.H1("Team Transactions"),
+                        html.H3("Team Transactions"),
                         html.Div(id="transactions-table"),
                     ],
                     width=6,
@@ -94,26 +100,27 @@ def update_mov(selected_team):
         filtered_df,
         x="date",
         y="mov",
-        color="outcome",
         labels={
             "date": "Date",
             "opponent": "Opponent",
             "mov": "Margin of Victory",
             "outcome": "Outcome",
         },
-        hover_name="date",
+        color="outcome",
+        color_discrete_map={
+            "W": "green",
+            "L": "red",
+        },
+        custom_data=[
+            "date",
+            "opponent",
+            "mov",
+            "outcome",
+        ],
     )
 
     fig.update_traces(
         hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-        customdata=filtered_df[
-            [
-                "date",
-                "opponent",
-                "mov",
-                "outcome",
-            ]
-        ],
         hovertemplate="<b>%{customdata[0]}</b> vs <b>%{customdata[1]}</b><br>"
         "<b>Margin of Victory:</b> %{customdata[2]}<br>"
         "<b>Outcome:</b> %{customdata[3]}<br>",

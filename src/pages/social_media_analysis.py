@@ -37,7 +37,7 @@ social_media_analysis_layout = html.Div(
                 # KPI 2
                 html.Div(
                     [
-                        html.H4(f"Select a Social Media Type"),
+                        html.H4("Select a Social Media Type"),
                         dcc.Dropdown(
                             id="social-media-selector",
                             options=[
@@ -123,57 +123,35 @@ social_media_analysis_layout = html.Div(
                 dbc.Col(
                     dbc.Row(
                         dbc.Col(
-                            dcc.Dropdown(
-                                id="social-media-team-selector",
-                                options=[
-                                    {"label": team, "value": team}
-                                    for team in team_names_abbreviations
-                                ],
-                                value="GSW",
-                                clearable=False,
-                                style={"width": "250px"},
-                            ),
+                            [
+                                html.H4("Select a Team"),
+                                dcc.Dropdown(
+                                    id="social-media-team-selector",
+                                    options=[
+                                        {"label": team, "value": team}
+                                        for team in team_names_abbreviations
+                                    ],
+                                    value="GSW",
+                                    clearable=False,
+                                    style={"width": "250px"},
+                                ),
+                            ],
                             width=2,
                         )
                     ),
                 ),
                 dbc.Col(
-                    dcc.Graph(
-                        id="social-media-plot",
-                        style={"width": "100%", "display": "inline-block"},
-                    ),
+                    [
+                        html.H3("Sentiment Analysis Plot"),
+                        dcc.Graph(
+                            id="social-media-plot",
+                            style={"width": "100%", "display": "inline-block"},
+                        ),
+                    ],
                     width=12,
                 ),
             ]
         ),
-        # html.Div(
-        #     [
-        #         html.H1("Card Component", className="text-center"),
-        #         dbc.Row(
-        #             [
-        #                 generate_card(
-        #                     name="John Doe",
-        #                     description="Business Owner",
-        #                     kpi_value=2,
-        #                     color="green",
-        #                 ),
-        #                 generate_card(
-        #                     name="John Doe2",
-        #                     description="Business Owner2",
-        #                     kpi_value=3,
-        #                     color="green",
-        #                 ),
-        #                 generate_card(
-        #                     name="John Doe3",
-        #                     description="Business Owner3",
-        #                     kpi_value=1123 - 1414,
-        #                     color="green",
-        #                 ),
-        #             ],
-        #             className="cards justify-content-center",
-        #         ),
-        #     ]
-        # ),
     ],
     className="custom-padding",
 )

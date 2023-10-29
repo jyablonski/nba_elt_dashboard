@@ -2,7 +2,6 @@ from dash import callback, dash_table, dcc, html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import plotly.express as px
-import plotly.graph_objects as go
 
 from src.data_cols.standings import standings_columns
 from src.data import (
@@ -13,68 +12,12 @@ from src.data import (
     team_contracts_analysis_df,
     team_ratings_df,
 )
+from src.utils import generate_team_ratings_figure
 
-contract_value_analysis_df2 = contract_value_analysis_df.copy()
-# contract_value_analysis_df = contract_value_analysis_df.sort_values(
-#     by="salary", ascending=True
-# )
 team_contracts_analysis_df = team_contracts_analysis_df.sort_values(
     by="team_pct_salary_earned", ascending=True
 )
 
-##
-# Create a trace for the scatter plot
-scatter_trace = go.Scatter(
-    x=team_ratings_df["ortg"],
-    y=team_ratings_df["drtg"],
-    mode="markers",
-    marker=dict(
-        size=15,
-        opacity=0,
-    ),
-    textposition="top center",
-    customdata=[
-        team_ratings_df["team"],
-        team_ratings_df["ortg"],
-        team_ratings_df["drtg"],
-        team_ratings_df["nrtg"],
-        team_ratings_df["drtg_rank"],
-        team_ratings_df["ortg_rank"],
-        team_ratings_df["nrtg_rank"],
-    ],
-    hovertemplate="<b>%{team}</b><br>"
-    "%{customdata[1]}<br>"
-    "<b>Average MVP Score:</b> %{customdata[2]}<br>"
-    "<b>Salary:</b> $%{customdata[3]:,}<br>"
-    "<b>Type:</b> %{customdata[4]}<br>",
-)
-
-# Create image markers
-team_logos = []
-for i, row in team_ratings_df.iterrows():
-    team_logo = row["team_logo"]
-    team_logos.append(
-        go.layout.Image(
-            source=f"../assets/{team_logo}",  # Assuming logos are in an 'assets' directory
-            x=row["ortg"],  # X coordinate
-            y=row["drtg"],  # Y coordinate
-            xref="x",
-            yref="y",
-            xanchor="center",
-            yanchor="middle",
-            sizex=2.0,  # Adjust the size as needed
-            sizey=2.0,
-        )
-    )
-
-# Add image markers to the layout
-layout = go.Layout(images=team_logos)
-
-# Combine the scatter trace and layout with images
-figure = {"data": [scatter_trace], "layout": layout}
-
-
-##
 # it's not baaaaaaad idk
 overview_layout = (
     html.Div(
@@ -204,33 +147,41 @@ overview_layout = (
             ),
             html.Br(),
             dbc.Row(
-                dbc.Col(
-                    dcc.Dropdown(
-                        id="season-selector",
-                        options=[
-                            {
-                                "label": "Regular Season",
-                                "value": "Regular Season",
-                            },
-                            {"label": "Playoffs", "value": "Playoffs"},
-                        ],
-                        clearable=False,
-                        value="Regular Season",
-                    ),
-                    width={"size": 3},  # Set the width to 50% (6 out of 12 columns)
-                )
+                [
+                    dbc.Col(
+                        dcc.Dropdown(
+                            id="season-selector",
+                            options=[
+                                {
+                                    "label": "Regular Season",
+                                    "value": "Regular Season",
+                                },
+                                {"label": "Playoffs", "value": "Playoffs"},
+                            ],
+                            clearable=False,
+                            value="Regular Season",
+                        ),
+                        width={"size": 2},
+                    )
+                ]
             ),
             dbc.Row(
                 [
                     dbc.Col(
-                        dcc.Graph(id="player-scoring-efficiency-plot"),
+                        [
+                            html.H3("Player Scoring Efficiency"),
+                            dcc.Graph(id="player-scoring-efficiency-plot"),
+                        ],
                         width=6,
                     ),
                     dbc.Col(
-                        dcc.Graph(
-                            id="team-ratings-plot",
-                            figure=figure,
-                        ),
+                        [
+                            html.H3("Team Ratings"),
+                            dcc.Graph(
+                                id="team-ratings-plot",
+                                figure=generate_team_ratings_figure(df=team_ratings_df),
+                            ),
+                        ],
                         width=6,
                     ),
                 ]
@@ -239,84 +190,94 @@ overview_layout = (
             dbc.Row(
                 [
                     dbc.Col(
-                        dcc.Graph(
-                            id="player-value-analysis-plot",
-                            figure=px.scatter(
-                                contract_value_analysis_df,
-                                x="salary",
-                                y="player_mvp_calc_avg",
-                                labels={
-                                    "salary": "Salary",
-                                    "player_mvp_calc_avg": "Average MVP Score",
-                                },
-                                custom_data=[
-                                    "player",
-                                    "team",
-                                    "player_mvp_calc_avg",
-                                    "salary",
-                                    "color_var",
-                                ],
-                                color="color_var",
-                                color_discrete_map={
-                                    "Superstars": "purple",
-                                    "Great Value": "green",
-                                    "Normal": "gray",
-                                    "Bad Value": "red",
-                                },
-                            ).update_traces(
-                                hoverlabel=dict(
-                                    bgcolor="white",
-                                    font_size=12,
-                                    font_family="Rockwell",
-                                ),
-                                hovertemplate="<b>%{customdata[0]}</b><br>"
-                                "%{customdata[1]}<br>"
-                                "<b>Average MVP Score:</b> %{customdata[2]}<br>"
-                                "<b>Salary:</b> $%{customdata[3]:,}<br>"
-                                "<b>Type:</b> %{customdata[4]}<br>",
+                        [
+                            html.H3("Player Value Analysis"),
+                            dcc.Graph(
+                                id="player-value-analysis-plot",
+                                figure=px.scatter(
+                                    contract_value_analysis_df,
+                                    x="salary",
+                                    y="player_mvp_calc_avg",
+                                    labels={
+                                        "salary": "Salary",
+                                        "player_mvp_calc_avg": "Average MVP Score",
+                                    },
+                                    custom_data=[
+                                        "player",
+                                        "team",
+                                        "player_mvp_calc_avg",
+                                        "salary",
+                                        "color_var",
+                                    ],
+                                    color="color_var",
+                                    color_discrete_map={
+                                        "Superstars": "purple",
+                                        "Great Value": "green",
+                                        "Normal": "gray",
+                                        "Bad Value": "red",
+                                    },
+                                )
+                                .update_traces(
+                                    hoverlabel=dict(
+                                        bgcolor="white",
+                                        font_size=12,
+                                        font_family="Rockwell",
+                                    ),
+                                    hovertemplate="<b>%{customdata[0]}</b><br>"
+                                    "%{customdata[1]}<br>"
+                                    "<b>Average MVP Score:</b> %{customdata[2]}<br>"
+                                    "<b>Salary:</b> $%{customdata[3]:,}<br>"
+                                    "<b>Type:</b> %{customdata[4]}<br>",
+                                )
+                                .update_layout(legend_title_text=""),
                             ),
-                        ),
+                        ],
                         width={"size": 6},
                     ),
                     dbc.Col(
-                        dcc.Graph(
-                            id="contract-bar-plot",
-                            figure=px.bar(
-                                team_contracts_analysis_df,
-                                x="team_pct_salary_earned",
-                                y="team",
-                                color="win_percentage",
-                                color_continuous_scale=[
-                                    (0, "red"),
-                                    (1, "green"),
-                                ],
-                                labels={
-                                    "team_pct_salary_earned": "Team % Salary Earned",
-                                    "team": "Team",
-                                },
-                                custom_data=[
-                                    "team",
-                                    "win_percentage",
-                                    "sum_salary_earned",
-                                    "sum_salary_earned_max",
-                                    "team_pct_salary_earned",
-                                    "value_lost_from_injury",
-                                    "team_pct_salary_lost",
-                                ],
-                            ).update_traces(
-                                hoverlabel=dict(
-                                    bgcolor="white",
-                                    font_size=12,
-                                    font_family="Rockwell",
-                                ),
-                                hovertemplate="<b>%{customdata[0]}</b><br>"
-                                "<b>Win %:</b> %{customdata[1]:.1%}<br>"
-                                "<b>% Salary Value Earned:</b> %{customdata[4]:.1%}<br>"
-                                "<b>% Salary Value Lost from Injury:</b> %{customdata[6]:.1%}<br>"
-                                "<b>Total Salary Value Earned:</b> %{customdata[2]:$,}<br>"
-                                "<b>Total Salary Value Lost from Injury:</b> %{customdata[5]:$,}",
+                        [
+                            html.H3("Team Contract Value Analysis"),
+                            dcc.Graph(
+                                id="contract-bar-plot",
+                                figure=px.bar(
+                                    team_contracts_analysis_df,
+                                    x="team_pct_salary_earned",
+                                    y="team",
+                                    color="win_percentage",
+                                    color_continuous_scale=[
+                                        (0, "red"),
+                                        (1, "green"),
+                                    ],
+                                    labels={
+                                        "team_pct_salary_earned": "Team % Salary Earned",
+                                        "team": "Team",
+                                    },
+                                    custom_data=[
+                                        "team",
+                                        "win_percentage",
+                                        "sum_salary_earned",
+                                        "sum_salary_earned_max",
+                                        "team_pct_salary_earned",
+                                        "value_lost_from_injury",
+                                        "team_pct_salary_lost",
+                                    ],
+                                )
+                                .update_traces(
+                                    hoverlabel=dict(
+                                        bgcolor="white",
+                                        font_size=12,
+                                        font_family="Rockwell",
+                                    ),
+                                    hovertemplate="<b>%{customdata[0]}</b><br>"
+                                    "<b>Win %:</b> %{customdata[1]:.1%}<br>"
+                                    "<b>% Salary Value Earned:</b> %{customdata[4]:.1%}<br>"
+                                    "<b>% Salary Value Lost from Injury:</b> %{customdata[6]:.1%}<br>"
+                                    "<b>Total Salary Value Earned:</b> %{customdata[2]:$,}<br>"
+                                    "<b>Total Salary Value Lost from Injury:</b> %{customdata[5]:$,}",
+                                )
+                                .update_layout(legend_title_text=""),
                             ),
-                        ),
+                        ],
                         width={"size": 6},
                     ),
                 ],
@@ -325,43 +286,6 @@ overview_layout = (
         className="custom-padding",
     ),
 )
-
-# avg_ortg = team_ratings_df["ortg"].mean()
-# avg_drtg = team_ratings_df["drtg"].mean()
-
-# average_ortg_line = go.Scatter(
-#     x=[avg_ortg, avg_ortg],
-#     y=[team_ratings_df["drtg"].min(), team_ratings_df["drtg"].max()],
-#     mode="lines",
-#     name="Average ORTG",
-#     line=dict(color="red", dash="dash"),
-# )
-
-# average_drtg_line = go.Scatter(
-#     x=[team_ratings_df["ortg"].min(), team_ratings_df["ortg"].max()],
-#     y=[avg_drtg, avg_drtg],
-#     mode="lines",
-#     name="Average DRTG",
-#     line=dict(color="blue", dash="dash"),
-# )
-
-# Add team logos using image annotations
-team_logos = []
-for i, row in team_ratings_df.iterrows():
-    team_logo = row["team_logo"]
-    team_logos.append(
-        go.layout.Image(
-            source=f"assets/logos/{team_logo}",  # Assuming logos are in an 'assets' directory
-            x=row["ortg"],  # X coordinate
-            y=row["drtg"],  # Y coordinate
-            xref="x",
-            yref="y",
-            xanchor="center",
-            yanchor="bottom",
-            sizex=0.2,
-            sizey=0.2,
-        )
-    )
 
 
 @callback(

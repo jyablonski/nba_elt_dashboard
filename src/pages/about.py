@@ -11,7 +11,7 @@ about_layout = html.Div(
             "This dashboard shows up to date information about the 2023-24 NBA Season.  "
             "It's built w/ Dash and hosted on AWS via ECS & Route53"
         ),
-        html.H3("Data"),
+        html.H2("Data"),
         html.Ul(
             [
                 html.Li(
@@ -43,7 +43,7 @@ about_layout = html.Div(
                 ),
             ]
         ),
-        html.H3("Project Infrastructure"),
+        html.H2("Project Infrastructure"),
         html.P("GitHub Links to Infrastructure for this Project: "),
         html.Ul(
             [
@@ -85,7 +85,7 @@ about_layout = html.Div(
                 ),
             ]
         ),
-        html.H3("Developer"),
+        html.H2("Developer"),
         html.P("Jacob Yablonski"),
         html.P(
             [
