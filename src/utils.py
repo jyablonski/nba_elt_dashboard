@@ -121,6 +121,9 @@ def generate_card(name: str, description: str, kpi_value: str, color: str):
 
 
 def generate_team_ratings_figure(df):
+    ortg_avg = df["ortg"].mean()
+    drtg_avg = df["drtg"].mean()
+
     team_ratings_fig = px.scatter(
         df,
         x="ortg",
@@ -139,6 +142,14 @@ def generate_team_ratings_figure(df):
             "nrtg_rank",
         ],
     )
+
+    team_ratings_fig.add_hline(
+        y=ortg_avg, line_width=3, line_dash="dash", line_color="black", opacity=0.5
+    )
+    team_ratings_fig.add_vline(
+        x=drtg_avg, line_width=3, line_dash="dash", line_color="black", opacity=0.5
+    )
+
     team_logos = []
     for i, row in df.iterrows():
         team_logos.append(
@@ -150,8 +161,8 @@ def generate_team_ratings_figure(df):
                 yref="y",
                 xanchor="center",
                 yanchor="middle",
-                sizex=2.0,
-                sizey=2.0,
+                sizex=2.8,
+                sizey=2.8,
             )
         )
 
@@ -164,7 +175,7 @@ def generate_team_ratings_figure(df):
     team_ratings_fig.update_traces(
         mode="markers",
         marker=dict(
-            size=18,
+            size=25,
             opacity=0,
         ),
         hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),

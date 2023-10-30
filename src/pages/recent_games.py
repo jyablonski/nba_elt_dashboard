@@ -64,7 +64,7 @@ recent_games_layout = html.Div(
                             css=[{"selector": ".show-hide", "rule": "display: none"}],
                             sort_action="native",
                             page_size=15,
-                            style_cell={"background-color": "#15171a"},
+                            style_cell={"background-color": "#383b3d"},
                             style_cell_conditional=[
                                 {"if": {"column_id": "player_logo"}, "width": "18%"},
                                 {"if": {"column_id": "player"}, "width": "16%"},
@@ -95,25 +95,26 @@ recent_games_layout = html.Div(
                                 css=[
                                     {"selector": ".show-hide", "rule": "display: none"}
                                 ],
-                                style_cell={"background-color": "#15171a"},
+                                style_cell={"background-color": "#383b3d"},
                                 merge_duplicate_headers=True,
                                 style_cell_conditional=[
                                     {"if": {"column_id": "team_logo"}, "width": "18%"},
                                     {"if": {"column_id": "opp_logo"}, "width": "18%"},
-                                    {"if": {"column_id": "pts_scored"}, "width": "16%"},
+                                    {"if": {"column_id": "pts_scored"}, "width": "4%"},
                                     {
                                         "if": {"column_id": "max_team_lead"},
-                                        "width": "2%",
+                                        "width": "4%",
                                     },
                                     {
                                         "if": {"column_id": "pts_scored_opp"},
                                         "width": "4%",
                                     },
                                     {
-                                        "if": {"column_id": "opp_max_lead"},
+                                        "if": {"column_id": "max_opponent_lead"},
                                         "width": "4%",
                                     },
                                     {"if": {"column_id": "mov"}, "width": "4%"},
+                                    {"if": {"column_id": "vs"}, "width": "4%"},
                                 ],
                                 style_data_conditional=[
                                     {
@@ -199,7 +200,6 @@ def update_data_table(selected_value):
                 "margin_score": "Score Differential",
                 "time_remaining_final": "",
             },
-            title="Game Plot",
             # hover_name="scoring_team",
             custom_data=[
                 "play",

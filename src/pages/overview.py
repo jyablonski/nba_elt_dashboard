@@ -98,7 +98,7 @@ overview_layout = (
                                 data=standings_df.query(
                                     'conference == "Western"'
                                 ).to_dict("records"),
-                                style_cell={"background-color": "#15171a"},
+                                style_cell={"background-color": "#383b3d"},
                                 hidden_columns=[
                                     "active_protocols",
                                     "conference",
@@ -125,7 +125,7 @@ overview_layout = (
                                 data=standings_df.query(
                                     'conference == "Eastern"'
                                 ).to_dict("records"),
-                                style_cell={"background-color": "#15171a"},
+                                style_cell={"background-color": "#383b3d"},
                                 hidden_columns=[
                                     "active_protocols",
                                     "conference",
@@ -293,6 +293,8 @@ overview_layout = (
     Input("season-selector", "value"),
 )
 def update_graph(selected_season):
+    regular_season_ts_percent_avg = scorers_df["season_ts_percent"].mean()
+
     if selected_season == "Regular Season":
         filtered_df = scorers_df.query("season_avg_ppg >= 20")
 
@@ -318,7 +320,15 @@ def update_graph(selected_season):
             ],
         )
 
-        fig.update_layout(legend_title_text="")
+        fig.add_hline(
+            y=regular_season_ts_percent_avg,
+            line_width=3,
+            line_dash="dash",
+            line_color="black",
+            opacity=0.5,
+        )
+
+        fig.update_layout(legend_title_text="", yaxis_tickformat=".0%")
 
         fig.update_traces(
             marker=dict(
@@ -359,7 +369,15 @@ def update_graph(selected_season):
             ],
         )
 
-        fig.update_layout(legend_title_text="")
+        fig.add_hline(
+            y=regular_season_ts_percent_avg,
+            line_width=3,
+            line_dash="dash",
+            line_color="black",
+            opacity=0.5,
+        )
+
+        fig.update_layout(legend_title_text="", yaxis_tickformat=".0%")
 
         fig.update_traces(
             marker=dict(

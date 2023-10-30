@@ -142,7 +142,7 @@ def update_schedule_table(selected_value):
                 sort_action="native",
                 page_size=15,
                 merge_duplicate_headers=True,
-                style_cell={"background-color": "#15171a"},
+                style_cell={"background-color": "#383b3d"},
                 style_data_conditional=[
                     {
                         "if": {
@@ -169,7 +169,7 @@ def update_schedule_table(selected_value):
                 css=[{"selector": ".show-hide", "rule": "display: none"}],
                 sort_action="native",
                 page_size=15,
-                style_cell={"background-color": "#15171a"},
+                style_cell={"background-color": "#383b3d"},
             ),
         )
 
@@ -223,6 +223,8 @@ def update_schedule_plot(selected_schedule_plot):
                 "record",
             ],
         )
+
+        fig.update_layout(legend_title_text="", xaxis_tickformat = '.0%')
 
         fig.update_traces(
             hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),

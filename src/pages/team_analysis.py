@@ -150,7 +150,10 @@ def update_team_player_efficiency(selected_team):
         ],
     )
 
+    fig.update_layout(legend_title_text="", yaxis_tickformat = '.0%')
+
     fig.update_traces(
+        textposition="top center",
         hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
         hovertemplate="<b>%{customdata[0]}</b><br>"
         "<b>Average PPG:</b> %{customdata[1]}<br>"
