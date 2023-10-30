@@ -17,7 +17,7 @@ def substitute_env_vars(yaml_content: dict) -> None:
 
 
 def load_yaml_with_env(filename: str) -> dict:
-    with open(filename, "r") as file:
+    with open(filename) as file:
         yaml_content = yaml.safe_load(file)
         substitute_env_vars(yaml_content)
         return yaml_content

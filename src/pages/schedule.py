@@ -193,7 +193,8 @@ def update_game_types_plot(hoverData):
         hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
         hovertemplate="<b>Game Type:</b> %{customdata[0]}<br>"
         "<b># Games:</b> %{customdata[1]}<br>"
-        "<b>Explanation:</b> %{customdata[0]}s are defined as the Margin of Victory being %{customdata[2]}<br>",
+        "<b>Explanation:</b> %{customdata[0]}s are defined as"
+        "the Margin of Victory being %{customdata[2]}<br>",
     )
 
     return fig
@@ -224,7 +225,7 @@ def update_schedule_plot(selected_schedule_plot):
             ],
         )
 
-        fig.update_layout(legend_title_text="", xaxis_tickformat = '.0%')
+        fig.update_layout(legend_title_text="", xaxis_tickformat=".0%")
 
         fig.update_traces(
             hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),

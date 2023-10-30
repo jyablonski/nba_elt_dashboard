@@ -150,7 +150,7 @@ def update_team_player_efficiency(selected_team):
         ],
     )
 
-    fig.update_layout(legend_title_text="", yaxis_tickformat = '.0%')
+    fig.update_layout(legend_title_text="", yaxis_tickformat=".0%")
 
     fig.update_traces(
         textposition="top center",
