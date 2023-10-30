@@ -343,6 +343,14 @@ def update_graph(selected_season):
             "<b>Type:</b> %{customdata[4]}",
         )
 
+        fig.add_annotation(
+            x=scorers_df["season_avg_ppg"].max(),
+            y=regular_season_ts_percent_avg - 0.01,
+            text="League Average TS%",
+            yanchor="top",
+            showarrow=False,
+        )
+
         return fig
     else:
         filtered_playoffs_df = scorers_df.query("playoffs_avg_ppg >= 20")
