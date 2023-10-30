@@ -30,6 +30,9 @@ black = "^23.10.0"
 ruff = "^0.1.1"
 bump2version = "^1.0.1"
 
+[tool.ruff]
+line-length = 100
+
 
 [tool.pytest.ini_options]
 filterwarnings = ["ignore::DeprecationWarning"]
