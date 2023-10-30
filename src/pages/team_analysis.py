@@ -150,7 +150,10 @@ def update_team_player_efficiency(selected_team):
         ],
     )
 
+    fig.update_layout(legend_title_text="", yaxis_tickformat=".0%")
+
     fig.update_traces(
+        textposition="top center",
         hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
         hovertemplate="<b>%{customdata[0]}</b><br>"
         "<b>Average PPG:</b> %{customdata[1]}<br>"
@@ -169,7 +172,13 @@ def update_injuries(selected_team):
         dash_table.DataTable(
             columns=injuries_columns,
             data=filtered_injuries.to_dict("records"),
-            css=[{"selector": ".show-hide", "rule": "display: none"}],
+            css=[
+                {
+                    "selector": ".dash-table-tooltip",
+                    "rule": "background-color: grey; font-family: font-family: 'Gill Sans',\
+                        'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; color: white",
+                }
+            ],
             sort_action="native",
             page_size=10,
             style_cell={
@@ -178,6 +187,22 @@ def update_injuries(selected_team):
                 "maxWidth": 0,
                 "background-color": "#15171a",
             },
+            tooltip_data=[
+                {
+                    column: {"value": str(value), "type": "markdown"}
+                    for column, value in row.items()
+                }
+                for row in filtered_injuries.to_dict("records")
+            ],
+            tooltip_duration=None,
+            style_cell_conditional=[
+                {"if": {"column_id": "player"}, "width": "15%"},
+                {"if": {"column_id": "team"}, "width": "15%"},
+                {"if": {"column_id": "date"}, "width": "15%"},
+                {"if": {"column_id": "status"}, "width": "10%"},
+                {"if": {"column_id": "injury"}, "width": "10%"},
+                {"if": {"column_id": "description"}, "width": "50%"},
+            ],
         ),
     )
 
@@ -191,7 +216,13 @@ def update_transactions(selected_team):
         dash_table.DataTable(
             columns=transactions_columns,
             data=filtered_transactions.to_dict("records"),
-            css=[{"selector": ".show-hide", "rule": "display: none"}],
+            css=[
+                {
+                    "selector": ".dash-table-tooltip",
+                    "rule": "background-color: grey; font-family: font-family: 'Gill Sans',\
+                    'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; color: white",
+                }
+            ],
             sort_action="native",
             page_size=10,
             style_cell={
@@ -200,6 +231,18 @@ def update_transactions(selected_team):
                 "maxWidth": 0,
                 "background-color": "#15171a",
             },
+            tooltip_data=[
+                {
+                    column: {"value": str(value), "type": "markdown"}
+                    for column, value in row.items()
+                }
+                for row in filtered_transactions.to_dict("records")
+            ],
+            tooltip_duration=None,
+            style_cell_conditional=[
+                {"if": {"column_id": "date"}, "width": "20%"},
+                {"if": {"column_id": "transaction"}, "width": "80%"},
+            ],
         ),
     )
 

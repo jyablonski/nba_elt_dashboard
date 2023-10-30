@@ -103,5 +103,9 @@ with engine.begin() as connection:
         if "." in table:
             table_name = table.split(".")[1]
             globals()[f"{table_name}_df"] = get_data(table_name=table, conn=connection)
+        elif table == "reddit_sentiment_time_series":
+            globals()[f"{table}_df"] = get_data(
+                table_name=table, conn=connection, limit_amount=10000000
+            )
         else:
             globals()[f"{table}_df"] = get_data(table_name=table, conn=connection)

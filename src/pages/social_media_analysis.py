@@ -60,7 +60,8 @@ social_media_analysis_layout = html.Div(
                         ),
                         html.Div("Total Reddit Comments Scraped"),
                         html.Div(
-                            f"{social_media_aggs_df['reddit_pct_difference'][0]}% difference from average"
+                            f"{social_media_aggs_df['reddit_pct_difference'][0]}% "
+                            "difference from average"
                         ),
                     ],
                     className="kpi-card",
@@ -74,7 +75,8 @@ social_media_analysis_layout = html.Div(
                         ),
                         html.Div("Total Twitter Tweets Scraped"),
                         html.Div(
-                            f"{social_media_aggs_df['twitter_pct_difference'][0]}% difference from average"
+                            f"{social_media_aggs_df['twitter_pct_difference'][0]}% "
+                            "difference from average"
                         ),
                     ],
                     className="kpi-card",
@@ -91,26 +93,46 @@ social_media_analysis_layout = html.Div(
                         id="social-media-table",
                         columns=reddit_comments_columns,
                         data=reddit_comments_df.to_dict("records"),
-                        css=[{"selector": ".show-hide", "rule": "display: none"}],
+                        css=[
+                            {
+                                "selector": ".dash-table-tooltip",
+                                "rule": "background-color: grey; font-family: \
+                                font-family: 'Gill Sans','Gill Sans MT', Calibri, \
+                                'Trebuchet MS', sans-serif; color: white",
+                            }
+                        ],
                         style_cell={
                             "overflow": "hidden",
                             "textOverflow": "ellipsis",
                             "maxWidth": 0,
-                            "background-color": "#15171a",
+                            "background-color": "#383b3d",
                         },
+                        tooltip_data=[
+                            {
+                                column: {"value": str(value), "type": "markdown"}
+                                for column, value in row.items()
+                            }
+                            for row in reddit_comments_df.to_dict("records")
+                        ],
+                        tooltip_duration=None,
                         sort_action="native",
                         page_size=15,
                         merge_duplicate_headers=True,
                         style_cell_conditional=[
                             {"if": {"column_id": "scrape_date"}, "width": "8%"},
+                            {"if": {"column_id": "author"}, "width": "8%"},
                             {"if": {"column_id": "flair"}, "width": "8%"},
-                            {"if": {"column_id": "comment"}, "width": "40%"},
                             {"if": {"column_id": "score"}, "width": "6%"},
                             {"if": {"column_id": "compound"}, "width": "5%"},
                             {"if": {"column_id": "pos"}, "width": "4%"},
                             {"if": {"column_id": "neg"}, "width": "4%"},
                             {"if": {"column_id": "neu"}, "width": "4%"},
                             {"if": {"column_id": "url"}, "width": "8%"},
+                            {
+                                "if": {"column_id": "comment"},
+                                "textAlign": "left",
+                                "width": "40%",
+                            },
                         ],
                     ),
                     width=12,
@@ -186,11 +208,13 @@ def update_reddit_team_sentiment(selected_team):
         ],
     )
 
+    fig.update_layout(legend_title_text="")
+
     fig.update_traces(
         hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-        hovertemplate="<b>%{customdata[0]}</b><br>"
+        hovertemplate="<b>Scrape Date: </b>%{customdata[0]}<br>"
         "<b>Total Comments:</b> %{customdata[1]}<br>"
-        "<b>Game Outcome:</b> %{customdata[2]}<br>",
+        "<b>Previous Day's Game Outcome:</b> %{customdata[2]}<br>",
     )
 
     return fig

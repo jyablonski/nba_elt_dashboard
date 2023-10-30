@@ -98,7 +98,7 @@ overview_layout = (
                                 data=standings_df.query(
                                     'conference == "Western"'
                                 ).to_dict("records"),
-                                style_cell={"background-color": "#15171a"},
+                                style_cell={"background-color": "#383b3d"},
                                 hidden_columns=[
                                     "active_protocols",
                                     "conference",
@@ -125,7 +125,7 @@ overview_layout = (
                                 data=standings_df.query(
                                     'conference == "Eastern"'
                                 ).to_dict("records"),
-                                style_cell={"background-color": "#15171a"},
+                                style_cell={"background-color": "#383b3d"},
                                 hidden_columns=[
                                     "active_protocols",
                                     "conference",
@@ -293,6 +293,8 @@ overview_layout = (
     Input("season-selector", "value"),
 )
 def update_graph(selected_season):
+    regular_season_ts_percent_avg = scorers_df["season_ts_percent"].mean()
+
     if selected_season == "Regular Season":
         filtered_df = scorers_df.query("season_avg_ppg >= 20")
 
@@ -318,7 +320,15 @@ def update_graph(selected_season):
             ],
         )
 
-        fig.update_layout(legend_title_text="")
+        fig.add_hline(
+            y=regular_season_ts_percent_avg,
+            line_width=3,
+            line_dash="dash",
+            line_color="black",
+            opacity=0.5,
+        )
+
+        fig.update_layout(legend_title_text="", yaxis_tickformat=".0%")
 
         fig.update_traces(
             marker=dict(
@@ -331,6 +341,14 @@ def update_graph(selected_season):
             "<b>Average PPG:</b> %{customdata[2]}<br>"
             "<b>Average TS%:</b> %{customdata[3]:.1%}<br>"
             "<b>Type:</b> %{customdata[4]}",
+        )
+
+        fig.add_annotation(
+            x=scorers_df["season_avg_ppg"].max(),
+            y=regular_season_ts_percent_avg - 0.01,
+            text="League Average TS%",
+            yanchor="top",
+            showarrow=False,
         )
 
         return fig
@@ -346,10 +364,42 @@ def update_graph(selected_season):
                 "Top 5 MVP Candidate": "orange",
                 "Other": "grey",
             },
-            hover_name="player",
-            hover_data=["team", "playoffs_ts_percent"],
+            labels={
+                "playoffs_avg_ppg": "Average PPG",
+                "playoffs_ts_percent": "Average TS%",
+            },
+            custom_data=[
+                "player",
+                "team",
+                "playoffs_avg_ppg",
+                "playoffs_ts_percent",
+                "top5_candidates",
+            ],
         )
 
-        fig.update_layout(legend_title_text="")
+        fig.add_hline(
+            y=regular_season_ts_percent_avg,
+            line_width=3,
+            line_dash="dash",
+            line_color="black",
+            opacity=0.5,
+        )
+
+        fig.update_layout(legend_title_text="", yaxis_tickformat=".0%")
+
+        fig.update_traces(
+            marker=dict(
+                size=8,
+            ),
+            mode="markers",
+            hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+            hovertemplate="<b>%{customdata[0]}</b><br>"
+            "%{customdata[1]}<br>"
+            "<b>Average PPG:</b> %{customdata[2]}<br>"
+            "<b>Average TS%:</b> %{customdata[3]:.1%}<br>"
+            "<b>Type:</b> %{customdata[4]}",
+        )
+
+        return fig
 
         return fig

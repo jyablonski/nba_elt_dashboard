@@ -91,3 +91,7 @@ lint:
         black .; \
         ruff check .; \
     fi
+
+.PHONY: test1
+test1:
+	@docker compose -f docker/docker-compose-test.yml up --exit-code-from dash_app_test_runner
