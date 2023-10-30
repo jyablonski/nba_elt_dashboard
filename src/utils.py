@@ -161,8 +161,8 @@ def generate_team_ratings_figure(df):
                 yref="y",
                 xanchor="center",
                 yanchor="middle",
-                sizex=2.8,
-                sizey=2.8,
+                sizex=4.5,
+                sizey=4.5,
             )
         )
 

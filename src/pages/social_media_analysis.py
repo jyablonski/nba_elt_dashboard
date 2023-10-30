@@ -60,7 +60,8 @@ social_media_analysis_layout = html.Div(
                         ),
                         html.Div("Total Reddit Comments Scraped"),
                         html.Div(
-                            f"{social_media_aggs_df['reddit_pct_difference'][0]}% difference from average"
+                            f"{social_media_aggs_df['reddit_pct_difference'][0]}% "
+                            "difference from average"
                         ),
                     ],
                     className="kpi-card",
@@ -74,7 +75,8 @@ social_media_analysis_layout = html.Div(
                         ),
                         html.Div("Total Twitter Tweets Scraped"),
                         html.Div(
-                            f"{social_media_aggs_df['twitter_pct_difference'][0]}% difference from average"
+                            f"{social_media_aggs_df['twitter_pct_difference'][0]}% "
+                            "difference from average"
                         ),
                     ],
                     className="kpi-card",
@@ -94,8 +96,9 @@ social_media_analysis_layout = html.Div(
                         css=[
                             {
                                 "selector": ".dash-table-tooltip",
-                                "rule": "background-color: grey; font-family: font-family: 'Gill Sans',\
-                                    'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; color: white",
+                                "rule": "background-color: grey; font-family: \
+                                font-family: 'Gill Sans','Gill Sans MT', Calibri, \
+                                'Trebuchet MS', sans-serif; color: white",
                             }
                         ],
                         style_cell={
@@ -132,21 +135,6 @@ social_media_analysis_layout = html.Div(
                             },
                         ],
                     ),
-                    # style_cell_conditional=[
-                    #     {"if": {"column_id": "player_logo"}, "width": "18%"},
-                    #     {"if": {"column_id": "player"}, "width": "16%"},
-                    #     {"if": {"column_id": "outcome"}, "width": "2%"},
-                    #     {"if": {"column_id": "salary"}, "width": "4%"},
-                    #     {"if": {"column_id": "pts"}, "width": "4%"},
-                    #     {"if": {"column_id": "game_ts_percent"}, "width": "4%"},
-                    # ],
-                    # style_data_conditional=[
-                    #     {
-                    #         "if": {"column_id": "player_logo"},
-                    #         "width": "50px",
-                    #         "white-space": "normal",
-                    #     },
-                    # ],
                     width=12,
                 ),
             ],
@@ -220,11 +208,13 @@ def update_reddit_team_sentiment(selected_team):
         ],
     )
 
+    fig.update_layout(legend_title_text="")
+
     fig.update_traces(
         hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-        hovertemplate="<b>%{customdata[0]}</b><br>"
+        hovertemplate="<b>Scrape Date: </b>%{customdata[0]}<br>"
         "<b>Total Comments:</b> %{customdata[1]}<br>"
-        "<b>Game Outcome:</b> %{customdata[2]}<br>",
+        "<b>Previous Day's Game Outcome:</b> %{customdata[2]}<br>",
     )
 
     return fig
