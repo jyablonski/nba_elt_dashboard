@@ -164,7 +164,7 @@ social_media_analysis_layout = html.Div(
                 ),
                 dbc.Col(
                     [
-                        html.H3("Sentiment Analysis Plot"),
+                        html.H3("Reddit Sentiment Analysis Plot using Flairs"),
                         dcc.Graph(
                             id="social-media-plot",
                             style={"width": "100%", "display": "inline-block"},

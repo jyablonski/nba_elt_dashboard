@@ -1,8 +1,10 @@
 import os
 import socket
 
+import pandas as pd
 import pytest
-from sqlalchemy.engine.base import Engine
+
+# from sqlalchemy.engine.base import Engine
 
 
 def guard(*args, **kwargs):
@@ -30,3 +32,27 @@ socket.socket = guard
 #     )
 #     with conn.begin() as conn:
 #         yield conn
+
+
+@pytest.fixture(scope="function")
+def pbp_fixture() -> pd.DataFrame:
+    """
+    Fixture to load player stats data from an html file for testing.
+    """
+    file_name = os.path.join(os.path.dirname(__file__), "fixtures/pbp_fixture.csv")
+    df = pd.read_csv(file_name)
+
+    return df
+
+
+@pytest.fixture(scope="function")
+def team_ratings_fixture() -> pd.DataFrame:
+    """
+    Fixture to load player stats data from an html file for testing.
+    """
+    file_name = os.path.join(
+        os.path.dirname(__file__), "fixtures/team_ratings_fixture.csv"
+    )
+    df = pd.read_csv(file_name)
+
+    return df

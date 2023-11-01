@@ -1,0 +1,31 @@
+team,team_acronym,w,l,ortg,drtg,nrtg,team_logo,nrtg_rank,drtg_rank,ortg_rank
+Boston Celtics,BOS,57,25,118.0,111.5,6.5,logos/bos.png,1st,3rd,2nd
+Cleveland Cavaliers,CLE,51,31,116.1,110.6,5.5,logos/cle.png,2nd,1st,8th
+Philadelphia 76ers,PHI,54,28,117.7,113.3,4.4,logos/phi.png,3rd,8th,4th
+Memphis Grizzlies,MEM,51,31,115.1,111.2,3.9,logos/mem.png,4th,2nd,15th
+Milwaukee Bucks,MIL,58,24,115.4,111.9,3.5,logos/mil.png,5th,4th,12th
+Denver Nuggets,DEN,53,29,117.6,114.2,3.4,logos/den.png,6th,14th,5th
+New York Knicks,NYK,47,35,117.8,114.8,3.0,logos/nyk.png,7th,19th,3rd
+Sacramento Kings,SAC,48,34,119.4,116.8,2.6,logos/sac.png,8th,25th,1st
+Phoenix Suns,PHX,45,37,115.1,113.0,2.1,logos/phx.png,9th,7th,14th
+New Orleans Pelicans,NOP,42,40,114.4,112.5,1.9,logos/nop.png,10th,6th,22nd
+Golden State Warriors,GSW,44,38,116.1,114.4,1.7,logos/gsw.png,11th,17th,9th
+Toronto Raptors,TOR,41,41,115.5,114.0,1.5,logos/tor.png,12th,12th,11th
+Chicago Bulls,CHI,40,42,113.5,112.2,1.3,logos/chi.png,13th,5th,24th
+Oklahoma City Thunder,OKC,40,42,115.2,114.2,1.0,logos/okc.png,14th,16th,13th
+Brooklyn Nets,BKN,45,37,115.0,114.1,0.9,logos/bkn.png,15th,13th,17th
+Los Angeles Lakers,LAL,43,39,114.5,113.9,0.6,logos/lal.png,16th,11th,20th
+Los Angeles Clippers,LAC,44,38,115.0,114.5,0.5,logos/lac.png,17th,18th,16th
+Atlanta Hawks,ATL,41,41,116.6,116.3,0.3,logos/atl.png,18th,22nd,7th
+Dallas Mavericks,DAL,38,44,116.8,116.7,0.1,logos/dal.png,19th,23rd,6th
+Minnesota Timberwolves,MIN,42,40,113.7,113.8,-0.1,logos/min.png,20th,10th,23rd
+Miami Heat,MIA,44,38,113.0,113.3,-0.3,logos/mia.png,21st,9th,25th
+Utah Jazz,UTA,37,45,115.8,116.7,-0.9,logos/uta.png,22nd,24th,10th
+Washington Wizards,WAS,35,47,114.4,115.6,-1.2,logos/was.png,23rd,21st,21st
+Orlando Magic,ORL,34,48,111.6,114.2,-2.6,logos/orl.png,24th,15th,26th
+Indiana Pacers,IND,35,47,114.6,117.7,-3.1,logos/ind.png,25th,26th,19th
+Portland Trail Blazers,POR,33,49,114.8,118.8,-4.0,logos/por.png,26th,27th,18th
+Charlotte Hornets,CHA,27,55,109.2,115.3,-6.1,logos/cha.png,27th,20th,30th
+Houston Rockets,HOU,22,60,111.4,119.3,-7.9,logos/hou.png,28th,29th,27th
+Detroit Pistons,DET,17,65,110.7,118.9,-8.2,logos/det.png,29th,28th,28th
+San Antonio Spurs,SAS,22,60,110.2,120.0,-9.8,logos/sas.png,30th,30th,29th

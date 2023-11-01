@@ -137,8 +137,8 @@ def generate_team_ratings_figure(df):
             "ortg",
             "drtg",
             "nrtg",
-            "drtg_rank",
             "ortg_rank",
+            "drtg_rank",
             "nrtg_rank",
         ],
     )
