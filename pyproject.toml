@@ -28,7 +28,6 @@ optional = true
 ipykernel = "^6.25.2"
 black = "^23.10.0"
 ruff = "^0.1.1"
-bump2version = "^1.0.3"
 
 [tool.ruff]
 line-length = 100
