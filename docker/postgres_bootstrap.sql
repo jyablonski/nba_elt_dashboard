@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS contract_value_analysis (
 	salary_rank text NULL,
 	team text NULL,
 	games_played int8 NULL,
-	player_mvp_calc_avg numeric NULL,
+	avg_mvp_score numeric NULL,
 	salary numeric NULL,
 	team_games_played int8 NULL,
 	games_missed int8 NULL,
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS contract_value_analysis (
 	pct_penalized numeric NULL
 );
 
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Nikola Jokic','$30+ M','DEN',69,48.30,47607350,82,13,32.77,1.000,100.000,'Superstars',1.00000000000000000000,0.00000000000000000000),
 	 ('Luka Doncic','$30+ M','DAL',66,48.10,40064220,82,16,32.77,0.977,97.700,'Superstars',1.00000000000000000000,0.00000000000000000000),
 	 ('Joel Embiid','$30+ M','PHI',66,47.80,47607350,82,16,32.77,0.953,95.300,'Superstars',1.00000000000000000000,0.00000000000000000000),
@@ -58,7 +58,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Donovan Mitchell','$30+ M','CLE',68,39.20,33162030,82,14,32.77,0.837,83.700,'Superstars',1.00000000000000000000,0.00000000000000000000),
 	 ('Ja Morant','$30+ M','MEM',61,37.26,34005250,82,21,32.77,0.814,81.400,'Superstars',0.90000000000000000000,0.10000000000000000000),
 	 ('Pascal Siakam','$30+ M','TOR',71,37.10,37893408,82,11,32.77,0.791,79.100,'Superstars',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Damian Lillard','$30+ M','POR',58,36.88,45640084,82,24,32.77,0.767,76.700,'Superstars',0.84000000000000000000,0.16000000000000000000),
 	 ('De''Aaron Fox','$30+ M','SAC',73,36.60,32600060,82,9,32.77,0.744,74.400,'Superstars',1.00000000000000000000,0.00000000000000000000),
 	 ('Darius Garland','$30+ M','CLE',69,36.30,34005250,82,13,32.77,0.721,72.100,'Superstars',1.00000000000000000000,0.00000000000000000000),
@@ -69,7 +69,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('DeMar DeRozan','$25-30 M','CHI',74,35.10,28600000,82,8,26.37,0.917,91.700,'Great Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Fred VanVleet','$30+ M','TOR',69,35.10,40806300,82,13,32.77,0.605,60.500,'Superstars',1.00000000000000000000,0.00000000000000000000),
 	 ('Jrue Holiday','$30+ M','MIL',67,35.10,36861707,82,15,32.77,0.605,60.500,'Superstars',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Julius Randle','$25-30 M','NYK',77,35.00,28226880,82,5,26.37,0.833,83.300,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Jimmy Butler','$30+ M','MIA',64,34.66,45183960,82,18,32.77,0.581,58.100,'Superstars',0.96000000000000000000,0.04000000000000000000),
 	 ('Anthony Edwards','$10-15 M','MIN',79,34.60,13534817,82,3,15.50,1.000,100.000,'Great Value',1.00000000000000000000,0.00000000000000000000),
@@ -80,7 +80,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Kristaps Porzingis','$30+ M','WAS',65,33.03,36016200,82,17,32.77,0.488,48.800,'Normal',0.98000000000000000000,0.02000000000000000000),
 	 ('Anthony Davis','$30+ M','LAL',56,32.64,40600080,82,26,32.77,0.465,46.500,'Normal',0.80000000000000000000,0.20000000000000000000),
 	 ('Dejounte Murray','$15-20 M','ATL',74,32.10,18214000,82,8,19.25,0.966,96.600,'Great Value',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Jamal Murray','$30+ M','DEN',65,32.05,33833400,82,17,32.77,0.442,44.200,'Normal',0.98000000000000000000,0.02000000000000000000),
 	 ('Zach LaVine','$30+ M','CHI',77,32.00,40064220,82,5,32.77,0.419,41.900,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Kevin Durant','$30+ M','PHX',47,31.50,47649433,82,35,32.77,0.395,39.500,'Normal',0.75,0.25),
@@ -91,7 +91,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Devin Booker','$30+ M','PHX',53,29.25,36016200,82,29,32.77,0.326,32.600,'Normal',0.75,0.25),
 	 ('Mikal Bridges','$20-25 M','BKN',83,28.90,21700000,82,-1,23.68,1.000,100.000,'Great Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Aaron Gordon','$20-25 M','DEN',68,28.80,22266182,82,14,23.68,0.944,94.400,'Great Value',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Evan Mobley','$5-10 M','CLE',79,28.80,8882640,82,3,13.69,0.987,98.700,'Great Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Tyler Herro','$25-30 M','MIA',67,28.80,27000000,82,15,26.37,0.667,66.700,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Klay Thompson','$30+ M','GSW',69,28.30,43219440,82,13,32.77,0.302,30.200,'Normal',1.00000000000000000000,0.00000000000000000000),
@@ -102,7 +102,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Zion Williamson','$30+ M','NOP',29,27.83,34005250,82,53,32.77,0.256,25.600,'Normal',0.75,0.25),
 	 ('Russell Westbrook','< $5 M','LAC',73,27.70,3835738,82,9,7.19,1.000,100.000,'Great Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Scottie Barnes','$5-10 M','TOR',77,27.70,8008680,82,5,13.69,0.975,97.500,'Great Value',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Desmond Bane','< $5 M','MEM',58,27.64,3845083,82,24,7.19,0.997,99.700,'Great Value',0.84000000000000000000,0.16000000000000000000),
 	 ('Brook Lopez','$25-30 M','MIL',78,27.50,25000000,82,4,26.37,0.583,58.300,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Kawhi Leonard','$30+ M','LAC',52,27.23,45640084,82,30,32.77,0.233,23.300,'Normal',0.75,0.25),
@@ -113,7 +113,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Jarrett Allen','$20-25 M','CLE',68,26.20,20000000,82,14,23.68,0.778,77.800,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('LaMelo Ball','$10-15 M','CHA',36,26.10,10900635,82,46,15.50,0.956,95.600,'Great Value',0.75,0.25),
 	 ('Paolo Banchero','$10-15 M','ORL',72,26.10,11608080,82,10,15.50,0.956,95.600,'Great Value',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Brandon Ingram','$30+ M','NOP',45,25.95,33833400,82,37,32.77,0.186,18.600,'Bad Value',0.75,0.25),
 	 ('Jordan Poole','$25-30 M','GSW',82,25.90,27455357,82,0,26.37,0.417,41.700,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Nic Claxton','$5-10 M','BKN',76,25.70,9625000,82,6,13.69,0.949,94.900,'Great Value',1.00000000000000000000,0.00000000000000000000),
@@ -124,7 +124,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Jerami Grant','$25-30 M','POR',63,25.00,27586207,82,19,26.37,0.333,33.300,'Normal',0.94000000000000000000,0.06000000000000000000),
 	 ('Jalen Green','$5-10 M','HOU',76,24.70,9891480,82,6,13.69,0.924,92.400,'Great Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Myles Turner','$20-25 M','IND',63,24.63,20975000,82,19,23.68,0.722,72.200,'Normal',0.94000000000000000000,0.06000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Immanuel Quickley','< $5 M','NYK',81,24.60,4171548,82,1,7.19,0.990,99.000,'Great Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Anfernee Simons','$20-25 M','POR',62,24.47,24107143,82,20,23.68,0.667,66.700,'Normal',0.92000000000000000000,0.08000000000000000000),
 	 ('Derrick White','$15-20 M','BOS',82,24.40,18357143,82,0,19.25,0.828,82.800,'Normal',1.00000000000000000000,0.00000000000000000000),
@@ -135,7 +135,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Mike Conley','$20-25 M','MIN',67,24.00,24360000,82,15,23.68,0.500,50.000,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('RJ Barrett','$20-25 M','NYK',73,23.70,23883929,82,9,23.68,0.444,44.400,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Malcolm Brogdon','$20-25 M','BOS',67,23.60,22500000,82,15,23.68,0.389,38.900,'Normal',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Michael Porter','$30+ M','DEN',62,23.55,33386850,82,20,32.77,0.093,9.300,'Bad Value',0.92000000000000000000,0.08000000000000000000),
 	 ('Kevin Huerter','$15-20 M','SAC',75,23.50,15669643,82,7,19.25,0.793,79.300,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Buddy Hield','$15-20 M','IND',80,23.30,19279841,82,2,19.25,0.759,75.900,'Normal',1.00000000000000000000,0.00000000000000000000),
@@ -146,7 +146,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Rudy Gobert','$30+ M','MIN',70,22.70,41000000,82,12,32.77,0.047,4.700,'Bad Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Tre Jones','$5-10 M','SAS',68,22.60,9895833,82,14,13.69,0.911,91.100,'Great Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Kevin Porter','$15-20 M','HOU',59,22.45,15860000,82,23,19.25,0.690,69.000,'Normal',0.86000000000000000000,0.14000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Marcus Smart','$15-20 M','BOS',61,22.23,18833713,82,21,19.25,0.655,65.500,'Normal',0.90000000000000000000,0.10000000000000000000),
 	 ('Jalen Williams','< $5 M','OKC',75,22.20,4558680,82,7,7.19,0.980,98.000,'Great Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Keldon Johnson','$20-25 M','SAS',63,22.18,20000000,82,19,23.68,0.333,33.300,'Normal',0.94000000000000000000,0.06000000000000000000),
@@ -157,7 +157,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Caris LeVert','$15-20 M','CLE',74,21.30,15384616,82,8,19.25,0.586,58.600,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Kentavious Caldwell-Pope','$10-15 M','DEN',76,21.20,14704938,82,6,15.50,0.911,91.100,'Great Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Harrison Barnes','$15-20 M','SAC',82,21.10,17000000,82,0,19.25,0.552,55.200,'Normal',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('P.J. Washington','< $5 M','CHA',73,20.90,1000000,82,9,7.19,0.977,97.700,'Great Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Bobby Portis','$10-15 M','MIL',70,20.80,11710818,82,12,15.50,0.867,86.700,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Dennis Schroder','$10-15 M','LAL',66,20.80,12405000,82,16,15.50,0.867,86.700,'Normal',1.00000000000000000000,0.00000000000000000000),
@@ -168,7 +168,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Cade Cunningham','$10-15 M','DET',12,20.63,11055360,82,70,15.50,0.822,82.200,'Normal',0.75,0.25),
 	 ('Jonas Valanciunas','$15-20 M','NOP',79,20.60,15435000,82,3,19.25,0.483,48.300,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Al Horford','$10-15 M','BOS',63,20.49,10000000,82,19,15.50,0.800,80.000,'Normal',0.94000000000000000000,0.06000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Kelly Olynyk','$10-15 M','UTA',68,20.40,12195122,82,14,15.50,0.778,77.800,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Tim Hardaway','$15-20 M','DAL',71,20.40,17897728,82,11,19.25,0.448,44.800,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Luguentz Dort','$15-20 M','OKC',74,20.10,15277778,82,8,19.25,0.414,41.400,'Normal',1.00000000000000000000,0.00000000000000000000),
@@ -179,7 +179,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Austin Reaves','$10-15 M','LAL',64,19.58,12015150,82,18,15.50,0.756,75.600,'Normal',0.96000000000000000000,0.04000000000000000000),
 	 ('Walker Kessler','< $5 M','UTA',74,19.40,2831160,82,8,7.19,0.970,97.000,'Great Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Bojan Bogdanovic','$20-25 M','DET',59,19.35,20000000,82,23,23.68,0.056,5.600,'Bad Value',0.86000000000000000000,0.14000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Herbert Jones','$10-15 M','NOP',66,19.10,12015150,82,16,15.50,0.733,73.300,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Jaden Ivey','$5-10 M','DET',74,19.10,7614480,82,8,13.69,0.873,87.300,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('De''Anthony Melton','$5-10 M','PHI',77,19.00,8000000,82,5,13.69,0.861,86.100,'Normal',1.00000000000000000000,0.00000000000000000000),
@@ -190,7 +190,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Monte Morris','$5-10 M','WAS',62,18.58,9800926,82,20,13.69,0.848,84.800,'Normal',0.92000000000000000000,0.08000000000000000000),
 	 ('Bennedict Mathurin','$5-10 M','IND',78,18.50,6916080,82,4,13.69,0.823,82.300,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Mason Plumlee','$5-10 M','LAC',79,18.50,5000000,82,3,13.69,0.823,82.300,'Normal',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Donte DiVincenzo','$10-15 M','GSW',72,18.40,10900000,82,10,15.50,0.711,71.100,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Cole Anthony','$5-10 M','ORL',60,18.39,5539771,82,22,13.69,0.810,81.000,'Normal',0.88000000000000000000,0.12000000000000000000),
 	 ('Skylar Mays','< $5 M','POR',6,18.38,1000000,82,76,7.19,0.961,96.100,'Great Value',0.75,0.25),
@@ -201,7 +201,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Wendell Carter','$10-15 M','ORL',57,18.12,13050000,82,25,15.50,0.689,68.900,'Normal',0.82000000000000000000,0.18000000000000000000),
 	 ('Ivica Zubac','$10-15 M','LAC',76,18.10,10933333,82,6,15.50,0.667,66.700,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Kevon Looney','$5-10 M','GSW',82,18.10,7500000,82,0,13.69,0.772,77.200,'Normal',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Cameron Johnson','$25-30 M','BKN',42,18.00,25679348,82,40,26.37,0.083,8.300,'Bad Value',0.75,0.25),
 	 ('Mac McClung','< $5 M','PHI',2,18.00,1000000,82,80,7.19,0.951,95.100,'Great Value',0.75,0.25),
 	 ('Onyeka Okongwu','$5-10 M','ATL',80,18.00,8109063,82,2,13.69,0.759,75.900,'Normal',1.00000000000000000000,0.00000000000000000000),
@@ -212,7 +212,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Kris Dunn','< $5 M','UTA',22,17.48,2586665,82,60,7.19,0.944,94.400,'Great Value',0.75,0.25),
 	 ('Kelly Oubre','< $5 M','CHA',48,17.40,1000000,82,34,7.19,0.941,94.100,'Great Value',0.75,0.25),
 	 ('T.J. McConnell','$5-10 M','IND',75,17.20,8700000,82,7,13.69,0.722,72.200,'Normal',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Devin Vassell','$5-10 M','SAS',38,17.10,5887899,82,44,13.69,0.709,70.900,'Normal',0.75,0.25),
 	 ('Mitchell Robinson','$15-20 M','NYK',60,16.98,15681818,82,22,19.25,0.345,34.500,'Normal',0.88000000000000000000,0.12000000000000000000),
 	 ('Talen Horton-Tucker','$10-15 M','UTA',65,16.86,11020000,82,17,15.50,0.644,64.400,'Normal',0.98000000000000000000,0.02000000000000000000),
@@ -223,7 +223,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Deni Avdija','$5-10 M','WAS',76,16.30,6263188,82,6,13.69,0.696,69.600,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Malik Beasley','< $5 M','LAL',81,16.30,2019706,82,1,7.19,0.938,93.800,'Great Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Marcus Morris','$15-20 M','LAC',65,15.97,17116279,82,17,19.25,0.276,27.600,'Normal',0.98000000000000000000,0.02000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Zach Collins','$5-10 M','SAS',63,15.89,7700000,82,19,13.69,0.684,68.400,'Normal',0.94000000000000000000,0.06000000000000000000),
 	 ('Gordon Hayward','$30+ M','CHA',50,15.83,31500000,82,32,32.77,0.023,2.300,'Bad Value',0.75,0.25),
 	 ('Jabari Smith','$5-10 M','HOU',79,15.80,9326520,82,3,13.69,0.671,67.100,'Normal',1.00000000000000000000,0.00000000000000000000),
@@ -234,7 +234,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Kenyon Martin','< $5 M','HOU',82,15.50,1930681,82,0,7.19,0.928,92.800,'Great Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Max Strus','$10-15 M','MIA',80,15.50,14487684,82,2,15.50,0.556,55.600,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Naz Reid','$10-15 M','MIN',68,15.50,12950400,82,14,15.50,0.556,55.600,'Normal',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Alex Caruso','$5-10 M','CHI',67,15.40,9460000,82,15,13.69,0.646,64.600,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Jarred Vanderbilt','< $5 M','LAL',78,15.40,4698000,82,4,7.19,0.925,92.500,'Great Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Santi Aldama','< $5 M','MEM',77,15.20,2194200,82,5,7.19,0.921,92.100,'Great Value',1.00000000000000000000,0.00000000000000000000),
@@ -245,7 +245,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Chris Boucher','$10-15 M','TOR',76,14.70,11750000,82,6,15.50,0.511,51.100,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Isaiah Joe','< $5 M','OKC',73,14.70,1997238,82,9,7.19,0.911,91.100,'Great Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Jaylen Nowell','< $5 M','MIN',65,14.70,1000000,82,17,7.19,0.911,91.100,'Great Value',0.98000000000000000000,0.02000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Patrick Williams','$5-10 M','CHI',82,14.70,9835881,82,0,13.69,0.620,62.000,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Daniel Gafford','$10-15 M','WAS',78,14.60,12402000,82,4,15.50,0.489,48.900,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Josh Richardson','< $5 M','NOP',65,14.60,2891467,82,17,7.19,0.905,90.500,'Great Value',0.98000000000000000000,0.02000000000000000000),
@@ -256,7 +256,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Robert Williams','$10-15 M','BOS',35,14.48,11571429,82,47,15.50,0.444,44.400,'Normal',0.75,0.25),
 	 ('Dorian Finney-Smith','$10-15 M','BKN',66,14.30,13932008,82,16,15.50,0.422,42.200,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Shake Milton','$5-10 M','PHI',76,14.30,5000000,82,6,13.69,0.608,60.800,'Normal',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Jalen Duren','< $5 M','DET',67,14.20,4330680,82,15,7.19,0.892,89.200,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Jalen McDaniels','< $5 M','PHI',80,14.20,4516000,82,2,7.19,0.892,89.200,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Jevon Carter','$5-10 M','MIL',81,14.20,6190476,82,1,13.69,0.595,59.500,'Normal',1.00000000000000000000,0.00000000000000000000),
@@ -267,7 +267,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Gabe Vincent','$10-15 M','MIA',68,13.90,10500000,82,14,15.50,0.378,37.800,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Rui Hachimura','$15-20 M','LAL',63,13.82,15740741,82,19,19.25,0.207,20.700,'Normal',0.94000000000000000000,0.06000000000000000000),
 	 ('Jalen Smith','$5-10 M','IND',68,13.80,5043773,82,14,13.69,0.557,55.700,'Normal',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Ayo Dosunmu','$5-10 M','CHI',80,13.70,6481482,82,2,13.69,0.532,53.200,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Cedi Osman','$5-10 M','CLE',77,13.70,6718842,82,5,13.69,0.532,53.200,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Cameron Payne','$5-10 M','PHX',48,13.58,6500000,82,34,13.69,0.519,51.900,'Normal',0.75,0.25),
@@ -278,7 +278,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('John Wall','$5-10 M','LAC',34,13.35,6802950,82,48,13.69,0.494,49.400,'Normal',0.75,0.25),
 	 ('Bol Bol','< $5 M','ORL',70,13.30,2019706,82,12,7.19,0.879,87.900,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Alec Burks','$10-15 M','DET',51,13.28,10489600,82,31,15.50,0.356,35.600,'Normal',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Kevin Love','< $5 M','MIA',62,13.25,3835738,82,20,7.19,0.875,87.500,'Normal',0.92000000000000000000,0.08000000000000000000),
 	 ('Josh Okogie','< $5 M','PHX',72,13.20,2815937,82,10,7.19,0.872,87.200,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Bones Hyland','< $5 M','LAC',56,13.04,2306400,82,26,7.19,0.869,86.900,'Normal',0.80000000000000000000,0.20000000000000000000),
@@ -289,7 +289,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Gabe York','< $5 M','IND',3,12.60,1000000,82,79,7.19,0.856,85.600,'Normal',0.75,0.25),
 	 ('Isaiah Hartenstein','$5-10 M','NYK',82,12.60,9245121,82,0,13.69,0.468,46.800,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Torrey Craig','< $5 M','PHX',79,12.60,2528233,82,3,7.19,0.856,85.600,'Normal',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Luke Kennard','$10-15 M','MEM',59,12.56,14763636,82,23,15.50,0.311,31.100,'Normal',0.86000000000000000000,0.14000000000000000000),
 	 ('AJ Griffin','< $5 M','ATL',72,12.50,3712920,82,10,7.19,0.849,84.900,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Keita Bates-Diop','< $5 M','SAS',67,12.50,2346614,82,15,7.19,0.849,84.900,'Normal',1.00000000000000000000,0.00000000000000000000),
@@ -300,7 +300,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Xavier Tillman','< $5 M','MEM',61,12.15,1930681,82,21,7.19,0.846,84.600,'Normal',0.90000000000000000000,0.10000000000000000000),
 	 ('Moritz Wagner','$5-10 M','ORL',57,12.14,8000000,82,25,13.69,0.418,41.800,'Normal',0.82000000000000000000,0.18000000000000000000),
 	 ('Tre Mann','< $5 M','OKC',67,12.10,3191400,82,15,7.19,0.843,84.300,'Normal',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Jeremy Sochan','$5-10 M','SAS',56,12.08,5316960,82,26,13.69,0.405,40.500,'Normal',0.80000000000000000000,0.20000000000000000000),
 	 ('Josh Green','< $5 M','DAL',60,11.97,4765339,82,22,7.19,0.839,83.900,'Normal',0.88000000000000000000,0.12000000000000000000),
 	 ('Trey Lyles','$5-10 M','SAC',74,11.90,8000000,82,8,13.69,0.392,39.200,'Normal',1.00000000000000000000,0.00000000000000000000),
@@ -311,7 +311,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Jordan Goodwin','< $5 M','WAS',62,11.68,1927896,82,20,7.19,0.830,83.000,'Normal',0.92000000000000000000,0.08000000000000000000),
 	 ('Isaiah Jackson','< $5 M','IND',63,11.66,2696280,82,19,7.19,0.826,82.600,'Normal',0.94000000000000000000,0.06000000000000000000),
 	 ('Kenrich Williams','$5-10 M','OKC',53,11.63,6175000,82,29,13.69,0.367,36.700,'Normal',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Damion Lee','< $5 M','PHX',74,11.60,2528233,82,8,7.19,0.823,82.300,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Isaiah Stewart','$5-10 M','DET',50,11.55,5266713,82,32,13.69,0.354,35.400,'Normal',0.75,0.25),
 	 ('Reggie Bullock','$10-15 M','DAL',78,11.50,11014080,82,4,15.50,0.244,24.400,'Normal',1.00000000000000000000,0.00000000000000000000),
@@ -322,7 +322,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Jock Landale','$5-10 M','PHX',69,11.20,8000000,82,13,13.69,0.316,31.600,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Malaki Branham','< $5 M','SAS',66,11.20,3071880,82,16,7.19,0.813,81.300,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Luka Samanic','< $5 M','UTA',7,11.18,2066585,82,75,7.19,0.810,81.000,'Normal',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Sam Hauser','< $5 M','BOS',80,11.10,1927896,82,2,7.19,0.807,80.700,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Joe Harris','$15-20 M','BKN',74,11.00,19928571,82,8,19.25,0.138,13.800,'Bad Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Terrence Ross','< $5 M','PHX',64,10.94,1000000,82,18,7.19,0.803,80.300,'Normal',0.96000000000000000000,0.04000000000000000000),
@@ -333,7 +333,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Justise Winslow','< $5 M','POR',29,10.73,1000000,82,53,7.19,0.793,79.300,'Normal',0.75,0.25),
 	 ('Andre Drummond','< $5 M','CHI',67,10.70,3360000,82,15,7.19,0.790,79.000,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Mark Williams','< $5 M','CHA',43,10.65,3908160,82,39,7.19,0.787,78.700,'Normal',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Jalen Johnson','< $5 M','ATL',70,10.60,2925360,82,12,7.19,0.784,78.400,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Mike Muscala','< $5 M','BOS',63,10.53,3500000,82,19,7.19,0.780,78.000,'Normal',0.94000000000000000000,0.06000000000000000000),
 	 ('Aaron Wiggins','< $5 M','OKC',70,10.50,1836096,82,12,7.19,0.777,77.700,'Normal',1.00000000000000000000,0.00000000000000000000),
@@ -344,7 +344,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Hamidou Diallo','< $5 M','DET',56,10.32,1000000,82,26,7.19,0.767,76.700,'Normal',0.80000000000000000000,0.20000000000000000000),
 	 ('Anthony Lamb','< $5 M','GSW',62,10.30,1000000,82,20,7.19,0.764,76.400,'Normal',0.92000000000000000000,0.08000000000000000000),
 	 ('Landry Shamet','$10-15 M','PHX',40,10.28,10250000,82,42,15.50,0.156,15.600,'Bad Value',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Trendon Watford','< $5 M','POR',62,10.03,1836096,82,20,7.19,0.761,76.100,'Normal',0.92000000000000000000,0.08000000000000000000),
 	 ('Davion Mitchell','$5-10 M','SAC',80,10.00,5063640,82,2,13.69,0.291,29.100,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Terence Davis','< $5 M','SAC',64,9.79,1000000,82,18,7.19,0.757,75.700,'Normal',0.96000000000000000000,0.04000000000000000000),
@@ -355,7 +355,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Ricky Rubio','$5-10 M','CLE',33,9.53,6146342,82,49,13.69,0.266,26.600,'Normal',0.75,0.25),
 	 ('Jae Crowder','< $5 M','MIL',18,9.38,2019706,82,64,7.19,0.741,74.100,'Normal',0.75,0.25),
 	 ('Joshua Primo','< $5 M','SAS',4,9.38,4341600,82,78,7.19,0.741,74.100,'Normal',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Oshae Brissett','< $5 M','IND',65,9.31,2165000,82,17,7.19,0.738,73.800,'Normal',0.98000000000000000000,0.02000000000000000000),
 	 ('Aleksej Pokusevski','$5-10 M','OKC',34,9.23,5009633,82,48,13.69,0.253,25.300,'Normal',0.75,0.25),
 	 ('Kemba Walker','< $5 M','DAL',9,9.15,1000000,82,73,7.19,0.734,73.400,'Normal',0.75,0.25),
@@ -366,7 +366,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Kendrick Nunn','< $5 M','WAS',70,9.00,1000000,82,12,7.19,0.718,71.800,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Matisse Thybulle','$10-15 M','POR',71,9.00,10500000,82,11,15.50,0.133,13.300,'Bad Value',1.00000000000000000000,0.00000000000000000000),
 	 ('Gary Harris','$10-15 M','ORL',48,8.93,13000000,82,34,15.50,0.111,11.100,'Bad Value',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('David Roddy','< $5 M','MEM',70,8.90,2718240,82,12,7.19,0.711,71.100,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Wenyen Gabriel','< $5 M','LAL',68,8.90,1000000,82,14,7.19,0.711,71.100,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Theo Maledon','< $5 M','CHA',44,8.85,1000000,82,38,7.19,0.705,70.500,'Normal',0.75,0.25),
@@ -377,7 +377,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Jay Huff','< $5 M','WAS',7,8.55,1000000,82,75,7.19,0.692,69.200,'Normal',0.75,0.25),
 	 ('Ty Jerome','< $5 M','GSW',45,8.55,2439025,82,37,7.19,0.692,69.200,'Normal',0.75,0.25),
 	 ('Chimezie Metu','< $5 M','SAC',66,8.50,2019706,82,16,7.19,0.689,68.900,'Normal',1.00000000000000000000,0.00000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Jordan McLaughlin','< $5 M','MIN',43,8.48,2320000,82,39,7.19,0.685,68.500,'Normal',0.75,0.25),
 	 ('Jeremiah Robinson-Earl','< $5 M','OKC',43,8.40,1900000,82,39,7.19,0.682,68.200,'Normal',0.75,0.25),
 	 ('Nickeil Alexander-Walker','< $5 M','MIN',59,8.34,4687500,82,23,7.19,0.679,67.900,'Normal',0.86000000000000000000,0.14000000000000000000),
@@ -388,7 +388,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Jaden Hardy','< $5 M','DAL',48,8.18,1719864,82,34,7.19,0.666,66.600,'Normal',0.75,0.25),
 	 ('Willy Hernangomez','< $5 M','NOP',38,8.18,2559942,82,44,7.19,0.666,66.600,'Normal',0.75,0.25),
 	 ('Dario Saric','< $5 M','OKC',57,8.12,2019706,82,25,7.19,0.662,66.200,'Normal',0.82000000000000000000,0.18000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Daniel Theis','$5-10 M','IND',7,8.10,9108387,82,75,13.69,0.228,22.800,'Normal',0.75,0.25),
 	 ('Luke Kornet','< $5 M','BOS',69,8.00,2413304,82,13,7.19,0.659,65.900,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Svi Mykhailiuk','< $5 M','CHA',32,7.95,1000000,82,50,7.19,0.656,65.600,'Normal',0.75,0.25),
@@ -399,7 +399,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Maxi Kleber','$10-15 M','DAL',37,7.88,11000000,82,45,15.50,0.044,4.400,'Bad Value',0.75,0.25),
 	 ('Saben Lee','< $5 M','PHX',25,7.88,1000000,82,57,7.19,0.646,64.600,'Normal',0.75,0.25),
 	 ('Ish Wainright','< $5 M','PHX',60,7.83,1927896,82,22,7.19,0.643,64.300,'Normal',0.88000000000000000000,0.12000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Duane Washington','< $5 M','PHX',31,7.80,1000000,82,51,7.19,0.639,63.900,'Normal',0.75,0.25),
 	 ('Will Barton','< $5 M','TOR',56,7.76,1000000,82,26,7.19,0.636,63.600,'Normal',0.80000000000000000000,0.20000000000000000000),
 	 ('George Hill','< $5 M','IND',46,7.73,1000000,82,36,7.19,0.630,63.000,'Normal',0.75,0.25),
@@ -410,7 +410,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Javonte Green','< $5 M','CHI',32,7.65,1000000,82,50,7.19,0.623,62.300,'Normal',0.75,0.25),
 	 ('Chris Duarte','< $5 M','IND',46,7.58,4124400,82,36,7.19,0.620,62.000,'Normal',0.75,0.25),
 	 ('Christian Koloko','< $5 M','TOR',58,7.48,1719864,82,24,7.19,0.616,61.600,'Normal',0.84000000000000000000,0.16000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Yuta Watanabe','< $5 M','BKN',58,7.39,2346614,82,24,7.19,0.613,61.300,'Normal',0.84000000000000000000,0.16000000000000000000),
 	 ('Jeff Green','$5-10 M','DEN',56,7.36,9600000,82,26,13.69,0.177,17.700,'Bad Value',0.80000000000000000000,0.20000000000000000000),
 	 ('Blake Griffin','< $5 M','BOS',41,7.35,1000000,82,41,7.19,0.607,60.700,'Normal',0.75,0.25),
@@ -421,7 +421,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Jarrell Brantley','< $5 M','UTA',4,7.13,1000000,82,78,7.19,0.600,60.000,'Normal',0.75,0.25),
 	 ('Aaron Holiday','< $5 M','ATL',63,7.05,2019706,82,19,7.19,0.593,59.300,'Normal',0.94000000000000000000,0.06000000000000000000),
 	 ('Montrezl Harrell','< $5 M','PHI',57,7.05,2019706,82,25,7.19,0.593,59.300,'Normal',0.82000000000000000000,0.18000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Goga Bitadze','< $5 M','ORL',38,6.98,2066585,82,44,7.19,0.587,58.700,'Normal',0.75,0.25),
 	 ('Jamal Cain','< $5 M','MIA',18,6.98,1000000,82,64,7.19,0.587,58.700,'Normal',0.75,0.25),
 	 ('JaMychal Green','< $5 M','GSW',57,6.97,1000000,82,25,7.19,0.584,58.400,'Normal',0.82000000000000000000,0.18000000000000000000),
@@ -432,7 +432,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Andre Iguodala','< $5 M','GSW',8,6.75,1000000,82,74,7.19,0.564,56.400,'Normal',0.75,0.25),
 	 ('Darius Bazley','< $5 M','PHX',43,6.75,2019706,82,39,7.19,0.564,56.400,'Normal',0.75,0.25),
 	 ('Otto Porter','$5-10 M','TOR',8,6.68,6300000,82,74,13.69,0.152,15.200,'Bad Value',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Jared Butler','< $5 M','OKC',6,6.60,1000000,82,76,7.19,0.561,56.100,'Normal',0.75,0.25),
 	 ('Kevin Knox','< $5 M','POR',63,6.58,3000000,82,19,7.19,0.557,55.700,'Normal',0.94000000000000000000,0.06000000000000000000),
 	 ('Isaiah Livers','< $5 M','DET',52,6.53,1836096,82,30,7.19,0.544,54.400,'Normal',0.75,0.25),
@@ -443,7 +443,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Luka Garza','< $5 M','MIN',28,6.38,1000000,82,54,7.19,0.531,53.100,'Normal',0.75,0.25),
 	 ('Romeo Langford','< $5 M','SAS',43,6.38,1000000,82,39,7.19,0.531,53.100,'Normal',0.75,0.25),
 	 ('Sam Merrill','< $5 M','CLE',5,6.38,1997238,82,77,7.19,0.531,53.100,'Normal',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Thaddeus Young','$5-10 M','TOR',54,6.23,8000000,82,28,13.69,0.139,13.900,'Bad Value',0.76000000000000000000,0.24000000000000000000),
 	 ('Xavier Cooks','< $5 M','WAS',10,6.23,1719864,82,72,7.19,0.528,52.800,'Normal',0.75,0.25),
 	 ('Nassir Little','$5-10 M','POR',54,6.16,6250000,82,28,13.69,0.127,12.700,'Bad Value',0.76000000000000000000,0.24000000000000000000),
@@ -454,7 +454,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Josh Christopher','< $5 M','HOU',64,6.14,2485200,82,18,7.19,0.521,52.100,'Normal',0.96000000000000000000,0.04000000000000000000),
 	 ('Derrick Rose','< $5 M','NYK',27,6.08,3196448,82,55,7.19,0.518,51.800,'Normal',0.75,0.25),
 	 ('Johnny Davis','$5-10 M','WAS',28,6.00,5050800,82,54,13.69,0.089,8.900,'Bad Value',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Payton Pritchard','< $5 M','BOS',48,6.00,4037277,82,34,7.19,0.515,51.500,'Normal',0.75,0.25),
 	 ('Duncan Robinson','$15-20 M','MIA',42,5.85,18154000,82,40,19.25,0.034,3.400,'Bad Value',0.75,0.25),
 	 ('Olivier Sarr','< $5 M','OKC',9,5.85,1000000,82,73,7.19,0.508,50.800,'Normal',0.75,0.25),
@@ -465,7 +465,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Cody Zeller','< $5 M','MIA',15,5.70,2019706,82,67,7.19,0.498,49.800,'Normal',0.75,0.25),
 	 ('Day''Ron Sharpe','< $5 M','BKN',48,5.70,2210040,82,34,7.19,0.498,49.800,'Normal',0.75,0.25),
 	 ('Brandon Boston','< $5 M','LAC',22,5.63,1836096,82,60,7.19,0.489,48.900,'Normal',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('DeAndre Jordan','< $5 M','DEN',39,5.63,2019706,82,43,7.19,0.489,48.900,'Normal',0.75,0.25),
 	 ('Stanley Umude','< $5 M','DET',1,5.63,1000000,82,81,7.19,0.489,48.900,'Normal',0.75,0.25),
 	 ('Usman Garuba','< $5 M','HOU',75,5.60,2588400,82,7,7.19,0.485,48.500,'Normal',1.00000000000000000000,0.00000000000000000000),
@@ -476,7 +476,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Malachi Flynn','< $5 M','TOR',53,5.40,3873025,82,29,7.19,0.462,46.200,'Normal',0.75,0.25),
 	 ('Moses Brown','< $5 M','BKN',36,5.40,1000000,82,46,7.19,0.462,46.200,'Normal',0.75,0.25),
 	 ('Nikola Jovic','< $5 M','MIA',15,5.40,2352000,82,67,7.19,0.462,46.200,'Normal',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Danuel House','< $5 M','PHI',56,5.36,4310250,82,26,7.19,0.459,45.900,'Normal',0.80000000000000000000,0.20000000000000000000),
 	 ('Austin Rivers','< $5 M','MIN',52,5.33,1000000,82,30,7.19,0.456,45.600,'Normal',0.75,0.25),
 	 ('Bruno Fernando','< $5 M','ATL',39,5.25,2581522,82,43,7.19,0.449,44.900,'Normal',0.75,0.25),
@@ -487,7 +487,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Jarrett Culver','< $5 M','ATL',10,5.10,1000000,82,72,7.19,0.433,43.300,'Normal',0.75,0.25),
 	 ('Omer Yurtseven','< $5 M','MIA',9,5.10,2800000,82,73,7.19,0.433,43.300,'Normal',0.75,0.25),
 	 ('Wesley Matthews','< $5 M','MIL',52,5.10,2019706,82,30,7.19,0.433,43.300,'Normal',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Ziaire Williams','< $5 M','MEM',37,5.03,4810200,82,45,7.19,0.430,43.000,'Normal',0.75,0.25),
 	 ('Dru Smith','< $5 M','BKN',15,4.95,1000000,82,67,7.19,0.426,42.600,'Normal',0.75,0.25),
 	 ('Daishen Nix','< $5 M','HOU',57,4.92,1000000,82,25,7.19,0.423,42.300,'Normal',0.82000000000000000000,0.18000000000000000000),
@@ -498,7 +498,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Dominick Barlow','< $5 M','SAS',28,4.80,1000000,82,54,7.19,0.403,40.300,'Normal',0.75,0.25),
 	 ('JT Thor','< $5 M','CHA',69,4.80,1836096,82,13,7.19,0.403,40.300,'Normal',1.00000000000000000000,0.00000000000000000000),
 	 ('Jericho Sims','< $5 M','NYK',52,4.73,1927896,82,30,7.19,0.393,39.300,'Normal',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Kevon Harris','< $5 M','ORL',34,4.73,1000000,82,48,7.19,0.393,39.300,'Normal',0.75,0.25),
 	 ('Markieff Morris','< $5 M','DAL',35,4.73,1000000,82,47,7.19,0.393,39.300,'Normal',0.75,0.25),
 	 ('Josh Minott','< $5 M','MIN',15,4.65,1719864,82,67,7.19,0.387,38.700,'Normal',0.75,0.25),
@@ -509,7 +509,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Anthony Gill','< $5 M','WAS',59,4.56,1997238,82,23,7.19,0.374,37.400,'Normal',0.86000000000000000000,0.14000000000000000000),
 	 ('Bryce McGowens','< $5 M','CHA',46,4.50,1719864,82,36,7.19,0.370,37.000,'Normal',0.75,0.25),
 	 ('Davis Bertans','$15-20 M','DAL',45,4.50,17000000,82,37,19.25,0.000,0.000,'Bad Value',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Garrison Mathews','< $5 M','ATL',54,4.48,2000000,82,28,7.19,0.367,36.700,'Normal',0.76000000000000000000,0.24000000000000000000),
 	 ('Jared Rhoden','< $5 M','DET',14,4.43,1000000,82,68,7.19,0.348,34.800,'Normal',0.75,0.25),
 	 ('Juancho Hernangomez','< $5 M','TOR',42,4.43,1000000,82,40,7.19,0.348,34.800,'Normal',0.75,0.25),
@@ -520,7 +520,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Frank Ntilikina','< $5 M','DAL',47,4.35,1000000,82,35,7.19,0.344,34.400,'Normal',0.75,0.25),
 	 ('Isaiah Mobley','< $5 M','CLE',13,4.28,1000000,82,69,7.19,0.341,34.100,'Normal',0.75,0.25),
 	 ('JaVale McGee','$5-10 M','DAL',42,4.20,5734280,82,40,13.69,0.038,3.800,'Bad Value',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('A.J. Green','< $5 M','MIL',35,4.13,1901769,82,47,7.19,0.321,32.100,'Normal',0.75,0.25),
 	 ('Boban Marjanovic','< $5 M','HOU',31,4.13,1000000,82,51,7.19,0.321,32.100,'Normal',0.75,0.25),
 	 ('Darius Days','< $5 M','HOU',4,4.13,1000000,82,78,7.19,0.321,32.100,'Normal',0.75,0.25),
@@ -531,7 +531,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Ish Smith','< $5 M','DEN',43,4.05,1000000,82,39,7.19,0.311,31.100,'Normal',0.75,0.25),
 	 ('Jason Preston','< $5 M','LAC',14,4.05,1000000,82,68,7.19,0.311,31.100,'Normal',0.75,0.25),
 	 ('Jabari Walker','< $5 M','POR',56,4.00,1719864,82,26,7.19,0.308,30.800,'Normal',0.80000000000000000000,0.20000000000000000000);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Admiral Schofield','< $5 M','ORL',37,3.98,1000000,82,45,7.19,0.305,30.500,'Normal',0.75,0.25),
 	 ('Keon Johnson','< $5 M','POR',40,3.90,2808720,82,42,7.19,0.295,29.500,'Normal',0.75,0.25),
 	 ('Kessler Edwards','< $5 M','SAC',35,3.90,1927896,82,47,7.19,0.295,29.500,'Normal',0.75,0.25),
@@ -542,7 +542,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Furkan Korkmaz','$5-10 M','PHI',37,3.75,5370370,82,45,13.69,0.025,2.500,'Bad Value',0.75,0.25),
 	 ('Justin Minaya','< $5 M','POR',3,3.75,1000000,82,79,7.19,0.279,27.900,'Normal',0.75,0.25),
 	 ('Matt Ryan','< $5 M','MIN',34,3.75,1000000,82,48,7.19,0.279,27.900,'Normal',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Udoka Azubuike','< $5 M','UTA',36,3.68,1000000,82,46,7.19,0.275,27.500,'Normal',0.75,0.25),
 	 ('Jordan Schakel','< $5 M','WAS',2,3.60,1000000,82,80,7.19,0.266,26.600,'Normal',0.75,0.25),
 	 ('Meyers Leonard','< $5 M','MIL',9,3.60,1000000,82,73,7.19,0.266,26.600,'Normal',0.75,0.25),
@@ -553,7 +553,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Johnny Juzang','< $5 M','UTA',18,3.53,1000000,82,64,7.19,0.246,24.600,'Normal',0.75,0.25),
 	 ('Juan Toscano-Anderson','< $5 M','UTA',52,3.53,1000000,82,30,7.19,0.246,24.600,'Normal',0.75,0.25),
 	 ('Kennedy Chandler','< $5 M','MEM',36,3.53,1719864,82,46,7.19,0.246,24.600,'Normal',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Ron Harper','< $5 M','TOR',9,3.45,1000000,82,73,7.19,0.243,24.300,'Normal',0.75,0.25),
 	 ('Frank Kaminsky','< $5 M','HOU',37,3.38,1000000,82,45,7.19,0.233,23.300,'Normal',0.75,0.25),
 	 ('Jay Scrubb','< $5 M','ORL',2,3.38,1000000,82,80,7.19,0.233,23.300,'Normal',0.75,0.25),
@@ -564,7 +564,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Patrick Baldwin','< $5 M','GSW',31,3.23,2337720,82,51,7.19,0.220,22.000,'Normal',0.75,0.25),
 	 ('Justin Champagnie','< $5 M','BOS',5,3.15,1000000,82,77,7.19,0.203,20.300,'Normal',0.75,0.25),
 	 ('Max Christie','< $5 M','LAL',41,3.15,1719864,82,41,7.19,0.203,20.300,'Normal',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Moussa Diabate','< $5 M','LAC',22,3.15,1000000,82,60,7.19,0.203,20.300,'Normal',0.75,0.25),
 	 ('Peyton Watson','< $5 M','DEN',23,3.15,2303520,82,59,7.19,0.203,20.300,'Normal',0.75,0.25),
 	 ('Theo Pinson','< $5 M','DAL',40,3.15,1000000,82,42,7.19,0.203,20.300,'Normal',0.75,0.25),
@@ -575,7 +575,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Mamadi Diakite','< $5 M','CLE',22,3.00,1000000,82,60,7.19,0.184,18.400,'Bad Value',0.75,0.25),
 	 ('Nerlens Noel','< $5 M','BKN',17,3.00,300000,82,65,7.19,0.184,18.400,'Bad Value',0.75,0.25),
 	 ('Alize Johnson','< $5 M','SAS',4,2.93,1000000,82,78,7.19,0.174,17.400,'Bad Value',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Bryn Forbes','< $5 M','MIN',25,2.93,1000000,82,57,7.19,0.174,17.400,'Bad Value',0.75,0.25),
 	 ('Kendall Brown','< $5 M','IND',6,2.93,1000000,82,76,7.19,0.174,17.400,'Bad Value',0.75,0.25),
 	 ('Khem Birch','$5-10 M','TOR',20,2.93,6985000,82,62,13.69,0.013,1.300,'Bad Value',0.75,0.25),
@@ -586,7 +586,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Tyler Dorsey','< $5 M','DAL',3,2.78,1000000,82,79,7.19,0.157,15.700,'Bad Value',0.75,0.25),
 	 ('Udonis Haslem','< $5 M','MIA',7,2.78,1000000,82,75,7.19,0.157,15.700,'Bad Value',0.75,0.25),
 	 ('Scotty Pippen','< $5 M','LAL',6,2.70,1000000,82,76,7.19,0.154,15.400,'Bad Value',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Garrett Temple','$5-10 M','NOP',25,2.55,5401000,82,57,13.69,0.000,0.000,'Bad Value',0.75,0.25),
 	 ('John Butler','< $5 M','POR',19,2.55,1000000,82,63,7.19,0.151,15.100,'Bad Value',0.75,0.25),
 	 ('JD Davison','< $5 M','BOS',12,2.40,1000000,82,70,7.19,0.144,14.400,'Bad Value',0.75,0.25),
@@ -597,7 +597,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Lester Quinones','< $5 M','GSW',4,2.25,1000000,82,78,7.19,0.128,12.800,'Bad Value',0.75,0.25),
 	 ('Xavier Moon','< $5 M','LAC',4,2.25,1000000,82,78,7.19,0.128,12.800,'Bad Value',0.75,0.25),
 	 ('Matthew Dellavedova','< $5 M','SAC',32,2.10,1000000,82,50,7.19,0.115,11.500,'Bad Value',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Mfiondu Kabengele','< $5 M','BOS',4,2.10,1000000,82,78,7.19,0.115,11.500,'Bad Value',0.75,0.25),
 	 ('Sterling Brown','< $5 M','LAL',4,2.10,1000000,82,78,7.19,0.115,11.500,'Bad Value',0.75,0.25),
 	 ('Tony Bradley','< $5 M','CHI',12,2.10,1000000,82,70,7.19,0.115,11.500,'Bad Value',0.75,0.25),
@@ -608,7 +608,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Vit Krejci','< $5 M','ATL',29,2.03,1000000,82,53,7.19,0.098,9.800,'Bad Value',0.75,0.25),
 	 ('Davon Reed','< $5 M','LAL',43,1.95,1000000,82,39,7.19,0.092,9.200,'Bad Value',0.75,0.25),
 	 ('Xavier Sneed','< $5 M','CHA',4,1.95,1000000,82,78,7.19,0.092,9.200,'Bad Value',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Noah Vonleh','< $5 M','BOS',23,1.88,1000000,82,59,7.19,0.089,8.900,'Bad Value',0.75,0.25),
 	 ('PJ Dozier','< $5 M','SAC',16,1.80,1000000,82,66,7.19,0.082,8.200,'Bad Value',0.75,0.25),
 	 ('Ryan Arcidiacono','< $5 M','POR',20,1.80,1000000,82,62,7.19,0.082,8.200,'Bad Value',0.75,0.25),
@@ -619,7 +619,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Malcolm Hill','< $5 M','CHI',5,1.65,1000000,82,77,7.19,0.066,6.600,'Bad Value',0.75,0.25),
 	 ('Marko Simonovic','< $5 M','CHI',7,1.58,1000000,82,75,7.19,0.062,6.200,'Bad Value',0.75,0.25),
 	 ('Jack White','< $5 M','DEN',17,1.50,1801769,82,65,7.19,0.059,5.900,'Bad Value',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Dereon Seabron','< $5 M','NOP',5,1.43,1000000,82,77,7.19,0.056,5.600,'Bad Value',0.75,0.25),
 	 ('Tyrese Martin','< $5 M','ATL',16,1.35,1000000,82,66,7.19,0.052,5.200,'Bad Value',0.75,0.25),
 	 ('Joe Wieskamp','< $5 M','TOR',9,1.28,1000000,82,73,7.19,0.049,4.900,'Bad Value',0.75,0.25),
@@ -630,7 +630,7 @@ INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player
 	 ('Leandro Bolmaro','< $5 M','UTA',14,0.98,1000000,82,68,7.19,0.030,3.000,'Bad Value',0.75,0.25),
 	 ('Neemias Queta','< $5 M','SAC',5,0.98,250000,82,77,7.19,0.030,3.000,'Bad Value',0.75,0.25),
 	 ('Braxton Key','< $5 M','DET',3,0.75,1000000,82,79,7.19,0.023,2.300,'Bad Value',0.75,0.25);
-INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,player_mvp_calc_avg,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
+INSERT INTO contract_value_analysis (player,salary_rank,team,games_played,avg_mvp_score,salary,team_games_played,games_missed,pvm_rank,rankingish,percentile_rank,color_var,adj_penalty_final,pct_penalized) VALUES
 	 ('Chris Silva','< $5 M','DAL',1,0.75,1000000,82,81,7.19,0.023,2.300,'Bad Value',0.75,0.25),
 	 ('Thanasis Antetokounmpo','< $5 M','MIL',37,0.68,1000000,82,45,7.19,0.020,2.000,'Bad Value',0.75,0.25),
 	 ('Justin Jackson','< $5 M','BOS',23,0.60,1000000,82,59,7.19,0.016,1.600,'Bad Value',0.75,0.25),
@@ -703,7 +703,7 @@ CREATE TABLE IF NOT EXISTS pbp
     score_away numeric,
     score_home numeric,
     margin_score numeric,
-    date date,
+    game_date date,
     leading_team text COLLATE pg_catalog."default",
     home_team_full text COLLATE pg_catalog."default",
     home_primary_color text COLLATE pg_catalog."default",
@@ -721,7 +721,7 @@ CREATE TABLE IF NOT EXISTS pbp
 	leading_team_text text
 );
 
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,game_date,leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
 	 ('12:00','Jump ball: B. Adebayo vs. N. Jokić (J. Murray gains possession)',48.00,'1st Quarter','Jump ball: B. Adebayo vs. N. Jokić (J. Murray gains possession)','Jump ball: B. Adebayo vs. N. Jokić (J. Murray gains possession)','Jump ball: B. Adebayo vs. N. Jokić (J. Murray gains possession)','DEN','MIA',0,0,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA','TIE'),
 	 ('11:39','B. Adebayo makes 2-pt dunk from 2 ft',47.65,'1st Quarter','+2','2-0',NULL,'DEN','MIA',2,0,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
 	 ('10:35','M. Strus makes 3-pt jump shot from 27 ft (assist by G. Vincent)',46.58,'1st Quarter','+3','5-0',NULL,'DEN','MIA',5,0,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
@@ -732,7 +732,7 @@ INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score
 	 ('6:18','M. Porter makes 2-pt jump shot from 12 ft (assist by N. Jokić)',42.30,'1st Quarter',NULL,'5-10','+2','DEN','MIA',5,10,5,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
 	 ('5:57','J. Green makes 2-pt dunk from 2 ft (assist by M. Porter)',41.95,'1st Quarter',NULL,'5-12','+2','DEN','MIA',5,12,7,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
 	 ('5:41','M. Strus makes 2-pt layup from 4 ft (assist by J. Butler)',41.68,'1st Quarter','+2','7-12',NULL,'DEN','MIA',7,12,5,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,game_date,leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
 	 ('5:41','M. Strus makes free throw 1 of 1',41.68,'1st Quarter','+1','8-12',NULL,'DEN','MIA',8,12,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
 	 ('5:28','N. Jokić makes 3-pt jump shot from 26 ft (assist by J. Green)',41.47,'1st Quarter',NULL,'8-15','+3','DEN','MIA',8,15,7,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
 	 ('4:55','M. Porter makes free throw 2 of 2',40.92,'1st Quarter',NULL,'8-16','+1','DEN','MIA',8,16,8,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
@@ -743,7 +743,7 @@ INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score
 	 ('3:15','B. Adebayo makes 2-pt jump shot from 9 ft (assist by K. Lowry)',39.25,'1st Quarter','+2','16-18',NULL,'DEN','MIA',16,18,2,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
 	 ('2:42','B. Adebayo makes free throw 1 of 1',38.70,'1st Quarter','+1','19-18',NULL,'DEN','MIA',19,18,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
 	 ('2:42','B. Adebayo makes 2-pt layup from 2 ft',38.70,'1st Quarter','+2','18-18',NULL,'DEN','MIA',18,18,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','TIE');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,game_date,leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
 	 ('2:14','B. Adebayo makes 2-pt jump shot from 7 ft',38.23,'1st Quarter','+2','21-18',NULL,'DEN','MIA',21,18,-3,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
 	 ('2:14','B. Adebayo makes free throw 1 of 1',38.23,'1st Quarter','+1','22-18',NULL,'DEN','MIA',22,18,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
 	 ('1:09','M. Porter makes 2-pt layup from 2 ft',37.15,'1st Quarter',NULL,'22-20','+2','DEN','MIA',22,20,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
@@ -754,7 +754,7 @@ INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score
 	 ('11:39','J. Butler makes 2-pt layup from 3 ft',35.65,'2nd Quarter','+2','26-22',NULL,'DEN','MIA',26,22,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
 	 ('11:13','J. Butler makes free throw 2 of 2',35.22,'2nd Quarter','+1','28-22',NULL,'DEN','MIA',28,22,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
 	 ('11:13','J. Butler makes free throw 1 of 2',35.22,'2nd Quarter','+1','27-22',NULL,'DEN','MIA',27,22,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,game_date,leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
 	 ('10:17','A. Gordon makes free throw 2 of 2',34.28,'2nd Quarter',NULL,'28-23','+1','DEN','MIA',28,23,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
 	 ('9:59','C. Braun makes 2-pt layup from 3 ft (assist by M. Porter)',33.98,'2nd Quarter',NULL,'28-25','+2','DEN','MIA',28,25,-3,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
 	 ('9:46','J. Butler makes free throw 2 of 2',33.77,'2nd Quarter','+1','30-25',NULL,'DEN','MIA',30,25,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
@@ -765,7 +765,7 @@ INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score
 	 ('8:22','C. Martin makes 2-pt layup from 5 ft',32.37,'2nd Quarter','+2','34-27',NULL,'DEN','MIA',34,27,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
 	 ('8:04','N. Jokić makes 2-pt jump shot from 5 ft (assist by C. Braun)',32.07,'2nd Quarter',NULL,'34-29','+2','DEN','MIA',34,29,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
 	 ('7:47','D. Robinson makes 3-pt jump shot from 24 ft (assist by J. Butler)',31.78,'2nd Quarter','+3','37-29',NULL,'DEN','MIA',37,29,-8,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,game_date,leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
 	 ('7:17','D. Robinson makes 2-pt layup from 3 ft (assist by B. Adebayo)',31.28,'2nd Quarter','+2','39-29',NULL,'DEN','MIA',39,29,-10,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
 	 ('6:56','N. Jokić makes 2-pt layup from 3 ft',30.93,'2nd Quarter',NULL,'39-31','+2','DEN','MIA',39,31,-8,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
 	 ('6:17','K. Caldwell-Pope makes 2-pt jump shot from 17 ft (assist by N. Jokić)',30.28,'2nd Quarter',NULL,'39-33','+2','DEN','MIA',39,33,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
@@ -776,7 +776,7 @@ INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score
 	 ('4:14','K. Lowry makes 3-pt jump shot from 25 ft',28.23,'2nd Quarter','+3','45-39',NULL,'DEN','MIA',45,39,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
 	 ('3:32','J. Butler makes 2-pt dunk from 1 ft',27.53,'2nd Quarter','+2','47-39',NULL,'DEN','MIA',47,39,-8,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
 	 ('2:41','C. Braun makes 2-pt layup from 3 ft',26.68,'2nd Quarter',NULL,'47-41','+2','DEN','MIA',47,41,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,game_date,leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
 	 ('2:13','C. Braun makes free throw 1 of 2',26.22,'2nd Quarter',NULL,'47-42','+1','DEN','MIA',47,42,-5,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
 	 ('1:59','B. Adebayo makes 2-pt layup from 3 ft (assist by G. Vincent)',25.98,'2nd Quarter','+2','49-42',NULL,'DEN','MIA',49,42,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
 	 ('1:34','B. Adebayo makes 2-pt jump shot from 3 ft',25.57,'2nd Quarter','+2','51-42',NULL,'DEN','MIA',51,42,-9,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
@@ -787,7 +787,7 @@ INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score
 	 ('11:28','N. Jokić makes free throw 1 of 1',23.47,'3rd Quarter',NULL,'51-47','+1','DEN','MIA',51,47,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
 	 ('11:17','M. Strus makes 2-pt jump shot from 9 ft (assist by G. Vincent)',23.28,'3rd Quarter','+2','53-47',NULL,'DEN','MIA',53,47,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
 	 ('10:40','G. Vincent makes 2-pt jump shot from 22 ft',22.67,'3rd Quarter','+2','55-47',NULL,'DEN','MIA',55,47,-8,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,game_date,leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
 	 ('9:17','M. Porter makes 2-pt jump shot from 3 ft',21.28,'3rd Quarter',NULL,'55-49','+2','DEN','MIA',55,49,-6,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
 	 ('8:45','J. Murray makes 2-pt layup from 3 ft',20.75,'3rd Quarter',NULL,'55-51','+2','DEN','MIA',55,51,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
 	 ('8:33','K. Love makes 3-pt jump shot from 26 ft (assist by J. Butler)',20.55,'3rd Quarter','+3','58-51',NULL,'DEN','MIA',58,51,-7,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
@@ -798,7 +798,7 @@ INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score
 	 ('7:02','N. Jokić makes free throw 2 of 2',19.03,'3rd Quarter',NULL,'60-57','+1','DEN','MIA',60,57,-3,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
 	 ('6:46','J. Murray makes 3-pt jump shot from 23 ft (assist by M. Porter)',18.77,'3rd Quarter',NULL,'60-60','+3','DEN','MIA',60,60,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','TIE'),
 	 ('5:47','M. Strus makes 2-pt layup from 3 ft (assist by J. Butler)',17.78,'3rd Quarter','+2','62-60',NULL,'DEN','MIA',62,60,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,game_date,leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
 	 ('3:58','C. Martin makes 2-pt layup from 3 ft (assist by K. Lowry)',15.97,'3rd Quarter','+2','64-60',NULL,'DEN','MIA',64,60,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
 	 ('3:18','Jump ball: B. Brown vs. G. Vincent (K. Caldwell-Pope gains possession)',15.30,'3rd Quarter','Jump ball: B. Brown vs. G. Vincent (K. Caldwell-Pope gains possession)','Jump ball: B. Brown vs. G. Vincent (K. Caldwell-Pope gains possession)','Jump ball: B. Brown vs. G. Vincent (K. Caldwell-Pope gains possession)','DEN','MIA',64,60,-4,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA','Trailing'),
 	 ('2:45','B. Brown makes 2-pt layup at rim',14.75,'3rd Quarter',NULL,'64-62','+2','DEN','MIA',64,62,-2,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Trailing'),
@@ -809,7 +809,7 @@ INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score
 	 ('1:31','M. Porter makes 3-pt jump shot from 25 ft',13.52,'3rd Quarter',NULL,'66-69','+3','DEN','MIA',66,69,3,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
 	 ('1:10','B. Adebayo makes 2-pt jump shot from 13 ft (assist by D. Robinson)',13.17,'3rd Quarter','+2','68-69',NULL,'DEN','MIA',68,69,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
 	 ('0:54','N. Jokić makes free throw 2 of 2',12.90,'3rd Quarter',NULL,'68-70','+1','DEN','MIA',68,70,2,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,game_date,leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
 	 ('0:33','K. Lowry makes 3-pt jump shot from 30 ft',12.55,'3rd Quarter','+3','71-70',NULL,'DEN','MIA',71,70,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
 	 ('12:00','Start of 4th quarter',12.00,'4th Quarter','Start of 4th quarter','Start of 4th quarter','Start of 4th quarter','DEN','MIA',71,70,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA','Trailing'),
 	 ('0:00','End of 3rd quarter',12.00,'3rd Quarter','End of 3rd quarter','End of 3rd quarter','End of 3rd quarter','DEN','MIA',71,70,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#808080','TIE',8,-10,'DEN','MIA','Trailing'),
@@ -820,7 +820,7 @@ INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score
 	 ('9:38','K. Lowry makes 3-pt jump shot from 23 ft (assist by D. Robinson)',9.63,'4th Quarter','+3','76-77',NULL,'DEN','MIA',76,77,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
 	 ('9:18','N. Jokić makes 2-pt jump shot from 10 ft (assist by B. Brown)',9.30,'4th Quarter',NULL,'76-79','+2','DEN','MIA',76,79,3,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
 	 ('6:43','J. Murray makes 2-pt jump shot from 14 ft',6.72,'4th Quarter',NULL,'76-81','+2','DEN','MIA',76,81,5,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,game_date,leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
 	 ('4:43','N. Jokić makes 2-pt jump shot from 6 ft (assist by K. Caldwell-Pope)',4.72,'4th Quarter',NULL,'76-83','+2','DEN','MIA',76,83,7,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
 	 ('4:29','J. Butler makes 3-pt jump shot from 24 ft (assist by C. Martin)',4.48,'4th Quarter','+3','79-83',NULL,'DEN','MIA',79,83,4,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Trailing'),
 	 ('4:06','K. Caldwell-Pope makes 3-pt jump shot from 25 ft (assist by J. Murray)',4.10,'4th Quarter',NULL,'79-86','+3','DEN','MIA',79,86,7,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
@@ -831,7 +831,7 @@ INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score
 	 ('2:47','J. Butler makes 2-pt jump shot from 10 ft',2.78,'4th Quarter','+2','87-86',NULL,'DEN','MIA',87,86,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading'),
 	 ('2:24','N. Jokić makes 2-pt layup from 4 ft (assist by J. Murray)',2.40,'4th Quarter',NULL,'87-88','+2','DEN','MIA',87,88,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
 	 ('1:58','J. Butler makes free throw 2 of 2',1.97,'4th Quarter','+1','89-88',NULL,'DEN','MIA',89,88,-1,'2023-06-12','MIA','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','Leading');
-INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,"date",leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
+INSERT INTO pbp (time_quarter,play,time_remaining_final,quarter,away_score,score,home_score,home_team,away_team,score_away,score_home,margin_score,game_date,leading_team,home_team_full,home_primary_color,away_team_full,away_primary_color,game_description,away_fill,home_fill,scoring_team_color,scoring_team,max_home_lead,max_away_lead,winning_team,losing_team,leading_team_text) VALUES
 	 ('1:58','J. Butler makes free throw 1 of 2',1.97,'4th Quarter','+1','88-88',NULL,'DEN','MIA',88,88,0,'2023-06-12','TIE','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#98002e','MIA',8,-10,'DEN','MIA','TIE'),
 	 ('1:31','B. Brown makes 2-pt layup at rim',1.52,'4th Quarter',NULL,'89-90','+2','DEN','MIA',89,90,1,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
 	 ('0:24','K. Caldwell-Pope makes free throw 1 of 2',0.40,'4th Quarter',NULL,'89-91','+1','DEN','MIA',89,91,2,'2023-06-12','DEN','Denver Nuggets','#4d90cd','Miami Heat','#98002e','Denver Nuggets Vs. Miami Heat','<span style=''color:#98002e'';>Miami Heat</span>','<span style=''color:#4d90cd'';>Denver Nuggets</span>','#4d90cd','DEN',8,-10,'DEN','MIA','Leading'),
@@ -889,92 +889,499 @@ INSERT INTO standings ("rank",team,team_full,conference,wins,losses,games_played
 	 ('14th','SAS','San Antonio Spurs','Western',22,60,82,0.268,1,0,'3-7'),
 	 ('15th','HOU','Houston Rockets','Western',22,60,82,0.268,1,0,'4-6');
 
-DROP TABLE IF EXISTS scorers;
-CREATE TABLE scorers(
-    player text,
-    team text,
-    full_team text,
-    season_avg_ppg numeric,
-    playoffs_avg_ppg numeric,
-    season_ts_percent numeric,
-    playoffs_ts_percent numeric,
-    games_played bigint,
-    playoffs_games_played bigint,
-    ppg_rank bigint,
-    top20_scorers text,
-    player_mvp_calc_adj numeric,
-    games_missed bigint,
-    penalized_games_missed numeric,
-    top5_candidates text,
-    mvp_rank bigint
+DROP TABLE IF EXISTS player_stats;
+CREATE TABLE IF NOT EXISTS player_stats (
+	player text NULL,
+	season_type text NULL,
+	team text NULL,
+	full_team text NULL,
+	avg_ppg numeric NULL,
+	avg_ts_percent numeric NULL,
+	avg_mvp_score numeric NULL,
+	avg_plus_minus numeric NULL,
+	games_played int8 NULL,
+	ppg_rank int8 NULL,
+	scoring_category text NULL,
+	games_missed int8 NULL,
+	penalized_games_missed numeric NULL,
+	is_mvp_candidate text NULL,
+	mvp_rank int8 NULL
 );
-
-INSERT INTO scorers (player,team,full_team,season_avg_ppg,playoffs_avg_ppg,season_ts_percent,playoffs_ts_percent,games_played,playoffs_games_played,ppg_rank,top20_scorers,player_mvp_calc_adj,games_missed,penalized_games_missed,top5_candidates,mvp_rank) VALUES
-	 ('Nikola Jokic','DEN','Denver Nuggets',24.5,30.0,0.701,0.635,69,19,24,'Other',48.30,13,0,'Top 5 MVP Candidate',1),
-	 ('Luka Doncic','DAL','Dallas Mavericks',32.4,NULL,0.609,NULL,66,NULL,2,'Top 20 Scorers',48.10,16,0,'Top 5 MVP Candidate',2),
-	 ('Joel Embiid','PHI','Philadelphia 76ers',33.1,23.7,0.655,0.561,66,9,1,'Top 20 Scorers',47.80,16,0,'Top 5 MVP Candidate',3),
-	 ('Shai Gilgeous-Alexander','OKC','Oklahoma City Thunder',31.4,NULL,0.626,NULL,68,NULL,4,'Top 20 Scorers',44.00,14,0,'Top 5 MVP Candidate',4),
-	 ('Jayson Tatum','BOS','Boston Celtics',30.1,27.2,0.607,0.585,74,20,6,'Top 20 Scorers',43.80,8,0,'Top 5 MVP Candidate',5),
-	 ('Giannis Antetokounmpo','MIL','Milwaukee Bucks',31.1,23.3,0.605,0.525,63,3,5,'Top 20 Scorers',42.86,19,3,'Other',6),
-	 ('Trae Young','ATL','Atlanta Hawks',26.2,29.2,0.573,0.521,73,6,15,'Top 20 Scorers',39.90,9,0,'Other',7),
-	 ('Donovan Mitchell','CLE','Cleveland Cavaliers',28.3,23.2,0.614,0.518,68,5,10,'Top 20 Scorers',39.20,14,0,'Other',8),
-	 ('Ja Morant','MEM','Memphis Grizzlies',26.2,24.6,0.557,0.524,61,5,14,'Top 20 Scorers',37.26,21,5,'Other',9),
-	 ('Pascal Siakam','TOR','Toronto Raptors',24.2,NULL,0.565,NULL,71,NULL,26,'Other',37.10,11,0,'Other',10);
-INSERT INTO scorers (player,team,full_team,season_avg_ppg,playoffs_avg_ppg,season_ts_percent,playoffs_ts_percent,games_played,playoffs_games_played,ppg_rank,top20_scorers,player_mvp_calc_adj,games_missed,penalized_games_missed,top5_candidates,mvp_rank) VALUES
-	 ('Damian Lillard','POR','Portland Trail Blazers',32.2,NULL,0.645,NULL,58,NULL,3,'Top 20 Scorers',36.88,24,8,'Other',11),
-	 ('De''Aaron Fox','SAC','Sacramento Kings',25.0,27.4,0.599,0.524,73,7,20,'Top 20 Scorers',36.60,9,0,'Other',12),
-	 ('Darius Garland','CLE','Cleveland Cavaliers',21.6,20.6,0.587,0.566,69,5,37,'Other',36.30,13,0,'Other',13),
-	 ('Jaylen Brown','BOS','Boston Celtics',26.6,22.7,0.581,0.570,67,20,13,'Top 20 Scorers',35.80,15,0,'Other',14),
-	 ('Domantas Sabonis','SAC','Sacramento Kings',19.1,16.4,0.667,0.517,79,7,64,'Other',35.60,3,0,'Other',15),
-	 ('Kyrie Irving','DAL','Dallas Mavericks',27.1,NULL,0.613,NULL,60,NULL,12,'Top 20 Scorers',35.38,22,6,'Other',16),
-	 ('Jalen Brunson','NYK','New York Knicks',24.0,27.8,0.597,0.589,68,11,27,'Other',35.30,14,0,'Other',17),
-	 ('DeMar DeRozan','CHI','Chicago Bulls',24.5,NULL,0.592,NULL,74,NULL,25,'Other',35.10,8,0,'Other',19),
-	 ('Fred VanVleet','TOR','Toronto Raptors',19.3,NULL,0.540,NULL,69,NULL,62,'Other',35.10,13,0,'Other',18),
-	 ('Jrue Holiday','MIL','Milwaukee Bucks',19.3,17.8,0.586,0.491,67,5,61,'Other',35.10,15,0,'Other',20);
-INSERT INTO scorers (player,team,full_team,season_avg_ppg,playoffs_avg_ppg,season_ts_percent,playoffs_ts_percent,games_played,playoffs_games_played,ppg_rank,top20_scorers,player_mvp_calc_adj,games_missed,penalized_games_missed,top5_candidates,mvp_rank) VALUES
-	 ('Julius Randle','NYK','New York Knicks',25.1,16.6,0.582,0.485,77,10,19,'Top 20 Scorers',35.00,5,0,'Other',21),
-	 ('Jimmy Butler','MIA','Miami Heat',22.9,26.9,0.647,0.565,64,22,33,'Other',34.66,18,2,'Other',22),
-	 ('Anthony Edwards','MIN','Minnesota Timberwolves',24.6,31.6,0.563,0.602,79,5,23,'Other',34.60,3,0,'Other',23),
-	 ('James Harden','PHI','Philadelphia 76ers',21.0,20.3,0.607,0.538,58,11,43,'Other',34.27,24,8,'Other',24),
-	 ('LeBron James','LAL','Los Angeles Lakers',28.9,23.5,0.584,0.573,55,15,9,'Top 20 Scorers',33.77,27,11,'Other',25),
-	 ('Stephen Curry','GSW','Golden State Warriors',29.4,30.5,0.656,0.588,56,13,7,'Top 20 Scorers',33.68,26,10,'Other',26),
-	 ('Lauri Markkanen','UTA','Utah Jazz',25.6,NULL,0.640,NULL,66,NULL,18,'Top 20 Scorers',33.50,16,0,'Other',27),
-	 ('Kristaps Porzingis','WAS','Washington Wizards',23.2,NULL,0.627,NULL,65,NULL,31,'Other',33.03,17,1,'Other',28),
-	 ('Anthony Davis','LAL','Los Angeles Lakers',25.9,22.7,0.626,0.603,56,15,17,'Top 20 Scorers',32.64,26,10,'Other',29),
-	 ('Dejounte Murray','ATL','Atlanta Hawks',20.5,23.0,0.540,0.538,74,5,49,'Other',32.10,8,0,'Other',30);
-INSERT INTO scorers (player,team,full_team,season_avg_ppg,playoffs_avg_ppg,season_ts_percent,playoffs_ts_percent,games_played,playoffs_games_played,ppg_rank,top20_scorers,player_mvp_calc_adj,games_missed,penalized_games_missed,top5_candidates,mvp_rank) VALUES
-	 ('Jamal Murray','DEN','Denver Nuggets',20.0,26.2,0.571,0.584,65,19,57,'Other',32.05,17,1,'Other',31),
-	 ('Zach LaVine','CHI','Chicago Bulls',24.8,NULL,0.607,NULL,77,NULL,21,'Other',32.00,5,0,'Other',32),
-	 ('Kevin Durant','PHX','Phoenix Suns',29.1,29.0,0.677,0.599,47,11,8,'Top 20 Scorers',31.50,35,19,'Other',33),
-	 ('CJ McCollum','NOP','New Orleans Pelicans',20.9,NULL,0.541,NULL,75,NULL,44,'Other',31.30,7,0,'Other',34),
-	 ('Bam Adebayo','MIA','Miami Heat',20.4,17.9,0.592,0.530,75,23,50,'Other',30.80,7,0,'Other',35),
-	 ('Tyrese Haliburton','IND','Indiana Pacers',20.7,NULL,0.624,NULL,56,NULL,47,'Other',30.64,26,10,'Other',36),
-	 ('Jaren Jackson','MEM','Memphis Grizzlies',18.6,18.0,0.613,0.546,63,6,65,'Other',30.08,19,3,'Other',37),
-	 ('Devin Booker','PHX','Phoenix Suns',27.8,33.7,0.601,0.686,53,11,11,'Top 20 Scorers',29.25,29,13,'Other',38),
-	 ('Mikal Bridges','BKN','Brooklyn Nets',20.1,23.5,0.587,0.539,83,4,55,'Other',28.90,-1,0,'Other',39),
-	 ('Tyler Herro','MIA','Miami Heat',20.1,12.0,0.566,0.667,67,1,54,'Other',28.80,15,0,'Other',41);
-INSERT INTO scorers (player,team,full_team,season_avg_ppg,playoffs_avg_ppg,season_ts_percent,playoffs_ts_percent,games_played,playoffs_games_played,ppg_rank,top20_scorers,player_mvp_calc_adj,games_missed,penalized_games_missed,top5_candidates,mvp_rank) VALUES
-	 ('Aaron Gordon','DEN','Denver Nuggets',16.3,12.8,0.617,0.578,68,19,82,'Other',28.80,14,0,'Other',40),
-	 ('Evan Mobley','CLE','Cleveland Cavaliers',16.2,9.8,0.590,0.476,79,5,84,'Other',28.80,3,0,'Other',42),
-	 ('Spencer Dinwiddie','BKN','Brooklyn Nets',17.3,16.5,0.573,0.544,79,4,74,'Other',28.30,3,0,'Other',44),
-	 ('Klay Thompson','GSW','Golden State Warriors',21.9,18.5,0.576,0.525,69,13,36,'Other',28.30,13,0,'Other',43),
-	 ('Nikola Vucevic','CHI','Chicago Bulls',17.6,NULL,0.594,NULL,82,NULL,71,'Other',28.20,0,0,'Other',45),
-	 ('D''Angelo Russell','LAL','Los Angeles Lakers',17.8,13.9,0.606,0.516,71,15,69,'Other',28.00,11,0,'Other',46),
-	 ('Paul George','LAC','Los Angeles Clippers',23.8,NULL,0.588,NULL,56,NULL,29,'Other',27.92,26,10,'Other',47),
-	 ('Zion Williamson','NOP','New Orleans Pelicans',26.0,NULL,0.652,NULL,29,NULL,16,'Top 20 Scorers',27.83,53,37,'Other',48),
-	 ('Russell Westbrook','LAC','Los Angeles Clippers',15.9,23.6,0.513,0.509,73,5,87,'Other',27.70,9,0,'Other',49),
-	 ('Scottie Barnes','TOR','Toronto Raptors',15.3,NULL,0.524,NULL,77,NULL,90,'Other',27.70,5,0,'Other',50);
-INSERT INTO scorers (player,team,full_team,season_avg_ppg,playoffs_avg_ppg,season_ts_percent,playoffs_ts_percent,games_played,playoffs_games_played,ppg_rank,top20_scorers,player_mvp_calc_adj,games_missed,penalized_games_missed,top5_candidates,mvp_rank) VALUES
-	 ('Desmond Bane','MEM','Memphis Grizzlies',21.5,23.5,0.606,0.548,58,6,39,'Other',27.64,24,8,'Other',51),
-	 ('Brook Lopez','MIL','Milwaukee Bucks',15.9,19.0,0.630,0.653,78,5,86,'Other',27.50,4,0,'Other',52),
-	 ('Kawhi Leonard','LAC','Los Angeles Clippers',23.8,34.5,0.623,0.670,52,2,28,'Other',27.23,30,14,'Other',53),
-	 ('Josh Giddey','OKC','Oklahoma City Thunder',16.6,NULL,0.533,NULL,76,NULL,81,'Other',27.20,6,0,'Other',54),
-	 ('Kyle Kuzma','WAS','Washington Wizards',21.2,NULL,0.544,NULL,64,NULL,40,'Other',26.98,18,2,'Other',55),
-	 ('Chris Paul','PHX','Phoenix Suns',13.9,12.4,0.555,0.469,59,7,112,'Other',26.57,23,7,'Other',56),
-	 ('Terry Rozier','CHA','Charlotte Hornets',21.1,NULL,0.517,NULL,63,NULL,42,'Other',26.51,19,3,'Other',57),
-	 ('Jarrett Allen','CLE','Cleveland Cavaliers',14.3,9.4,0.670,0.608,68,5,104,'Other',26.20,14,0,'Other',58),
-	 ('Paolo Banchero','ORL','Orlando Magic',20.0,NULL,0.529,NULL,72,NULL,58,'Other',26.10,10,0,'Other',59),
-	 ('LaMelo Ball','CHA','Charlotte Hornets',23.3,NULL,0.541,NULL,36,NULL,30,'Other',26.10,46,30,'Other',60);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Joel Embiid','Regular Season','PHI','Philadelphia 76ers',30.3,0.586,53.00,11.8,4,6,'Top 20 Scorers',0,0,'Top 5 MVP Candidate',1),
+	 ('Luka Doncic','Regular Season','DAL','Dallas Mavericks',33.8,0.645,51.40,5.2,5,1,'Top 20 Scorers',0,0,'Top 5 MVP Candidate',2),
+	 ('Jayson Tatum','Regular Season','BOS','Boston Celtics',29.8,0.670,48.10,19.0,4,7,'Top 20 Scorers',0,0,'Top 5 MVP Candidate',3),
+	 ('De''Aaron Fox','Regular Season','SAC','Sacramento Kings',31.3,0.593,47.50,10.0,3,4,'Top 20 Scorers',1,0,'Top 5 MVP Candidate',4),
+	 ('Paul George','Regular Season','LAC','Los Angeles Clippers',28.8,0.737,46.80,17.4,5,8,'Top 20 Scorers',0,0,'Top 5 MVP Candidate',5),
+	 ('Donovan Mitchell','Regular Season','CLE','Cleveland Cavaliers',32.8,0.656,46.10,1.2,5,2,'Top 20 Scorers',1,0,'Other',6),
+	 ('Nikola Jokic','Regular Season','DEN','Denver Nuggets',27.3,0.695,45.70,8.8,6,10,'Top 20 Scorers',0,0,'Other',7),
+	 ('Tyrese Maxey','Regular Season','PHI','Philadelphia 76ers',27.3,0.650,43.90,8.8,4,11,'Top 20 Scorers',0,0,'Other',8),
+	 ('Anthony Davis','Regular Season','LAL','Los Angeles Lakers',26.0,0.608,43.50,-2.2,5,12,'Top 20 Scorers',0,0,'Other',9),
+	 ('Devin Booker','Regular Season','PHX','Phoenix Suns',31.5,0.717,42.72,1.5,2,3,'Top 20 Scorers',3,2,'Other',10);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Shai Gilgeous-Alexander','Regular Season','OKC','Oklahoma City Thunder',24.8,0.544,42.70,4.2,5,17,'Top 20 Scorers',1,0,'Other',11),
+	 ('Kawhi Leonard','Regular Season','LAC','Los Angeles Clippers',23.0,0.581,41.70,16.0,5,25,'Other',0,0,'Other',12),
+	 ('Tyrese Haliburton','Regular Season','IND','Indiana Pacers',19.5,0.554,40.80,2.5,4,45,'Other',1,0,'Other',13),
+	 ('LeBron James','Regular Season','LAL','Los Angeles Lakers',24.6,0.629,40.80,7.0,5,19,'Top 20 Scorers',0,0,'Other',14),
+	 ('Stephen Curry','Regular Season','GSW','Golden State Warriors',30.8,0.753,38.70,1.8,6,5,'Top 20 Scorers',0,0,'Other',15),
+	 ('Kevin Durant','Regular Season','PHX','Phoenix Suns',27.4,0.613,37.80,6.8,5,9,'Top 20 Scorers',0,0,'Other',16),
+	 ('Jaylen Brown','Regular Season','BOS','Boston Celtics',22.5,0.576,37.60,16.3,4,29,'Other',0,0,'Other',17),
+	 ('Dejounte Murray','Regular Season','ATL','Atlanta Hawks',21.8,0.609,37.40,9.0,5,32,'Other',0,0,'Other',18),
+	 ('Scottie Barnes','Regular Season','TOR','Toronto Raptors',21.3,0.610,36.80,2.5,6,36,'Other',0,0,'Other',19),
+	 ('Trae Young','Regular Season','ATL','Atlanta Hawks',21.6,0.490,36.00,1.0,5,33,'Other',0,0,'Other',20);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Russell Westbrook','Regular Season','LAC','Los Angeles Clippers',15.2,0.572,35.90,12.8,5,86,'Other',0,0,'Other',21),
+	 ('CJ McCollum','Regular Season','NOP','New Orleans Pelicans',23.4,0.583,35.50,-0.6,5,23,'Other',0,0,'Other',23),
+	 ('Derrick White','Regular Season','BOS','Boston Celtics',15.8,0.820,35.50,18.0,4,76,'Other',0,0,'Other',22),
+	 ('Domantas Sabonis','Regular Season','SAC','Sacramento Kings',19.0,0.582,35.10,-0.8,4,52,'Other',0,0,'Other',24),
+	 ('Tyler Herro','Regular Season','MIA','Miami Heat',25.8,0.570,34.30,-1.3,6,14,'Top 20 Scorers',0,0,'Other',25),
+	 ('Kristaps Porzingis','Regular Season','BOS','Boston Celtics',18.8,0.724,34.10,14.5,4,54,'Other',0,0,'Other',26),
+	 ('Desmond Bane','Regular Season','MEM','Memphis Grizzlies',26.0,0.591,33.70,-4.5,6,13,'Top 20 Scorers',0,0,'Other',27),
+	 ('Anthony Edwards','Regular Season','MIN','Minnesota Timberwolves',25.0,0.578,33.40,5.8,4,16,'Top 20 Scorers',0,0,'Other',28),
+	 ('Jalen Brunson','Regular Season','NYK','New York Knicks',24.7,0.529,32.70,2.0,6,18,'Top 20 Scorers',0,0,'Other',29),
+	 ('Jamal Murray','Regular Season','DEN','Denver Nuggets',18.7,0.547,32.40,2.2,6,55,'Other',0,0,'Other',30);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Cam Thomas','Regular Season','BKN','Brooklyn Nets',25.8,0.587,32.30,0.4,5,15,'Top 20 Scorers',0,0,'Other',31),
+	 ('D''Angelo Russell','Regular Season','LAL','Los Angeles Lakers',19.4,0.589,31.40,2.4,5,48,'Other',0,0,'Other',32),
+	 ('Jrue Holiday','Regular Season','BOS','Boston Celtics',13.0,0.638,31.30,13.8,4,112,'Other',0,0,'Other',34),
+	 ('Lauri Markkanen','Regular Season','UTA','Utah Jazz',23.5,0.633,31.30,-0.3,6,22,'Other',0,0,'Other',33),
+	 ('Dennis Schroder','Regular Season','TOR','Toronto Raptors',15.7,0.574,31.20,2.3,6,77,'Other',0,0,'Other',35),
+	 ('Armoni Brooks','Regular Season','BKN','Brooklyn Nets',17.0,1.214,31.02,30.0,1,66,'Other',4,3,'Other',36),
+	 ('Tobias Harris','Regular Season','PHI','Philadelphia 76ers',20.5,0.747,31.00,5.8,4,42,'Other',0,0,'Other',37),
+	 ('Alperen Sengun','Regular Season','HOU','Houston Rockets',19.3,0.615,30.60,-1.8,4,49,'Other',0,0,'Other',38),
+	 ('Malcolm Brogdon','Regular Season','POR','Portland Trail Blazers',19.2,0.525,30.40,4.2,6,50,'Other',0,0,'Other',39),
+	 ('Karl-Anthony Towns','Regular Season','MIN','Minnesota Timberwolves',17.0,0.439,30.40,4.8,4,67,'Other',0,0,'Other',40);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Chris Paul','Regular Season','GSW','Golden State Warriors',8.0,0.394,30.20,9.5,6,192,'Other',0,0,'Other',41),
+	 ('Giannis Antetokounmpo','Regular Season','MIL','Milwaukee Bucks',24.0,0.595,30.20,-0.6,5,20,'Top 20 Scorers',0,0,'Other',42),
+	 ('Kyrie Irving','Regular Season','DAL','Dallas Mavericks',20.3,0.509,30.09,-6.0,3,43,'Other',2,1,'Other',43),
+	 ('Franz Wagner','Regular Season','ORL','Orlando Magic',18.6,0.527,29.90,6.4,5,56,'Other',0,0,'Other',44),
+	 ('Victor Wembanyama','Regular Season','SAS','San Antonio Spurs',20.6,0.589,29.20,2.6,5,39,'Other',0,0,'Other',45),
+	 ('Cade Cunningham','Regular Season','DET','Detroit Pistons',22.7,0.513,28.60,-0.5,6,27,'Other',0,0,'Other',47),
+	 ('Chet Holmgren','Regular Season','OKC','Oklahoma City Thunder',17.2,0.779,28.60,0.7,6,64,'Other',0,0,'Other',46),
+	 ('Terry Rozier','Regular Season','CHA','Charlotte Hornets',22.0,0.527,28.50,-2.8,4,31,'Other',0,0,'Other',48),
+	 ('Evan Mobley','Regular Season','CLE','Cleveland Cavaliers',15.2,0.521,28.50,-3.5,6,87,'Other',0,0,'Other',49),
+	 ('Kelly Oubre','Regular Season','PHI','Philadelphia 76ers',20.0,0.679,28.40,6.0,4,44,'Other',0,0,'Other',50);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Caris LeVert','Regular Season','CLE','Cleveland Cavaliers',18.2,0.482,28.00,-0.4,5,57,'Other',1,0,'Other',51),
+	 ('Brandon Ingram','Regular Season','NOP','New Orleans Pelicans',22.5,0.571,27.84,1.5,2,28,'Other',3,2,'Other',52),
+	 ('Jaren Jackson','Regular Season','MEM','Memphis Grizzlies',20.7,0.600,27.80,-7.3,6,38,'Other',0,0,'Other',53),
+	 ('Lonnie Walker','Regular Season','BKN','Brooklyn Nets',15.3,0.629,27.60,10.8,4,83,'Other',1,0,'Other',54),
+	 ('Fred VanVleet','Regular Season','HOU','Houston Rockets',17.0,0.518,27.60,-2.8,4,65,'Other',0,0,'Other',57),
+	 ('DeMar DeRozan','Regular Season','CHI','Chicago Bulls',22.2,0.530,27.60,-9.7,6,30,'Other',0,0,'Other',56),
+	 ('Keegan Murray','Regular Season','SAC','Sacramento Kings',14.5,0.471,27.60,4.3,4,98,'Other',0,0,'Other',55),
+	 ('Alec Burks','Regular Season','DET','Detroit Pistons',15.0,0.658,27.34,11.8,4,89,'Other',2,1,'Other',58),
+	 ('Trendon Watford','Regular Season','BKN','Brooklyn Nets',11.0,0.799,27.26,19.0,1,135,'Other',4,3,'Other',59),
+	 ('Bam Adebayo','Regular Season','MIA','Miami Heat',21.4,0.576,27.10,-0.6,5,35,'Other',1,0,'Other',60);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Aaron Gordon','Regular Season','DEN','Denver Nuggets',12.8,0.597,26.90,8.8,6,114,'Other',0,0,'Other',61),
+	 ('Gordon Hayward','Regular Season','CHA','Charlotte Hornets',15.3,0.581,26.60,-1.5,4,84,'Other',0,0,'Other',62),
+	 ('Shaedon Sharpe','Regular Season','POR','Portland Trail Blazers',20.5,0.582,26.50,-1.8,6,41,'Other',0,0,'Other',63),
+	 ('Tre Jones','Regular Season','SAS','San Antonio Spurs',9.8,0.659,26.40,9.4,5,156,'Other',0,0,'Other',64),
+	 ('LaMelo Ball','Regular Season','CHA','Charlotte Hornets',15.5,0.451,26.40,-4.3,4,79,'Other',0,0,'Other',66),
+	 ('Jimmy Butler','Regular Season','MIA','Miami Heat',17.2,0.519,26.40,-2.6,5,63,'Other',1,0,'Other',65),
+	 ('Jonas Valanciunas','Regular Season','NOP','New Orleans Pelicans',14.6,0.624,26.00,6.4,5,95,'Other',0,0,'Other',67),
+	 ('Myles Turner','Regular Season','IND','Indiana Pacers',17.2,0.604,25.70,-1.8,5,62,'Other',0,0,'Other',68),
+	 ('Mikal Bridges','Regular Season','BKN','Brooklyn Nets',20.6,0.608,25.60,-4.8,5,40,'Other',0,0,'Other',69),
+	 ('Jalen Johnson','Regular Season','ATL','Atlanta Hawks',13.2,0.668,25.50,10.0,5,109,'Other',0,0,'Other',72);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('OG Anunoby','Regular Season','TOR','Toronto Raptors',14.6,0.673,25.50,11.0,5,96,'Other',1,0,'Other',71),
+	 ('Damian Lillard','Regular Season','MIL','Milwaukee Bucks',23.0,0.634,25.50,-7.8,5,24,'Other',0,0,'Other',70),
+	 ('Zach LaVine','Regular Season','CHI','Chicago Bulls',24.0,0.542,25.30,-4.3,6,21,'Other',0,0,'Other',73),
+	 ('Zion Williamson','Regular Season','NOP','New Orleans Pelicans',21.5,0.532,25.30,-5.3,4,34,'Other',1,0,'Other',74),
+	 ('Pascal Siakam','Regular Season','TOR','Toronto Raptors',16.7,0.541,25.30,1.0,6,69,'Other',0,0,'Other',75),
+	 ('Deandre Ayton','Regular Season','POR','Portland Trail Blazers',11.2,0.617,25.30,1.3,6,134,'Other',0,0,'Other',76),
+	 ('RJ Barrett','Regular Season','NYK','New York Knicks',21.0,0.573,25.28,2.8,4,37,'Other',2,1,'Other',77),
+	 ('Rudy Gobert','Regular Season','MIN','Minnesota Timberwolves',11.8,0.537,25.00,1.3,4,126,'Other',0,0,'Other',78),
+	 ('De''Andre Hunter','Regular Season','ATL','Atlanta Hawks',18.0,0.683,24.90,2.0,5,58,'Other',0,0,'Other',79),
+	 ('Paolo Banchero','Regular Season','ORL','Orlando Magic',16.0,0.526,24.50,-3.4,5,72,'Other',0,0,'Other',80);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Jalen Duren','Regular Season','DET','Detroit Pistons',14.8,0.687,24.40,-2.4,5,92,'Other',1,0,'Other',81),
+	 ('Mike Conley','Regular Season','MIN','Minnesota Timberwolves',12.0,0.634,24.40,5.5,4,122,'Other',0,0,'Other',82),
+	 ('Jalen Williams','Regular Season','OKC','Oklahoma City Thunder',16.3,0.583,24.20,-0.2,6,70,'Other',0,0,'Other',83),
+	 ('Julius Randle','Regular Season','NYK','New York Knicks',13.7,0.370,24.00,-1.3,6,102,'Other',0,0,'Other',84),
+	 ('Keldon Johnson','Regular Season','SAS','San Antonio Spurs',15.2,0.515,23.90,-3.4,5,85,'Other',0,0,'Other',85),
+	 ('Devin Vassell','Regular Season','SAS','San Antonio Spurs',19.4,0.644,23.50,-1.8,5,47,'Other',0,0,'Other',86),
+	 ('Michael Porter','Regular Season','DEN','Denver Nuggets',13.0,0.543,23.50,4.7,6,110,'Other',0,0,'Other',87),
+	 ('Ivica Zubac','Regular Season','LAC','Los Angeles Clippers',11.6,0.624,23.50,12.4,5,128,'Other',0,0,'Other',88),
+	 ('Klay Thompson','Regular Season','GSW','Golden State Warriors',16.8,0.607,23.20,4.2,5,68,'Other',1,0,'Other',89),
+	 ('Bogdan Bogdanovic','Regular Season','ATL','Atlanta Hawks',12.0,0.580,23.10,5.8,5,120,'Other',0,0,'Other',90);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Tim Hardaway','Regular Season','DAL','Dallas Mavericks',18.0,0.610,22.80,1.8,5,60,'Other',0,0,'Other',91),
+	 ('Max Strus','Regular Season','CLE','Cleveland Cavaliers',13.5,0.486,22.80,1.7,6,104,'Other',0,0,'Other',92),
+	 ('Nikola Vucevic','Regular Season','CHI','Chicago Bulls',15.3,0.524,22.50,-4.7,6,82,'Other',0,0,'Other',93),
+	 ('De''Anthony Melton','Regular Season','PHI','Philadelphia 76ers',7.0,0.399,22.40,8.3,4,215,'Other',0,0,'Other',94),
+	 ('Kyle Kuzma','Regular Season','WAS','Washington Wizards',22.8,0.558,22.30,-14.2,5,26,'Other',0,0,'Other',95),
+	 ('Malik Monk','Regular Season','SAC','Sacramento Kings',14.3,0.603,22.00,1.8,4,100,'Other',0,0,'Other',96),
+	 ('Markelle Fultz','Regular Season','ORL','Orlando Magic',11.0,0.495,21.80,1.8,4,137,'Other',1,0,'Other',97),
+	 ('Spencer Dinwiddie','Regular Season','BKN','Brooklyn Nets',10.8,0.619,21.60,5.8,4,142,'Other',1,0,'Other',98),
+	 ('Saddiq Bey','Regular Season','ATL','Atlanta Hawks',11.6,0.647,21.50,8.4,5,129,'Other',0,0,'Other',101),
+	 ('P.J. Washington','Regular Season','CHA','Charlotte Hornets',19.0,0.636,21.50,-5.3,4,53,'Other',0,0,'Other',99);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Naz Reid','Regular Season','MIN','Minnesota Timberwolves',16.0,0.688,21.50,3.5,4,73,'Other',0,0,'Other',100),
+	 ('Onyeka Okongwu','Regular Season','ATL','Atlanta Hawks',10.6,0.763,21.30,7.0,5,143,'Other',0,0,'Other',102),
+	 ('Jerami Grant','Regular Season','POR','Portland Trail Blazers',19.5,0.500,21.10,-2.8,6,46,'Other',0,0,'Other',104),
+	 ('Herbert Jones','Regular Season','NOP','New Orleans Pelicans',10.6,0.630,21.10,1.2,5,144,'Other',0,0,'Other',103),
+	 ('Buddy Hield','Regular Season','IND','Indiana Pacers',11.2,0.560,21.00,3.8,5,131,'Other',0,0,'Other',105),
+	 ('Harrison Barnes','Regular Season','SAC','Sacramento Kings',16.3,0.736,21.00,-0.3,4,71,'Other',0,0,'Other',106),
+	 ('Jalen Green','Regular Season','HOU','Houston Rockets',19.0,0.511,20.90,-3.8,4,51,'Other',0,0,'Other',107),
+	 ('Jusuf Nurkic','Regular Season','PHX','Phoenix Suns',9.4,0.552,20.90,-0.2,5,168,'Other',0,0,'Other',108),
+	 ('Talen Horton-Tucker','Regular Season','UTA','Utah Jazz',10.3,0.491,20.60,-1.2,6,149,'Other',0,0,'Other',109),
+	 ('John Collins','Regular Season','UTA','Utah Jazz',15.0,0.582,20.60,-4.2,6,88,'Other',0,0,'Other',110);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Christian Wood','Regular Season','LAL','Los Angeles Lakers',8.8,0.694,20.40,12.6,5,172,'Other',0,0,'Other',111),
+	 ('Cole Anthony','Regular Season','ORL','Orlando Magic',15.6,0.591,20.20,-5.2,5,78,'Other',0,0,'Other',112),
+	 ('Ben Simmons','Regular Season','BKN','Brooklyn Nets',7.4,0.532,20.10,-4.2,5,204,'Other',0,0,'Other',114),
+	 ('Josh Giddey','Regular Season','OKC','Oklahoma City Thunder',13.5,0.460,20.10,-0.5,6,105,'Other',0,0,'Other',113),
+	 ('Eric Gordon','Regular Season','PHX','Phoenix Suns',14.6,0.558,20.00,1.6,5,97,'Other',0,0,'Other',115),
+	 ('Jabari Smith','Regular Season','HOU','Houston Rockets',12.8,0.514,19.90,-0.8,4,116,'Other',0,0,'Other',116),
+	 ('Ausar Thompson','Regular Season','DET','Detroit Pistons',11.0,0.432,19.90,-6.0,6,138,'Other',0,0,'Other',117),
+	 ('Draymond Green','Regular Season','GSW','Golden State Warriors',9.5,0.567,19.89,0.5,4,165,'Other',2,1,'Other',118),
+	 ('Grant Williams','Regular Season','DAL','Dallas Mavericks',15.0,0.739,19.70,1.6,5,90,'Other',0,0,'Other',120),
+	 ('Kentavious Caldwell-Pope','Regular Season','DEN','Denver Nuggets',9.5,0.631,19.70,7.2,6,163,'Other',0,0,'Other',119);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Immanuel Quickley','Regular Season','NYK','New York Knicks',15.8,0.589,19.50,-1.8,6,74,'Other',0,0,'Other',121),
+	 ('Dillon Brooks','Regular Season','HOU','Houston Rockets',15.8,0.741,19.40,-3.0,4,75,'Other',0,0,'Other',124),
+	 ('Luguentz Dort','Regular Season','OKC','Oklahoma City Thunder',14.7,0.721,19.40,-1.2,6,94,'Other',0,0,'Other',125),
+	 ('Clint Capela','Regular Season','ATL','Atlanta Hawks',10.4,0.562,19.40,0.0,5,147,'Other',0,0,'Other',122),
+	 ('Zach Collins','Regular Season','SAS','San Antonio Spurs',13.0,0.565,19.40,-5.6,5,111,'Other',0,0,'Other',123),
+	 ('Kyle Anderson','Regular Season','MIN','Minnesota Timberwolves',8.0,0.576,19.30,3.3,4,190,'Other',0,0,'Other',126),
+	 ('Jalen Suggs','Regular Season','ORL','Orlando Magic',10.2,0.502,19.20,0.4,5,151,'Other',0,0,'Other',127),
+	 ('T.J. McConnell','Regular Season','IND','Indiana Pacers',10.0,0.689,19.11,-2.3,3,152,'Other',2,1,'Other',128),
+	 ('Jalen Smith','Regular Season','IND','Indiana Pacers',11.8,0.802,19.00,5.3,4,125,'Other',1,0,'Other',129),
+	 ('Dario Saric','Regular Season','GSW','Golden State Warriors',9.5,0.564,18.90,4.5,6,164,'Other',0,0,'Other',131);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Marcus Smart','Regular Season','MEM','Memphis Grizzlies',14.7,0.573,18.90,-10.8,6,93,'Other',0,0,'Other',130),
+	 ('Bones Hyland','Regular Season','LAC','Los Angeles Clippers',13.6,0.589,18.80,4.2,5,103,'Other',0,0,'Other',132),
+	 ('Jordan Clarkson','Regular Season','UTA','Utah Jazz',14.8,0.481,18.80,-3.5,6,91,'Other',0,0,'Other',133),
+	 ('Gary Payton','Regular Season','GSW','Golden State Warriors',7.7,0.593,18.70,9.3,6,196,'Other',0,0,'Other',134),
+	 ('Darius Garland','Regular Season','CLE','Cleveland Cavaliers',14.5,0.566,18.61,-2.0,2,99,'Other',4,3,'Other',135),
+	 ('Cameron Johnson','Regular Season','BKN','Brooklyn Nets',12.0,0.551,18.33,-1.0,1,119,'Other',4,3,'Other',136),
+	 ('Kelly Olynyk','Regular Season','UTA','Utah Jazz',8.3,0.785,18.30,2.2,6,182,'Other',0,0,'Other',138),
+	 ('Dereck Lively','Regular Season','DAL','Dallas Mavericks',7.6,0.732,18.30,4.8,5,199,'Other',0,0,'Other',139),
+	 ('Christian Braun','Regular Season','DEN','Denver Nuggets',8.2,0.541,18.30,4.7,6,185,'Other',0,0,'Other',137),
+	 ('Aaron Nesmith','Regular Season','IND','Indiana Pacers',12.0,0.640,18.10,1.4,5,118,'Other',0,0,'Other',140);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Kevon Looney','Regular Season','GSW','Golden State Warriors',6.3,0.653,18.10,2.0,6,230,'Other',0,0,'Other',141),
+	 ('Isaiah Stewart','Regular Season','DET','Detroit Pistons',13.0,0.593,18.00,1.3,6,113,'Other',0,0,'Other',142),
+	 ('Brandon Miller','Regular Season','CHA','Charlotte Hornets',15.5,0.593,17.90,-6.3,4,80,'Other',0,0,'Other',143),
+	 ('Killian Hayes','Regular Season','DET','Detroit Pistons',7.0,0.381,17.90,0.3,6,218,'Other',0,0,'Other',145),
+	 ('Kevin Huerter','Regular Season','SAC','Sacramento Kings',7.5,0.387,17.90,4.3,4,202,'Other',0,0,'Other',144),
+	 ('Josh Green','Regular Season','DAL','Dallas Mavericks',9.2,0.584,17.80,6.8,5,169,'Other',0,0,'Other',146),
+	 ('Mark Williams','Regular Season','CHA','Charlotte Hornets',10.5,0.782,17.80,-1.5,4,145,'Other',0,0,'Other',147),
+	 ('Marvin Bagley','Regular Season','DET','Detroit Pistons',10.3,0.622,17.70,5.3,6,148,'Other',0,0,'Other',148),
+	 ('Jaden McDaniels','Regular Season','MIN','Minnesota Timberwolves',9.0,0.818,17.44,5.5,2,171,'Other',2,1,'Other',149),
+	 ('Norman Powell','Regular Season','LAC','Los Angeles Clippers',14.0,0.629,17.40,-1.8,5,101,'Other',0,0,'Other',150);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Jakob Poeltl','Regular Season','TOR','Toronto Raptors',9.7,0.661,17.20,2.8,6,157,'Other',0,0,'Other',152),
+	 ('Reggie Jackson','Regular Season','DEN','Denver Nuggets',7.2,0.474,17.20,5.0,6,211,'Other',0,0,'Other',151),
+	 ('Jordan Poole','Regular Season','WAS','Washington Wizards',17.6,0.511,17.00,-14.2,5,61,'Other',0,0,'Other',154),
+	 ('Deni Avdija','Regular Season','WAS','Washington Wizards',13.2,0.622,17.00,-8.6,5,108,'Other',0,0,'Other',153),
+	 ('Grayson Allen','Regular Season','PHX','Phoenix Suns',11.6,0.665,16.90,-1.2,5,130,'Other',0,0,'Other',155),
+	 ('Jonathan Kuminga','Regular Season','GSW','Golden State Warriors',12.8,0.551,16.90,4.6,5,115,'Other',1,0,'Other',156),
+	 ('Dorian Finney-Smith','Regular Season','BKN','Brooklyn Nets',15.4,0.722,16.70,-6.2,5,81,'Other',0,0,'Other',158),
+	 ('Moses Moody','Regular Season','GSW','Golden State Warriors',8.0,0.630,16.70,5.5,6,191,'Other',0,0,'Other',157),
+	 ('Khris Middleton','Regular Season','MIL','Milwaukee Bucks',8.5,0.523,16.50,3.3,4,174,'Other',1,0,'Other',160),
+	 ('Bobby Portis','Regular Season','MIL','Milwaukee Bucks',10.4,0.505,16.50,-1.2,5,146,'Other',0,0,'Other',159);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Ryan Rollins','Regular Season','WAS','Washington Wizards',5.3,0.597,16.40,11.3,4,259,'Other',1,0,'Other',161),
+	 ('Xavier Tillman','Regular Season','MEM','Memphis Grizzlies',8.3,0.410,16.40,-5.0,6,183,'Other',0,0,'Other',163),
+	 ('Mitchell Robinson','Regular Season','NYK','New York Knicks',5.2,0.441,16.40,0.3,6,262,'Other',0,0,'Other',162),
+	 ('Bruce Brown','Regular Season','IND','Indiana Pacers',13.4,0.623,16.10,-2.8,5,107,'Other',0,0,'Other',164),
+	 ('Jarrett Allen','Regular Season','CLE','Cleveland Cavaliers',10.0,0.683,16.10,-1.0,1,153,'Other',5,4,'Other',167),
+	 ('Payton Pritchard','Regular Season','BOS','Boston Celtics',5.5,0.452,16.10,7.5,4,253,'Other',0,0,'Other',165),
+	 ('Royce O''Neale','Regular Season','BKN','Brooklyn Nets',7.8,0.500,16.10,-1.8,5,194,'Other',0,0,'Other',166),
+	 ('Wendell Carter','Regular Season','ORL','Orlando Magic',9.4,0.459,15.90,0.4,5,166,'Other',0,0,'Other',168),
+	 ('Josh Okogie','Regular Season','PHX','Phoenix Suns',9.0,0.638,15.70,4.6,5,170,'Other',0,0,'Other',170),
+	 ('Drew Eubanks','Regular Season','PHX','Phoenix Suns',6.8,0.608,15.70,2.8,5,221,'Other',0,0,'Other',169);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Kevin Love','Regular Season','MIA','Miami Heat',8.3,0.526,15.65,2.7,3,180,'Other',3,2,'Other',171),
+	 ('Nikola Jovic','Regular Season','MIA','Miami Heat',6.5,0.732,15.51,7.5,2,225,'Other',4,3,'Other',172),
+	 ('Nic Claxton','Regular Season','BKN','Brooklyn Nets',7.0,0.335,15.51,-12.0,1,217,'Other',4,3,'Other',173),
+	 ('Coby White','Regular Season','CHI','Chicago Bulls',11.2,0.449,15.30,-2.8,6,133,'Other',0,0,'Other',175),
+	 ('Robert Covington','Regular Season','PHI','Philadelphia 76ers',2.3,0.455,15.30,10.8,4,340,'Other',0,0,'Other',174),
+	 ('Brandin Podziemski','Regular Season','GSW','Golden State Warriors',5.0,0.425,15.18,15.0,1,265,'Other',5,4,'Other',176),
+	 ('Otto Porter','Regular Season','TOR','Toronto Raptors',6.0,0.750,15.18,11.0,1,244,'Other',5,4,'Other',177),
+	 ('Matt Ryan','Regular Season','NOP','New Orleans Pelicans',9.8,0.621,15.10,4.8,5,155,'Other',0,0,'Other',178),
+	 ('Trayce Jackson-Davis','Regular Season','GSW','Golden State Warriors',6.5,0.604,15.04,9.0,2,227,'Other',4,3,'Other',179),
+	 ('Brook Lopez','Regular Season','MIL','Milwaukee Bucks',11.2,0.528,14.70,-8.4,5,132,'Other',0,0,'Other',180);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Alex Caruso','Regular Season','CHI','Chicago Bulls',6.3,0.601,14.60,-2.3,6,229,'Other',0,0,'Other',181),
+	 ('Gabe Vincent','Regular Season','LAL','Los Angeles Lakers',6.0,0.416,14.50,2.5,4,241,'Other',1,0,'Other',182),
+	 ('Jeremy Sochan','Regular Season','SAS','San Antonio Spurs',9.8,0.493,14.40,-11.0,5,154,'Other',0,0,'Other',183),
+	 ('Isaac Okoro','Regular Season','CLE','Cleveland Cavaliers',9.5,0.585,14.30,-5.5,6,160,'Other',0,0,'Other',185),
+	 ('Jaden Ivey','Regular Season','DET','Detroit Pistons',11.8,0.609,14.30,-4.3,6,123,'Other',0,0,'Other',184),
+	 ('Anfernee Simons','Regular Season','POR','Portland Trail Blazers',18.0,0.571,14.26,-27.0,1,59,'Other',5,4,'Other',186),
+	 ('Kyle Lowry','Regular Season','MIA','Miami Heat',5.5,0.569,14.20,-3.2,6,250,'Other',0,0,'Other',187),
+	 ('Jordan Hawkins','Regular Season','NOP','New Orleans Pelicans',8.4,0.418,14.10,2.0,5,176,'Other',0,0,'Other',189),
+	 ('Dyson Daniels','Regular Season','NOP','New Orleans Pelicans',6.6,0.453,14.10,-1.0,5,224,'Other',0,0,'Other',190),
+	 ('Andrew Nembhard','Regular Season','IND','Indiana Pacers',8.4,0.469,14.10,0.4,5,179,'Other',0,0,'Other',188);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Furkan Korkmaz','Regular Season','PHI','Philadelphia 76ers',7.0,0.751,14.01,9.5,2,214,'Other',2,1,'Other',191),
+	 ('Collin Sexton','Regular Season','UTA','Utah Jazz',13.5,0.592,13.90,-2.3,6,106,'Other',0,0,'Other',193),
+	 ('Jordan Goodwin','Regular Season','PHX','Phoenix Suns',7.4,0.441,13.90,0.6,5,205,'Other',0,0,'Other',195),
+	 ('Isaiah Joe','Regular Season','OKC','Oklahoma City Thunder',9.7,0.578,13.90,2.8,6,158,'Other',0,0,'Other',194),
+	 ('Cedi Osman','Regular Season','SAS','San Antonio Spurs',12.0,0.744,13.90,-3.4,5,121,'Other',0,0,'Other',192),
+	 ('Eugene Omoruyi','Regular Season','WAS','Washington Wizards',7.3,0.778,13.80,6.8,4,209,'Other',1,0,'Other',196),
+	 ('Toumani Camara','Regular Season','POR','Portland Trail Blazers',6.0,0.398,13.70,3.7,6,237,'Other',0,0,'Other',197),
+	 ('Anthony Gill','Regular Season','WAS','Washington Wizards',4.3,0.674,13.43,14.7,3,289,'Other',2,1,'Other',198),
+	 ('Sam Hauser','Regular Season','BOS','Boston Celtics',7.0,0.586,13.40,6.0,4,216,'Other',0,0,'Other',199),
+	 ('Moritz Wagner','Regular Season','ORL','Orlando Magic',9.4,0.728,13.20,0.6,5,167,'Other',0,0,'Other',201);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Jae Crowder','Regular Season','MIL','Milwaukee Bucks',8.4,0.695,13.20,-5.8,5,178,'Other',0,0,'Other',200),
+	 ('Gary Harris','Regular Season','ORL','Orlando Magic',8.0,0.732,13.20,4.0,5,187,'Other',0,0,'Other',202),
+	 ('Orlando Robinson','Regular Season','MIA','Miami Heat',5.5,0.557,13.16,3.0,2,251,'Other',4,3,'Other',203),
+	 ('Patrick Beverley','Regular Season','PHI','Philadelphia 76ers',2.5,0.417,13.10,8.5,4,336,'Other',0,0,'Other',204),
+	 ('Marcus Sasser','Regular Season','DET','Detroit Pistons',7.2,0.771,13.00,-1.2,6,212,'Other',0,0,'Other',205),
+	 ('Derrick Jones','Regular Season','DAL','Dallas Mavericks',10.2,0.645,12.90,1.4,5,150,'Other',0,0,'Other',206),
+	 ('Bennedict Mathurin','Regular Season','IND','Indiana Pacers',11.8,0.517,12.80,-6.4,5,124,'Other',0,0,'Other',207),
+	 ('Johnny Davis','Regular Season','WAS','Washington Wizards',7.7,0.705,12.74,6.0,3,197,'Other',2,1,'Other',208),
+	 ('Day''Ron Sharpe','Regular Season','BKN','Brooklyn Nets',5.6,0.647,12.70,6.4,5,248,'Other',0,0,'Other',209),
+	 ('Robert Williams','Regular Season','POR','Portland Trail Blazers',7.2,0.679,12.60,-6.8,5,210,'Other',1,0,'Other',211);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Tyus Jones','Regular Season','WAS','Washington Wizards',10.8,0.608,12.60,-16.0,5,141,'Other',0,0,'Other',210),
+	 ('Delon Wright','Regular Season','WAS','Washington Wizards',2.8,0.330,12.40,-4.8,5,330,'Other',0,0,'Other',212),
+	 ('Josh Hart','Regular Season','NYK','New York Knicks',6.0,0.411,12.20,-2.5,6,236,'Other',0,0,'Other',213),
+	 ('Quentin Grimes','Regular Season','NYK','New York Knicks',8.2,0.551,12.20,1.3,6,186,'Other',0,0,'Other',214),
+	 ('Duncan Robinson','Regular Season','MIA','Miami Heat',11.7,0.603,12.00,-6.0,6,127,'Other',0,0,'Other',215),
+	 ('Vince Williams','Regular Season','MEM','Memphis Grizzlies',4.0,0.570,11.81,8.0,3,295,'Other',3,2,'Other',216),
+	 ('John Konchar','Regular Season','MEM','Memphis Grizzlies',3.8,0.594,11.80,1.2,5,311,'Other',1,0,'Other',217),
+	 ('Austin Reaves','Regular Season','LAL','Los Angeles Lakers',11.0,0.443,11.70,-11.2,5,139,'Other',0,0,'Other',218),
+	 ('Al Horford','Regular Season','BOS','Boston Celtics',5.3,0.459,11.60,2.8,4,258,'Other',0,0,'Other',219),
+	 ('Bilal Coulibaly','Regular Season','WAS','Washington Wizards',5.2,0.452,11.50,0.8,5,261,'Other',0,0,'Other',221);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Aleksandar Vezenkov','Regular Season','SAC','Sacramento Kings',7.8,0.545,11.50,1.5,4,195,'Other',0,0,'Other',220),
+	 ('Cason Wallace','Regular Season','OKC','Oklahoma City Thunder',8.3,0.873,11.20,-0.2,6,181,'Other',0,0,'Other',222),
+	 ('Gary Trent','Regular Season','TOR','Toronto Raptors',9.5,0.398,11.20,-4.3,6,162,'Other',0,0,'Other',223),
+	 ('Jaime Jaquez','Regular Season','MIA','Miami Heat',5.3,0.493,11.10,0.7,6,254,'Other',0,0,'Other',224),
+	 ('JaVale McGee','Regular Season','SAC','Sacramento Kings',6.3,0.615,11.10,5.3,4,231,'Other',0,0,'Other',225),
+	 ('Jonathan Isaac','Regular Season','ORL','Orlando Magic',4.3,0.507,11.00,3.5,4,290,'Other',1,0,'Other',226),
+	 ('Anthony Black','Regular Season','ORL','Orlando Magic',4.7,0.902,10.98,4.7,3,281,'Other',2,1,'Other',227),
+	 ('Andrew Wiggins','Regular Season','GSW','Golden State Warriors',12.3,0.502,10.90,-5.5,6,117,'Other',0,0,'Other',228),
+	 ('Donte DiVincenzo','Regular Season','NYK','New York Knicks',7.2,0.477,10.80,-1.3,6,213,'Other',0,0,'Other',229),
+	 ('Svi Mykhailiuk','Regular Season','BOS','Boston Celtics',4.0,0.500,10.78,9.0,2,296,'Other',2,1,'Other',230);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Jaden Hardy','Regular Season','DAL','Dallas Mavericks',7.0,0.528,10.58,2.3,3,219,'Other',2,1,'Other',231),
+	 ('Josh Richardson','Regular Season','MIA','Miami Heat',6.7,0.429,10.56,-3.7,3,223,'Other',3,2,'Other',232),
+	 ('Theo Maledon','Regular Season','CHA','Charlotte Hornets',6.0,0.438,10.40,-1.5,4,240,'Other',0,0,'Other',233),
+	 ('Haywood Highsmith','Regular Season','MIA','Miami Heat',8.5,0.944,10.34,0.5,2,175,'Other',4,3,'Other',235),
+	 ('Dereon Seabron','Regular Season','NOP','New Orleans Pelicans',2.0,0.347,10.34,15.0,1,344,'Other',4,3,'Other',234),
+	 ('Keyonte George','Regular Season','UTA','Utah Jazz',7.7,0.554,10.30,-4.5,6,198,'Other',0,0,'Other',236),
+	 ('Nicolas Batum','Regular Season','LAC','Los Angeles Clippers',2.7,0.500,10.29,0.0,3,332,'Other',2,1,'Other',237),
+	 ('David Roddy','Regular Season','MEM','Memphis Grizzlies',9.5,0.566,10.20,-7.2,6,161,'Other',0,0,'Other',238),
+	 ('Ziaire Williams','Regular Season','MEM','Memphis Grizzlies',10.8,0.581,10.20,-9.7,6,140,'Other',0,0,'Other',239),
+	 ('Isaiah Hartenstein','Regular Season','NYK','New York Knicks',6.0,0.606,10.10,-2.0,6,242,'Other',0,0,'Other',241);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Malaki Branham','Regular Season','SAS','San Antonio Spurs',6.2,0.379,10.10,0.4,5,234,'Other',0,0,'Other',240),
+	 ('Peyton Watson','Regular Season','DEN','Denver Nuggets',6.8,0.648,10.10,-2.0,6,220,'Other',0,0,'Other',243),
+	 ('MarJon Beauchamp','Regular Season','MIL','Milwaukee Bucks',8.3,0.774,10.10,1.3,4,184,'Other',1,0,'Other',242),
+	 ('Chris Boucher','Regular Season','TOR','Toronto Raptors',6.2,0.550,10.00,0.4,5,233,'Other',1,0,'Other',244),
+	 ('Andre Drummond','Regular Season','CHI','Chicago Bulls',6.0,0.571,10.00,-1.7,6,243,'Other',0,0,'Other',245),
+	 ('Derrick Rose','Regular Season','MEM','Memphis Grizzlies',8.0,0.413,9.70,-5.0,4,188,'Other',2,1,'Other',246),
+	 ('Jaylin Williams','Regular Season','OKC','Oklahoma City Thunder',6.0,0.510,9.66,-2.0,1,239,'Other',5,4,'Other',247),
+	 ('Davis Bertans','Regular Season','OKC','Oklahoma City Thunder',6.0,0.904,9.66,8.0,1,238,'Other',5,4,'Other',248),
+	 ('Corey Kispert','Regular Season','WAS','Washington Wizards',11.0,0.576,9.50,-4.0,4,136,'Other',1,0,'Other',249),
+	 ('Malik Beasley','Regular Season','MIL','Milwaukee Bucks',9.6,0.621,9.50,-11.6,5,159,'Other',0,0,'Other',250);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Keita Bates-Diop','Regular Season','PHX','Phoenix Suns',7.5,0.697,9.41,1.5,2,203,'Other',3,2,'Other',251),
+	 ('Shake Milton','Regular Season','MIN','Minnesota Timberwolves',4.5,0.405,9.40,2.8,4,286,'Other',0,0,'Other',255),
+	 ('Torrey Craig','Regular Season','CHI','Chicago Bulls',5.3,0.552,9.40,-3.0,6,256,'Other',0,0,'Other',254),
+	 ('Danilo Gallinari','Regular Season','WAS','Washington Wizards',7.6,0.637,9.40,-3.0,5,200,'Other',0,0,'Other',253),
+	 ('Walker Kessler','Regular Season','UTA','Utah Jazz',7.8,0.601,9.40,-8.3,6,193,'Other',0,0,'Other',252),
+	 ('Jacob Gilyard','Regular Season','MEM','Memphis Grizzlies',1.0,0.500,9.31,7.0,3,376,'Other',3,2,'Other',256),
+	 ('Ayo Dosunmu','Regular Season','CHI','Chicago Bulls',5.0,0.595,9.30,2.6,5,266,'Other',1,0,'Other',258),
+	 ('Dennis Smith','Regular Season','BKN','Brooklyn Nets',5.0,0.457,9.30,3.3,4,267,'Other',1,0,'Other',259),
+	 ('Jae''Sean Tate','Regular Season','HOU','Houston Rockets',4.5,0.523,9.30,-6.5,4,284,'Other',0,0,'Other',257),
+	 ('Patrick Williams','Regular Season','CHI','Chicago Bulls',5.0,0.407,9.20,-1.8,6,268,'Other',0,0,'Other',260);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Dwight Powell','Regular Season','DAL','Dallas Mavericks',5.5,0.821,9.10,-0.8,4,249,'Other',1,0,'Other',261),
+	 ('Obi Toppin','Regular Season','IND','Indiana Pacers',7.6,0.572,9.00,-6.2,5,201,'Other',0,0,'Other',262),
+	 ('Chris Livingston','Regular Season','MIL','Milwaukee Bucks',5.0,1.250,8.93,6.0,1,264,'Other',4,3,'Other',263),
+	 ('Daniel Gafford','Regular Season','WAS','Washington Wizards',6.7,0.786,8.82,-8.3,3,222,'Other',2,1,'Other',264),
+	 ('Jabari Walker','Regular Season','POR','Portland Trail Blazers',5.3,0.587,8.70,1.0,6,257,'Other',0,0,'Other',265),
+	 ('Rui Hachimura','Regular Season','LAL','Los Angeles Lakers',8.0,0.555,8.62,-4.0,3,189,'Other',2,1,'Other',267),
+	 ('A.J. Green','Regular Season','MIL','Milwaukee Bucks',3.0,0.605,8.62,8.0,3,326,'Other',2,1,'Other',266),
+	 ('Maxi Kleber','Regular Season','DAL','Dallas Mavericks',3.3,0.385,8.60,1.0,4,324,'Other',1,0,'Other',270),
+	 ('Chris Duarte','Regular Season','SAC','Sacramento Kings',4.8,0.448,8.60,1.3,4,279,'Other',0,0,'Other',269),
+	 ('Yuta Watanabe','Regular Season','PHX','Phoenix Suns',6.4,0.556,8.60,-2.2,5,228,'Other',0,0,'Other',268);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Andre Jackson','Regular Season','MIL','Milwaukee Bucks',1.0,0.500,8.45,4.5,2,370,'Other',3,2,'Other',271),
+	 ('JT Thor','Regular Season','CHA','Charlotte Hornets',4.8,0.475,8.40,-3.5,4,278,'Other',0,0,'Other',273),
+	 ('Kris Dunn','Regular Season','UTA','Utah Jazz',3.8,0.402,8.40,0.8,6,309,'Other',0,0,'Other',272),
+	 ('Georges Niang','Regular Season','CLE','Cleveland Cavaliers',6.2,0.387,8.30,-3.5,6,235,'Other',0,0,'Other',274),
+	 ('Cole Swider','Regular Season','MIA','Miami Heat',5.0,0.833,8.28,7.0,1,269,'Other',5,4,'Other',275),
+	 ('Thomas Bryant','Regular Season','MIA','Miami Heat',7.3,0.583,8.20,-5.2,6,207,'Other',0,0,'Other',276),
+	 ('Mason Plumlee','Regular Season','LAC','Los Angeles Clippers',5.6,0.579,8.20,-4.8,5,247,'Other',0,0,'Other',277),
+	 ('Paul Reed','Regular Season','PHI','Philadelphia 76ers',3.8,0.472,7.90,1.0,4,313,'Other',0,0,'Other',278),
+	 ('Oshae Brissett','Regular Season','BOS','Boston Celtics',2.0,0.276,7.80,6.0,3,342,'Other',1,0,'Other',280),
+	 ('Scoot Henderson','Regular Season','POR','Portland Trail Blazers',8.8,0.399,7.80,-9.2,5,173,'Other',1,0,'Other',279);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Nick Richards','Regular Season','CHA','Charlotte Hornets',5.3,0.687,7.60,-7.3,4,260,'Other',0,0,'Other',281),
+	 ('Zeke Nnaji','Regular Season','DEN','Denver Nuggets',5.0,0.612,7.40,-1.3,6,272,'Other',0,0,'Other',282),
+	 ('Kenneth Lofton','Regular Season','MEM','Memphis Grizzlies',4.0,0.502,7.39,2.0,3,297,'Other',3,2,'Other',283),
+	 ('P.J. Tucker','Regular Season','LAC','Los Angeles Clippers',1.5,0.500,7.30,3.3,4,361,'Other',1,0,'Other',284),
+	 ('Isaiah Jackson','Regular Season','IND','Indiana Pacers',5.5,0.557,7.20,-7.5,2,252,'Other',3,2,'Other',285),
+	 ('Simone Fontecchio','Regular Season','UTA','Utah Jazz',5.0,0.625,7.15,2.5,4,273,'Other',2,1,'Other',286),
+	 ('Goga Bitadze','Regular Season','ORL','Orlando Magic',2.7,0.862,7.06,4.3,3,331,'Other',2,1,'Other',287),
+	 ('Precious Achiuwa','Regular Season','TOR','Toronto Raptors',7.3,0.434,7.01,-7.3,3,206,'Other',3,2,'Other',288),
+	 ('Jarace Walker','Regular Season','IND','Indiana Pacers',4.0,0.364,7.01,-5.0,2,298,'Other',3,2,'Other',289),
+	 ('Pat Connaughton','Regular Season','MIL','Milwaukee Bucks',5.0,0.450,7.00,-5.8,5,274,'Other',0,0,'Other',290);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Julian Strawther','Regular Season','DEN','Denver Nuggets',4.3,0.461,6.96,1.3,4,291,'Other',2,1,'Other',291),
+	 ('Olivier Sarr','Regular Season','OKC','Oklahoma City Thunder',1.5,0.824,6.86,2.3,4,362,'Other',2,1,'Other',292),
+	 ('Sam Merrill','Regular Season','CLE','Cleveland Cavaliers',3.0,0.500,6.86,0.0,2,325,'Other',4,3,'Other',293),
+	 ('Jeff Green','Regular Season','HOU','Houston Rockets',7.3,0.660,6.80,-5.8,4,208,'Other',0,0,'Other',295),
+	 ('Taurean Prince','Regular Season','LAL','Los Angeles Lakers',8.4,0.573,6.80,-8.8,5,177,'Other',0,0,'Other',296),
+	 ('Larry Nance','Regular Season','NOP','New Orleans Pelicans',4.0,0.592,6.80,-3.0,5,300,'Other',0,0,'Other',294),
+	 ('Kenyon Martin','Regular Season','LAC','Los Angeles Clippers',5.0,0.460,6.72,-2.0,2,263,'Other',3,2,'Other',298),
+	 ('Boban Marjanovic','Regular Season','HOU','Houston Rockets',4.0,1.000,6.72,3.0,1,299,'Other',3,2,'Other',297),
+	 ('Cam Reddish','Regular Season','LAL','Los Angeles Lakers',3.8,0.439,6.70,-3.8,5,310,'Other',0,0,'Other',299),
+	 ('Danuel House','Regular Season','PHI','Philadelphia 76ers',2.0,0.400,6.66,2.0,2,349,'Other',2,1,'Other',300);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Robin Lopez','Regular Season','MIL','Milwaukee Bucks',2.0,1.136,6.58,10.0,1,347,'Other',4,3,'Other',301),
+	 ('Caleb Houstan','Regular Season','ORL','Orlando Magic',4.5,0.605,6.53,4.0,2,285,'Other',3,2,'Other',302),
+	 ('Nassir Little','Regular Season','PHX','Phoenix Suns',4.3,0.571,6.50,-2.3,4,292,'Other',1,0,'Other',304),
+	 ('Amen Thompson','Regular Season','HOU','Houston Rockets',6.3,0.490,6.50,-5.3,4,232,'Other',0,0,'Other',303),
+	 ('Omer Yurtseven','Regular Season','UTA','Utah Jazz',3.5,0.788,6.47,2.8,4,316,'Other',2,1,'Other',305),
+	 ('Davion Mitchell','Regular Season','SAC','Sacramento Kings',4.5,0.500,6.40,-6.0,4,287,'Other',0,0,'Other',306),
+	 ('Charles Bassey','Regular Season','SAS','San Antonio Spurs',2.6,0.770,6.40,-1.0,5,333,'Other',0,0,'Other',307),
+	 ('Nickeil Alexander-Walker','Regular Season','MIN','Minnesota Timberwolves',3.8,0.328,6.30,-4.0,4,312,'Other',0,0,'Other',310),
+	 ('Kira Lewis','Regular Season','NOP','New Orleans Pelicans',4.8,0.470,6.30,-3.2,5,277,'Other',0,0,'Other',309),
+	 ('Aaron Wiggins','Regular Season','OKC','Oklahoma City Thunder',4.8,0.640,6.30,0.2,5,276,'Other',1,0,'Other',308);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Dru Smith','Regular Season','MIA','Miami Heat',5.3,0.667,6.24,-11.3,3,255,'Other',3,2,'Other',311),
+	 ('TyTy Washington','Regular Season','MIL','Milwaukee Bucks',3.0,0.750,6.11,10.0,1,329,'Other',4,3,'Other',312),
+	 ('Luka Samanic','Regular Season','UTA','Utah Jazz',3.5,0.583,5.92,3.0,2,320,'Other',4,3,'Other',313),
+	 ('Joe Ingles','Regular Season','ORL','Orlando Magic',1.2,0.233,5.90,0.4,5,369,'Other',0,0,'Other',314),
+	 ('Dalano Banton','Regular Season','BOS','Boston Celtics',6.5,0.781,5.88,-7.0,2,226,'Other',2,1,'Other',315),
+	 ('Jevon Carter','Regular Season','CHI','Chicago Bulls',5.7,0.586,5.70,-4.7,6,245,'Other',0,0,'Other',316),
+	 ('Seth Curry','Regular Season','DAL','Dallas Mavericks',1.8,0.375,5.70,3.6,5,355,'Other',0,0,'Other',317),
+	 ('Jock Landale','Regular Season','HOU','Houston Rockets',3.5,0.354,5.68,-3.5,2,318,'Other',2,1,'Other',318),
+	 ('Thanasis Antetokounmpo','Regular Season','MIL','Milwaukee Bucks',1.0,0.500,5.57,9.0,2,374,'Other',3,2,'Other',319),
+	 ('Kobe Brown','Regular Season','LAC','Los Angeles Clippers',2.5,0.556,5.40,0.5,4,335,'Other',1,0,'Other',320);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Craig Porter','Regular Season','CLE','Cleveland Cavaliers',4.7,0.504,5.28,-5.3,3,280,'Other',3,2,'Other',321),
+	 ('Cameron Payne','Regular Season','MIL','Milwaukee Bucks',4.6,0.676,5.20,0.2,5,282,'Other',0,0,'Other',322),
+	 ('Lamar Stevens','Regular Season','BOS','Boston Celtics',4.5,0.750,5.19,1.0,2,288,'Other',2,1,'Other',323),
+	 ('Dean Wade','Regular Season','CLE','Cleveland Cavaliers',4.0,0.526,5.10,-4.2,5,294,'Other',1,0,'Other',325),
+	 ('Skylar Mays','Regular Season','POR','Portland Trail Blazers',3.6,0.453,5.10,-0.8,5,315,'Other',1,0,'Other',324),
+	 ('Doug McDermott','Regular Season','SAS','San Antonio Spurs',5.6,0.737,4.90,-7.2,5,246,'Other',0,0,'Other',326),
+	 ('Joe Harris','Regular Season','DET','Detroit Pistons',4.0,0.522,4.80,-1.7,6,301,'Other',0,0,'Other',327),
+	 ('Saben Lee','Regular Season','PHX','Phoenix Suns',2.0,0.500,4.70,-4.0,1,343,'Other',4,3,'Other',329),
+	 ('Dante Exum','Regular Season','DAL','Dallas Mavericks',1.8,0.431,4.70,1.4,5,354,'Other',0,0,'Other',328),
+	 ('Dylan Windler','Regular Season','NYK','New York Knicks',1.5,0.750,4.70,5.0,2,358,'Other',4,3,'Other',330);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Ousmane Dieng','Regular Season','OKC','Oklahoma City Thunder',4.8,0.539,4.50,-4.7,6,275,'Other',0,0,'Other',331),
+	 ('Moussa Diabate','Regular Season','LAC','Los Angeles Clippers',1.3,0.400,4.41,0.7,3,366,'Other',2,1,'Other',332),
+	 ('Tristan Thompson','Regular Season','CLE','Cleveland Cavaliers',3.5,0.788,4.41,-2.5,4,319,'Other',2,1,'Other',333),
+	 ('Luka Garza','Regular Season','MIN','Minnesota Timberwolves',2.0,1.000,4.32,4.0,1,346,'Other',3,2,'Other',334),
+	 ('Ochai Agbaji','Regular Season','UTA','Utah Jazz',2.5,0.334,4.20,-2.2,6,334,'Other',0,0,'Other',335),
+	 ('Caleb Martin','Regular Season','MIA','Miami Heat',2.0,0.143,4.14,-5.0,1,345,'Other',5,4,'Other',336),
+	 ('Jared Rhoden','Regular Season','DET','Detroit Pistons',0.0,NULL,4.14,8.0,1,428,'Other',5,4,'Other',337),
+	 ('Landry Shamet','Regular Season','WAS','Washington Wizards',4.0,0.571,4.13,-8.5,2,302,'Other',3,2,'Other',339),
+	 ('Max Christie','Regular Season','LAL','Los Angeles Lakers',2.5,0.317,4.13,0.0,2,337,'Other',3,2,'Other',338),
+	 ('Jericho Sims','Regular Season','NYK','New York Knicks',0.0,0.000,4.04,5.0,2,427,'Other',4,3,'Other',340);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Jordan McLaughlin','Regular Season','MIN','Minnesota Timberwolves',1.0,0.375,4.00,0.7,3,380,'Other',1,0,'Other',341),
+	 ('Jett Howard','Regular Season','ORL','Orlando Magic',1.0,0.500,3.84,4.0,2,373,'Other',3,2,'Other',342),
+	 ('DaQuan Jeffries','Regular Season','NYK','New York Knicks',2.5,0.833,3.76,2.5,2,338,'Other',4,3,'Other',343),
+	 ('Vasilije Micic','Regular Season','OKC','Oklahoma City Thunder',3.3,0.556,3.36,-3.0,3,323,'Other',3,2,'Other',344),
+	 ('Miles McBride','Regular Season','NYK','New York Knicks',2.0,0.450,3.33,-1.3,4,348,'Other',2,1,'Other',345),
+	 ('Jaden Springer','Regular Season','PHI','Philadelphia 76ers',0.7,0.200,3.30,-1.0,3,382,'Other',1,0,'Other',346),
+	 ('Lester Quinones','Regular Season','GSW','Golden State Warriors',5.0,0.833,3.22,0.0,1,270,'Other',5,4,'Other',348),
+	 ('R.J. Hampton','Regular Season','MIA','Miami Heat',0.0,0.000,3.22,7.0,1,425,'Other',5,4,'Other',347),
+	 ('Gradey Dick','Regular Season','TOR','Toronto Raptors',4.2,0.405,3.20,-5.5,6,293,'Other',0,0,'Other',349),
+	 ('Chuma Okeke','Regular Season','ORL','Orlando Magic',1.0,0.500,3.17,4.0,2,377,'Other',3,2,'Other',350);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Luke Kennard','Regular Season','MEM','Memphis Grizzlies',3.7,0.246,3.07,-14.3,3,314,'Other',3,2,'Other',351),
+	 ('Colby Jones','Regular Season','SAC','Sacramento Kings',1.3,0.500,3.00,-1.7,3,365,'Other',1,0,'Other',352),
+	 ('Jaxson Hayes','Regular Season','LAL','Los Angeles Lakers',1.4,0.931,3.00,0.4,5,364,'Other',0,0,'Other',353),
+	 ('Damian Jones','Regular Season','CLE','Cleveland Cavaliers',1.8,0.902,2.94,-0.3,4,356,'Other',2,1,'Other',354),
+	 ('Malachi Flynn','Regular Season','TOR','Toronto Raptors',4.0,0.560,2.90,-8.2,6,304,'Other',0,0,'Other',355),
+	 ('Jared Butler','Regular Season','WAS','Washington Wizards',1.5,0.375,2.88,3.0,2,357,'Other',3,2,'Other',356),
+	 ('Tre Mann','Regular Season','OKC','Oklahoma City Thunder',4.0,0.806,2.88,-4.3,3,303,'Other',3,2,'Other',357),
+	 ('Dalen Terry','Regular Season','CHI','Chicago Bulls',1.5,0.500,2.82,0.5,2,363,'Other',4,3,'Other',358),
+	 ('Matisse Thybulle','Regular Season','POR','Portland Trail Blazers',4.0,0.545,2.50,-8.7,6,305,'Other',0,0,'Other',359),
+	 ('Jordan Nwora','Regular Season','IND','Indiana Pacers',5.0,0.324,2.40,-9.5,2,271,'Other',3,2,'Other',360);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Jake LaRavia','Regular Season','MEM','Memphis Grizzlies',3.4,0.407,2.40,-4.4,5,321,'Other',1,0,'Other',361),
+	 ('Jalen Pickett','Regular Season','DEN','Denver Nuggets',2.0,0.667,2.35,0.0,2,350,'Other',4,3,'Other',362),
+	 ('Taylor Hendricks','Regular Season','UTA','Utah Jazz',1.0,0.568,2.30,2.0,1,375,'Other',5,4,'Other',363),
+	 ('Thaddeus Young','Regular Season','TOR','Toronto Raptors',0.0,0.000,2.30,1.0,1,423,'Other',5,4,'Other',364),
+	 ('Danny Green','Regular Season','PHI','Philadelphia 76ers',0.0,0.000,2.25,0.0,2,416,'Other',2,1,'Other',365),
+	 ('Patrick Baldwin','Regular Season','WAS','Washington Wizards',0.0,0.000,2.21,3.0,2,405,'Other',3,2,'Other',367),
+	 ('Braxton Key','Regular Season','DEN','Denver Nuggets',0.7,0.250,2.21,0.0,3,383,'Other',3,2,'Other',366),
+	 ('Luke Kornet','Regular Season','BOS','Boston Celtics',0.7,0.500,2.20,-1.7,3,381,'Other',1,0,'Other',368),
+	 ('Justin Holiday','Regular Season','DEN','Denver Nuggets',1.5,0.750,2.16,1.0,2,360,'Other',4,3,'Other',369),
+	 ('Kris Murray','Regular Season','POR','Portland Trail Blazers',0.0,0.000,2.16,2.0,2,397,'Other',4,3,'Other',370);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Troy Brown','Regular Season','MIN','Minnesota Timberwolves',1.3,0.420,2.00,-1.3,3,367,'Other',1,0,'Other',371),
+	 ('Ben Sheppard','Regular Season','IND','Indiana Pacers',3.0,0.600,1.92,-6.0,2,327,'Other',3,2,'Other',372),
+	 ('Filip Petrusev','Regular Season','PHI','Philadelphia 76ers',0.0,NULL,1.92,3.0,1,388,'Other',3,2,'Other',374),
+	 ('Daishen Nix','Regular Season','MIN','Minnesota Timberwolves',0.0,NULL,1.92,4.0,1,392,'Other',3,2,'Other',373),
+	 ('Chimezie Metu','Regular Season','PHX','Phoenix Suns',2.0,0.500,1.88,-4.0,1,352,'Other',4,3,'Other',375),
+	 ('Brice Sensabaugh','Regular Season','UTA','Utah Jazz',0.0,0.000,1.84,2.0,1,391,'Other',5,4,'Other',376),
+	 ('Josh Minott','Regular Season','MIN','Minnesota Timberwolves',1.3,0.500,1.80,-0.3,3,368,'Other',1,0,'Other',377),
+	 ('Collin Gillespie','Regular Season','DEN','Denver Nuggets',0.0,0.000,1.41,1.0,2,387,'Other',4,3,'Other',378),
+	 ('Udoka Azubuike','Regular Season','PHX','Phoenix Suns',2.0,1.000,1.41,-4.0,1,353,'Other',4,3,'Other',379),
+	 ('Jordan Miller','Regular Season','LAC','Los Angeles Clippers',2.5,0.833,1.25,-2.5,2,339,'Other',3,2,'Other',380);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Garrett Temple','Regular Season','TOR','Toronto Raptors',2.0,1.064,1.22,-1.5,2,341,'Other',4,3,'Other',381),
+	 ('AJ Griffin','Regular Season','ATL','Atlanta Hawks',3.4,0.708,1.20,-6.2,5,322,'Other',0,0,'Other',382),
+	 ('Emoni Bates','Regular Season','CLE','Cleveland Cavaliers',4.5,0.455,0.94,-12.0,2,283,'Other',4,3,'Other',385),
+	 ('Olivier-Maxence Prosper','Regular Season','DAL','Dallas Mavericks',0.0,0.000,0.94,2.0,1,430,'Other',4,3,'Other',384),
+	 ('Hunter Tyson','Regular Season','DEN','Denver Nuggets',1.0,0.500,0.94,-1.0,2,379,'Other',4,3,'Other',383),
+	 ('Ryan Arcidiacono','Regular Season','NYK','New York Knicks',0.0,NULL,0.92,1.0,1,431,'Other',5,4,'Other',387),
+	 ('Jerome Robinson','Regular Season','GSW','Golden State Warriors',0.0,0.000,0.92,0.0,1,429,'Other',5,4,'Other',386),
+	 ('Mike Muscala','Regular Season','WAS','Washington Wizards',3.5,0.504,0.90,-10.8,4,317,'Other',1,0,'Other',388),
+	 ('Aaron Holiday','Regular Season','HOU','Houston Rockets',3.0,0.600,0.78,-5.0,2,328,'Other',2,1,'Other',389),
+	 ('Lindy Waters','Regular Season','OKC','Oklahoma City Thunder',0.0,0.000,0.77,1.7,3,390,'Other',3,2,'Other',390);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Jamal Cain','Regular Season','MIA','Miami Heat',4.0,0.444,0.75,-14.0,2,306,'Other',4,3,'Other',391),
+	 ('Jalen McDaniels','Regular Season','TOR','Toronto Raptors',1.0,0.227,0.70,-6.6,5,371,'Other',1,0,'Other',392),
+	 ('Amir Coffey','Regular Season','LAC','Los Angeles Clippers',0.7,0.347,0.69,-0.3,3,384,'Other',2,1,'Other',393),
+	 ('Jalen Wilson','Regular Season','BKN','Brooklyn Nets',0.0,0.000,0.47,-4.0,1,393,'Other',4,3,'Other',394),
+	 ('Stanley Umude','Regular Season','DET','Detroit Pistons',0.0,0.000,0.39,-0.8,4,394,'Other',2,1,'Other',395),
+	 ('Mohamed Bamba','Regular Season','PHI','Philadelphia 76ers',0.0,NULL,0.29,-1.0,2,396,'Other',2,1,'Other',396),
+	 ('Ty Jerome','Regular Season','CLE','Cleveland Cavaliers',2.0,0.500,0.28,-7.0,2,351,'Other',4,3,'Other',398),
+	 ('Julian Phillips','Regular Season','CHI','Chicago Bulls',0.0,NULL,0.28,0.5,2,395,'Other',4,3,'Other',397),
+	 ('Terry Taylor','Regular Season','CHI','Chicago Bulls',0.0,NULL,0.00,0.0,1,401,'Other',5,4,'Other',400),
+	 ('Maxwell Lewis','Regular Season','LAL','Los Angeles Lakers',0.0,NULL,0.00,0.0,1,402,'Other',4,3,'Other',399);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Gregory Jackson','Regular Season','MEM','Memphis Grizzlies',0.0,NULL,0.00,0.0,1,398,'Other',5,4,'Other',401),
+	 ('Nick Smith','Regular Season','CHA','Charlotte Hornets',0.0,NULL,0.00,0.0,1,400,'Other',3,2,'Other',403),
+	 ('Bismack Biyombo','Regular Season','MEM','Memphis Grizzlies',0.0,NULL,0.00,0.0,1,399,'Other',5,4,'Other',402),
+	 ('Kaiser Gates','Regular Season','NOP','New Orleans Pelicans',0.0,0.000,-0.47,-2.0,1,403,'Other',4,3,'Other',404),
+	 ('Jeenathan Williams','Regular Season','HOU','Houston Rockets',4.0,0.667,-0.48,-9.0,1,307,'Other',3,2,'Other',405),
+	 ('Reggie Bullock','Regular Season','HOU','Houston Rockets',1.0,0.375,-0.70,-5.7,3,378,'Other',1,0,'Other',406),
+	 ('Isaiah Mobley','Regular Season','CLE','Cleveland Cavaliers',0.0,NULL,-0.92,-3.0,1,410,'Other',5,4,'Other',407),
+	 ('Keyontae Johnson','Regular Season','OKC','Oklahoma City Thunder',0.0,0.000,-0.92,-2.0,1,406,'Other',5,4,'Other',408),
+	 ('Rayan Rupert','Regular Season','POR','Portland Trail Blazers',0.0,0.000,-0.94,-2.0,2,408,'Other',4,3,'Other',409),
+	 ('Cory Joseph','Regular Season','GSW','Golden State Warriors',0.0,0.000,-0.94,-6.0,2,409,'Other',4,3,'Other',410);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Alex Len','Regular Season','SAC','Sacramento Kings',0.0,NULL,-0.96,-2.0,1,407,'Other',3,2,'Other',413),
+	 ('Jordan Ford','Regular Season','SAC','Sacramento Kings',0.0,0.000,-0.96,-2.0,1,412,'Other',3,2,'Other',411),
+	 ('Keon Ellis','Regular Season','SAC','Sacramento Kings',0.0,NULL,-0.96,-2.0,1,413,'Other',3,2,'Other',414),
+	 ('KJ Martin','Regular Season','PHI','Philadelphia 76ers',0.0,NULL,-0.96,-2.0,1,414,'Other',3,2,'Other',412),
+	 ('Kessler Edwards','Regular Season','SAC','Sacramento Kings',0.0,0.000,-0.98,-2.0,2,411,'Other',2,1,'Other',415),
+	 ('Julian Champagnie','Regular Season','SAS','San Antonio Spurs',1.5,0.300,-1.25,-7.0,2,359,'Other',3,2,'Other',416),
+	 ('Cody Zeller','Regular Season','NOP','New Orleans Pelicans',0.0,0.000,-1.27,-4.3,3,415,'Other',2,1,'Other',417),
+	 ('Trent Forrest','Regular Season','ATL','Atlanta Hawks',0.0,NULL,-1.88,-7.0,1,417,'Other',4,3,'Other',418),
+	 ('Mouhamed Gueye','Regular Season','ATL','Atlanta Hawks',0.0,0.000,-2.21,-6.5,2,418,'Other',3,2,'Other',419),
+	 ('James Wiseman','Regular Season','DET','Detroit Pistons',4.0,0.500,-2.30,-15.0,1,308,'Other',5,4,'Other',420);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Bol Bol','Regular Season','PHX','Phoenix Suns',0.0,NULL,-2.35,-4.0,1,420,'Other',4,3,'Other',421),
+	 ('Kobe Bufkin','Regular Season','ATL','Atlanta Hawks',0.5,0.129,-2.40,-7.0,2,385,'Other',3,2,'Other',422),
+	 ('Leonard Miller','Regular Season','MIN','Minnesota Timberwolves',0.0,0.000,-2.88,-7.0,1,421,'Other',3,2,'Other',423),
+	 ('Aleksej Pokusevski','Regular Season','OKC','Oklahoma City Thunder',0.3,0.102,-3.07,-6.3,3,386,'Other',3,2,'Other',424),
+	 ('Blake Wesley','Regular Season','SAS','San Antonio Spurs',1.0,0.266,-3.29,-13.0,1,372,'Other',4,3,'Other',426),
+	 ('Sandro Mamukelashvili','Regular Season','SAS','San Antonio Spurs',0.0,NULL,-3.29,-13.0,1,426,'Other',4,3,'Other',425),
+	 ('E.J. Liddell','Regular Season','NOP','New Orleans Pelicans',0.0,0.000,-3.76,-10.0,1,424,'Other',4,3,'Other',427),
+	 ('Bruno Fernando','Regular Season','ATL','Atlanta Hawks',0.0,0.000,-4.13,-5.5,2,422,'Other',3,2,'Other',428),
+	 ('Dominick Barlow','Regular Season','SAS','San Antonio Spurs',0.0,NULL,-4.70,-10.0,1,389,'Other',4,3,'Other',429),
+	 ('Jermaine Samuels','Regular Season','HOU','Houston Rockets',0.0,NULL,-4.80,-10.0,1,404,'Other',3,2,'Other',430);
+INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+	 ('Cam Whitmore','Regular Season','HOU','Houston Rockets',0.0,0.000,-6.72,-12.0,1,419,'Other',3,2,'Other',431);
 
 DROP TABLE IF EXISTS twitter_comments;
 CREATE TABLE twitter_comments(
@@ -1081,34 +1488,56 @@ CREATE TABLE IF NOT EXISTS rolling_avg_stats (
 	player text NULL,
 	rolling_avg_pts numeric NULL,
 	rolling_avg_ts_percent numeric NULL,
-	rolling_avg_mvp_calc numeric NULL,
-	rolling_avg_plusminus numeric NULL,
+	rolling_avg_mvp_score numeric NULL,
+	rolling_avg_plus_minus numeric NULL,
 	team text NULL,
-	season_avg_ppg numeric NULL,
-	season_ts_percent numeric NULL,
-	season_avg_plusminus numeric NULL,
-	player_mvp_calc_adj numeric NULL,
+	avg_ppg numeric NULL,
+	avg_ts_percent numeric NULL,
+	avg_plus_minus numeric NULL,
+	avg_mvp_score numeric NULL,
 	ppg_differential numeric NULL,
 	ppg_diff_rank text NULL,
 	ts_differential numeric NULL,
 	ts_diff_rank text NULL,
-	plusminus_differential numeric NULL,
-	plusminus_diff_rank text NULL,
+	plus_minus_differential numeric NULL,
+	plus_minus_diff_rank text NULL,
 	mvp_calc_differential numeric NULL,
 	mvp_calc_diff_rank text NULL
 );
 
-INSERT INTO nba_prod.rolling_avg_stats (player,rolling_avg_pts,rolling_avg_ts_percent,rolling_avg_mvp_calc,rolling_avg_plusminus,team,season_avg_ppg,season_ts_percent,season_avg_plusminus,player_mvp_calc_adj,ppg_differential,ppg_diff_rank,ts_differential,ts_diff_rank,plusminus_differential,plusminus_diff_rank,mvp_calc_differential,mvp_calc_diff_rank) VALUES
-	 ('Tristan Thompson',1.4,0.384,3.4,1.6,NULL,NULL,NULL,NULL,NULL,NULL,'1st',NULL,'3rd',NULL,'1st',NULL,'1st'),
-	 ('DaQuan Jeffries',0.0,NULL,-1.5,-3.0,NULL,NULL,NULL,NULL,NULL,NULL,'2nd',NULL,'2nd',NULL,'2nd',NULL,'2nd'),
-	 ('Shaedon Sharpe',23.7,0.574,25.7,-10.6,'POR',9.9,0.568,-3.5,11.40,13.8,'3rd',0.006,'199th',-7.1,'523rd',14.30,'7th'),
-	 ('Talen Horton-Tucker',20.2,0.488,26.4,-6.3,'UTA',10.7,0.508,-0.1,16.86,9.5,'4th',-0.020,'276th',-6.2,'512nd',9.54,'19th'),
-	 ('Svi Mykhailiuk',16.0,0.608,24.6,-0.9,'CHA',6.9,0.584,0.6,7.95,9.1,'5th',0.024,'151st',-1.5,'352nd',16.65,'5th'),
-	 ('Kevin Knox',14.5,0.502,12.1,-13.0,'POR',6.6,0.579,-3.5,6.58,7.9,'6th',-0.077,'401st',-9.5,'537th',5.52,'75th'),
-	 ('Trey Murphy',22.2,0.728,32.4,5.2,'NOP',14.5,0.650,0.5,20.80,7.7,'7th',0.078,'56th',4.7,'11th',11.60,'13th'),
-	 ('Corey Kispert',18.6,0.667,18.3,-5.3,'WAS',11.1,0.656,-1.6,13.40,7.5,'8th',0.011,'182nd',-3.7,'453rd',4.90,'92nd'),
-	 ('Johnny Davis',12.6,0.444,19.6,-0.2,'WAS',5.8,0.446,-1.8,6.00,6.8,'9th',-0.002,'226th',1.6,'88th',13.60,'8th'),
-	 ('Ochai Agbaji',14.7,0.497,17.1,-5.1,'UTA',7.9,0.561,-0.3,9.03,6.8,'10th',-0.064,'370th',-4.8,'479th',8.07,'35th');
+INSERT INTO rolling_avg_stats (player,rolling_avg_pts,rolling_avg_ts_percent,rolling_avg_mvp_score,rolling_avg_plus_minus,team,avg_ppg,avg_ts_percent,avg_plus_minus,avg_mvp_score,ppg_differential,ppg_diff_rank,ts_differential,ts_diff_rank,plus_minus_differential,plus_minus_diff_rank,mvp_calc_differential,mvp_calc_diff_rank) VALUES
+	 ('Jared Rhoden',0.0,NULL,4.5,8.0,'DET',0.0,NULL,8.0,4.14,0.0,'1st',NULL,'1st',0.0,'36th',0.36,'36th'),
+	 ('Keon Ellis',0.0,NULL,-1.0,-2.0,'SAC',0.0,NULL,-2.0,-0.96,0.0,'2nd',NULL,'2nd',0.0,'409th',-0.04,'409th'),
+	 ('Gregory Jackson',0.0,NULL,0.0,0.0,'MEM',0.0,NULL,0.0,0.00,0.0,'3rd',NULL,'3rd',0.0,'331st',0.00,'331st'),
+	 ('Ryan Arcidiacono',0.0,NULL,1.0,1.0,'NYK',0.0,NULL,1.0,0.92,0.0,'4th',NULL,'4th',0.0,'112nd',0.08,'112nd'),
+	 ('Daishen Nix',0.0,NULL,2.0,4.0,'MIN',0.0,NULL,4.0,1.92,0.0,'5th',NULL,'5th',0.0,'111st',0.08,'111st'),
+	 ('Maxwell Lewis',0.0,NULL,0.0,0.0,'LAL',0.0,NULL,0.0,0.00,0.0,'6th',NULL,'6th',0.0,'199th',0.00,'199th'),
+	 ('Dominick Barlow',0.0,NULL,-5.0,-10.0,'SAS',0.0,NULL,-10.0,-4.70,0.0,'7th',NULL,'7th',0.0,'431st',-0.30,'431st'),
+	 ('Bismack Biyombo',0.0,NULL,0.0,0.0,'MEM',0.0,NULL,0.0,0.00,0.0,'8th',NULL,'8th',0.0,'256th',0.00,'256th'),
+	 ('Filip Petrusev',0.0,NULL,2.0,3.0,'PHI',0.0,NULL,3.0,1.92,0.0,'9th',NULL,'9th',0.0,'110th',0.08,'110th'),
+	 ('Nick Smith',0.0,NULL,0.0,0.0,'CHA',0.0,NULL,0.0,0.00,0.0,'10th',NULL,'10th',0.0,'212nd',0.00,'212nd');
+INSERT INTO rolling_avg_stats (player,rolling_avg_pts,rolling_avg_ts_percent,rolling_avg_mvp_score,rolling_avg_plus_minus,team,avg_ppg,avg_ts_percent,avg_plus_minus,avg_mvp_score,ppg_differential,ppg_diff_rank,ts_differential,ts_diff_rank,plus_minus_differential,plus_minus_diff_rank,mvp_calc_differential,mvp_calc_diff_rank) VALUES
+	 ('Sandro Mamukelashvili',0.0,NULL,-3.5,-13.0,'SAS',0.0,NULL,-13.0,-3.29,0.0,'11th',NULL,'11th',0.0,'427th',-0.21,'427th'),
+	 ('Julian Phillips',0.0,NULL,0.3,0.5,'CHI',0.0,NULL,0.5,0.28,0.0,'12th',NULL,'12th',0.0,'124th',0.02,'124th'),
+	 ('Terry Taylor',0.0,NULL,0.0,0.0,'CHI',0.0,NULL,0.0,0.00,0.0,'13th',NULL,'13th',0.0,'367th',0.00,'367th'),
+	 ('Mohamed Bamba',0.0,NULL,0.3,-1.0,'PHI',0.0,NULL,-1.0,0.29,0.0,'14th',NULL,'14th',0.0,'128th',0.01,'128th'),
+	 ('Jermaine Samuels',0.0,NULL,-5.0,-10.0,'HOU',0.0,NULL,-10.0,-4.80,0.0,'15th',NULL,'15th',0.0,'425th',-0.20,'425th'),
+	 ('Bol Bol',0.0,NULL,-2.5,-4.0,'PHX',0.0,NULL,-4.0,-2.35,0.0,'16th',NULL,'16th',0.0,'423rd',-0.15,'423rd'),
+	 ('Trent Forrest',0.0,NULL,-2.0,-7.0,'ATL',0.0,NULL,-7.0,-1.88,0.0,'17th',NULL,'17th',0.0,'421st',-0.12,'421st'),
+	 ('Isaiah Mobley',0.0,NULL,-1.0,-3.0,'CLE',0.0,NULL,-3.0,-0.92,0.0,'18th',NULL,'18th',0.0,'417th',-0.08,'417th'),
+	 ('Alex Len',0.0,NULL,-1.0,-2.0,'SAC',0.0,NULL,-2.0,-0.96,0.0,'19th',NULL,'19th',0.0,'412nd',-0.04,'412nd'),
+	 ('KJ Martin',0.0,NULL,-1.0,-2.0,'PHI',0.0,NULL,-2.0,-0.96,0.0,'20th',NULL,'20th',0.0,'411st',-0.04,'411st');
+INSERT INTO rolling_avg_stats (player,rolling_avg_pts,rolling_avg_ts_percent,rolling_avg_mvp_score,rolling_avg_plus_minus,team,avg_ppg,avg_ts_percent,avg_plus_minus,avg_mvp_score,ppg_differential,ppg_diff_rank,ts_differential,ts_diff_rank,plus_minus_differential,plus_minus_diff_rank,mvp_calc_differential,mvp_calc_diff_rank) VALUES
+	 ('Dalen Terry',1.5,0.750,3.0,0.5,'CHI',1.5,0.500,0.5,2.82,0.0,'21st',0.250,'21st',0.0,'67th',0.18,'67th'),
+	 ('Craig Porter',4.7,0.741,5.5,-5.3,'CLE',4.7,0.504,-5.3,5.28,0.0,'22nd',0.237,'22nd',0.0,'59th',0.22,'59th'),
+	 ('Nassir Little',4.3,0.806,6.5,-2.3,'PHX',4.3,0.571,-2.3,6.50,0.0,'23rd',0.235,'23rd',0.0,'208th',0.00,'208th'),
+	 ('Vasilije Micic',3.3,0.778,3.5,-3.0,'OKC',3.3,0.556,-3.0,3.36,0.0,'24th',0.222,'24th',0.0,'78th',0.14,'78th'),
+	 ('A.J. Green',3.0,0.811,8.8,8.0,'MIL',3.0,0.605,8.0,8.62,0.0,'25th',0.206,'25th',0.0,'65th',0.18,'65th'),
+	 ('Payton Pritchard',5.5,0.657,16.1,7.5,'BOS',5.5,0.452,7.5,16.10,0.0,'26th',0.205,'26th',0.0,'228th',0.00,'228th'),
+	 ('Josh Minott',1.3,0.667,1.8,-0.3,'MIN',1.3,0.500,-0.3,1.80,0.0,'27th',0.167,'27th',0.0,'148th',0.00,'148th'),
+	 ('Jordan Miller',2.5,1.000,1.3,-2.5,'LAC',2.5,0.833,-2.5,1.25,0.0,'28th',0.167,'28th',0.0,'120th',0.05,'120th'),
+	 ('Ty Jerome',2.0,0.667,0.3,-7.0,'CLE',2.0,0.500,-7.0,0.28,0.0,'29th',0.167,'29th',0.0,'125th',0.02,'125th'),
+	 ('Patrick Beverley',2.5,0.584,13.1,8.5,'PHI',2.5,0.417,8.5,13.10,0.0,'30th',0.167,'30th',0.0,'224th',0.00,'224th');
 
 DROP TABLE IF EXISTS injuries;
 CREATE TABLE injuries(
@@ -1126,13 +1555,69 @@ CREATE TABLE injuries(
     scrape_date date
 );
 
-INSERT INTO injuries (injury_pk, player, team_acronym, team, date, status, injury, description,
-                           total_injuries, team_active_injuries, team_active_protocols, scrape_date)
-VALUES ('09a97226ecd7b666dd516039ce752720', 'Myles Turner', 'IND', 'Indiana Pacers', 'Tues, Apr 4, 2023',
-        'Day to Day', 'Ankle/Back', 'Turner is questionable for Wednesdays (Apr.5) game against New York.', 4, 4, 0, current_date),
-       ('0e6fe518fdecea9c84ad54608810a528', 'Tyrese Haliburton', 'Haliburton is out for Wednesdays (Apr.5) game against New York.',
-        'IND', 'Indiana Pacers', 'Tues, Apr 4, 2023', 'Out', 'Ankle', 4, 4, 0, current_date);
-
+INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
+	 ('05b0a14018dfd1bec7677b72d071909c','Anfernee Simons','POR','Portland Trail Blazers','Tue, Oct 31, 2023','Out','Thumb','Simons underwent thumb surgery and is expected to return in 6 weeks, per Michael Scotto on X.',4,4,0,'2023-11-04'),
+	 ('0c6ada88af75f63710779f75f99e6ba3','De''Aaron Fox','SAC','Sacramento Kings','Fri, Nov 3, 2023','Out','Ankle','Fox is OUT for Saturday''s (Nov.4) game against Houston.',2,2,0,'2023-11-04'),
+	 ('1262330f197b5437f087e2b15c5a06af','Wesley Matthews','ATL','Atlanta Hawks','Wed, Oct 25, 2023','Out','Calf','The Hawks announced that Matthews has a mild right calf strain and will be re-evaluated in two weeks.',2,2,0,'2023-11-04'),
+	 ('130e92139fd014e8d47f502132830131','Monte Morris','DET','Detroit Pistons','Tue, Oct 24, 2023','Out','Quad','The Pistons announced that Morris suffered a right quad strain and will be re-evaluated in three weeks.',4,4,0,'2023-11-04'),
+	 ('19518f55d162cad0e9e3f98425c42f3e','Maxi Kleber','DAL','Dallas Mavericks','Fri, Nov 3, 2023','Out','Toe','Kleber is OUT for Friday''s (Nov. 3) game against Denver.',2,2,0,'2023-11-04'),
+	 ('1a2005c21792da5ec9553d18445886f9','Ayo Dosunmu','CHI','Chicago Bulls','Fri, Nov 3, 2023','Day To Day','Illness','Dosunmu did not play in Friday''s (Nov. 3) game against Brooklyn.',2,2,0,'2023-11-04'),
+	 ('1a20d5ad9be9315c2704898b483d622b','Nic Claxton','BKN','Brooklyn Nets','Fri, Nov 3, 2023','Day To Day','Ankle','Claxton did not play in Friday''s (Nov.3) game against Chicago.',2,2,0,'2023-11-04'),
+	 ('1a92f6ed88b46f1c27e8393958209ee0','Terance Mann','LAC','Los Angeles Clippers','Thu, Nov 2, 2023','Out','Ankle','Mann said on his YouTube channel that there''s no timeline for his return.',2,2,0,'2023-11-04'),
+	 ('1ef1c52a3b23dada97de79bdd8b2ffbf','Rui Hachimura','LAL','Los Angeles Lakers','Fri, Nov 3, 2023','Out','Eye','Hachimura is OUT for Saturday''s (Nov.4) game against Orlando.',5,5,0,'2023-11-04'),
+	 ('1f7a025e518180f71e689fac627912f8','Jalen Hood-Schifino','LAL','Los Angeles Lakers','Mon, Oct 23, 2023','Out','Knee','Hood-Schifino has a right patella contusion and will be re-evaluated Nov. 3, according to Mike Trudell of Spectrum SportsNet.',5,5,0,'2023-11-04');
+INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
+	 ('22e96bd318a2ab2c5b33f6311586c2d3','Alec Burks','DET','Detroit Pistons','Thu, Nov 2, 2023','Day To Day','Forearm','Burks did not play in Thursday''s (Nov. 2) game against New Orleans.',4,4,0,'2023-11-04'),
+	 ('2ee8b30ed372a25075a684f4f43e8402','Bradley Beal','PHX','Phoenix Suns','Fri, Nov 3, 2023','Out','Back','Beal is OUT for Saturday''s (Nov.4) game against Philadelphia.',3,3,0,'2023-11-04'),
+	 ('343f8618c2f7f1d23cb853ec8911fedf','Markieff Morris','DAL','Dallas Mavericks','Fri, Nov 3, 2023','Out','Illness','Morris is OUT for Friday''s (Nov. 3) game against Denver.',2,2,0,'2023-11-04'),
+	 ('34b3ea22137ad9ff2bdb1db7db83a84c','Trey Lyles','SAC','Sacramento Kings','Fri, Nov 3, 2023','Out','Calf','Lyles is OUT for Saturday''s (Nov.4) game against Houston.',2,2,0,'2023-11-04'),
+	 ('36f6ab2dc626d35887af8722700a0b34','Ish Wainright','POR','Portland Trail Blazers','Thu, Nov 2, 2023','Out','Calf','Wainright is OUT for Friday''s (Nov.3) game against Memphis.',4,4,0,'2023-11-04'),
+	 ('45765c3c73e38d562fa10bcc95d6133f','Nicolas Batum','PHI','Philadelphia 76ers','Fri, Nov 3, 2023','Out','Personal','Batum is OUT for Saturday''s (Nov.4) game against Phoenix.',1,1,0,'2023-11-04'),
+	 ('4576f7b54e3f3c47be0074e74b8013f9','RJ Barrett','NYK','New York Knicks','Fri, Nov 3, 2023','Day To Day','Knee','Barrett did not play in Friday''s (Nov.3) game against Cleveland.',1,1,0,'2023-11-04'),
+	 ('46e7f6fb7bb9c747b816dfa93789f06f','Wendell Carter','ORL','Orlando Magic','Fri, Nov 3, 2023','Out','Hand','Carter Jr. is OUT for Saturday''s (Nov.3) game against Los Angeles.',3,3,0,'2023-11-04'),
+	 ('4e6b33f4e80e1270df52bebf802bb9d2','Kenrich Williams','OKC','Oklahoma City Thunder','Tue, Oct 31, 2023','Out','Back','Williams has back spasms and remains without a timetable to return.',2,2,0,'2023-11-04'),
+	 ('518aef3237bb239d76399d9349c5d455','Gary Harris','ORL','Orlando Magic','Fri, Nov 3, 2023','Out','Groin','Harris is OUT for Saturday''s (Nov.3) game against Los Angeles.',3,3,0,'2023-11-04');
+INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
+	 ('52b6977624d3736383e1422b5ec7c0ca','Gabe Vincent','LAL','Los Angeles Lakers','Fri, Nov 3, 2023','Out','Knee','Vincent is OUT for Saturday''s (Nov.4) game against Orlando.',5,5,0,'2023-11-04'),
+	 ('52ce59115bf52c5ce5ed9ec796dc5be0','Shaedon Sharpe','POR','Portland Trail Blazers','Thu, Nov 2, 2023','Day To Day','Thumb','Sharpe is Probable for Friday''s (Nov.3) game against Memphis.',4,4,0,'2023-11-04'),
+	 ('5316408c1831d9f3623a5f611d85c777','Isaiah Livers','DET','Detroit Pistons','Tue, Oct 24, 2023','Out','Ankle','The Pistons announced that Livers sustained a left ankle sprain and will be out for approximately 6-8 weeks.',4,4,0,'2023-11-04'),
+	 ('67debe17bbe6b48eb4fe3c7ba56db1dd','Jarred Vanderbilt','LAL','Los Angeles Lakers','Fri, Oct 27, 2023','Out','Heel','Vanderbilt will be re-evaluated in two weeks, according to Broderick Turner of the Los Angeles Times.',5,5,0,'2023-11-04'),
+	 ('6b7d7fd8baf820d8547d1cddbc896d51','Jose Alvarado','NOP','New Orleans Pelicans','Tue, Oct 24, 2023','Out','Ankle','The Pelicans announced that Alvarado suffered a right ankle sprain and will be re-evaluated in two weeks.',4,4,0,'2023-11-04'),
+	 ('6ce5b263adb71f6a3f6087e081ea634d','Lonzo Ball','CHI','Chicago Bulls','Tue, Oct 24, 2023','Out For Season','Knee','Ball will miss the 2023-24 season while recovering from surgery.',2,2,0,'2023-11-04'),
+	 ('6e676388e19ef5dcf6bb447be07a4654','Markelle Fultz','ORL','Orlando Magic','Fri, Nov 3, 2023','Day To Day','Knee','Fultz is Questionable for Saturday''s (Nov.3) game against Los Angeles.',3,3,0,'2023-11-04'),
+	 ('7d0b8886f4efdcfd09fad421c66cc80d','Brandon Ingram','NOP','New Orleans Pelicans','Fri, Nov 3, 2023','Day To Day','Knee','Ingram is Questionable for Saturday''s (Nov. 4) game against Atlanta.',4,4,0,'2023-11-04'),
+	 ('7e56d88fbedf792e3c8223c296df0695','Devin Booker','PHX','Phoenix Suns','Fri, Nov 3, 2023','Day To Day','Ankle','Booker is Questionable for Saturday''s (Nov.4) game against Philadelphia.',3,3,0,'2023-11-04'),
+	 ('8103d551d82aebbcf4b8cfe165494528','Ricky Rubio','CLE','Cleveland Cavaliers','Wed, Sep 27, 2023','Out','Personal','Rubio is away from the team due to a mental health matter, he will miss an undetermined length of time.',2,2,0,'2023-11-04');
+INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
+	 ('83340e076703ee9716b021ca58575cc4','Neemias Queta','BOS','Boston Celtics','Fri, Nov 3, 2023','Out','Foot','Queta is OUT for Saturday''s (Nov. 4) game against Brooklyn.',1,1,0,'2023-11-04'),
+	 ('857e517cedaac4fbc1d912f6e834e0af','Corey Kispert','WAS','Washington Wizards','Fri, Nov 3, 2023','Day To Day','Ankle','Kispert did not play in Friday''s (Nov. 3) game against Miami.',1,1,0,'2023-11-04'),
+	 ('85a8370d814a69703c07473eaced24da','Christian Koloko','TOR','Toronto Raptors','Tue, Oct 24, 2023','Out','Respiratory','Koloko has been dealing with a respiratory issue since the offseason and currently has no timetable to return.',2,2,0,'2023-11-04'),
+	 ('876d7197ea8048b0a530a4da1f691ed5','Frank Ntilikina','CHA','Charlotte Hornets','Sat, Oct 21, 2023','Out','Leg','The Hornets announced that Ntilikina suffered a non-displaced fracture of his left Tibia.',3,3,0,'2023-11-04'),
+	 ('87c404d4aff5be178de3d1f0acc19ed9','Cameron Johnson','BKN','Brooklyn Nets','Mon, Oct 30, 2023','Out','Calf','Johnson has a calf strain and will be re-evaluated in 10 days, according to Brian Lewis of the New York Post.',2,2,0,'2023-11-04'),
+	 ('8a09c01f05f3d62d288903d63d2f3abc','Precious Achiuwa','TOR','Toronto Raptors','Thu, Nov 2, 2023','Day To Day','Groin','Achiuwa did not play in Thursday''s (Nov. 2) game against Philadelphia.',2,2,0,'2023-11-04'),
+	 ('8b0e1519ef0ad50480e7c22cf16488fd','Jaylen Clark','MIN','Minnesota Timberwolves','Tue, Oct 24, 2023','Out','Achilles','Clark is idle due to a right Achilles issue, and is not expected to make his season debut until sometime in February.',1,1,0,'2023-11-04'),
+	 ('9041190599d29b04e70b66ac94802b05','Ty Jerome','CLE','Cleveland Cavaliers','Fri, Nov 3, 2023','Day To Day','Ankle','Jerome did not play in Friday''s (Nov.3) game against Indiana.',2,2,0,'2023-11-04'),
+	 ('9058771c50fc149a7c817331354b63f5','Caleb Martin','MIA','Miami Heat','Fri, Nov 3, 2023','Day To Day','Knee','Martin did not play in Friday''s (Nov. 3) game against Washington.',1,1,0,'2023-11-04'),
+	 ('928e09dd79cfb046feb6cffdfe9b5ac4','Derrick Rose','MEM','Memphis Grizzlies','Wed, Nov 1, 2023','Out','Knee','Grizzlies coach Taylor Jenkins said Rose will be re-evaluated in a week.',4,4,0,'2023-11-04');
+INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
+	 ('9397422af882b070dce2622fe808aa7c','Tari Eason','HOU','Houston Rockets','Tue, Oct 24, 2023','Out','Leg','Rockets coach Ime Udoka said Eason is out 2-3 weeks with a stress reaction in his left leg.',3,3,0,'2023-11-04'),
+	 ('95c6a2081a1788cbdd83a1dd1de06c19','Victor Oladipo','HOU','Houston Rockets','Tue, Oct 24, 2023','Out','Knee','Oladipo is out while recovering from a left patellar tendon repair.',3,3,0,'2023-11-04'),
+	 ('a86ab9fcc41147c19e12ec060266e7fb','Shai Gilgeous-Alexander','OKC','Oklahoma City Thunder','Fri, Nov 3, 2023','Day To Day','Knee','Gilgeous-Alexander did not play in Friday''s (Nov. 3) game against Golden State.',2,2,0,'2023-11-04'),
+	 ('ad824a5fd2da000d543f38ee96cae964','Steven Adams','MEM','Memphis Grizzlies','Tue, Oct 24, 2023','Out For Season','Knee','The Grizzlies announced that Adams will undergo season-ending surgery on his right knee.',4,4,0,'2023-11-04'),
+	 ('b38489bfa49a4f4ff5f97957a23aa2f7','Santi Aldama','MEM','Memphis Grizzlies','Fri, Nov 3, 2023','Out','Ankle','Aldama is OUT for Friday''s (Nov. 3) game against Portland.',4,4,0,'2023-11-04'),
+	 ('b6a3a11f6853ec70829884ac285747c8','Damion Lee','PHX','Phoenix Suns','Sun, Oct 1, 2023','Out','Knee','The Suns announced that Lee sustained a meniscus injury and will be out until further notice.',3,3,0,'2023-11-04'),
+	 ('b762e4b9e659ff7736d34a55d5874824','Trey Murphy','NOP','New Orleans Pelicans','Tue, Oct 24, 2023','Out','Knee','The Pelicans announced that Murphy III will return to basketball activities in approximately 10-12 weeks.',4,4,0,'2023-11-04'),
+	 ('c2488106b24b9b519194dd9974f0a6c7','Vlatko Cancar','DEN','Denver Nuggets','Thu, Aug 17, 2023','Out','Knee','The Nuggets announced that Cancar underwent surgery on his left knee and is out indefinitely.',1,1,0,'2023-11-04'),
+	 ('c5441441b6d0aca03a9b8da966baeca3','Brandon Clarke','MEM','Memphis Grizzlies','Tue, Oct 24, 2023','Out','Achilles','Clarke has no timetable for return after suffering a torn Achilles in March, according to Adrian Wojnarowski of ESPN.',4,4,0,'2023-11-04'),
+	 ('cf92ee876dbbd3e6fb673a595df00b81','Bojan Bogdanovic','DET','Detroit Pistons','Tue, Oct 24, 2023','Out','Calf','The Pistons announced that Bogdanovic has a right calf strain and will be re-evaluated in four weeks.',4,4,0,'2023-11-04');
+INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
+	 ('d1cfdbae8894b6aaa97061057f0f26a6','Cody Martin','CHA','Charlotte Hornets','Tue, Oct 24, 2023','Out','Knee','Martin hasn''t played since Jan. 14 last season against Boston. A timetable for his return hasn''t been announced.',3,3,0,'2023-11-04'),
+	 ('d727aa2eb4e4102f876449f6dbfd3d07','Taurean Prince','LAL','Los Angeles Lakers','Fri, Nov 3, 2023','Day To Day','Patellar','Prince is Questionable for Saturday''s (Nov.4) game against Orlando.',5,5,0,'2023-11-04'),
+	 ('e0622b957fc749c2a4ff22ccc0bad116','James Bouknight','CHA','Charlotte Hornets','Tue, Oct 24, 2023','Out','Knee','The Hornets announced that Bouknight had surgery and will be re-evaluated in four weeks.',3,3,0,'2023-11-04'),
+	 ('e22ecb42a60cf8aaaa39f29398a702ba','Brandon Boston','LAC','Los Angeles Clippers','Sat, Oct 28, 2023','Out','Quad','Boston Jr. doesn''t have a clear timetable for his return, according to Law Murray of The Athletic.',2,2,0,'2023-11-04'),
+	 ('e8ea058d566c123f30f6ced562e28e1b','Amen Thompson','HOU','Houston Rockets','Fri, Nov 3, 2023','Out','Ankle','Thompson is OUT for Saturday''s (Nov.4) game against Sacramento.',3,3,0,'2023-11-04'),
+	 ('eb51d1bb6f6fc3abf34d6dc5652e1c8b','Naji Marshall','NOP','New Orleans Pelicans','Mon, Oct 30, 2023','Out','Knee','The Pelicans announced that Marshall has been cleared to increase rehab activity and will be re-evaluated in about two weeks.',4,4,0,'2023-11-04'),
+	 ('feb27c3aeec69270460ae4a20aca1e4f','Kobe Bufkin','ATL','Atlanta Hawks','Fri, Nov 3, 2023','Out','Thumb','Bufkin is OUT for Saturday''s (Nov.4) game against New Orleans.',2,2,0,'2023-11-04');
 
 DROP TABLE IF EXISTS injury_tracker;
 CREATE TABLE IF NOT EXISTS injury_tracker
@@ -1142,26 +1627,53 @@ CREATE TABLE IF NOT EXISTS injury_tracker
     status text COLLATE pg_catalog."default",
     continuous_games_missed bigint,
     games_played bigint,
-    season_avg_ppg numeric,
-    player_mvp_calc_avg numeric,
-    season_ts_percent numeric,
-    season_avg_plusminus numeric
+    avg_ppg numeric,
+    avg_ts_percent numeric,
+    avg_plus_minus numeric,
+    avg_mvp_score numeric
 );
 
-INSERT INTO injury_tracker(
-	player_logo, player, status, continuous_games_missed, games_played, season_avg_ppg, player_mvp_calc_avg, season_ts_percent, season_avg_plusminus)
-	VALUES ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629630.png', '<span style=''font-size:16px; color:royalblue;''>Ja Morant</span> <span style=''font-size:12px; color:grey;''>MEM</span>', 'Out - Suspension', 0, 61, 26.2, 41.4, 0.557, 5.0),
-           ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629645.png', '<span style=''font-size:16px; color:royalblue;''>Kevin Porter</span> <span style=''font-size:12px; color:grey;''>HOU</span>', 'Day To Day - Possible suspension', 1, 59, 19.2, 26.1, 0.565, -5.8);
+INSERT INTO injury_tracker (player_logo,player,status,continuous_games_missed,games_played,avg_ppg,avg_ts_percent,avg_plus_minus,avg_mvp_score) VALUES
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628368.png','<span style=''font-size:16px; color:royalblue;''>De''Aaron Fox</span> <span style=''font-size:12px; color:grey;''>SAC</span>','Out - Ankle',1,3,31.3,0.593,10.0,47.5),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1626164.png','<span style=''font-size:16px; color:royalblue;''>Devin Booker</span> <span style=''font-size:12px; color:grey;''>PHX</span>','Day To Day - Ankle',0,2,31.5,0.717,1.5,44.5),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628983.png','<span style=''font-size:16px; color:royalblue;''>Shai Gilgeous-Alexander</span> <span style=''font-size:12px; color:grey;''>OKC</span>','Day To Day - Knee',1,5,24.8,0.544,4.2,42.7),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627742.png','<span style=''font-size:16px; color:royalblue;''>Brandon Ingram</span> <span style=''font-size:12px; color:grey;''>NOP</span>','Day To Day - Knee',3,2,22.5,0.571,1.5,29.0),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/202692.png','<span style=''font-size:16px; color:royalblue;''>Alec Burks</span> <span style=''font-size:12px; color:grey;''>DET</span>','Day To Day - Forearm',2,4,15.0,0.658,11.8,27.9),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631101.png','<span style=''font-size:16px; color:royalblue;''>Shaedon Sharpe</span> <span style=''font-size:12px; color:grey;''>POR</span>','Day To Day - Thumb',0,6,20.5,0.582,-1.8,26.5),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629628.png','<span style=''font-size:16px; color:royalblue;''>RJ Barrett</span> <span style=''font-size:12px; color:grey;''>NYK</span>','Day To Day - Knee',2,4,21.0,0.573,2.8,25.8),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628365.png','<span style=''font-size:16px; color:royalblue;''>Markelle Fultz</span> <span style=''font-size:12px; color:grey;''>ORL</span>','Day To Day - Knee',1,4,11.0,0.495,1.8,21.8),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629661.png','<span style=''font-size:16px; color:royalblue;''>Cameron Johnson</span> <span style=''font-size:12px; color:grey;''>BKN</span>','Out - Calf',4,1,12.0,0.551,-1.0,19.5),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629651.png','<span style=''font-size:16px; color:royalblue;''>Nic Claxton</span> <span style=''font-size:12px; color:grey;''>BKN</span>','Day To Day - Ankle',4,1,7.0,0.335,-12.0,16.5);
+INSERT INTO injury_tracker (player_logo,player,status,continuous_games_missed,games_played,avg_ppg,avg_ts_percent,avg_plus_minus,avg_mvp_score) VALUES
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628976.png','<span style=''font-size:16px; color:royalblue;''>Wendell Carter</span> <span style=''font-size:12px; color:grey;''>ORL</span>','Out - Hand',0,5,9.4,0.459,0.4,15.9),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629014.png','<span style=''font-size:16px; color:royalblue;''>Anfernee Simons</span> <span style=''font-size:12px; color:grey;''>POR</span>','Out - Thumb',5,1,18.0,0.571,-27.0,15.5),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629216.png','<span style=''font-size:16px; color:royalblue;''>Gabe Vincent</span> <span style=''font-size:12px; color:grey;''>LAL</span>','Out - Knee',1,4,6.0,0.416,2.5,14.5),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203914.png','<span style=''font-size:16px; color:royalblue;''>Gary Harris</span> <span style=''font-size:12px; color:grey;''>ORL</span>','Out - Groin',0,5,8.0,0.732,4.0,13.2),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201587.png','<span style=''font-size:16px; color:royalblue;''>Nicolas Batum</span> <span style=''font-size:12px; color:grey;''>LAC</span>','Out - Personal',2,3,2.7,0.500,0.0,10.5),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201565.png','<span style=''font-size:16px; color:royalblue;''>Derrick Rose</span> <span style=''font-size:12px; color:grey;''>MEM</span>','Out - Knee',2,4,8.0,0.413,-5.0,9.9),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630557.png','<span style=''font-size:16px; color:royalblue;''>Corey Kispert</span> <span style=''font-size:12px; color:grey;''>WAS</span>','Day To Day - Ankle',1,4,11.0,0.576,-4.0,9.5),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630245.png','<span style=''font-size:16px; color:royalblue;''>Ayo Dosunmu</span> <span style=''font-size:12px; color:grey;''>CHI</span>','Day To Day - Illness',1,5,5.0,0.595,2.6,9.3),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629060.png','<span style=''font-size:16px; color:royalblue;''>Rui Hachimura</span> <span style=''font-size:12px; color:grey;''>LAL</span>','Out - Eye',2,3,8.0,0.555,-4.0,8.8),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628467.png','<span style=''font-size:16px; color:royalblue;''>Maxi Kleber</span> <span style=''font-size:12px; color:grey;''>DAL</span>','Out - Toe',1,4,3.3,0.385,1.0,8.6);
+INSERT INTO injury_tracker (player_logo,player,status,continuous_games_missed,games_played,avg_ppg,avg_ts_percent,avg_plus_minus,avg_mvp_score) VALUES
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630703.png','<span style=''font-size:16px; color:royalblue;''>Scoot Henderson</span> <span style=''font-size:12px; color:grey;''>POR</span>','Out - Ankle',1,5,8.8,0.399,-9.2,7.8),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630173.png','<span style=''font-size:16px; color:royalblue;''>Precious Achiuwa</span> <span style=''font-size:12px; color:grey;''>TOR</span>','Day To Day - Groin',3,3,7.3,0.434,-7.3,7.3),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627752.png','<span style=''font-size:16px; color:royalblue;''>Taurean Prince</span> <span style=''font-size:12px; color:grey;''>LAL</span>','Day To Day - Patellar',0,5,8.4,0.573,-8.8,6.8),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641708.png','<span style=''font-size:16px; color:royalblue;''>Amen Thompson</span> <span style=''font-size:12px; color:grey;''>HOU</span>','Out - Ankle',0,4,6.3,0.490,-5.3,6.5),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628997.png','<span style=''font-size:16px; color:royalblue;''>Caleb Martin</span> <span style=''font-size:12px; color:grey;''>MIA</span>','Day To Day - Knee',5,1,2.0,0.143,-5.0,4.5),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629660.png','<span style=''font-size:16px; color:royalblue;''>Ty Jerome</span> <span style=''font-size:12px; color:grey;''>CLE</span>','Day To Day - Ankle',4,2,2.0,0.500,-7.0,0.3),
+	 ('https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641723.png','<span style=''font-size:16px; color:royalblue;''>Kobe Bufkin</span> <span style=''font-size:12px; color:grey;''>ATL</span>','Out - Thumb',1,2,0.5,0.129,-7.0,-2.5);
+
 
 DROP TABLE IF EXISTS game_types;
 CREATE TABLE game_types(
     game_type text,
-    type text,
+    season_type text,
     n bigint,
     explanation text
 );
 
-INSERT INTO game_types (game_type, type, n, explanation)
+INSERT INTO game_types (game_type, season_type, n, explanation)
 VALUES ('20 pt Game', 'Regular Season', 356, 'between 11 and 20 points'),
        ('Blowout Game', 'Regular Season', 154, 'more than 20 points'),
        ('10 pt Game', 'Regular Season', 351, 'between 6 and 10 points'),
@@ -1169,10 +1681,10 @@ VALUES ('20 pt Game', 'Regular Season', 356, 'between 11 and 20 points'),
 
 
 DROP TABLE IF EXISTS schedule;
-CREATE TABLE schedule(
-	"date" date NULL,
-	"day" text NULL,
-	proper_time timestamp NULL,
+CREATE TABLE IF NOT EXISTS schedule(
+	game_date date NULL,
+	day_name text NULL,
+	game_ts timestamp NULL,
 	avg_team_rank int8 NULL,
 	start_time text NULL,
 	home_team text NULL,
@@ -1185,29 +1697,29 @@ CREATE TABLE schedule(
 	away_team_odds text NULL
 );
 
-INSERT INTO schedule ("date","day",proper_time,avg_team_rank,start_time,home_team,away_team,home_moneyline_raw,away_moneyline_raw,home_team_logo,away_team_logo,home_team_odds,away_team_odds) VALUES
-	 ('2023-10-29','Sunday   ','2023-10-29 03:30:00.000',4,'3:30 PM','Oklahoma City Thunder','Denver Nuggets',125,-150,'logos/okc.png','logos/den.png','Oklahoma City Thunder (+125)','Denver Nuggets (-150)'),
-	 ('2023-10-29','Sunday   ','2023-10-29 07:00:00.000',15,'7:00 PM','Milwaukee Bucks','Atlanta Hawks',-300,240,'logos/mil.png','logos/atl.png','Milwaukee Bucks (-300)','Atlanta Hawks (+240)'),
-	 ('2023-10-29','Sunday   ','2023-10-29 07:00:00.000',20,'7:00 PM','Houston Rockets','Golden State Warriors',160,-190,'logos/hou.png','logos/gsw.png','Houston Rockets (+160)','Golden State Warriors (-190)'),
-	 ('2023-10-29','Sunday   ','2023-10-29 07:30:00.000',20,'7:30 PM','Philadelphia 76ers','Portland Trail Blazers',-500,375,'logos/phi.png','logos/por.png','Philadelphia 76ers (-500)','Portland Trail Blazers (+375)'),
-	 ('2023-10-29','Sunday   ','2023-10-29 09:00:00.000',16,'9:00 PM','Los Angeles Clippers','San Antonio Spurs',-375,300,'logos/lac.png','logos/sas.png','Los Angeles Clippers (-375)','San Antonio Spurs (+300)'),
-	 ('2023-10-29','Sunday   ','2023-10-29 09:00:00.000',16,'9:00 PM','Sacramento Kings','Los Angeles Lakers',-150,125,'logos/sac.png','logos/lal.png','Sacramento Kings (-150)','Los Angeles Lakers (+125)'),
-	 (current_date + INTERVAL '1 DAY','Monday   ',current_timestamp + INTERVAL '1 DAY',10,'7:00 PM','Washington Wizards','Boston Celtics',NULL,NULL,'logos/was.png','logos/bos.png','Washington Wizards','Boston Celtics'),
-	 (current_date + INTERVAL '1 DAY','Monday   ',current_timestamp + INTERVAL '1 DAY',23,'7:00 PM','Charlotte Hornets','Brooklyn Nets',NULL,NULL,'logos/cha.png','logos/bkn.png','Charlotte Hornets','Brooklyn Nets'),
-	 (current_date + INTERVAL '1 DAY','Monday   ',current_timestamp + INTERVAL '1 DAY',14,'7:00 PM','Indiana Pacers','Chicago Bulls',NULL,NULL,'logos/ind.png','logos/chi.png','Indiana Pacers','Chicago Bulls'),
-	 (current_date + INTERVAL '1 DAY','Monday   ',current_timestamp + INTERVAL '1 DAY',26,'7:30 PM','Toronto Raptors','Portland Trail Blazers',NULL,NULL,'logos/tor.png','logos/por.png','Toronto Raptors','Portland Trail Blazers');
-INSERT INTO schedule ("date","day",proper_time,avg_team_rank,start_time,home_team,away_team,home_moneyline_raw,away_moneyline_raw,home_team_logo,away_team_logo,home_team_odds,away_team_odds) VALUES
-	 ('2023-10-30','Monday   ','2023-10-30 07:30:00.000',19,'7:30 PM','Atlanta Hawks','Minnesota Timberwolves',NULL,NULL,'logos/atl.png','logos/min.png','Atlanta Hawks','Minnesota Timberwolves'),
-	 ('2023-10-30','Monday   ','2023-10-30 08:00:00.000',12,'8:00 PM','Milwaukee Bucks','Miami Heat',NULL,NULL,'logos/mil.png','logos/mia.png','Milwaukee Bucks','Miami Heat'),
-	 ('2023-10-30','Monday   ','2023-10-30 08:00:00.000',15,'8:00 PM','Memphis Grizzlies','Dallas Mavericks',NULL,NULL,'logos/mem.png','logos/dal.png','Memphis Grizzlies','Dallas Mavericks'),
-	 ('2023-10-30','Monday   ','2023-10-30 08:00:00.000',10,'8:00 PM','New Orleans Pelicans','Golden State Warriors',NULL,NULL,'logos/nop.png','logos/gsw.png','New Orleans Pelicans','Golden State Warriors'),
-	 ('2023-10-30','Monday   ','2023-10-30 08:00:00.000',9,'8:00 PM','Oklahoma City Thunder','Detroit Pistons',NULL,NULL,'logos/okc.png','logos/det.png','Oklahoma City Thunder','Detroit Pistons'),
-	 ('2023-10-30','Monday   ','2023-10-30 09:00:00.000',12,'9:00 PM','Denver Nuggets','Utah Jazz',NULL,NULL,'logos/den.png','logos/uta.png','Denver Nuggets','Utah Jazz'),
-	 ('2023-10-30','Monday   ','2023-10-30 10:30:00.000',10,'10:30 PM','Los Angeles Lakers','Orlando Magic',NULL,NULL,'logos/lal.png','logos/orl.png','Los Angeles Lakers','Orlando Magic'),
-	 ('2023-10-31','Tuesday  ','2023-10-31 07:30:00.000',21,'7:30 PM','Cleveland Cavaliers','New York Knicks',NULL,NULL,'logos/cle.png','logos/nyk.png','Cleveland Cavaliers','New York Knicks'),
-	 ('2023-10-31','Tuesday  ','2023-10-31 10:00:00.000',14,'10:00 PM','Phoenix Suns','San Antonio Spurs',NULL,NULL,'logos/phx.png','logos/sas.png','Phoenix Suns','San Antonio Spurs'),
-	 ('2023-10-31','Tuesday  ','2023-10-31 10:30:00.000',10,'10:30 PM','Los Angeles Clippers','Orlando Magic',NULL,NULL,'logos/lac.png','logos/orl.png','Los Angeles Clippers','Orlando Magic');
-INSERT INTO schedule ("date","day",proper_time,avg_team_rank,start_time,home_team,away_team,home_moneyline_raw,away_moneyline_raw,home_team_logo,away_team_logo,home_team_odds,away_team_odds) VALUES
+INSERT INTO schedule (game_date,day_name,game_ts,avg_team_rank,start_time,home_team,away_team,home_moneyline_raw,away_moneyline_raw,home_team_logo,away_team_logo,home_team_odds,away_team_odds) VALUES
+	 ('2023-10-29','Sunday','2023-10-29 03:30:00.000',4,'3:30 PM','Oklahoma City Thunder','Denver Nuggets',125,-150,'logos/okc.png','logos/den.png','Oklahoma City Thunder (+125)','Denver Nuggets (-150)'),
+	 ('2023-10-29','Sunday','2023-10-29 07:00:00.000',15,'7:00 PM','Milwaukee Bucks','Atlanta Hawks',-300,240,'logos/mil.png','logos/atl.png','Milwaukee Bucks (-300)','Atlanta Hawks (+240)'),
+	 ('2023-10-29','Sunday','2023-10-29 07:00:00.000',20,'7:00 PM','Houston Rockets','Golden State Warriors',160,-190,'logos/hou.png','logos/gsw.png','Houston Rockets (+160)','Golden State Warriors (-190)'),
+	 ('2023-10-29','Sunday','2023-10-29 07:30:00.000',20,'7:30 PM','Philadelphia 76ers','Portland Trail Blazers',-500,375,'logos/phi.png','logos/por.png','Philadelphia 76ers (-500)','Portland Trail Blazers (+375)'),
+	 ('2023-10-29','Sunday','2023-10-29 09:00:00.000',16,'9:00 PM','Los Angeles Clippers','San Antonio Spurs',-375,300,'logos/lac.png','logos/sas.png','Los Angeles Clippers (-375)','San Antonio Spurs (+300)'),
+	 ('2023-10-29','Sunday','2023-10-29 09:00:00.000',16,'9:00 PM','Sacramento Kings','Los Angeles Lakers',-150,125,'logos/sac.png','logos/lal.png','Sacramento Kings (-150)','Los Angeles Lakers (+125)'),
+	 (current_date + INTERVAL '1 DAY','Monday',current_timestamp + INTERVAL '1 DAY',10,'7:00 PM','Washington Wizards','Boston Celtics',NULL,NULL,'logos/was.png','logos/bos.png','Washington Wizards','Boston Celtics'),
+	 (current_date + INTERVAL '1 DAY','Monday',current_timestamp + INTERVAL '1 DAY',23,'7:00 PM','Charlotte Hornets','Brooklyn Nets',NULL,NULL,'logos/cha.png','logos/bkn.png','Charlotte Hornets','Brooklyn Nets'),
+	 (current_date + INTERVAL '1 DAY','Monday',current_timestamp + INTERVAL '1 DAY',14,'7:00 PM','Indiana Pacers','Chicago Bulls',NULL,NULL,'logos/ind.png','logos/chi.png','Indiana Pacers','Chicago Bulls'),
+	 (current_date + INTERVAL '1 DAY','Monday',current_timestamp + INTERVAL '1 DAY',26,'7:30 PM','Toronto Raptors','Portland Trail Blazers',NULL,NULL,'logos/tor.png','logos/por.png','Toronto Raptors','Portland Trail Blazers');
+INSERT INTO schedule (game_date,day_name,game_ts,avg_team_rank,start_time,home_team,away_team,home_moneyline_raw,away_moneyline_raw,home_team_logo,away_team_logo,home_team_odds,away_team_odds) VALUES
+	 ('2023-10-30','Monday','2023-10-30 07:30:00.000',19,'7:30 PM','Atlanta Hawks','Minnesota Timberwolves',NULL,NULL,'logos/atl.png','logos/min.png','Atlanta Hawks','Minnesota Timberwolves'),
+	 ('2023-10-30','Monday','2023-10-30 08:00:00.000',12,'8:00 PM','Milwaukee Bucks','Miami Heat',NULL,NULL,'logos/mil.png','logos/mia.png','Milwaukee Bucks','Miami Heat'),
+	 ('2023-10-30','Monday','2023-10-30 08:00:00.000',15,'8:00 PM','Memphis Grizzlies','Dallas Mavericks',NULL,NULL,'logos/mem.png','logos/dal.png','Memphis Grizzlies','Dallas Mavericks'),
+	 ('2023-10-30','Monday','2023-10-30 08:00:00.000',10,'8:00 PM','New Orleans Pelicans','Golden State Warriors',NULL,NULL,'logos/nop.png','logos/gsw.png','New Orleans Pelicans','Golden State Warriors'),
+	 ('2023-10-30','Monday','2023-10-30 08:00:00.000',9,'8:00 PM','Oklahoma City Thunder','Detroit Pistons',NULL,NULL,'logos/okc.png','logos/det.png','Oklahoma City Thunder','Detroit Pistons'),
+	 ('2023-10-30','Monday','2023-10-30 09:00:00.000',12,'9:00 PM','Denver Nuggets','Utah Jazz',NULL,NULL,'logos/den.png','logos/uta.png','Denver Nuggets','Utah Jazz'),
+	 ('2023-10-30','Monday','2023-10-30 10:30:00.000',10,'10:30 PM','Los Angeles Lakers','Orlando Magic',NULL,NULL,'logos/lal.png','logos/orl.png','Los Angeles Lakers','Orlando Magic'),
+	 ('2023-10-31','Tuesday','2023-10-31 07:30:00.000',21,'7:30 PM','Cleveland Cavaliers','New York Knicks',NULL,NULL,'logos/cle.png','logos/nyk.png','Cleveland Cavaliers','New York Knicks'),
+	 ('2023-10-31','Tuesday','2023-10-31 10:00:00.000',14,'10:00 PM','Phoenix Suns','San Antonio Spurs',NULL,NULL,'logos/phx.png','logos/sas.png','Phoenix Suns','San Antonio Spurs'),
+	 ('2023-10-31','Tuesday','2023-10-31 10:30:00.000',10,'10:30 PM','Los Angeles Clippers','Orlando Magic',NULL,NULL,'logos/lac.png','logos/orl.png','Los Angeles Clippers','Orlando Magic');
+INSERT INTO schedule (game_date,day_name,game_ts,avg_team_rank,start_time,home_team,away_team,home_moneyline_raw,away_moneyline_raw,home_team_logo,away_team_logo,home_team_odds,away_team_odds) VALUES
 	 ('2023-11-01','Wednesday','2023-11-01 07:00:00.000',14,'7:00 PM','Toronto Raptors','Milwaukee Bucks',NULL,NULL,'logos/tor.png','logos/mil.png','Toronto Raptors','Milwaukee Bucks'),
 	 ('2023-11-01','Wednesday','2023-11-01 07:00:00.000',19,'7:00 PM','Detroit Pistons','Portland Trail Blazers',NULL,NULL,'logos/det.png','logos/por.png','Detroit Pistons','Portland Trail Blazers'),
 	 ('2023-11-01','Wednesday','2023-11-01 07:30:00.000',22,'7:30 PM','Atlanta Hawks','Washington Wizards',NULL,NULL,'logos/atl.png','logos/was.png','Atlanta Hawks','Washington Wizards'),
@@ -1292,10 +1804,226 @@ CREATE TABLE IF NOT EXISTS transactions
     transaction text COLLATE pg_catalog."default"
 );
 
-INSERT INTO transactions(date, transaction)
-VALUES (current_date, 'The Portland Trail Blazers signed Skylar Mays.'),
-       (current_date, 'The Toronto Raptors fired Nick Nurse as Head Coach.');
-
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-01','The Detroit Pistons waived Eugene Omoruyi.'),
+	 ('2023-07-01','The Houston Rockets signed Trevor Hudgins to a two-way contract.'),
+	 ('2023-07-01','The Indiana Pacers signed Ben Sheppard to a multi-year contract.'),
+	 ('2023-07-01','The Indiana Pacers signed Jarace Walker to a multi-year contract.'),
+	 ('2023-07-01','The Miami Heat signed Dru Smith to a two-way contract.'),
+	 ('2023-07-01','The Miami Heat signed Jaime Jaquez Jr. to a multi-year contract.'),
+	 ('2023-07-01','The Miami Heat signed Jamaree Bouyea to a two-way contract.'),
+	 ('2023-07-01','The Miami Heat signed Orlando Robinson.'),
+	 ('2023-07-01','The Orlando Magic signed Anthony Black to a multi-year contract.'),
+	 ('2023-07-01','The Orlando Magic signed Jett Howard to a multi-year contract.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-01','The Philadelphia 76ers signed Ricky Council IV to a two-way contract.'),
+	 ('2023-07-01','The Philadelphia 76ers signed Terquavion Smith to a two-way contract.'),
+	 ('2023-07-01','The Portland Trail Blazers signed Ibou Badji to a two-way contract.'),
+	 ('2023-07-01','The Portland Trail Blazers signed Kris Murray to a multi-year contract.'),
+	 ('2023-07-01','The Portland Trail Blazers signed Scoot Henderson to a multi-year contract.'),
+	 ('2023-07-01','The San Antonio Spurs signed Victor Wembanyama to a multi-year contract.'),
+	 ('2023-07-02','The Charlotte Hornets signed Brandon Miller to a multi-year contract.'),
+	 ('2023-07-02','The Charlotte Hornets signed Miles Bridges.'),
+	 ('2023-07-02','The Detroit Pistons signed Ausar Thompson to a multi-year contract.'),
+	 ('2023-07-02','The Detroit Pistons signed Jared Rhoden to a two-way contract.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-02','The Detroit Pistons signed Malcolm Cazalon to a two-way contract.'),
+	 ('2023-07-02','The Miami Heat signed Josh Richardson to a multi-year contract.'),
+	 ('2023-07-02','The Miami Heat signed Thomas Bryant to a multi-year contract.'),
+	 ('2023-07-02','The Minnesota Timberwolves signed Luka Garza to a two-way contract.'),
+	 ('2023-07-02','The Phoenix Suns signed Chimezie Metu.'),
+	 ('2023-07-02','The Phoenix Suns signed Drew Eubanks to a multi-year contract.'),
+	 ('2023-07-02','The Phoenix Suns signed Keita Bates-Diop to a multi-year contract.'),
+	 ('2023-07-02','The Phoenix Suns signed Yuta Watanabe.'),
+	 ('2023-07-02','The Sacramento Kings signed Colby Jones to a multi-year contract.'),
+	 ('2023-07-02','The Sacramento Kings signed Jalen Slawson to a two-way contract.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-02','The Sacramento Kings signed Keon Ellis to a two-way contract.'),
+	 ('2023-07-02','The Toronto Raptors signed Gradey Dick to a multi-year contract.'),
+	 ('2023-07-02','The Utah Jazz signed Brice Sensabaugh to a multi-year contract.'),
+	 ('2023-07-02','The Utah Jazz signed Keyonte George to a multi-year contract.'),
+	 ('2023-07-02','The Utah Jazz signed Taylor Hendricks to a multi-year contract.'),
+	 ('2023-07-02','The Washington Wizards signed Bilal Coulibaly to a multi-year contract.'),
+	 ('2023-07-03','The Atlanta Hawks signed Kobe Bufkin to a multi-year contract.'),
+	 ('2023-07-03','The Atlanta Hawks signed Mouhamed Gueye to a multi-year contract.'),
+	 ('2023-07-03','The Charlotte Hornets signed Nick Smith Jr. to a multi-year contract.'),
+	 ('2023-07-03','The Cleveland Cavaliers signed Craig Porter Jr. to a two-way contract.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-03','The Cleveland Cavaliers signed Isaiah Mobley to a two-way contract.'),
+	 ('2023-07-03','The Golden State Warriors signed Brandin Podziemski to a multi-year contract.'),
+	 ('2023-07-03','The Houston Rockets signed Amen Thompson to a multi-year contract.'),
+	 ('2023-07-03','The Houston Rockets signed Cam Whitmore to a multi-year contract.'),
+	 ('2023-07-03','The Indiana Pacers signed Isaiah Wong to a two-way contract.'),
+	 ('2023-07-03','The Indiana Pacers signed Oscar Tshiebwe to a two-way contract.'),
+	 ('2023-07-03','The Los Angeles Clippers signed Kobe Brown to a multi-year contract.'),
+	 ('2023-07-03','The Los Angeles Lakers signed Colin Castleton to a two-way contract.'),
+	 ('2023-07-03','The Los Angeles Lakers signed D''Moi Hodge to a two-way contract.'),
+	 ('2023-07-03','The Memphis Grizzlies signed Derrick Rose to a multi-year contract.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-03','The New Orleans Pelicans signed Jordan Hawkins to a multi-year contract.'),
+	 ('2023-07-03','The New York Knicks signed Jaylen Martin to a two-way contract.'),
+	 ('2023-07-03','The Phoenix Suns signed Toumani Camara to a multi-year contract.'),
+	 ('2023-07-03','The Toronto Raptors signed Markquis Nowell to a two-way contract.'),
+	 ('2023-07-03','The Utah Jazz signed Joey Hauser to a two-way contract.'),
+	 ('2023-07-04','The Orlando Magic waived Bol Bol.'),
+	 ('2023-07-04','The Portland Trail Blazers signed Rayan Rupert to a multi-year contract.'),
+	 ('2023-07-05','The Brooklyn Nets signed Jalen Wilson to a two-way contract.'),
+	 ('2023-07-05','The Detroit Pistons signed Marcus Sasser to a multi-year contract.'),
+	 ('2023-07-05','The Milwaukee Bucks signed Omari Moore to a two-way contract.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-05','The New Orleans Pelicans waived Garrett Temple.'),
+	 ('2023-07-05','The San Antonio Spurs signed Sir''Jabari Rice to a two-way contract.'),
+	 ('2023-07-06','In a 3-team trade, the Cleveland Cavaliers traded a 2026 2nd round draft pick ( was later selected) to the Miami Heat; the Cleveland Cavaliers traded Cedi Osman, Lamar Stevens and a 2030 2nd round draft pick ( was later selected) to the San Antonio Spurs; and  the Miami Heat traded Max Strus to the Cleveland Cavaliers.    2030 2nd-rd pick is CLE own 2026 2nd-rd pick is LAL own'),
+	 ('2023-07-06','The Atlanta Hawks signed Miles Norris to a two-way contract.'),
+	 ('2023-07-06','The Atlanta Hawks signed Seth Lundy to a two-way contract.'),
+	 ('2023-07-06','The Boston Celtics signed Jordan Walsh to a multi-year contract.'),
+	 ('2023-07-06','The Boston Celtics signed Oshae Brissett to a multi-year contract.'),
+	 ('2023-07-06','The Brooklyn Nets signed Cameron Johnson to a multi-year contract.'),
+	 ('2023-07-06','The Brooklyn Nets traded cash, Joe Harris, a 2027 2nd round draft pick ( was later selected) and a 2029 2nd round draft pick ( was later selected) to the Detroit Pistons.  2027 2nd-rd pick is DAL own 2029 2nd-rd pick is MIL own '),
+	 ('2023-07-06','The Brooklyn Nets traded Patty Mills and a 2028 2nd round draft pick ( was later selected) to the Houston Rockets for a 2024 2nd round draft pick ( was later selected).  2028 2nd-rd pick is MIL own 2024 2nd-rd pick is BRK own');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-06','The Charlotte Hornets signed LaMelo Ball to a contract extension.'),
+	 ('2023-07-06','The Chicago Bulls waived Marko Simonovic.'),
+	 ('2023-07-06','The Cleveland Cavaliers signed Caris Levert to a multi-year contract.'),
+	 ('2023-07-06','The Cleveland Cavaliers signed Ty Jerome to a multi-year contract.'),
+	 ('2023-07-06','The Dallas Mavericks traded cash to the Sacramento Kings for Richaun Holmes and Olivier-Maxence Prosper.   '),
+	 ('2023-07-06','The Dallas Mavericks traded Davis Bertans and Cason Wallace to the Oklahoma City Thunder for Dereck Lively II.   '),
+	 ('2023-07-06','The Denver Nuggets signed Hunter Tyson to a multi-year contract.'),
+	 ('2023-07-06','The Denver Nuggets signed Jalen Pickett to a multi-year contract.'),
+	 ('2023-07-06','The Denver Nuggets signed Julian Strawther to a multi-year contract.'),
+	 ('2023-07-06','The Denver Nuggets signed Justin Holiday.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-06','The Detroit Pistons traded a 2027 2nd round draft pick ( was later selected) to the Washington Wizards for Monte Morris.  2027 2nd-rd pick is more favorable'),
+	 ('2023-07-06','The Golden State Warriors signed Cory Joseph.'),
+	 ('2023-07-06','The Golden State Warriors signed Trayce Jackson-Davis to a multi-year contract.'),
+	 ('2023-07-06','The Golden State Warriors traded Patrick Baldwin Jr., Jordan Poole, Ryan Rollins, a 2027 2nd round draft pick ( was later selected) and a 2030 1st round draft pick ( was later selected) to the Washington Wizards for Chris Paul.     2027 2nd-rd pick is GSW own 2030 1st-rd pick is GSW own'),
+	 ('2023-07-06','The Houston Rockets signed Jeff Green to a multi-year contract.'),
+	 ('2023-07-06','The Houston Rockets signed Jock Landale to a multi-year contract.'),
+	 ('2023-07-06','The Indiana Pacers signed Bruce Brown to a multi-year contract.'),
+	 ('2023-07-06','The Indiana Pacers signed Tyrese Haliburton to a contract extension.'),
+	 ('2023-07-06','The Indiana Pacers traded Chris Duarte to the Sacramento Kings for a 2028 2nd round draft pick ( was later selected) and a 2030 2nd round draft pick ( was later selected).  2028 2nd-rd pick is DAL own 2030 2nd-rd pick is SAC own'),
+	 ('2023-07-06','The Los Angeles Clippers signed Mason Plumlee.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-06','The Los Angeles Clippers signed Russell Westbrook to a multi-year contract.'),
+	 ('2023-07-06','The Los Angeles Lakers signed Cam Reddish to a multi-year contract.'),
+	 ('2023-07-06','The Los Angeles Lakers signed Gabe Vincent to a multi-year contract.'),
+	 ('2023-07-06','The Los Angeles Lakers signed Rui Hachimura to a multi-year contract.'),
+	 ('2023-07-06','The Los Angeles Lakers signed Taurean Prince.'),
+	 ('2023-07-06','The Miami Heat signed Kevin Love to a multi-year contract.'),
+	 ('2023-07-06','The Miami Heat signed Max Strus to a multi-year contract.'),
+	 ('2023-07-06','The Miami Heat traded Victor Oladipo, a 2029 2nd round draft pick ( was later selected) and a 2030 2nd round draft pick ( was later selected) to the Oklahoma City Thunder for cash.  2029 2nd-rd pick is MIA own 2030 2nd-rd pick is MIA own '),
+	 ('2023-07-06','The Milwaukee Bucks signed Khris Middleton to a multi-year contract.'),
+	 ('2023-07-06','The Milwaukee Bucks signed Robin Lopez.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-06','The New Orleans Pelicans signed Cody Zeller to a multi-year contract.'),
+	 ('2023-07-06','The New Orleans Pelicans signed E.J. Liddell to a multi-year contract.'),
+	 ('2023-07-06','The New Orleans Pelicans signed Herb Jones to a multi-year contract.'),
+	 ('2023-07-06','The New Orleans Pelicans waived E.J. Liddell.'),
+	 ('2023-07-06','The New York Knicks signed Jacob Toppin.'),
+	 ('2023-07-06','The Phoenix Suns signed Eric Gordon to a multi-year contract.'),
+	 ('2023-07-06','The Portland Trail Blazers signed John Butler to a two-way contract.'),
+	 ('2023-07-06','The Sacramento Kings signed Domantas Sabonis to a contract extension.'),
+	 ('2023-07-06','The Toronto Raptors signed Jakob Poeltl to a multi-year contract.'),
+	 ('2023-07-06','The Toronto Raptors signed Jalen McDaniels to a multi-year contract.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-07','The Atlanta Hawks traded John Collins to the Utah Jazz for Rudy Gay and a 2026 2nd round draft pick ( was later selected).   2026 2nd-rd pick is MEM own'),
+	 ('2023-07-07','The Chicago Bulls signed Coby White to a multi-year contract.'),
+	 ('2023-07-07','The Cleveland Cavaliers signed Emoni Bates to a two-way contract.'),
+	 ('2023-07-07','The Dallas Mavericks signed Kyrie Irving to a multi-year contract.'),
+	 ('2023-07-07','The Houston Rockets signed Fred VanVleet to a multi-year contract.'),
+	 ('2023-07-07','The Indiana Pacers traded a 2028 2nd round draft pick ( was later selected) and a 2029 2nd round draft pick ( was later selected) to the New York Knicks for Obi Toppin.  2028 2nd-rd pick is least favorable 2029 2nd-rd pick is least favorable'),
+	 ('2023-07-07','The Los Angeles Lakers signed D''Angelo Russell to a multi-year contract.'),
+	 ('2023-07-07','The Milwaukee Bucks signed A.J. Green to a multi-year contract.'),
+	 ('2023-07-07','The Milwaukee Bucks signed Andre Jackson Jr. to a multi-year contract.'),
+	 ('2023-07-07','The Minnesota Timberwolves signed Jaylen Clark to a two-way contract.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-07','The Oklahoma City Thunder signed Cason Wallace to a multi-year contract.'),
+	 ('2023-07-07','The Oklahoma City Thunder signed Keyontae Johnson to a two-way contract.'),
+	 ('2023-07-07','The Orlando Magic signed Joe Ingles to a multi-year contract.'),
+	 ('2023-07-07','The Phoenix Suns signed Damion Lee to a multi-year contract.'),
+	 ('2023-07-07','The Portland Trail Blazers signed Matisse Thybulle to a multi-year contract.'),
+	 ('2023-07-07','The Sacramento Kings signed Trey Lyles to a multi-year contract.'),
+	 ('2023-07-07','The Utah Jazz signed Jordan Clarkson to a contract extension.'),
+	 ('2023-07-07','The Utah Jazz waived Vernon Carey Jr..'),
+	 ('2023-07-07','The Washington Wizards signed Kyle Kuzma to a multi-year contract.'),
+	 ('2023-07-08','In a 5-team trade, the Atlanta Hawks traded Alpha Kaba to the Houston Rockets; the Houston Rockets traded Usman Garuba, TyTy Washington Jr., a 2025 2nd round draft pick ( was later selected) and a 2028 2nd round draft pick ( was later selected) to the Atlanta Hawks; the Houston Rockets traded Kenyon Martin to the Los Angeles Clippers; the Houston Rockets traded Josh Christopher to the Memphis Grizzlies; the Houston Rockets traded Patty Mills, a 2024 2nd round draft pick ( was later selected), a 2029 2nd round draft pick ( was later selected) and a 2030 2nd round draft pick ( was later selected) to the Oklahoma City Thunder; the Los Angeles Clippers traded a 2026 2nd round draft pick ( was later selected) and a 2027 2nd round draft pick ( was later selected) to the Houston Rockets; the Los Angeles Clippers traded Vanja Marinkovic to the Memphis Grizzlies; the Memphis Grizzlies traded Dillon Brooks to the Houston Rockets; and  the Oklahoma City Thunder traded cash to the Atlanta Hawks.          2027 2nd-rd pick is MEM own 2024 2nd-rd pick is HOU own 2025 2nd-rd pick is MIN own 2026 2nd-rd pick is LAC own 2028 2nd-rd pick is HOU own 2029 2nd-rd pick is HOU own 2030 2nd-rd pick is HOU own');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-08','The Brooklyn Nets signed Dennis Smith.'),
+	 ('2023-07-08','The Cleveland Cavaliers traded cash to the Utah Jazz for Damian Jones.  '),
+	 ('2023-07-08','The Dallas Mavericks signed Dereck Lively II to a multi-year contract.'),
+	 ('2023-07-08','The Golden State Warriors signed Draymond Green to a multi-year contract.'),
+	 ('2023-07-08','The Los Angeles Lakers signed Jalen Hood-Schifino to a multi-year contract.'),
+	 ('2023-07-08','The Los Angeles Lakers signed Maxwell Lewis to a multi-year contract.'),
+	 ('2023-07-08','The Memphis Grizzlies signed Desmond Bane to a contract extension.'),
+	 ('2023-07-08','The Memphis Grizzlies signed Dillon Brooks to a multi-year contract.'),
+	 ('2023-07-08','The Milwaukee Bucks signed Chris Livingston to a multi-year contract.'),
+	 ('2023-07-08','The Milwaukee Bucks signed Jae Crowder.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-08','The Minnesota Timberwolves signed Anthony Edwards to a contract extension.'),
+	 ('2023-07-08','The Minnesota Timberwolves signed Leonard Miller to a multi-year contract.'),
+	 ('2023-07-08','The Minnesota Timberwolves signed Shake Milton to a multi-year contract.'),
+	 ('2023-07-08','The Minnesota Timberwolves signed Troy Brown Jr. to a multi-year contract.'),
+	 ('2023-07-08','The New York Knicks signed Donte DiVincenzo to a multi-year contract.'),
+	 ('2023-07-08','The Sacramento Kings waived P.J. Dozier.'),
+	 ('2023-07-09','The Atlanta Hawks signed Dejounte Murray to a contract extension.'),
+	 ('2023-07-09','The Boston Celtics signed JD Davison to a two-way contract.'),
+	 ('2023-07-09','The Dallas Mavericks signed Dwight Powell to a multi-year contract.'),
+	 ('2023-07-09','The Philadelphia 76ers signed Mo Bamba.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-09','The Philadelphia 76ers signed Pat Beverley.'),
+	 ('2023-07-09','The Portland Trail Blazers signed Jerami Grant to a multi-year contract.'),
+	 ('2023-07-09','The Sacramento Kings signed Alex Len.'),
+	 ('2023-07-10','The Brooklyn Nets signed Dariq Whitehead to a multi-year contract.'),
+	 ('2023-07-10','The Brooklyn Nets signed Lonnie Walker.'),
+	 ('2023-07-10','The Chicago Bulls signed Adama Sanogo to a two-way contract.'),
+	 ('2023-07-10','The Chicago Bulls signed Jevon Carter to a multi-year contract.'),
+	 ('2023-07-10','The Houston Rockets signed Aaron Holiday.'),
+	 ('2023-07-10','The Philadelphia 76ers signed Paul Reed to a multi-year contract.'),
+	 ('2023-07-11','The Boston Celtics signed Grant Williams to a multi-year contract.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-11','The Brooklyn Nets signed Noah Clowney to a multi-year contract.'),
+	 ('2023-07-11','The Detroit Pistons signed Isaiah Stewart to a contract extension.'),
+	 ('2023-07-11','The Memphis Grizzlies traded a 2028 2nd round draft pick ( was later selected) and a 2029 2nd round draft pick ( was later selected) to the Phoenix Suns for Isaiah Todd, a 2024 1st round draft pick ( was later selected) and a 2030 1st round draft pick ( was later selected).  2024 1st-rd pick is a right to swap 2030 1st-rd pick is a right to swap 2028 2nd-rd pick is MEM own 2029 2nd-rd pick is MEM own'),
+	 ('2023-07-11','The Orlando Magic signed Moritz Wagner to a multi-year contract.'),
+	 ('2023-07-11','The Phoenix Suns signed Josh Okogie to a multi-year contract.'),
+	 ('2023-07-12','In a 3-team trade, the Boston Celtics traded Grant Williams to the Dallas Mavericks; the Dallas Mavericks traded a 2025 2nd round draft pick ( was later selected) and a 2030 2nd round draft pick ( was later selected) to the Boston Celtics; the Dallas Mavericks traded Reggie Bullock and a 2030 1st round draft pick ( was later selected) to the San Antonio Spurs; the San Antonio Spurs traded a 2024 2nd round draft pick ( was later selected) to the Boston Celtics; and  the San Antonio Spurs traded a 2025 2nd round draft pick ( was later selected) and a 2028 2nd round draft pick ( was later selected) to the Dallas Mavericks.  2030 1st-rd pick is a right to swap  2025 2nd-rd pick is TOR own 2028 2nd-rd pick is MIA own 2024 2nd-rd pick is more favorable 2025 2nd-rd pick is a right to swap 2030 2nd-rd pick is DAL own'),
+	 ('2023-07-12','The Atlanta Hawks traded Usman Garuba, Rudy Gay, Ty Ty Washington and a 2026 2nd round draft pick ( was later selected) to the Oklahoma City Thunder for Patty Mills.     2026 2nd-rd pick is MEM own'),
+	 ('2023-07-12','The Boston Celtics signed Kristaps Porzingis to a contract extension.'),
+	 ('2023-07-12','The Chicago Bulls signed Julian Phillips to a multi-year contract.'),
+	 ('2023-07-12','The Golden State Warriors signed Dario Saric.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-12','The Toronto Raptors signed Dennis Schroder to a multi-year contract.'),
+	 ('2023-07-12','The Washington Wizards signed Eugene Omoruyi to a two-way contract.'),
+	 ('2023-07-13','The Phoenix Suns signed Saben Lee to a two-way contract.'),
+	 ('2023-07-13','The Sacramento Kings signed Sasha Vezenkov to a multi-year contract.'),
+	 ('2023-07-14','The Charlotte Hornets signed Amari Bailey to a two-way contract.'),
+	 ('2023-07-14','The Dallas Mavericks signed Dante Exum to a multi-year contract.'),
+	 ('2023-07-14','The Dallas Mavericks signed Mike Miles Jr. to a two-way contract.'),
+	 ('2023-07-14','The Dallas Mavericks signed Seth Curry to a multi-year contract.'),
+	 ('2023-07-14','The Los Angeles Clippers signed Moussa Diabate to a two-way contract.'),
+	 ('2023-07-15','The Boston Celtics signed Jay Scrubb to a two-way contract.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-15','The Brooklyn Nets waived Edmond Sumner.'),
+	 ('2023-07-15','The Chicago Bulls signed Torrey Craig to a multi-year contract.'),
+	 ('2023-07-15','The Milwaukee Bucks signed Jazian Gortman to an Exhibit 10 contract.'),
+	 ('2023-07-16','The Brooklyn Nets signed Darius Bazley.'),
+	 ('2023-07-16','The Dallas Mavericks signed Olivier-Maxence Prosper to a multi-year contract.'),
+	 ('2023-07-16','The Denver Nuggets signed Reggie Jackson to a multi-year contract.'),
+	 ('2023-07-16','The Philadelphia 76ers signed Azuolas Tubelis to a two-way contract.'),
+	 ('2023-07-16','The Philadelphia 76ers signed Filip Petrusev to a multi-year contract.'),
+	 ('2023-07-17','The Boston Celtics signed Dalano Banton to a multi-year contract.'),
+	 ('2023-07-17','The Denver Nuggets signed Andrew Funk to an Exhibit 10 contract.');
+INSERT INTO transactions ("date","transaction") VALUES
+	 ('2023-07-17','The Denver Nuggets signed Armaan Franklin to an Exhibit 10 contract.'),
+	 ('2023-07-17','The Denver Nuggets signed Collin Gillespie to a two-way contract.'),
+	 ('2023-07-17','The Oklahoma City Thunder signed Vasilije Micić to a multi-year contract.'),
+	 ('2023-07-17','The Philadelphia 76ers signed Montrezl Harrell.'),
+	 ('2023-07-17','The Phoenix Suns traded cash, Cameron Payne and a 2025 2nd round draft pick ( was later selected) to the San Antonio Spurs for a 2024 2nd round draft pick ( was later selected).  2025 2nd-rd pick is NOP own  2024 conditional 2nd-rd pick is SAS own'),
+	 ('2023-07-17','The San Antonio Spurs waived Lamar Stevens.'),
+	 ('2023-07-17','The Toronto Raptors waived Joe Wieskamp.'),
+	 ('2023-07-17','The Utah Jazz signed Omer Yurtseven to a multi-year contract.'),
+	 ('2023-07-18','The Brooklyn Nets signed Armoni Brooks to a two-way contract.'),
+	 ('2023-07-18','The Brooklyn Nets waived Raiquan Gray.');
 
 
 -- 2023-05-28 update: this table is made from dbt in prod.  for testing im just making a blank table to test 
@@ -1306,7 +2034,7 @@ CREATE TABLE IF NOT EXISTS mov
     team text COLLATE pg_catalog."default",
     full_team text COLLATE pg_catalog."default",
     game_id bigint,
-    date date,
+    game_date date,
     outcome text COLLATE pg_catalog."default",
     opponent text COLLATE pg_catalog."default",
     pts_scored numeric,
@@ -1315,7 +2043,7 @@ CREATE TABLE IF NOT EXISTS mov
     record text COLLATE pg_catalog."default"
 );
 
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('DEN','Denver Nuggets',1319,'2023-06-12','W','MIA',94,89,5,'53 - 29'),
 	 ('DEN','Denver Nuggets',1318,'2023-06-09','W','MIA',108,95,13,'53 - 29'),
 	 ('DEN','Denver Nuggets',1317,'2023-06-07','W','MIA',109,94,15,'53 - 29'),
@@ -1326,7 +2054,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('DEN','Denver Nuggets',1305,'2023-05-16','W','LAL',132,126,6,'53 - 29'),
 	 ('DEN','Denver Nuggets',1301,'2023-05-11','W','PHX',125,100,25,'53 - 29'),
 	 ('DEN','Denver Nuggets',1297,'2023-05-09','W','PHX',118,102,16,'53 - 29');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('DEN','Denver Nuggets',1293,'2023-05-07','L','PHX',124,129,-5,'53 - 29'),
 	 ('DEN','Denver Nuggets',1289,'2023-05-05','L','PHX',114,121,-7,'53 - 29'),
 	 ('DEN','Denver Nuggets',1283,'2023-05-01','W','PHX',97,87,10,'53 - 29'),
@@ -1337,7 +2065,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('DEN','Denver Nuggets',1250,'2023-04-19','W','MIN',122,113,9,'53 - 29'),
 	 ('DEN','Denver Nuggets',1241,'2023-04-16','W','MIN',109,80,29,'53 - 29'),
 	 ('DEN','Denver Nuggets',1221,'2023-04-09','W','SAC',109,95,14,'53 - 29');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('DEN','Denver Nuggets',1213,'2023-04-08','L','UTA',114,118,-4,'53 - 29'),
 	 ('DEN','Denver Nuggets',1198,'2023-04-06','L','PHX',115,119,-4,'53 - 29'),
 	 ('DEN','Denver Nuggets',1181,'2023-04-04','L','HOU',103,124,-21,'53 - 29'),
@@ -1348,7 +2076,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('DEN','Denver Nuggets',1109,'2023-03-25','W','MIL',129,106,23,'53 - 29'),
 	 ('DEN','Denver Nuggets',1086,'2023-03-22','W','WAS',118,104,14,'53 - 29'),
 	 ('DEN','Denver Nuggets',1064,'2023-03-19','W','BKN',108,102,6,'53 - 29');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('DEN','Denver Nuggets',1057,'2023-03-18','L','NYK',110,116,-6,'53 - 29'),
 	 ('DEN','Denver Nuggets',1043,'2023-03-16','W','DET',119,100,19,'53 - 29'),
 	 ('DEN','Denver Nuggets',1029,'2023-03-14','L','TOR',110,125,-15,'53 - 29'),
@@ -1359,7 +2087,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('DEN','Denver Nuggets',949,'2023-03-03','W','MEM',113,97,16,'53 - 29'),
 	 ('DEN','Denver Nuggets',926,'2023-02-28','W','HOU',133,112,21,'53 - 29'),
 	 ('DEN','Denver Nuggets',913,'2023-02-26','W','LAC',134,124,10,'53 - 29');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('DEN','Denver Nuggets',904,'2023-02-25','L','MEM',94,112,-18,'53 - 29'),
 	 ('DEN','Denver Nuggets',886,'2023-02-23','W','CLE',115,109,6,'53 - 29'),
 	 ('DEN','Denver Nuggets',878,'2023-02-15','W','DAL',118,109,9,'53 - 29'),
@@ -1370,7 +2098,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('DEN','Denver Nuggets',803,'2023-02-05','L','MIN',98,128,-30,'53 - 29'),
 	 ('DEN','Denver Nuggets',792,'2023-02-04','W','ATL',128,108,20,'53 - 29'),
 	 ('DEN','Denver Nuggets',780,'2023-02-02','W','GSW',134,117,17,'53 - 29');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('DEN','Denver Nuggets',767,'2023-01-31','W','NOP',122,113,9,'53 - 29'),
 	 ('DEN','Denver Nuggets',746,'2023-01-28','L','PHI',119,126,-7,'53 - 29'),
 	 ('DEN','Denver Nuggets',722,'2023-01-25','L','MIL',99,107,-8,'53 - 29'),
@@ -1381,7 +2109,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('DEN','Denver Nuggets',666,'2023-01-17','W','POR',122,113,9,'53 - 29'),
 	 ('DEN','Denver Nuggets',651,'2023-01-15','W','ORL',119,116,3,'53 - 29'),
 	 ('DEN','Denver Nuggets',634,'2023-01-13','W','LAC',115,103,12,'53 - 29');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('DEN','Denver Nuggets',621,'2023-01-11','W','PHX',126,97,29,'53 - 29'),
 	 ('DEN','Denver Nuggets',606,'2023-01-09','W','LAL',122,109,13,'53 - 29'),
 	 ('DEN','Denver Nuggets',584,'2023-01-06','W','CLE',121,108,13,'53 - 29'),
@@ -1392,7 +2120,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('DEN','Denver Nuggets',517,'2022-12-28','L','SAC',126,127,-1,'53 - 29'),
 	 ('DEN','Denver Nuggets',509,'2022-12-27','W','SAC',113,106,7,'53 - 29'),
 	 ('DEN','Denver Nuggets',495,'2022-12-25','W','PHX',128,125,3,'53 - 29');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('DEN','Denver Nuggets',486,'2022-12-23','W','POR',120,107,13,'53 - 29'),
 	 ('DEN','Denver Nuggets',462,'2022-12-20','W','MEM',105,91,14,'53 - 29'),
 	 ('DEN','Denver Nuggets',447,'2022-12-18','W','CHA',119,115,4,'53 - 29'),
@@ -1403,7 +2131,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('DEN','Denver Nuggets',361,'2022-12-06','L','DAL',115,116,-1,'53 - 29'),
 	 ('DEN','Denver Nuggets',347,'2022-12-04','L','NOP',106,121,-15,'53 - 29'),
 	 ('DEN','Denver Nuggets',326,'2022-12-02','L','ATL',109,117,-8,'53 - 29');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('DEN','Denver Nuggets',317,'2022-11-30','W','HOU',120,100,20,'53 - 29'),
 	 ('DEN','Denver Nuggets',304,'2022-11-28','W','HOU',129,113,16,'53 - 29'),
 	 ('DEN','Denver Nuggets',278,'2022-11-25','W','LAC',114,104,10,'53 - 29'),
@@ -1414,7 +2142,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('DEN','Denver Nuggets',216,'2022-11-16','L','NYK',103,106,-3,'53 - 29'),
 	 ('DEN','Denver Nuggets',193,'2022-11-13','W','CHI',126,103,23,'53 - 29'),
 	 ('DEN','Denver Nuggets',176,'2022-11-11','L','BOS',112,131,-19,'53 - 29');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('DEN','Denver Nuggets',166,'2022-11-09','W','IND',122,119,3,'53 - 29'),
 	 ('DEN','Denver Nuggets',150,'2022-11-07','W','SAS',115,109,6,'53 - 29'),
 	 ('DEN','Denver Nuggets',135,'2022-11-05','W','SAS',126,101,25,'53 - 29'),
@@ -1425,7 +2153,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('DEN','Denver Nuggets',46,'2022-10-24','L','POR',110,135,-25,'53 - 29'),
 	 ('DEN','Denver Nuggets',31,'2022-10-22','W','OKC',122,117,5,'53 - 29'),
 	 ('DEN','Denver Nuggets',22,'2022-10-21','W','GSW',128,123,5,'53 - 29');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('DEN','Denver Nuggets',9,'2022-10-19','L','UTA',102,123,-21,'53 - 29'),
 	 ('MIL','Milwaukee Bucks',1275,'2023-04-26','L','MIA',126,128,-2,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',1268,'2023-04-24','L','MIA',114,119,-5,'58 - 24'),
@@ -1436,7 +2164,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('MIL','Milwaukee Bucks',1210,'2023-04-07','L','MEM',114,137,-23,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',1192,'2023-04-05','W','CHI',105,92,13,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',1186,'2023-04-04','W','WAS',140,128,12,'58 - 24');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('MIL','Milwaukee Bucks',1171,'2023-04-02','W','PHI',117,104,13,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',1146,'2023-03-30','L','BOS',99,140,-41,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',1140,'2023-03-29','W','IND',149,136,13,'58 - 24'),
@@ -1447,7 +2175,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('MIL','Milwaukee Bucks',1069,'2023-03-19','W','TOR',118,111,7,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',1044,'2023-03-16','L','IND',123,139,-16,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',1032,'2023-03-14','W','PHX',116,104,12,'58 - 24');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('MIL','Milwaukee Bucks',1026,'2023-03-13','W','SAC',133,124,9,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',1009,'2023-03-11','L','GSW',116,125,-9,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',992,'2023-03-09','W','BKN',118,113,5,'58 - 24'),
@@ -1458,7 +2186,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('MIL','Milwaukee Bucks',923,'2023-02-28','W','BKN',118,104,14,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',916,'2023-02-26','W','PHX',104,101,3,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',899,'2023-02-24','W','MIA',128,99,29,'58 - 24');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('MIL','Milwaukee Bucks',882,'2023-02-16','W','CHI',112,100,12,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',867,'2023-02-14','W','BOS',131,125,6,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',840,'2023-02-10','W','LAC',119,106,13,'58 - 24'),
@@ -1469,7 +2197,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('MIL','Milwaukee Bucks',764,'2023-01-31','W','CHA',124,115,9,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',755,'2023-01-29','W','NOP',135,110,25,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',738,'2023-01-27','W','IND',141,131,10,'58 - 24');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('MIL','Milwaukee Bucks',722,'2023-01-25','W','DEN',107,99,8,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',709,'2023-01-23','W','DET',150,130,20,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',694,'2023-01-21','L','CLE',102,114,-12,'58 - 24'),
@@ -1480,7 +2208,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('MIL','Milwaukee Bucks',618,'2023-01-11','W','ATL',114,105,9,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',608,'2023-01-09','W','NYK',111,107,4,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',582,'2023-01-06','L','CHA',109,138,-29,'58 - 24');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('MIL','Milwaukee Bucks',572,'2023-01-04','W','TOR',104,101,3,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',562,'2023-01-03','W','WAS',123,113,10,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',549,'2023-01-01','L','WAS',95,118,-23,'58 - 24'),
@@ -1491,7 +2219,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('MIL','Milwaukee Bucks',470,'2022-12-21','L','CLE',106,114,-8,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',458,'2022-12-19','W','NOP',128,119,9,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',443,'2022-12-17','W','UTA',123,97,26,'58 - 24');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('MIL','Milwaukee Bucks',426,'2022-12-15','L','MEM',101,142,-41,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',410,'2022-12-13','W','GSW',128,111,17,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',398,'2022-12-11','L','HOU',92,97,-5,'58 - 24'),
@@ -1502,7 +2230,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('MIL','Milwaukee Bucks',334,'2022-12-02','L','LAL',129,133,-4,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',322,'2022-11-30','W','NYK',109,103,6,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',294,'2022-11-27','W','DAL',124,115,9,'58 - 24');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('MIL','Milwaukee Bucks',277,'2022-11-25','W','CLE',117,102,15,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',264,'2022-11-23','L','CHI',113,118,-5,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',254,'2022-11-21','W','POR',119,111,8,'58 - 24'),
@@ -1513,7 +2241,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('MIL','Milwaukee Bucks',170,'2022-11-09','W','OKC',136,132,4,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',144,'2022-11-07','L','ATL',98,117,-19,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',137,'2022-11-05','W','OKC',108,94,14,'58 - 24');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('MIL','Milwaukee Bucks',129,'2022-11-04','W','MIN',115,102,13,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',111,'2022-11-02','W','DET',116,91,25,'58 - 24'),
 	 ('MIL','Milwaukee Bucks',99,'2022-10-31','W','DET',110,108,2,'58 - 24'),
@@ -1524,7 +2252,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('MIL','Milwaukee Bucks',16,'2022-10-20','W','PHI',90,88,2,'58 - 24'),
 	 ('LAC','Los Angeles Clippers',1271,'2023-04-25','L','PHX',130,136,-6,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',1260,'2023-04-22','L','PHX',100,112,-12,'44 - 38');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('LAC','Los Angeles Clippers',1255,'2023-04-20','L','PHX',124,129,-5,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',1249,'2023-04-18','L','PHX',109,123,-14,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',1242,'2023-04-16','W','PHX',115,110,5,'44 - 38'),
@@ -1535,7 +2263,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('LAC','Los Angeles Clippers',1156,'2023-03-31','L','MEM',94,108,-14,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',1141,'2023-03-29','W','MEM',141,132,9,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',1122,'2023-03-27','W','CHI',124,112,12,'44 - 38');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('LAC','Los Angeles Clippers',1110,'2023-03-25','L','NOP',110,131,-21,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',1095,'2023-03-23','W','OKC',127,105,22,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',1080,'2023-03-21','L','OKC',100,101,-1,'44 - 38'),
@@ -1546,7 +2274,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('LAC','Los Angeles Clippers',990,'2023-03-08','W','TOR',108,100,8,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',967,'2023-03-05','W','MEM',135,129,6,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',951,'2023-03-03','L','SAC',127,128,-1,'44 - 38');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('LAC','Los Angeles Clippers',942,'2023-03-02','L','GSW',91,115,-24,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',928,'2023-02-28','L','MIN',101,108,-7,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',913,'2023-02-26','L','DEN',124,134,-10,'44 - 38'),
@@ -1557,7 +2285,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('LAC','Los Angeles Clippers',824,'2023-02-08','L','DAL',104,110,-6,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',807,'2023-02-06','W','BKN',124,116,8,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',798,'2023-02-04','W','NYK',134,128,6,'44 - 38');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('LAC','Los Angeles Clippers',782,'2023-02-02','L','MIL',105,106,-1,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',765,'2023-01-31','W','CHI',108,103,5,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',753,'2023-01-29','L','CLE',99,122,-23,'44 - 38'),
@@ -1568,7 +2296,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('LAC','Los Angeles Clippers',688,'2023-01-20','W','SAS',131,126,5,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',674,'2023-01-18','L','UTA',103,126,-23,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',667,'2023-01-17','L','PHI',110,120,-10,'44 - 38');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('LAC','Los Angeles Clippers',653,'2023-01-15','W','HOU',121,100,21,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',634,'2023-01-13','L','DEN',103,115,-12,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',613,'2023-01-10','W','DAL',113,101,12,'44 - 38'),
@@ -1579,7 +2307,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('LAC','Los Angeles Clippers',543,'2022-12-31','L','IND',130,131,-1,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',523,'2022-12-29','L','BOS',110,116,-6,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',510,'2022-12-27','W','TOR',124,113,11,'44 - 38');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('LAC','Los Angeles Clippers',501,'2022-12-26','W','DET',142,131,11,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',488,'2022-12-23','L','PHI',114,119,-5,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',469,'2022-12-21','W','CHA',126,105,21,'44 - 38'),
@@ -1590,7 +2318,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('LAC','Los Angeles Clippers',392,'2022-12-10','W','WAS',114,107,7,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',376,'2022-12-08','L','MIA',110,115,-5,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',370,'2022-12-07','L','ORL',111,116,-5,'44 - 38');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('LAC','Los Angeles Clippers',354,'2022-12-05','W','CHA',119,117,2,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',340,'2022-12-03','L','SAC',96,123,-27,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',319,'2022-11-30','L','UTA',112,125,-13,'44 - 38'),
@@ -1601,7 +2329,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('LAC','Los Angeles Clippers',252,'2022-11-21','W','UTA',121,114,7,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',237,'2022-11-19','W','SAS',119,97,22,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',222,'2022-11-17','W','DET',96,91,5,'44 - 38');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('LAC','Los Angeles Clippers',207,'2022-11-15','L','DAL',101,103,-2,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',204,'2022-11-14','W','HOU',122,106,16,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',185,'2022-11-12','L','BKN',95,110,-15,'44 - 38'),
@@ -1612,7 +2340,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('LAC','Los Angeles Clippers',112,'2022-11-02','W','HOU',109,101,8,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',100,'2022-10-31','W','HOU',95,93,2,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',94,'2022-10-30','L','NOP',91,112,-21,'44 - 38');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('LAC','Los Angeles Clippers',68,'2022-10-27','L','OKC',110,118,-8,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',55,'2022-10-25','L','OKC',94,108,-14,'44 - 38'),
 	 ('LAC','Los Angeles Clippers',40,'2022-10-23','L','PHX',95,112,-17,'44 - 38'),
@@ -1623,7 +2351,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('CHA','Charlotte Hornets',1179,'2023-04-04','L','TOR',100,120,-20,'27 - 55'),
 	 ('CHA','Charlotte Hornets',1165,'2023-04-02','L','TOR',108,128,-20,'27 - 55'),
 	 ('CHA','Charlotte Hornets',1150,'2023-03-31','L','CHI',91,121,-30,'27 - 55');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('CHA','Charlotte Hornets',1132,'2023-03-28','W','OKC',137,134,3,'27 - 55'),
 	 ('CHA','Charlotte Hornets',1116,'2023-03-26','W','DAL',110,104,6,'27 - 55'),
 	 ('CHA','Charlotte Hornets',1098,'2023-03-24','W','DAL',117,109,8,'27 - 55'),
@@ -1634,7 +2362,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('CHA','Charlotte Hornets',1015,'2023-03-12','L','CLE',108,114,-6,'27 - 55'),
 	 ('CHA','Charlotte Hornets',1005,'2023-03-11','L','UTA',111,119,-8,'27 - 55'),
 	 ('CHA','Charlotte Hornets',993,'2023-03-09','W','DET',113,103,10,'27 - 55');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('CHA','Charlotte Hornets',978,'2023-03-07','W','NYK',112,105,7,'27 - 55'),
 	 ('CHA','Charlotte Hornets',961,'2023-03-05','L','BKN',86,102,-16,'27 - 55'),
 	 ('CHA','Charlotte Hornets',947,'2023-03-03','L','ORL',106,117,-11,'27 - 55'),
@@ -1645,7 +2373,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('CHA','Charlotte Hornets',875,'2023-02-15','W','SAS',120,110,10,'27 - 55'),
 	 ('CHA','Charlotte Hornets',856,'2023-02-13','W','ATL',144,138,6,'27 - 55'),
 	 ('CHA','Charlotte Hornets',847,'2023-02-11','L','DEN',105,119,-14,'27 - 55');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('CHA','Charlotte Hornets',834,'2023-02-10','L','BOS',116,127,-11,'27 - 55'),
 	 ('CHA','Charlotte Hornets',822,'2023-02-08','L','WAS',104,118,-14,'27 - 55'),
 	 ('CHA','Charlotte Hornets',801,'2023-02-05','L','ORL',113,119,-6,'27 - 55'),
@@ -1656,7 +2384,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('CHA','Charlotte Hornets',732,'2023-01-26','W','CHI',111,96,15,'27 - 55'),
 	 ('CHA','Charlotte Hornets',714,'2023-01-24','L','PHX',97,128,-31,'27 - 55'),
 	 ('CHA','Charlotte Hornets',708,'2023-01-23','L','UTA',102,120,-18,'27 - 55');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('CHA','Charlotte Hornets',692,'2023-01-21','W','ATL',122,118,4,'27 - 55'),
 	 ('CHA','Charlotte Hornets',670,'2023-01-18','W','HOU',122,117,5,'27 - 55'),
 	 ('CHA','Charlotte Hornets',657,'2023-01-16','L','BOS',118,130,-12,'27 - 55'),
@@ -1667,7 +2395,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('CHA','Charlotte Hornets',582,'2023-01-06','W','MIL',138,109,29,'27 - 55'),
 	 ('CHA','Charlotte Hornets',566,'2023-01-04','L','MEM',107,131,-24,'27 - 55'),
 	 ('CHA','Charlotte Hornets',552,'2023-01-02','L','LAL',115,121,-6,'27 - 55');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('CHA','Charlotte Hornets',538,'2022-12-31','L','BKN',106,123,-17,'27 - 55'),
 	 ('CHA','Charlotte Hornets',524,'2022-12-29','W','OKC',121,113,8,'27 - 55'),
 	 ('CHA','Charlotte Hornets',507,'2022-12-27','L','GSW',105,110,-5,'27 - 55'),
@@ -1678,7 +2406,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('CHA','Charlotte Hornets',447,'2022-12-18','L','DEN',115,119,-4,'27 - 55'),
 	 ('CHA','Charlotte Hornets',428,'2022-12-16','L','ATL',106,125,-19,'27 - 55'),
 	 ('CHA','Charlotte Hornets',415,'2022-12-14','L','DET',134,141,-7,'27 - 55');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('CHA','Charlotte Hornets',396,'2022-12-11','L','PHI',113,131,-18,'27 - 55'),
 	 ('CHA','Charlotte Hornets',378,'2022-12-09','L','NYK',102,121,-19,'27 - 55'),
 	 ('CHA','Charlotte Hornets',364,'2022-12-07','L','BKN',116,122,-6,'27 - 55'),
@@ -1689,7 +2417,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('CHA','Charlotte Hornets',275,'2022-11-25','W','MIN',110,108,2,'27 - 55'),
 	 ('CHA','Charlotte Hornets',263,'2022-11-23','W','PHI',107,101,6,'27 - 55'),
 	 ('CHA','Charlotte Hornets',241,'2022-11-20','L','WAS',102,106,-4,'27 - 55');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('CHA','Charlotte Hornets',225,'2022-11-18','L','CLE',122,132,-10,'27 - 55'),
 	 ('CHA','Charlotte Hornets',212,'2022-11-16','L','IND',113,125,-12,'27 - 55'),
 	 ('CHA','Charlotte Hornets',201,'2022-11-14','W','ORL',112,105,7,'27 - 55'),
@@ -1700,7 +2428,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('CHA','Charlotte Hornets',133,'2022-11-05','L','BKN',94,98,-4,'27 - 55'),
 	 ('CHA','Charlotte Hornets',122,'2022-11-04','L','MEM',99,130,-31,'27 - 55'),
 	 ('CHA','Charlotte Hornets',109,'2022-11-02','L','CHI',88,106,-18,'27 - 55');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('CHA','Charlotte Hornets',98,'2022-10-31','L','SAC',108,115,-7,'27 - 55'),
 	 ('CHA','Charlotte Hornets',83,'2022-10-29','W','GSW',120,113,7,'27 - 55'),
 	 ('CHA','Charlotte Hornets',72,'2022-10-28','L','ORL',93,113,-20,'27 - 55'),
@@ -1711,7 +2439,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('NOP','New Orleans Pelicans',1234,'2023-04-12','L','OKC',118,123,-5,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',1230,'2023-04-09','L','MIN',108,113,-5,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',1212,'2023-04-07','W','NYK',113,105,8,'42 - 40');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('NOP','New Orleans Pelicans',1196,'2023-04-05','W','MEM',138,131,7,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',1187,'2023-04-04','L','SAC',103,121,-18,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',1162,'2023-04-01','W','LAC',122,114,8,'42 - 40'),
@@ -1722,7 +2450,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('NOP','New Orleans Pelicans',1094,'2023-03-23','W','CHA',115,96,19,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',1081,'2023-03-21','W','SAS',119,84,35,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',1066,'2023-03-19','W','HOU',117,107,10,'42 - 40');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('NOP','New Orleans Pelicans',1053,'2023-03-17','L','HOU',112,114,-2,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',1031,'2023-03-14','L','LAL',108,123,-15,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',1017,'2023-03-12','W','POR',127,110,17,'42 - 40'),
@@ -1733,7 +2461,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('NOP','New Orleans Pelicans',940,'2023-03-01','W','POR',121,110,11,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',921,'2023-02-27','L','ORL',93,101,-8,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',907,'2023-02-25','L','NYK',106,128,-22,'42 - 40');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('NOP','New Orleans Pelicans',891,'2023-02-23','L','TOR',110,115,-5,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',880,'2023-02-15','L','LAL',102,120,-18,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',866,'2023-02-13','W','OKC',103,100,3,'42 - 40'),
@@ -1744,7 +2472,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('NOP','New Orleans Pelicans',779,'2023-02-02','L','DAL',106,111,-5,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',767,'2023-01-31','L','DEN',113,122,-9,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',755,'2023-01-29','L','MIL',110,135,-25,'42 - 40');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('NOP','New Orleans Pelicans',749,'2023-01-28','L','WAS',103,113,-10,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',727,'2023-01-25','L','MIN',102,111,-9,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',718,'2023-01-24','L','DEN',98,99,-1,'42 - 40'),
@@ -1755,7 +2483,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('NOP','New Orleans Pelicans',635,'2023-01-13','W','DET',116,110,6,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',619,'2023-01-11','L','BOS',114,125,-11,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',609,'2023-01-09','W','WAS',132,112,20,'42 - 40');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('NOP','New Orleans Pelicans',593,'2023-01-07','L','DAL',117,127,-10,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',581,'2023-01-06','L','BKN',102,108,-6,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',569,'2023-01-04','W','HOU',119,108,11,'42 - 40'),
@@ -1766,7 +2494,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('NOP','New Orleans Pelicans',502,'2022-12-26','W','IND',113,93,20,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',490,'2022-12-23','W','OKC',128,125,3,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',477,'2022-12-22','W','SAS',126,117,9,'42 - 40');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('NOP','New Orleans Pelicans',458,'2022-12-19','L','MIL',119,128,-9,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',444,'2022-12-17','L','PHX',114,118,-4,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',427,'2022-12-15','L','UTA',129,132,-3,'42 - 40'),
@@ -1777,7 +2505,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('NOP','New Orleans Pelicans',347,'2022-12-04','W','DEN',121,106,15,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',336,'2022-12-02','W','SAS',117,99,18,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',323,'2022-11-30','W','TOR',126,108,18,'42 - 40');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('NOP','New Orleans Pelicans',307,'2022-11-28','W','OKC',105,101,4,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',282,'2022-11-25','L','MEM',111,132,-21,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',271,'2022-11-23','W','SAS',129,110,19,'42 - 40'),
@@ -1788,7 +2516,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('NOP','New Orleans Pelicans',189,'2022-11-12','W','HOU',119,106,13,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',175,'2022-11-10','L','POR',95,106,-11,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',163,'2022-11-09','W','CHI',115,111,4,'42 - 40');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('NOP','New Orleans Pelicans',154,'2022-11-07','L','IND',122,129,-7,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',132,'2022-11-05','L','ATL',121,124,-3,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',125,'2022-11-04','W','GSW',114,105,9,'42 - 40'),
@@ -1799,7 +2527,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('NOP','New Orleans Pelicans',43,'2022-10-23','L','UTA',121,122,-1,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',20,'2022-10-21','W','CHA',124,112,12,'42 - 40'),
 	 ('NOP','New Orleans Pelicans',4,'2022-10-19','W','BKN',130,108,22,'42 - 40');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('SAS','San Antonio Spurs',1220,'2023-04-09','W','DAL',138,117,21,'22 - 60'),
 	 ('SAS','San Antonio Spurs',1215,'2023-04-08','L','MIN',131,151,-20,'22 - 60'),
 	 ('SAS','San Antonio Spurs',1201,'2023-04-06','W','POR',129,127,2,'22 - 60'),
@@ -1810,7 +2538,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('SAS','San Antonio Spurs',1115,'2023-03-26','L','BOS',93,137,-44,'22 - 60'),
 	 ('SAS','San Antonio Spurs',1106,'2023-03-24','L','WAS',124,136,-12,'22 - 60'),
 	 ('SAS','San Antonio Spurs',1091,'2023-03-22','L','MIL',94,130,-36,'22 - 60');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('SAS','San Antonio Spurs',1081,'2023-03-21','L','NOP',84,119,-35,'22 - 60'),
 	 ('SAS','San Antonio Spurs',1063,'2023-03-19','W','ATL',126,118,8,'22 - 60'),
 	 ('SAS','San Antonio Spurs',1054,'2023-03-17','L','MEM',120,126,-6,'22 - 60'),
@@ -1821,7 +2549,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('SAS','San Antonio Spurs',966,'2023-03-05','L','HOU',110,142,-32,'22 - 60'),
 	 ('SAS','San Antonio Spurs',957,'2023-03-04','L','HOU',110,122,-12,'22 - 60'),
 	 ('SAS','San Antonio Spurs',943,'2023-03-02','W','IND',110,99,11,'22 - 60');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('SAS','San Antonio Spurs',931,'2023-02-28','W','UTA',102,94,8,'22 - 60'),
 	 ('SAS','San Antonio Spurs',908,'2023-02-25','L','UTA',102,118,-16,'22 - 60'),
 	 ('SAS','San Antonio Spurs',887,'2023-02-23','L','DAL',116,142,-26,'22 - 60'),
@@ -1832,7 +2560,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('SAS','San Antonio Spurs',829,'2023-02-08','L','TOR',98,112,-14,'22 - 60'),
 	 ('SAS','San Antonio Spurs',809,'2023-02-06','L','CHI',104,128,-24,'22 - 60'),
 	 ('SAS','San Antonio Spurs',790,'2023-02-03','L','PHI',125,137,-12,'22 - 60');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('SAS','San Antonio Spurs',775,'2023-02-01','L','SAC',109,119,-10,'22 - 60'),
 	 ('SAS','San Antonio Spurs',763,'2023-01-30','L','WAS',106,127,-21,'22 - 60'),
 	 ('SAS','San Antonio Spurs',750,'2023-01-28','L','PHX',118,128,-10,'22 - 60'),
@@ -1843,7 +2571,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('SAS','San Antonio Spurs',665,'2023-01-17','W','BKN',106,98,8,'22 - 60'),
 	 ('SAS','San Antonio Spurs',655,'2023-01-15','L','SAC',119,132,-13,'22 - 60'),
 	 ('SAS','San Antonio Spurs',636,'2023-01-13','L','GSW',113,144,-31,'22 - 60');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('SAS','San Antonio Spurs',625,'2023-01-11','L','MEM',129,135,-6,'22 - 60'),
 	 ('SAS','San Antonio Spurs',607,'2023-01-09','L','MEM',113,121,-8,'22 - 60'),
 	 ('SAS','San Antonio Spurs',591,'2023-01-07','L','BOS',116,121,-5,'22 - 60'),
@@ -1854,7 +2582,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('SAS','San Antonio Spurs',528,'2022-12-29','W','NYK',122,115,7,'22 - 60'),
 	 ('SAS','San Antonio Spurs',513,'2022-12-27','L','OKC',114,130,-16,'22 - 60'),
 	 ('SAS','San Antonio Spurs',504,'2022-12-26','W','UTA',126,122,4,'22 - 60');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('SAS','San Antonio Spurs',491,'2022-12-23','L','ORL',113,133,-20,'22 - 60'),
 	 ('SAS','San Antonio Spurs',477,'2022-12-22','L','NOP',117,126,-9,'22 - 60'),
 	 ('SAS','San Antonio Spurs',456,'2022-12-19','W','HOU',124,105,19,'22 - 60'),
@@ -1865,7 +2593,7 @@ INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_s
 	 ('SAS','San Antonio Spurs',375,'2022-12-08','W','HOU',118,109,9,'22 - 60'),
 	 ('SAS','San Antonio Spurs',351,'2022-12-04','L','PHX',95,133,-38,'22 - 60'),
 	 ('SAS','San Antonio Spurs',336,'2022-12-02','L','NOP',99,117,-18,'22 - 60');
-INSERT INTO mov (team,full_team,game_id,"date",outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
+INSERT INTO mov (team,full_team,game_id,game_date,outcome,opponent,pts_scored,pts_scored_opp,mov,record) VALUES
 	 ('SAS','San Antonio Spurs',324,'2022-11-30','L','OKC',111,119,-8,'22 - 60'),
 	 ('SAS','San Antonio Spurs',288,'2022-11-26','L','LAL',138,143,-5,'22 - 60'),
 	 ('SAS','San Antonio Spurs',281,'2022-11-25','L','LAL',94,105,-11,'22 - 60'),
@@ -2002,10 +2730,10 @@ CREATE TABLE IF NOT EXISTS recent_games_players (
 	game_ts_percent numeric NULL,
 	pts_color text NULL,
 	ts_color text NULL,
-	plusminus text NULL
+	plus_minus text NULL
 );
 
-INSERT INTO recent_games_players (player,player_new,player_logo,outcome,team,salary,pts,game_ts_percent,pts_color,ts_color,plusminus) VALUES
+INSERT INTO recent_games_players (player,player_new,player_logo,outcome,team,salary,pts,game_ts_percent,pts_color,ts_color,plus_minus) VALUES
 	 ('Nikola Jokic','<span style=''font-size:16px; color:royalblue;''>Nikola Jokic</span> <span style=''font-size:12px; color:grey;''>DEN</span>','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203999.png','W','DEN',47607350,28,0.769,'0','0','+12'),
 	 ('Jimmy Butler','<span style=''font-size:16px; color:royalblue;''>Jimmy Butler</span> <span style=''font-size:12px; color:grey;''>MIA</span>','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/202710.png','L','MIA',45183960,21,0.460,'0','0','-3'),
 	 ('Bam Adebayo','<span style=''font-size:16px; color:royalblue;''>Bam Adebayo</span> <span style=''font-size:12px; color:grey;''>MIA</span>','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628389.png','L','MIA',32600060,20,0.479,'0','0','-3'),
@@ -2016,7 +2744,7 @@ INSERT INTO recent_games_players (player,player_new,player_logo,outcome,team,sal
 	 ('Kentavious Caldwell-Pope','<span style=''font-size:16px; color:royalblue;''>Kentavious Caldwell-Pope</span> <span style=''font-size:12px; color:grey;''>DEN</span>','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203484.png','W','DEN',14704938,11,0.506,'0','0','+7'),
 	 ('Bruce Brown','<span style=''font-size:16px; color:royalblue;''>Bruce Brown</span> <span style=''font-size:12px; color:grey;''>DEN</span>','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628971.png','W','DEN',22000000,10,0.317,'0','0','0'),
 	 ('Caleb Martin','<span style=''font-size:16px; color:royalblue;''>Caleb Martin</span> <span style=''font-size:12px; color:grey;''>MIA</span>','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628997.png','L','MIA',6802950,10,0.506,'0','0','+13');
-INSERT INTO recent_games_players (player,player_new,player_logo,outcome,team,salary,pts,game_ts_percent,pts_color,ts_color,plusminus) VALUES
+INSERT INTO recent_games_players (player,player_new,player_logo,outcome,team,salary,pts,game_ts_percent,pts_color,ts_color,plus_minus) VALUES
 	 ('Christian Braun','<span style=''font-size:16px; color:royalblue;''>Christian Braun</span> <span style=''font-size:12px; color:grey;''>DEN</span>',NULL,'W','DEN',2949120,7,0.527,'0','0','0'),
 	 ('Gabe Vincent','<span style=''font-size:16px; color:royalblue;''>Gabe Vincent</span> <span style=''font-size:12px; color:grey;''>MIA</span>','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629216.png','L','MIA',10500000,6,0.231,'0','0','-14'),
 	 ('Duncan Robinson','<span style=''font-size:16px; color:royalblue;''>Duncan Robinson</span> <span style=''font-size:12px; color:grey;''>MIA</span>','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629130.png','L','MIA',18154000,5,0.417,'0','0','-9'),
@@ -2027,7 +2755,7 @@ DROP TABLE IF EXISTS recent_games_teams;
 CREATE TABLE IF NOT EXISTS recent_games_teams (
 	team text NULL,
 	opponent text NULL,
-	"date" date NULL,
+	game_date date NULL,
 	outcome text NULL,
 	pts_scored numeric NULL,
 	pts_scored_opp numeric NULL,
@@ -2044,7 +2772,7 @@ CREATE TABLE IF NOT EXISTS recent_games_teams (
 	new_loc text NULL
 );
 
-INSERT INTO recent_games_teams (team,opponent,"date",outcome,pts_scored,pts_scored_opp,mov,max_team_lead,max_opponent_lead,team_max_score,team_avg_score,pts_color,opp_pts_color,team_logo,opp_logo,home_team,new_loc) VALUES
+INSERT INTO recent_games_teams (team,opponent,game_date,outcome,pts_scored,pts_scored_opp,mov,max_team_lead,max_opponent_lead,team_max_score,team_avg_score,pts_color,opp_pts_color,team_logo,opp_logo,home_team,new_loc) VALUES
 	 ('DEN','MIA','2023-06-12','W',94,89,5,8,10,146,115.8,'3','3','logos/den.png','logos/mia.png','DEN','Vs.');
 
 DROP TABLE IF EXISTS team_adv_stats;
@@ -2283,8 +3011,8 @@ DROP TABLE IF EXISTS team_ratings;
 CREATE TABLE IF NOT EXISTS team_ratings(
     team text,
     team_acronym text,
-    w integer,
-    l integer,
+    wins integer,
+    losses integer,
     ortg numeric,
     drtg numeric,
     nrtg numeric,
@@ -2294,7 +3022,7 @@ CREATE TABLE IF NOT EXISTS team_ratings(
     ortg_rank text
 );
 
-INSERT INTO team_ratings (team,team_acronym,w,l,ortg,drtg,nrtg,team_logo,nrtg_rank,drtg_rank,ortg_rank) VALUES
+INSERT INTO team_ratings (team,team_acronym,wins,losses,ortg,drtg,nrtg,team_logo,nrtg_rank,drtg_rank,ortg_rank) VALUES
 	 ('Boston Celtics','BOS',57,25,118,111.5,6.5,'logos/bos.png','1st','3rd','2nd'),
 	 ('Cleveland Cavaliers','CLE',51,31,116.1,110.6,5.5,'logos/cle.png','2nd','1st','8th'),
 	 ('Philadelphia 76ers','PHI',54,28,117.7,113.3,4.4,'logos/phi.png','3rd','8th','4th'),
@@ -2305,7 +3033,7 @@ INSERT INTO team_ratings (team,team_acronym,w,l,ortg,drtg,nrtg,team_logo,nrtg_ra
 	 ('Sacramento Kings','SAC',48,34,119.4,116.8,2.6,'logos/sac.png','8th','25th','1st'),
 	 ('Phoenix Suns','PHX',45,37,115.1,113,2.1,'logos/phx.png','9th','7th','14th'),
 	 ('New Orleans Pelicans','NOP',42,40,114.4,112.5,1.9,'logos/nop.png','10th','6th','22nd');
-INSERT INTO team_ratings (team,team_acronym,w,l,ortg,drtg,nrtg,team_logo,nrtg_rank,drtg_rank,ortg_rank) VALUES
+INSERT INTO team_ratings (team,team_acronym,wins,losses,ortg,drtg,nrtg,team_logo,nrtg_rank,drtg_rank,ortg_rank) VALUES
 	 ('Golden State Warriors','GSW',44,38,116.1,114.4,1.7,'logos/gsw.png','11th','17th','9th'),
 	 ('Toronto Raptors','TOR',41,41,115.5,114,1.5,'logos/tor.png','12th','12th','11th'),
 	 ('Chicago Bulls','CHI',40,42,113.5,112.2,1.3,'logos/chi.png','13th','5th','24th'),
@@ -2316,7 +3044,7 @@ INSERT INTO team_ratings (team,team_acronym,w,l,ortg,drtg,nrtg,team_logo,nrtg_ra
 	 ('Atlanta Hawks','ATL',41,41,116.6,116.3,0.3,'logos/atl.png','18th','22nd','7th'),
 	 ('Dallas Mavericks','DAL',38,44,116.8,116.7,0.1,'logos/dal.png','19th','23rd','6th'),
 	 ('Minnesota Timberwolves','MIN',42,40,113.7,113.8,-0.1,'logos/min.png','20th','10th','23rd');
-INSERT INTO team_ratings (team,team_acronym,w,l,ortg,drtg,nrtg,team_logo,nrtg_rank,drtg_rank,ortg_rank) VALUES
+INSERT INTO team_ratings (team,team_acronym,wins,losses,ortg,drtg,nrtg,team_logo,nrtg_rank,drtg_rank,ortg_rank) VALUES
 	 ('Miami Heat','MIA',44,38,113,113.3,-0.3,'logos/mia.png','21st','9th','25th'),
 	 ('Utah Jazz','UTA',37,45,115.8,116.7,-0.9,'logos/uta.png','22nd','24th','10th'),
 	 ('Washington Wizards','WAS',35,47,114.4,115.6,-1.2,'logos/was.png','23rd','21st','21st'),

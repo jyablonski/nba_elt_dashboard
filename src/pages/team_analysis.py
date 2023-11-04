@@ -8,7 +8,7 @@ from src.data_cols.transactions import transactions_columns
 from src.data import (
     injuries_df,
     mov_df,
-    scorers_df,
+    player_stats_df,
     team_adv_stats_df,
     team_names,
     transactions_df,
@@ -98,10 +98,10 @@ def update_mov(selected_team):
 
     fig = px.bar(
         filtered_df,
-        x="date",
+        x="game_date",
         y="mov",
         labels={
-            "date": "Date",
+            "game_date": "Date",
             "opponent": "Opponent",
             "mov": "Margin of Victory",
             "outcome": "Outcome",
@@ -112,7 +112,7 @@ def update_mov(selected_team):
             "L": "red",
         },
         custom_data=[
-            "date",
+            "game_date",
             "opponent",
             "mov",
             "outcome",
@@ -133,20 +133,20 @@ def update_mov(selected_team):
     Output("team-player-efficiency-plot", "figure"), Input("team-selector", "value")
 )
 def update_team_player_efficiency(selected_team):
-    team_player_efficiency = scorers_df.query(f"full_team == '{selected_team}'")
+    team_player_efficiency = player_stats_df.query(f"full_team == '{selected_team}'")
 
     fig = px.scatter(
         team_player_efficiency,
-        x="season_avg_ppg",
-        y="season_ts_percent",
-        color="top5_candidates",
+        x="avg_ppg",
+        y="avg_ts_percent",
+        color="is_mvp_candidate",
         text="player",
-        labels={"season_avg_ppg": "Season Avg PPG", "season_ts_percent": "Season TS%"},
+        labels={"avg_ppg": "Average PPG", "avg_ts_percent": "Average TS%"},
         custom_data=[
             "player",
-            "season_avg_ppg",
-            "season_ts_percent",
-            "top5_candidates",
+            "avg_ppg",
+            "avg_ts_percent",
+            "is_mvp_candidate",
         ],
     )
 

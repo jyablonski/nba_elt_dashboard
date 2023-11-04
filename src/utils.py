@@ -1,11 +1,15 @@
-from dash import html
-import dash_bootstrap_components as dbc
-import pandas as pd
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import pandas as pd
+
 import plotly.express as px
 import plotly.graph_objects as go
 
 
-def pbp_transformer(df: pd.DataFrame):
+def pbp_transformer(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
     *** WARNING ***
     *** DANGER ***
@@ -82,45 +86,7 @@ def pbp_transformer(df: pd.DataFrame):
     return pbp_kpis, pbp_events
 
 
-def generate_card(name: str, description: str, kpi_value: str, color: str):
-    """
-    Function to generate cards for KPIs
-
-    Args:
-        name (str):
-
-        description (str):
-
-        kpi_value: The KPI Value or BAN to put in the Card
-
-        color: Color of the top bar
-
-    Returns
-        HTML Card
-    """
-
-    return dbc.Col(
-        dbc.Card(
-            [
-                dbc.CardBody(
-                    [
-                        html.H4(name, className="card-title"),
-                        html.P(description, className="card-desc"),
-                        html.P(f"{kpi_value:,}", className="card-text"),
-                        html.P("Key Metric", className="card-kpi"),
-                    ],
-                    className="text-center mx-auto",
-                )
-            ],
-            style={
-                "background": f"linear-gradient(to bottom, {color} 100%, #FFFFFF 0%)"
-            },
-        ),
-        className="col-auto mb-3",
-    )
-
-
-def generate_team_ratings_figure(df):
+def generate_team_ratings_figure(df: pd.DataFrame) -> go.Figure:
     ortg_avg = df["ortg"].mean()
     drtg_avg = df["drtg"].mean()
 

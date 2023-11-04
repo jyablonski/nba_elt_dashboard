@@ -6,6 +6,8 @@ from src.pages.about import about_layout
 from src.pages.overview import (
     overview_layout,
 )
+
+# from src.pages.player_analysis import player_analysis_layout
 from src.pages.recent_games import recent_games_layout
 from src.pages.schedule import schedule_layout
 from src.pages.social_media_analysis import social_media_analysis_layout
@@ -36,6 +38,12 @@ app.layout = html.Div(
                     children=recent_games_layout,
                     tabClassName="flex-grow-1 text-center",
                 ),
+                # dbc.Tab(
+                #     label="Player Analysis",
+                #     tab_id="player-analysis",
+                #     children=player_analysis_layout,
+                #     tabClassName="flex-grow-1 text-center",
+                # ),
                 dbc.Tab(
                     label="Team Analysis",
                     tab_id="team-analysis",
