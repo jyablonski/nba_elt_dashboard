@@ -31,5 +31,4 @@ The same test suite runs on every commit to any PR
     * [Ingestion Script](https://github.com/jyablonski/python_docker)
     * [dbt](https://github.com/jyablonski/nba_elt_dbt)
     * [Terraform](https://github.com/jyablonski/aws_terraform)
-    * [Airflow Proof of Concept](https://github.com/jyablonski/nba_elt_airflow)
     * [ML Pipeline](https://github.com/jyablonski/nba_elt_mlflow)
