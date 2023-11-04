@@ -1,7 +1,7 @@
 from dash.dash_table import FormatTemplate
 
 ml_predictions_columns = [
-    dict(id="proper_date", name="Date"),
+    dict(id="game_date", name="Date"),
     dict(id="start_time", name="Start Time (EST)"),
     dict(id="home_team", name="Home Team"),
     dict(id="away_team", name="Road Team"),
