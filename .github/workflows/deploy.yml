@@ -11,6 +11,8 @@ env:
   ECR_REPO : ${{ secrets.ECR_REPO }}
   IAM_ROLE_SESSION: "nba-elt-dashboard-cd"
   IMAGE_NAME: "nba_elt_dashboard"
+  ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
+  ECS_SERVICE: ${{ secrets.ECS_SERVICE }}
 
 # permission can be added at job level or workflow level    
 permissions:
@@ -45,3 +47,10 @@ jobs:
       run: |
         docker-compose -f docker/docker-compose-build.yml build
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+    - name: Cycle ECS Service
+      env:
+        ECS_CLUSTER: $ {{ env.ECS_CLUSTER }}
+        ECS_SERVICE: $ {{ env.ECS_SERVICE }}
+      run: |
+        aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment
