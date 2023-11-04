@@ -134,6 +134,7 @@ schedule_layout = html.Div(
 )
 def update_schedule_table(selected_value):
     if selected_value == "tonights-games":
+        print(schedule_tonights_games_df.dtypes)
         return (
             dash_table.DataTable(
                 columns=tonights_schedule_columns,
@@ -247,7 +248,6 @@ def update_schedule_plot(selected_schedule_plot):
             preseason_odds_df,
             x="wins_differential",
             y="team",
-            text="wins_differential",
             color="wins_differential",
             color_continuous_scale="RdYlGn",
             labels={"team": "Team", "wins_differential": "Wins Differential"},
@@ -277,7 +277,6 @@ def update_schedule_plot(selected_schedule_plot):
             team_blown_leads_df,
             x="net_comebacks",
             y="team",
-            text="team",
             color="net_comebacks",
             color_continuous_scale="RdYlGn",
             labels={"team": "Team", "net_comebacks": "Net Comebacks"},

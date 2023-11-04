@@ -208,6 +208,8 @@ overview_layout = (
                                         "avg_mvp_score",
                                         "salary",
                                         "color_var",
+                                        "games_played",
+                                        "games_missed",
                                     ],
                                     color="color_var",
                                     color_discrete_map={
@@ -225,9 +227,11 @@ overview_layout = (
                                     ),
                                     hovertemplate="<b>%{customdata[0]}</b><br>"
                                     "%{customdata[1]}<br>"
+                                    "<b>Type:</b> %{customdata[4]}<br>"
                                     "<b>Average MVP Score:</b> %{customdata[2]}<br>"
                                     "<b>Salary:</b> $%{customdata[3]:,}<br>"
-                                    "<b>Type:</b> %{customdata[4]}<br>",
+                                    "<b>Games Played:</b> %{customdata[5]}<br>"
+                                    "<b>Games Missed:</b> %{customdata[6]}",
                                 )
                                 .update_layout(legend_title_text=""),
                             ),
@@ -319,6 +323,7 @@ def update_graph(selected_season):
             "team",
             "avg_ppg",
             "avg_ts_percent",
+            "games_played",
             "is_mvp_candidate",
         ],
     )
@@ -341,9 +346,10 @@ def update_graph(selected_season):
         hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
         hovertemplate="<b>%{customdata[0]}</b><br>"
         "%{customdata[1]}<br>"
+        "<b>Type:</b> %{customdata[5]}<br>"
         "<b>Average PPG:</b> %{customdata[2]}<br>"
         "<b>Average TS%:</b> %{customdata[3]:.1%}<br>"
-        "<b>Type:</b> %{customdata[4]}",
+        "<b>Games Played:</b> %{customdata[4]}",
     )
 
     fig.add_annotation(

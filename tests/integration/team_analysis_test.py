@@ -24,8 +24,8 @@ def test_mov(test_input, expected_output):
 @pytest.mark.parametrize(
     "test_input,expected_output",
     [
-        ("Indiana Pacers", "Myles Turner"),
-        ("Phoenix Suns", "Kevin Durant"),
+        ("Charlotte Hornets", "Frank Ntilikina"),
+        ("Phoenix Suns", "Bradley Beal"),
     ],
 )
 def test_injuries(test_input, expected_output):
@@ -52,10 +52,13 @@ def test_team_player_efficiency(test_input, expected_output):
 @pytest.mark.parametrize(
     "test_input,expected_output",
     [
-        ("Toronto Raptors", "The Toronto Raptors fired Nick Nurse as Head Coach."),
+        (
+            "Toronto Raptors",
+            "The Toronto Raptors signed Gradey Dick to a multi-year contract.",
+        ),
         (
             "Golden State Warriors",
-            "The Golden State Warriors have fired x for doing xyz.",
+            "The Golden State Warriors signed Brandin Podziemski to a multi-year contract.",
         ),
     ],
 )

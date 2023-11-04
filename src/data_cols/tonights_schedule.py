@@ -1,7 +1,7 @@
 from dash.dash_table import FormatTemplate
 
 tonights_schedule_columns = [
-    dict(id="proper_date", name=["", "Date"]),
+    dict(id="game_date", name=["", "Date"]),
     dict(id="start_time", name=["", "Start Time (EST)"]),
     dict(id="home_team_odds", name=["", "Home Team"]),
     dict(id="away_team_odds", name=["", "Road Team"]),

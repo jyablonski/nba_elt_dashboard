@@ -127,8 +127,8 @@ def generate_team_ratings_figure(df: pd.DataFrame) -> go.Figure:
                 yref="y",
                 xanchor="center",
                 yanchor="middle",
-                sizex=4.5,
-                sizey=4.5,
+                sizex=4,
+                sizey=4,
             )
         )
 
