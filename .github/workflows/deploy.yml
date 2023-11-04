@@ -11,8 +11,8 @@ env:
   ECR_REPO: ${{ secrets.ECR_REPO }}
   IAM_ROLE_SESSION: "nba-elt-dashboard-cd"
   IMAGE_NAME: "nba_elt_dashboard"
-  AWS_ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
-  AWS_ECS_SERVICE: ${{ secrets.ECS_SERVICE }}
+  ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
+  ECS_SERVICE: ${{ secrets.ECS_SERVICE }}
 
 permissions:
   id-token: write
@@ -49,8 +49,8 @@ jobs:
 
       - name: Cycle ECS Service
         env:
-          ECS_CLUSTER: $ {{ env.AWS_ECS_CLUSTER }}
-          ECS_SERVICE: $ {{ env.AWS_ECS_SERVICE }}
+          ECS_CLUSTER: ${{ env.ECS_CLUSTER }}
+          ECS_SERVICE: ${{ env.ECS_SERVICE }}
         run: |
           task_list=$(aws ecs list-tasks --cluster $ECS_CLUSTER --service-name $ECS_SERVICE)
           first_task=$(echo "$task_list" | jq -r '.taskArns[0]')
