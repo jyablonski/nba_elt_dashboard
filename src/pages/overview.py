@@ -7,7 +7,7 @@ from src.data_cols.standings import standings_columns
 from src.data import (
     bans_df,
     contract_value_analysis_df,
-    scorers_df,
+    player_stats_df,
     standings_df,
     team_contracts_analysis_df,
     team_ratings_df,
@@ -34,7 +34,7 @@ overview_layout = (
                             ),
                             html.Div("League Wide Home - Road Win Record"),
                             html.Div(
-                                f"{bans_df['win_pct'][0] * 100:.0f}% - {bans_df['win_pct'][1] * 100:.0f}% Win Percentage Splits"
+                                f"{bans_df['win_pct'][0] * 100:.0f}% - {bans_df['win_pct'][1] * 100:.0f}% Win Percentage Splits"  # noqa
                             ),
                         ],
                         className="kpi-card",
@@ -45,7 +45,7 @@ overview_layout = (
                             html.Div(bans_df["avg_pts"][0], style={"fontSize": 24}),
                             html.Div("League Average Points Scored / Game"),
                             html.Div(
-                                f"{((bans_df['avg_pts'][0] - bans_df['last_yr_ppg'][0]) / bans_df['avg_pts'][0]) * 100:.2f}% difference from Last Season"
+                                f"{((bans_df['avg_pts'][0] - bans_df['last_yr_ppg'][0]) / bans_df['avg_pts'][0]) * 100:.2f}% difference from Last Season"  # noqa
                             ),
                         ],
                         className="kpi-card",
@@ -82,7 +82,7 @@ overview_layout = (
                 [
                     html.Br(),
                     html.Div(
-                        f"Last Updated {(bans_df['scrape_time'][0]).strftime('%A, %B %d %-I:%M %p UTC')}"
+                        f"Last Updated {(bans_df['scrape_time'][0]).strftime('%A, %B %d %-I:%M %p UTC')}"  # noqa
                     ),
                 ]
             ),
@@ -197,17 +197,19 @@ overview_layout = (
                                 figure=px.scatter(
                                     contract_value_analysis_df,
                                     x="salary",
-                                    y="player_mvp_calc_avg",
+                                    y="avg_mvp_score",
                                     labels={
                                         "salary": "Salary",
-                                        "player_mvp_calc_avg": "Average MVP Score",
+                                        "avg_mvp_score": "Average MVP Score",
                                     },
                                     custom_data=[
                                         "player",
                                         "team",
-                                        "player_mvp_calc_avg",
+                                        "avg_mvp_score",
                                         "salary",
                                         "color_var",
+                                        "games_played",
+                                        "games_missed",
                                     ],
                                     color="color_var",
                                     color_discrete_map={
@@ -225,9 +227,11 @@ overview_layout = (
                                     ),
                                     hovertemplate="<b>%{customdata[0]}</b><br>"
                                     "%{customdata[1]}<br>"
+                                    "<b>Type:</b> %{customdata[4]}<br>"
                                     "<b>Average MVP Score:</b> %{customdata[2]}<br>"
                                     "<b>Salary:</b> $%{customdata[3]:,}<br>"
-                                    "<b>Type:</b> %{customdata[4]}<br>",
+                                    "<b>Games Played:</b> %{customdata[5]}<br>"
+                                    "<b>Games Missed:</b> %{customdata[6]}",
                                 )
                                 .update_layout(legend_title_text=""),
                             ),
@@ -271,9 +275,9 @@ overview_layout = (
                                     hovertemplate="<b>%{customdata[0]}</b><br>"
                                     "<b>Win %:</b> %{customdata[1]:.1%}<br>"
                                     "<b>% Salary Value Earned:</b> %{customdata[4]:.1%}<br>"
-                                    "<b>% Salary Value Lost from Injury:</b> %{customdata[6]:.1%}<br>"
+                                    "<b>% Salary Value Lost from Injury:</b> %{customdata[6]:.1%}<br>"  # noqa
                                     "<b>Total Salary Value Earned:</b> %{customdata[2]:$,}<br>"
-                                    "<b>Total Salary Value Lost from Injury:</b> %{customdata[5]:$,}",
+                                    "<b>Total Salary Value Lost from Injury:</b> %{customdata[5]:$,}",  # noqa
                                 )
                                 .update_layout(legend_title_text=""),
                             ),
@@ -293,113 +297,67 @@ overview_layout = (
     Input("season-selector", "value"),
 )
 def update_graph(selected_season):
-    regular_season_ts_percent_avg = scorers_df["season_ts_percent"].mean()
+    regular_season_ts_percent_avg = player_stats_df.query(
+        "season_type == 'Regular Season'"
+    )["avg_ts_percent"].mean()
 
-    if selected_season == "Regular Season":
-        filtered_df = scorers_df.query("season_avg_ppg >= 20")
+    filtered_df = player_stats_df.copy().query(
+        f"season_type == '{selected_season}' & avg_ppg >= 20"
+    )
 
-        fig = px.scatter(
-            filtered_df,
-            x="season_avg_ppg",
-            y="season_ts_percent",
-            labels={
-                "season_avg_ppg": "Average PPG",
-                "season_ts_percent": "Average TS%",
-            },
-            color="top5_candidates",
-            color_discrete_map={
-                "Top 5 MVP Candidate": "orange",
-                "Other": "grey",
-            },
-            custom_data=[
-                "player",
-                "team",
-                "season_avg_ppg",
-                "season_ts_percent",
-                "top5_candidates",
-            ],
-        )
+    fig = px.scatter(
+        filtered_df,
+        x="avg_ppg",
+        y="avg_ts_percent",
+        labels={
+            "avg_ppg": "Average PPG",
+            "avg_ts_percent": "Average TS%",
+        },
+        color="is_mvp_candidate",
+        color_discrete_map={
+            "Top 5 MVP Candidate": "orange",
+            "Other": "grey",
+        },
+        custom_data=[
+            "player",
+            "team",
+            "avg_ppg",
+            "avg_ts_percent",
+            "games_played",
+            "is_mvp_candidate",
+        ],
+    )
 
-        fig.add_hline(
-            y=regular_season_ts_percent_avg,
-            line_width=3,
-            line_dash="dash",
-            line_color="black",
-            opacity=0.5,
-        )
+    fig.add_hline(
+        y=regular_season_ts_percent_avg,
+        line_width=3,
+        line_dash="dash",
+        line_color="black",
+        opacity=0.5,
+    )
 
-        fig.update_layout(legend_title_text="", yaxis_tickformat=".0%")
+    fig.update_layout(legend_title_text="", yaxis_tickformat=".0%")
 
-        fig.update_traces(
-            marker=dict(
-                size=8,
-            ),
-            mode="markers",
-            hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-            hovertemplate="<b>%{customdata[0]}</b><br>"
-            "%{customdata[1]}<br>"
-            "<b>Average PPG:</b> %{customdata[2]}<br>"
-            "<b>Average TS%:</b> %{customdata[3]:.1%}<br>"
-            "<b>Type:</b> %{customdata[4]}",
-        )
+    fig.update_traces(
+        marker=dict(
+            size=8,
+        ),
+        mode="markers",
+        hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+        hovertemplate="<b>%{customdata[0]}</b><br>"
+        "%{customdata[1]}<br>"
+        "<b>Type:</b> %{customdata[5]}<br>"
+        "<b>Average PPG:</b> %{customdata[2]}<br>"
+        "<b>Average TS%:</b> %{customdata[3]:.1%}<br>"
+        "<b>Games Played:</b> %{customdata[4]}",
+    )
 
-        fig.add_annotation(
-            x=scorers_df["season_avg_ppg"].max(),
-            y=regular_season_ts_percent_avg - 0.01,
-            text="League Average TS%",
-            yanchor="top",
-            showarrow=False,
-        )
+    fig.add_annotation(
+        x=player_stats_df["avg_ppg"].max(),
+        y=regular_season_ts_percent_avg - 0.01,
+        text="League Average TS%",
+        yanchor="top",
+        showarrow=False,
+    )
 
-        return fig
-    else:
-        filtered_playoffs_df = scorers_df.query("playoffs_avg_ppg >= 20")
-
-        fig = px.scatter(
-            filtered_playoffs_df,
-            x="playoffs_avg_ppg",
-            y="playoffs_ts_percent",
-            color="top5_candidates",
-            color_discrete_map={
-                "Top 5 MVP Candidate": "orange",
-                "Other": "grey",
-            },
-            labels={
-                "playoffs_avg_ppg": "Average PPG",
-                "playoffs_ts_percent": "Average TS%",
-            },
-            custom_data=[
-                "player",
-                "team",
-                "playoffs_avg_ppg",
-                "playoffs_ts_percent",
-                "top5_candidates",
-            ],
-        )
-
-        fig.add_hline(
-            y=regular_season_ts_percent_avg,
-            line_width=3,
-            line_dash="dash",
-            line_color="black",
-            opacity=0.5,
-        )
-
-        fig.update_layout(legend_title_text="", yaxis_tickformat=".0%")
-
-        fig.update_traces(
-            marker=dict(
-                size=8,
-            ),
-            mode="markers",
-            hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-            hovertemplate="<b>%{customdata[0]}</b><br>"
-            "%{customdata[1]}<br>"
-            "<b>Average PPG:</b> %{customdata[2]}<br>"
-            "<b>Average TS%:</b> %{customdata[3]:.1%}<br>"
-            "<b>Type:</b> %{customdata[4]}",
-        )
-
-        return fig
-
-        return fig
+    return fig

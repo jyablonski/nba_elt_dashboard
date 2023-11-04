@@ -3,7 +3,7 @@ import os
 import yaml
 
 import pandas as pd
-from sqlalchemy.engine.base import Connection
+from sqlalchemy.engine.base import Engine, Connection
 from sqlalchemy import create_engine
 
 
@@ -23,7 +23,9 @@ def load_yaml_with_env(filename: str) -> dict:
         return yaml_content
 
 
-def sql_connection(user: str, password: str, host: str, database: str, schema: str):
+def sql_connection(
+    user: str, password: str, host: str, database: str, schema: str
+) -> Engine:
     """
     SQL Connection Function for connecting to Postgres Database
 

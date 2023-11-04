@@ -10,7 +10,7 @@ recent_games_players_columns = [
         type="numeric",
         format=FormatTemplate.percentage(1),
     ),
-    dict(id="plusminus", name="+/-"),
+    dict(id="plus_minus", name="+/-"),
     dict(id="outcome", name="Outcome"),
     dict(
         id="salary",

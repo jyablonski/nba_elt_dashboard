@@ -51,7 +51,6 @@ recent_games_layout = html.Div(
                 ),
             ]
         ),
-        # html.Br(),
         dbc.Row(
             [
                 dbc.Col(

@@ -40,7 +40,7 @@ services:
       - ${PWD}/static/:/home/appuser/static
       - ${PWD}/config.yaml:/home/appuser/config.yaml
       - ${PWD}/tests/:/home/appuser/tests
-    command: python3 -m pytest -v
+    command: python3 -m pytest -vv
 
 networks:
   dashboard_network:
