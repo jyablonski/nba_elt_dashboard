@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nba-elt-dashboard"
-version = "1.0.1"
+version = "1.0.2"
 description = "NBA Dashboard Project"
 authors = ["jyablonski9 <jyablonski9@gmail.com>"]
 readme = "README.md"
@@ -28,7 +28,7 @@ optional = true
 ipykernel = "^6.25.2"
 black = "^23.10.0"
 ruff = "^0.1.1"
-bump2version = "^1.0.1"
+bump2version = "^1.0.2"
 
 [tool.ruff]
 line-length = 100
