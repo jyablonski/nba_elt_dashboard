@@ -29,6 +29,6 @@ The same test suite runs on every commit to any PR
 1. Links to other Repos providing infrastructure for this Project
     * [Ingestion Script](https://github.com/jyablonski/python_docker)
     * [dbt](https://github.com/jyablonski/nba_elt_dbt)
-    * [Terraform](https://github.com/jyablonski/aws_terraform)
     * [ML Pipeline](https://github.com/jyablonski/nba_elt_mlflow)
+    * [Terraform](https://github.com/jyablonski/aws_terraform)
     * [REST API](https://github.com/jyablonski/nba_elt_rest_api)
