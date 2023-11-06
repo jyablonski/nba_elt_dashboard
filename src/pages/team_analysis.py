@@ -140,6 +140,10 @@ def update_team_player_efficiency(selected_team):
         x="avg_ppg",
         y="avg_ts_percent",
         color="is_mvp_candidate",
+        color_discrete_map={
+            "Top 5 MVP Candidate": "orange",
+            "Other": "grey",
+        },
         text="player",
         labels={"avg_ppg": "Average PPG", "avg_ts_percent": "Average TS%"},
         custom_data=[
@@ -147,6 +151,7 @@ def update_team_player_efficiency(selected_team):
             "avg_ppg",
             "avg_ts_percent",
             "is_mvp_candidate",
+            "games_played",
         ],
     )
 
@@ -156,9 +161,10 @@ def update_team_player_efficiency(selected_team):
         textposition="top center",
         hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
         hovertemplate="<b>%{customdata[0]}</b><br>"
+        "<b>Type:</b> %{customdata[3]}<br>"
         "<b>Average PPG:</b> %{customdata[1]}<br>"
         "<b>Average TS%:</b> %{customdata[2]:.1%}<br>"
-        "<b>Type:</b> %{customdata[3]}<br>",
+        "<b>Games Played:</b> %{customdata[4]}",
     )
 
     return fig
@@ -185,7 +191,7 @@ def update_injuries(selected_team):
                 "overflow": "hidden",
                 "textOverflow": "ellipsis",
                 "maxWidth": 0,
-                "background-color": "#15171a",
+                "background-color": "#383b3d",
             },
             tooltip_data=[
                 {
@@ -229,7 +235,7 @@ def update_transactions(selected_team):
                 "overflow": "hidden",
                 "textOverflow": "ellipsis",
                 "maxWidth": 0,
-                "background-color": "#15171a",
+                "background-color": "#383b3d",
             },
             tooltip_data=[
                 {
@@ -241,8 +247,18 @@ def update_transactions(selected_team):
             tooltip_duration=None,
             style_cell_conditional=[
                 {"if": {"column_id": "date"}, "width": "20%"},
-                {"if": {"column_id": "transaction"}, "width": "80%"},
+                {
+                    "if": {"column_id": "transaction"},
+                    "width": "80%",
+                    "textAlign": "left",
+                },
             ],
+            # style_data_conditional=[
+            #     {
+            #         "if": {"state": "active"},
+            #         "backgroundColor": "rgba(0, 0, 226, 0.966)",
+            #     }
+            # ],
         ),
     )
 

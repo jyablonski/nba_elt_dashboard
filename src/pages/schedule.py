@@ -62,6 +62,16 @@ schedule_layout = html.Div(
                     ],
                     width=3,
                 ),
+                dbc.Col(
+                    [
+                        html.A(
+                            "Link to make & track Predictions",
+                            href="https://api.jyablonski.dev/bets",
+                            className="rest-api-link",
+                        ),
+                    ],
+                    width={"size": 3, "offset": 10},
+                ),
             ]
         ),
         dbc.Row(
