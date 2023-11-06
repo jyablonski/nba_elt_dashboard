@@ -71,7 +71,7 @@ recent_games_layout = html.Div(
                                 {"if": {"column_id": "salary"}, "width": "4%"},
                                 {"if": {"column_id": "pts"}, "width": "4%"},
                                 {"if": {"column_id": "game_ts_percent"}, "width": "4%"},
-                                {"if": {"column_id": "plusminus"}, "width": "4%"},
+                                {"if": {"column_id": "plus_minus"}, "width": "4%"},
                             ],
                             style_data_conditional=[
                                 {

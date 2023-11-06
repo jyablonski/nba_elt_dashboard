@@ -30,23 +30,27 @@ body {
 /* THIS IS BREAKING CONDITIONAL FORMATTING SCHEDULE */
 /* DASH TABLE CELLS */
 .dash-spreadsheet td {
-    /* background-color: #383b3d !important; */
+    background-color: #383b3d;
     border-color: #383b3d00 !important;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     text-align: center !important;
 }
 
+table tr:hover td.dash-cell {
+    background-color: #5e6063 !important;
+}
 
 /* DASH TABLE COLUMNS */
 .dash-spreadsheet th {
     background-color: #222222 !important;
+    border: 1px solid rgb(0, 0, 0) !important;
     text-align: center !important;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 /* dash table border */
 .dash-spreadsheet {
-    border: 2px solid rgb(0, 0, 0) !important;
+    border: 1px solid rgb(0, 0, 0) !important;
 }
 
 .kpi-card {
@@ -89,12 +93,33 @@ img[src*="/nba"] {
 }
 
 /* team logos */
+
 .team-data-table img {
     max-width: 75px;
     max-height: 75px;
+
     display: block;
     margin: 0 auto;
 
     /* center that mfer */
     transform: translateY(8px);
+}
+
+.rest-api-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: rgb(51, 45, 53);
+    /* Black background color */
+    color: #fff;
+    /* White text color */
+    border: 2px solid #000;
+    /* Black border */
+    text-decoration: none;
+    border-radius: 5px;
+    /* Rounded corners */
+}
+
+.rest-api-link:hover {
+    background-color: rgb(94, 73, 99);
+    /* Darker background color on hover */
 }
