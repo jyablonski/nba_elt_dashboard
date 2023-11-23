@@ -16,13 +16,13 @@ def pbp_transformer(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
 
     I ported this 3 yr old R Code via ChatGPT; do not ever fuck with this code.
     if it breaks then rip, just delete the graph and rebuild the dataset
-    needed in dbt
+    in dbt which is where this logic should exist.
 
     Args:
         df (pd.DataFrame): The Pandas DataFrame of pbp Data from dbt
 
     Returns:
-        Pandas DataFrame of pbp Data for the Line Chart in Recent Games Tab
+        Pandas DataFrame of pbp Data used for the PBP Chart in Recent Games Tab
     """
     print("Running PBP Transformer")
 

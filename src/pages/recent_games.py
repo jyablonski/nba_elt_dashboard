@@ -55,6 +55,46 @@ recent_games_layout = html.Div(
             [
                 dbc.Col(
                     [
+                        html.H5(
+                            "Table Cell Coloring",
+                            style={"margin-left": "0px"},
+                        ),
+                        html.Div(
+                            [
+                                html.Div(
+                                    [
+                                        html.Span(className="legend-color season-high"),
+                                        " Season High",
+                                    ],
+                                    className="legend-item",
+                                ),
+                                html.Div(
+                                    [
+                                        html.Span(className="legend-color ten-above"),
+                                        " 10+ pts Above",
+                                    ],
+                                    className="legend-item",
+                                ),
+                                html.Div(
+                                    [
+                                        html.Span(className="legend-color ten-below"),
+                                        " 10+ pts Below",
+                                    ],
+                                    className="legend-item",
+                                ),
+                            ],
+                            className="legend",
+                            style={"margin-left": "10px"},
+                        ),
+                    ],
+                    width={"size": 3},
+                ),
+            ]
+        ),
+        dbc.Row(
+            [
+                dbc.Col(
+                    [
                         html.H1("Top Players"),
                         dash_table.DataTable(
                             id="player-recent-games-table",
@@ -79,10 +119,37 @@ recent_games_layout = html.Div(
                                     "width": "50px",
                                     "white-space": "normal",
                                 },
+                                {
+                                    "if": {
+                                        "filter_query": "{pts_color} = 1",
+                                        "column_id": "pts",
+                                    },
+                                    "backgroundColor": "#9362DA",
+                                },
+                                {
+                                    "if": {
+                                        "filter_query": "{pts_color} = 2",
+                                        "column_id": "pts",
+                                    },
+                                    "backgroundColor": "#3fb7d9",
+                                },
+                                {
+                                    "if": {
+                                        "filter_query": "{pts_color} = 3",
+                                        "column_id": "pts",
+                                    },
+                                    "backgroundColor": "#e04848",
+                                },
+                                {
+                                    "if": {
+                                        "filter_query": "{ts_color} = 1",
+                                        "column_id": "game_ts_percent",
+                                    },
+                                    "backgroundColor": "#9362DA",
+                                },
                             ],
                         ),
                     ],
-                    width=6,
                 ),
                 dbc.Col(
                     [
@@ -126,6 +193,48 @@ recent_games_layout = html.Div(
                                         "if": {"column_id": "opp_logo"},
                                         "width": "50px",
                                         "white-space": "normal",
+                                    },
+                                    {
+                                        "if": {
+                                            "filter_query": "{pts_color} = 1",
+                                            "column_id": "pts_scored",
+                                        },
+                                        "backgroundColor": "#9362DA",
+                                    },
+                                    {
+                                        "if": {
+                                            "filter_query": "{pts_color} = 2",
+                                            "column_id": "pts_scored",
+                                        },
+                                        "backgroundColor": "#3fb7d9",
+                                    },
+                                    {
+                                        "if": {
+                                            "filter_query": "{pts_color} = 3s",
+                                            "column_id": "pts_scored",
+                                        },
+                                        "backgroundColor": "#e04848",
+                                    },
+                                    {
+                                        "if": {
+                                            "filter_query": "{opp_pts_color} = 1",
+                                            "column_id": "pts_scored_opp",
+                                        },
+                                        "backgroundColor": "#9362DA",
+                                    },
+                                    {
+                                        "if": {
+                                            "filter_query": "{opp_pts_color} = 2",
+                                            "column_id": "pts_scored_opp",
+                                        },
+                                        "backgroundColor": "#3fb7d9",
+                                    },
+                                    {
+                                        "if": {
+                                            "filter_query": "{opp_pts_color} = 3",
+                                            "column_id": "pts_scored_opp",
+                                        },
+                                        "backgroundColor": "#e04848",
                                     },
                                 ],
                             ),
@@ -190,6 +299,12 @@ def render_team_images(data):
 @callback(Output("pbp-analysis-plot", "figure"), [Input("game-selector", "value")])
 def update_data_table(selected_value):
     filtered_pbp = pbp_plot_df.query(f"game_description == '{selected_value}'")
+    # common_teams = pbp_plot_df["scoring_team"].unique()
+    # first_timestamp = filtered_pbp["time_remaining_final"].max() - 2
+    # max_margin = filtered_pbp["margin_score"].max() - 2
+    # filtered_pbp_plot_kpis = pbp_plot_kpis[
+    #     pbp_plot_kpis["scoring_team"].isin(common_teams)
+    # ]
 
     figure = (
         px.scatter(
@@ -226,6 +341,14 @@ def update_data_table(selected_value):
             title_font_color="white",
         )
     )
+
+    # # Add annotation at the specified coordinates
+    # figure.add_annotation(
+    #     x=first_timestamp,
+    #     y=max_margin,
+    #     text="Your Annotation Text <br> hi",
+    #     showarrow=False,
+    # )
 
     # yeeeahhh mfer
     figure.update_xaxes(

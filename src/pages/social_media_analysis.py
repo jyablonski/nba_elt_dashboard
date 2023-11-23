@@ -42,7 +42,10 @@ social_media_analysis_layout = html.Div(
                             id="social-media-selector",
                             options=[
                                 {"label": "Reddit", "value": "reddit"},
-                                {"label": "Twitter", "value": "twitter"},
+                                {
+                                    "label": "Twitter (Out of Commission 😢)",
+                                    "value": "twitter",
+                                },
                             ],
                             value="reddit",
                             clearable=False,
