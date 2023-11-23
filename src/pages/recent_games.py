@@ -55,6 +55,46 @@ recent_games_layout = html.Div(
             [
                 dbc.Col(
                     [
+                        html.H5(
+                            "Table Cell Coloring",
+                            style={"margin-left": "0px"},
+                        ),
+                        html.Div(
+                            [
+                                html.Div(
+                                    [
+                                        html.Span(className="legend-color season-high"),
+                                        " Season High",
+                                    ],
+                                    className="legend-item",
+                                ),
+                                html.Div(
+                                    [
+                                        html.Span(className="legend-color ten-above"),
+                                        " 10+ pts Above",
+                                    ],
+                                    className="legend-item",
+                                ),
+                                html.Div(
+                                    [
+                                        html.Span(className="legend-color ten-below"),
+                                        " 10+ pts Below",
+                                    ],
+                                    className="legend-item",
+                                ),
+                            ],
+                            className="legend",
+                            style={"margin-left": "10px"},
+                        ),
+                    ],
+                    width={"size": 3},
+                ),
+            ]
+        ),
+        dbc.Row(
+            [
+                dbc.Col(
+                    [
                         html.H1("Top Players"),
                         dash_table.DataTable(
                             id="player-recent-games-table",
@@ -79,10 +119,37 @@ recent_games_layout = html.Div(
                                     "width": "50px",
                                     "white-space": "normal",
                                 },
+                                {
+                                    "if": {
+                                        "filter_query": "{pts_color} = 1",
+                                        "column_id": "pts",
+                                    },
+                                    "backgroundColor": "#9362DA",
+                                },
+                                {
+                                    "if": {
+                                        "filter_query": "{pts_color} = 2",
+                                        "column_id": "pts",
+                                    },
+                                    "backgroundColor": "#3fb7d9",
+                                },
+                                {
+                                    "if": {
+                                        "filter_query": "{pts_color} = 3",
+                                        "column_id": "pts",
+                                    },
+                                    "backgroundColor": "#e04848",
+                                },
+                                {
+                                    "if": {
+                                        "filter_query": "{ts_color} = 1",
+                                        "column_id": "game_ts_percent",
+                                    },
+                                    "backgroundColor": "#9362DA",
+                                },
                             ],
                         ),
                     ],
-                    width=6,
                 ),
                 dbc.Col(
                     [
@@ -126,6 +193,48 @@ recent_games_layout = html.Div(
                                         "if": {"column_id": "opp_logo"},
                                         "width": "50px",
                                         "white-space": "normal",
+                                    },
+                                    {
+                                        "if": {
+                                            "filter_query": "{pts_color} = 1",
+                                            "column_id": "pts_scored",
+                                        },
+                                        "backgroundColor": "#9362DA",
+                                    },
+                                    {
+                                        "if": {
+                                            "filter_query": "{pts_color} = 2",
+                                            "column_id": "pts_scored",
+                                        },
+                                        "backgroundColor": "#3fb7d9",
+                                    },
+                                    {
+                                        "if": {
+                                            "filter_query": "{pts_color} = 3s",
+                                            "column_id": "pts_scored",
+                                        },
+                                        "backgroundColor": "#e04848",
+                                    },
+                                    {
+                                        "if": {
+                                            "filter_query": "{opp_pts_color} = 1",
+                                            "column_id": "pts_scored_opp",
+                                        },
+                                        "backgroundColor": "#9362DA",
+                                    },
+                                    {
+                                        "if": {
+                                            "filter_query": "{opp_pts_color} = 2",
+                                            "column_id": "pts_scored_opp",
+                                        },
+                                        "backgroundColor": "#3fb7d9",
+                                    },
+                                    {
+                                        "if": {
+                                            "filter_query": "{opp_pts_color} = 3",
+                                            "column_id": "pts_scored_opp",
+                                        },
+                                        "backgroundColor": "#e04848",
                                     },
                                 ],
                             ),
