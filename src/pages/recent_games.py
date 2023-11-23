@@ -299,6 +299,12 @@ def render_team_images(data):
 @callback(Output("pbp-analysis-plot", "figure"), [Input("game-selector", "value")])
 def update_data_table(selected_value):
     filtered_pbp = pbp_plot_df.query(f"game_description == '{selected_value}'")
+    # common_teams = pbp_plot_df["scoring_team"].unique()
+    # first_timestamp = filtered_pbp["time_remaining_final"].max() - 2
+    # max_margin = filtered_pbp["margin_score"].max() - 2
+    # filtered_pbp_plot_kpis = pbp_plot_kpis[
+    #     pbp_plot_kpis["scoring_team"].isin(common_teams)
+    # ]
 
     figure = (
         px.scatter(
@@ -335,6 +341,14 @@ def update_data_table(selected_value):
             title_font_color="white",
         )
     )
+
+    # # Add annotation at the specified coordinates
+    # figure.add_annotation(
+    #     x=first_timestamp,
+    #     y=max_margin,
+    #     text="Your Annotation Text <br> hi",
+    #     showarrow=False,
+    # )
 
     # yeeeahhh mfer
     figure.update_xaxes(
