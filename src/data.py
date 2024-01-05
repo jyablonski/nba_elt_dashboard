@@ -84,7 +84,7 @@ source_tables = [
     "reddit_comments",
     "reddit_sentiment_time_series",
     "rolling_avg_stats",
-    "schedule",
+    "schedule_season_remaining",
     "social_media_aggs",
     "standings",
     "team_record_daily_rollup",
