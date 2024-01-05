@@ -3391,7 +3391,15 @@ INSERT INTO reddit_sentiment_time_series(
 	VALUES ('GSW', current_date, current_date - INTERVAL '1 DAY', 379, 44.826, 0.801, 0.072, 0.127, 0.119, 0, 'NO GAME'),
            ('GSW', current_date - INTERVAL '1 DAY', current_date - INTERVAL '2 DAY', 267, 42.826, 0.783, 0.071, 0.146, 0.161, 0, 'NO GAME'),
            ('GSW', current_date - INTERVAL '2 DAY', current_date - INTERVAL '3 DAY', 611, 33.826, 0.780, 0.070, 0.141, 0.138, 1, 'W'),
-           ('GSW', current_date - INTERVAL '3 DAY', current_date - INTERVAL '4 DAY', 162, 31.826, 0.761, 0.088, 0.150, 0.130, 0, 'NO GAME');
+           ('GSW', current_date - INTERVAL '3 DAY', current_date - INTERVAL '4 DAY', 162, 31.826, 0.761, 0.088, 0.150, 0.130, 0, 'NO GAME'),
+		   ('BKN', current_date, current_date - INTERVAL '1 DAY', 165, 44.826, 0.801, 0.072, 0.127, 0.119, 0, 'W'),
+           ('BKN', current_date - INTERVAL '1 DAY', current_date - INTERVAL '2 DAY', 215, 42.826, 0.783, 0.071, 0.146, 0.161, 0, 'L'),
+           ('BKN', current_date - INTERVAL '2 DAY', current_date - INTERVAL '3 DAY', 611, 33.826, 0.780, 0.070, 0.141, 0.138, 1, 'W'),
+           ('BKN', current_date - INTERVAL '3 DAY', current_date - INTERVAL '4 DAY', 133, 31.826, 0.761, 0.088, 0.150, 0.130, 0, 'NO GAME'),
+           ('OKC', current_date, current_date - INTERVAL '1 DAY', 888, 44.826, 0.801, 0.072, 0.127, 0.119, 0, 'NO GAME'),
+           ('OKC', current_date - INTERVAL '1 DAY', current_date - INTERVAL '2 DAY', 111, 42.826, 0.783, 0.071, 0.146, 0.161, 0, 'NO GAME'),
+           ('OKC', current_date - INTERVAL '2 DAY', current_date - INTERVAL '3 DAY', 323, 33.826, 0.780, 0.070, 0.141, 0.138, 1, 'W'),
+           ('OKC', current_date - INTERVAL '3 DAY', current_date - INTERVAL '4 DAY', 168, 31.826, 0.761, 0.088, 0.150, 0.130, 0, 'L');
 
 DROP TABLE IF EXISTS rolling_avg_stats;
 CREATE TABLE IF NOT EXISTS rolling_avg_stats (
@@ -3640,6 +3648,30 @@ INSERT INTO schedule (game_date,day_name,game_ts,avg_team_rank,start_time,home_t
 	 ('2023-11-01','Wednesday','2023-11-01 08:00:00.000',6,'8:00 PM','Minnesota Timberwolves','Denver Nuggets',NULL,NULL,'logos/min.png','logos/den.png','Minnesota Timberwolves','Denver Nuggets'),
 	 ('2023-11-01','Wednesday','2023-11-01 08:00:00.000',21,'8:00 PM','Houston Rockets','Charlotte Hornets',NULL,NULL,'logos/hou.png','logos/cha.png','Houston Rockets','Charlotte Hornets'),
 	 ('2023-11-01','Wednesday','2023-11-01 08:30:00.000',12,'8:30 PM','Dallas Mavericks','Chicago Bulls',NULL,NULL,'logos/dal.png','logos/chi.png','Dallas Mavericks','Chicago Bulls');
+
+
+DROP TABLE IF EXISTS schedule_season_remaining;
+CREATE TABLE IF NOT EXISTS schedule_season_remaining(
+	game_date date NULL,
+	day_name text NULL,
+	game_ts timestamp NULL,
+	avg_team_rank int8 NULL,
+	start_time text NULL,
+	home_team text NULL,
+	away_team text NULL,
+	home_moneyline_raw numeric NULL,
+	away_moneyline_raw numeric NULL,
+	home_team_logo text NULL,
+	away_team_logo text NULL,
+	home_team_odds text NULL,
+	away_team_odds text NULL
+);
+
+INSERT INTO schedule_season_remaining (game_date,day_name,game_ts,avg_team_rank,start_time,home_team,away_team,home_moneyline_raw,away_moneyline_raw,home_team_logo,away_team_logo,home_team_odds,away_team_odds) VALUES
+	 (current_date + INTERVAL '1 DAY','Monday',current_timestamp + INTERVAL '1 DAY',10,'7:00 PM','Washington Wizards','Boston Celtics',NULL,NULL,'logos/was.png','logos/bos.png','Washington Wizards','Boston Celtics'),
+	 (current_date + INTERVAL '1 DAY','Monday',current_timestamp + INTERVAL '1 DAY',23,'7:00 PM','Charlotte Hornets','Brooklyn Nets',NULL,NULL,'logos/cha.png','logos/bkn.png','Charlotte Hornets','Brooklyn Nets'),
+	 (current_date + INTERVAL '1 DAY','Monday',current_timestamp + INTERVAL '1 DAY',14,'7:00 PM','Indiana Pacers','Chicago Bulls',NULL,NULL,'logos/ind.png','logos/chi.png','Indiana Pacers','Chicago Bulls'),
+	 (current_date + INTERVAL '1 DAY','Monday',current_timestamp + INTERVAL '1 DAY',26,'7:30 PM','Toronto Raptors','Portland Trail Blazers',NULL,NULL,'logos/tor.png','logos/por.png','Toronto Raptors','Portland Trail Blazers');
 
 
 DROP TABLE IF EXISTS ml_models.schedule_tonights_games;

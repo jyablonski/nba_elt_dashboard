@@ -9,7 +9,7 @@ from src.data import (
     game_types_df,
     past_schedule_analysis_df,
     preseason_odds_df,
-    schedule_df,
+    schedule_season_remaining_df,
     schedule_tonights_games_df,
     team_blown_leads_df,
 )
@@ -92,7 +92,7 @@ schedule_layout = html.Div(
                             id="schedule-plot-selector",
                             options=[
                                 {
-                                    "label": "Stength of Schedule (as of Today)",
+                                    "label": "Strength of Schedule (as of Today)",
                                     "value": "strength-of-schedule",
                                 },
                                 {
@@ -144,7 +144,6 @@ schedule_layout = html.Div(
 )
 def update_schedule_table(selected_value):
     if selected_value == "tonights-games":
-        print(schedule_tonights_games_df.dtypes)
         return (
             dash_table.DataTable(
                 columns=tonights_schedule_columns,
@@ -176,7 +175,7 @@ def update_schedule_table(selected_value):
         return (
             dash_table.DataTable(
                 columns=future_schedule_columns,
-                data=schedule_df.to_dict("records"),
+                data=schedule_season_remaining_df.to_dict("records"),
                 css=[{"selector": ".show-hide", "rule": "display: none"}],
                 sort_action="native",
                 page_size=15,
