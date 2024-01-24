@@ -1,4 +1,4 @@
-name: Prod Test - PR
+name: Test Pipeline
 
 on:
   pull_request:
@@ -19,38 +19,3 @@ jobs:
       - name: Run Tests
         run: |
           make test
-
-      # - name: Install Poetry
-      #   run: |
-      #     python -m pip install --upgrade pip
-      #     pip install poetry==${{ env.POETRY_VERSION }}
-
-      # - name: Install Python 3.11
-      #   uses: actions/setup-python@v4
-      #   id: setup_python
-      #   with:
-      #     python-version: ${{ env.PYTHON_VERSION }}
-      #     cache: poetry
-      #     cache-dependency-path: poetry.lock
-
-      # - name: Install dependencies
-      #   run: |
-      #     poetry install --no-root --with test
-
-      # - name: Create and populate .coveralls.yml file
-      #   env:
-      #     repo_token: ${{ secrets.repo_token }}
-      #   run: |
-      #     touch .coveralls.yml
-      #     echo repo_token: "$repo_token" >> .coveralls.yml
-      #     mkdir logs
-      #     cat > logs/example.log
-      #   shell: bash
-
-      # - name: Run Tests
-      #   run: |
-      #     make ci-test
-
-      # - name: Coveralls
-      #   run: |
-      #     poetry run coveralls

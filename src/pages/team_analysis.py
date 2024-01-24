@@ -5,14 +5,14 @@ import plotly.express as px
 
 from src.data_cols.injuries import injuries_columns
 from src.data_cols.transactions import transactions_columns
-from src.data import (
+from src.database import (
     injuries_df,
     mov_df,
     player_stats_df,
     team_adv_stats_df,
-    team_names,
     transactions_df,
 )
+from src.data import team_names
 
 team_analysis_layout = html.Div(
     [

@@ -4,7 +4,7 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 
 from src.data_cols.standings import standings_columns
-from src.data import (
+from src.database import (
     bans_df,
     contract_value_analysis_df,
     player_stats_df,

@@ -1,4 +1,4 @@
-name: Prod Deploy - ECR
+name: ECR Deploy Pipeline
 
 on:
   push:

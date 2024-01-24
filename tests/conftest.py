@@ -21,6 +21,26 @@ socket.socket = guard
 
 
 @pytest.fixture(scope="session")
+def postgres_engine() -> Engine:
+    """Fixture to generate SQLAlchemy Engine Object"""
+
+    if os.environ.get("ENV_TYPE") == "docker_dev":
+        host = "postgres"
+    else:
+        host = "localhost"
+
+    engine = sql_connection(
+        schema="nba_prod",
+        user="nba_dashboard_user",
+        password="postgres",
+        host=host,
+        database="postgres",
+    )
+
+    return engine
+
+
+@pytest.fixture(scope="session")
 def postgres_conn() -> Engine:
     """Fixture to connect to Docker Postgres Container"""
 

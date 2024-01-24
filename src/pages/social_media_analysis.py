@@ -4,12 +4,12 @@ import dash_bootstrap_components as dbc
 import plotly.express as px
 
 from src.data_cols.reddit_comments import reddit_comments_columns
-from src.data import (
+from src.database import (
     reddit_comments_df,
     reddit_sentiment_time_series_df,
     social_media_aggs_df,
-    team_names_abbreviations,
 )
+from src.data import team_names_abbreviations
 
 social_media_analysis_layout = html.Div(
     [

@@ -6,7 +6,7 @@ import plotly.express as px
 # from src.data_cols.injury_tracker import injury_tracker_columns
 from src.data_cols.recent_games_players import recent_games_players_columns
 from src.data_cols.recent_games_teams import recent_games_teams_columns
-from src.data import (
+from src.database import (
     # injury_tracker_df,
     recent_games_players_df,
     recent_games_teams_df,

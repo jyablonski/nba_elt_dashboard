@@ -19,7 +19,9 @@ optional = true
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.2"
-dash = {extras = ["testing"], version = "^2.14.1"}
+dash = { extras = ["testing"], version = "^2.14.1" }
+coveralls = "^3.3.1"
+pytest-cov = "^4.1.0"
 
 [tool.poetry.group.dev]
 optional = true
@@ -28,6 +30,7 @@ optional = true
 ipykernel = "^6.25.2"
 black = "^23.10.0"
 ruff = "^0.1.1"
+
 
 [tool.ruff]
 line-length = 100

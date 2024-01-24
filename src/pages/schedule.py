@@ -5,7 +5,7 @@ import plotly.express as px
 
 from src.data_cols.future_schedule import future_schedule_columns
 from src.data_cols.tonights_schedule import tonights_schedule_columns
-from src.data import (
+from src.database import (
     game_types_df,
     past_schedule_analysis_df,
     preseason_odds_df,
