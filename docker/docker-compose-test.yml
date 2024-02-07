@@ -41,7 +41,7 @@ services:
       - ${PWD}/config.yaml:/home/appuser/config.yaml
       - ${PWD}/tests/:/home/appuser/tests
       - ${PWD}/coverage.xml:/home/appuser/coverage.xml  # New line for coverage volume
-    command: python3 -m pytest -vv --cov --cov-report xml
+    command: python3 -m pytest -vv
 
 networks:
   dashboard_network:
