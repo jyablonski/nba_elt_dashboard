@@ -101,6 +101,7 @@ recent_games_layout = html.Div(
                             columns=recent_games_players_columns,
                             data=recent_games_players_df.to_dict("records"),
                             css=[{"selector": ".show-hide", "rule": "display: none"}],
+                            cell_selectable=False,
                             sort_action="native",
                             page_size=15,
                             style_cell={"background-color": "#383b3d"},
@@ -162,6 +163,7 @@ recent_games_layout = html.Div(
                                 css=[
                                     {"selector": ".show-hide", "rule": "display: none"}
                                 ],
+                                cell_selectable=False,
                                 style_cell={"background-color": "#383b3d"},
                                 merge_duplicate_headers=True,
                                 style_cell_conditional=[

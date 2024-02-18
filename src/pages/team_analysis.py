@@ -121,14 +121,16 @@ def update_mov(selected_team):
             "opponent",
             "mov",
             "outcome",
+            "pts_scored",
+            "pts_scored_opp",
         ],
     )
 
     fig.update_traces(
         hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-        hovertemplate="<b>%{customdata[0]}</b> vs <b>%{customdata[1]}</b><br>"
-        "<b>Margin of Victory:</b> %{customdata[2]}<br>"
-        "<b>Outcome:</b> %{customdata[3]}<br>",
+        hovertemplate="<b>%{customdata[0]} %{customdata[3]}</b> vs <b>%{customdata[1]}</b><br>"
+        "<b>Score:</b> %{customdata[4]} - %{customdata[5]}<br>"
+        "<b>Margin of Victory:</b> %{customdata[2]}<br>",
     )
 
     return fig
@@ -190,6 +192,7 @@ def update_injuries(selected_team):
                         'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; color: white",
                 }
             ],
+            cell_selectable=False,
             sort_action="native",
             page_size=10,
             style_cell={
@@ -234,6 +237,7 @@ def update_transactions(selected_team):
                     'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; color: white",
                 }
             ],
+            cell_selectable=False,
             sort_action="native",
             page_size=10,
             style_cell={

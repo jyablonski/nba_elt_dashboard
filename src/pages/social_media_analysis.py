@@ -104,6 +104,7 @@ social_media_analysis_layout = html.Div(
                                 'Trebuchet MS', sans-serif; color: white",
                             }
                         ],
+                        cell_selectable=False,
                         style_cell={
                             "overflow": "hidden",
                             "textOverflow": "ellipsis",

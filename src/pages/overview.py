@@ -104,6 +104,7 @@ overview_layout = (
                                     "conference",
                                     "team",
                                 ],
+                                cell_selectable=False,
                                 css=[
                                     {
                                         "selector": ".show-hide",
@@ -131,6 +132,7 @@ overview_layout = (
                                     "conference",
                                     "team",
                                 ],
+                                cell_selectable=False,
                                 css=[
                                     {
                                         "selector": ".show-hide",
