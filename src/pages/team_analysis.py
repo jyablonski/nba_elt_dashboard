@@ -19,12 +19,17 @@ team_analysis_layout = html.Div(
         html.Div(
             [
                 html.Div(
-                    dcc.Dropdown(
-                        id="team-selector",
-                        options=[{"label": team, "value": team} for team in team_names],
-                        value=team_names[0],
-                        clearable=False,
-                    ),
+                    [
+                        html.H4("Select a Team"),
+                        dcc.Dropdown(
+                            id="team-selector",
+                            options=[
+                                {"label": team, "value": team} for team in team_names
+                            ],
+                            value=team_names[0],
+                            clearable=False,
+                        ),
+                    ],
                     className="kpi-card",
                 ),
                 html.Div(

@@ -88,25 +88,28 @@ schedule_layout = html.Div(
             [
                 dbc.Row(
                     dbc.Col(
-                        dcc.Dropdown(
-                            id="schedule-plot-selector",
-                            options=[
-                                {
-                                    "label": "Strength of Schedule (as of Today)",
-                                    "value": "strength-of-schedule",
-                                },
-                                {
-                                    "label": "Vegas Preseason Over / Under Odds",
-                                    "value": "vegas-preseason-odds",
-                                },
-                                {
-                                    "label": "Team Comebacks Analysis (Regular Season)",
-                                    "value": "team-comebacks",
-                                },
-                            ],
-                            value="strength-of-schedule",
-                            clearable=False,
-                        ),
+                        [
+                            html.H4("Select a Schedule Analysis Plot"),
+                            dcc.Dropdown(
+                                id="schedule-plot-selector",
+                                options=[
+                                    {
+                                        "label": "Strength of Schedule (as of Today)",
+                                        "value": "strength-of-schedule",
+                                    },
+                                    {
+                                        "label": "Vegas Preseason Over / Under Odds",
+                                        "value": "vegas-preseason-odds",
+                                    },
+                                    {
+                                        "label": "Team Comebacks Analysis (Regular Season)",
+                                        "value": "team-comebacks",
+                                    },
+                                ],
+                                value="strength-of-schedule",
+                                clearable=False,
+                            ),
+                        ],
                         width={"size": 3, "offset": 9},
                     ),
                 ),
