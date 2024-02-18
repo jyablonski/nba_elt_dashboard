@@ -6,6 +6,8 @@ import pandas as pd
 from sqlalchemy.engine.base import Engine, Connection
 from sqlalchemy import create_engine
 
+from src.data import source_tables
+
 
 # pyyaml is fucking useless lmfao, how does this not come w/ the package ??????
 def substitute_env_vars(yaml_content: dict) -> None:
@@ -80,6 +82,37 @@ def get_data(
     return df
 
 
+def generate_data(postgres_engine: Engine, source_tables: list[str]):
+    """
+    Function to pull tables from Postgres and load them into Global
+    Memory as Pandas DataFrames to be used in Data Tables + Plots
+    for the Dashboard
+
+    Args:
+        postgres_engine (Engine): SQLAlchemy Engine Object to the Postgres
+            Database
+
+        source_tables (list[str]): List of Source Tables to load in.
+
+    Returns:
+        None, but loads all source tables into Pandas DataFrames
+
+    """
+    with postgres_engine.begin() as connection:
+        for table in source_tables:
+            if "." in table:
+                table_name = table.split(".")[1]
+                globals()[f"{table_name}_df"] = get_data(
+                    table_name=table, conn=connection
+                )
+            elif table == "reddit_sentiment_time_series":
+                globals()[f"{table}_df"] = get_data(
+                    table_name=table, conn=connection, limit_amount=10000000
+                )
+            else:
+                globals()[f"{table}_df"] = get_data(table_name=table, conn=connection)
+
+
 env = load_yaml_with_env("config.yaml")[os.environ.get("ENV_TYPE")]
 
 engine = sql_connection(
@@ -89,3 +122,5 @@ engine = sql_connection(
     database=env["database"],
     schema=env["schema"],
 )
+
+generate_data(postgres_engine=engine, source_tables=source_tables)

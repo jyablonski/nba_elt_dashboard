@@ -40,7 +40,8 @@ services:
       - ${PWD}/static/:/home/appuser/static
       - ${PWD}/config.yaml:/home/appuser/config.yaml
       - ${PWD}/tests/:/home/appuser/tests
-    command: python3 -m pytest -vv
+      - ${PWD}/coverage.xml:/home/appuser/coverage.xml  # New line for coverage volume
+    command: python3 -m pytest --cov-report term --cov-report xml:coverage_report.xml --cov=src
 
 networks:
   dashboard_network:

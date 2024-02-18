@@ -4,7 +4,7 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 
 from src.data_cols.standings import standings_columns
-from src.data import (
+from src.database import (
     bans_df,
     contract_value_analysis_df,
     player_stats_df,
@@ -104,6 +104,7 @@ overview_layout = (
                                     "conference",
                                     "team",
                                 ],
+                                cell_selectable=False,
                                 css=[
                                     {
                                         "selector": ".show-hide",
@@ -131,6 +132,7 @@ overview_layout = (
                                     "conference",
                                     "team",
                                 ],
+                                cell_selectable=False,
                                 css=[
                                     {
                                         "selector": ".show-hide",
@@ -148,6 +150,7 @@ overview_layout = (
             html.Br(),
             dbc.Row(
                 [
+                    html.H4("Select a Season Type"),
                     dbc.Col(
                         dcc.Dropdown(
                             id="season-selector",
@@ -162,7 +165,7 @@ overview_layout = (
                             value="Regular Season",
                         ),
                         width={"size": 2},
-                    )
+                    ),
                 ]
             ),
             dbc.Row(

@@ -5,7 +5,7 @@ import plotly.express as px
 
 from src.data_cols.future_schedule import future_schedule_columns
 from src.data_cols.tonights_schedule import tonights_schedule_columns
-from src.data import (
+from src.database import (
     game_types_df,
     past_schedule_analysis_df,
     preseason_odds_df,
@@ -88,25 +88,28 @@ schedule_layout = html.Div(
             [
                 dbc.Row(
                     dbc.Col(
-                        dcc.Dropdown(
-                            id="schedule-plot-selector",
-                            options=[
-                                {
-                                    "label": "Strength of Schedule (as of Today)",
-                                    "value": "strength-of-schedule",
-                                },
-                                {
-                                    "label": "Vegas Preseason Over / Under Odds",
-                                    "value": "vegas-preseason-odds",
-                                },
-                                {
-                                    "label": "Team Comebacks Analysis (Regular Season)",
-                                    "value": "team-comebacks",
-                                },
-                            ],
-                            value="strength-of-schedule",
-                            clearable=False,
-                        ),
+                        [
+                            html.H4("Select a Schedule Analysis Plot"),
+                            dcc.Dropdown(
+                                id="schedule-plot-selector",
+                                options=[
+                                    {
+                                        "label": "Strength of Schedule (as of Today)",
+                                        "value": "strength-of-schedule",
+                                    },
+                                    {
+                                        "label": "Vegas Preseason Over / Under Odds",
+                                        "value": "vegas-preseason-odds",
+                                    },
+                                    {
+                                        "label": "Team Comebacks Analysis (Regular Season)",
+                                        "value": "team-comebacks",
+                                    },
+                                ],
+                                value="strength-of-schedule",
+                                clearable=False,
+                            ),
+                        ],
                         width={"size": 3, "offset": 9},
                     ),
                 ),
@@ -149,6 +152,7 @@ def update_schedule_table(selected_value):
                 columns=tonights_schedule_columns,
                 data=schedule_tonights_games_df.to_dict("records"),
                 css=[{"selector": ".show-hide", "rule": "display: none"}],
+                cell_selectable=False,
                 sort_action="native",
                 page_size=15,
                 merge_duplicate_headers=True,
@@ -177,6 +181,7 @@ def update_schedule_table(selected_value):
                 columns=future_schedule_columns,
                 data=schedule_season_remaining_df.to_dict("records"),
                 css=[{"selector": ".show-hide", "rule": "display: none"}],
+                cell_selectable=False,
                 sort_action="native",
                 page_size=15,
                 style_cell={"background-color": "#383b3d"},

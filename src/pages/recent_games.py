@@ -6,7 +6,7 @@ import plotly.express as px
 # from src.data_cols.injury_tracker import injury_tracker_columns
 from src.data_cols.recent_games_players import recent_games_players_columns
 from src.data_cols.recent_games_teams import recent_games_teams_columns
-from src.data import (
+from src.database import (
     # injury_tracker_df,
     recent_games_players_df,
     recent_games_teams_df,
@@ -101,6 +101,7 @@ recent_games_layout = html.Div(
                             columns=recent_games_players_columns,
                             data=recent_games_players_df.to_dict("records"),
                             css=[{"selector": ".show-hide", "rule": "display: none"}],
+                            cell_selectable=False,
                             sort_action="native",
                             page_size=15,
                             style_cell={"background-color": "#383b3d"},
@@ -162,6 +163,7 @@ recent_games_layout = html.Div(
                                 css=[
                                     {"selector": ".show-hide", "rule": "display: none"}
                                 ],
+                                cell_selectable=False,
                                 style_cell={"background-color": "#383b3d"},
                                 merge_duplicate_headers=True,
                                 style_cell_conditional=[

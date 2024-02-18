@@ -1,5 +1,3 @@
-from src.database import get_data, engine
-
 team_names = [
     "Atlanta Hawks",
     "Boston Celtics",
@@ -97,15 +95,3 @@ source_tables = [
     "ml_models.schedule_tonights_games",
     "ml_models.tonights_games_ml",
 ]
-
-with engine.begin() as connection:
-    for table in source_tables:
-        if "." in table:
-            table_name = table.split(".")[1]
-            globals()[f"{table_name}_df"] = get_data(table_name=table, conn=connection)
-        elif table == "reddit_sentiment_time_series":
-            globals()[f"{table}_df"] = get_data(
-                table_name=table, conn=connection, limit_amount=10000000
-            )
-        else:
-            globals()[f"{table}_df"] = get_data(table_name=table, conn=connection)
