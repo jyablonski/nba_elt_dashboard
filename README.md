@@ -12,7 +12,7 @@ The NBA Dashboard has the following functionalities:
 - Social Media Analysis
 
 ## Running the App
-Clone the Repo & run `make up` which spins up the App locally served [here](http://localhost:9090/) using 2 Docker Containers:
+Clone the Repo & run `make up` which spins up the App locally served [here](http://localhost:9000/) using 2 Docker Containers:
 - Postgres Database
 - Dash Server
 

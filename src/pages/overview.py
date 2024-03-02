@@ -12,7 +12,7 @@ from src.database import (
     team_contracts_analysis_df,
     team_ratings_df,
 )
-from src.utils import generate_team_ratings_figure
+from src.utils import create_season_selector_dropdown, generate_team_ratings_figure
 
 team_contracts_analysis_df = team_contracts_analysis_df.sort_values(
     by="team_pct_salary_earned", ascending=True
@@ -148,26 +148,7 @@ overview_layout = (
                 ]
             ),
             html.Br(),
-            dbc.Row(
-                [
-                    html.H4("Select a Season Type"),
-                    dbc.Col(
-                        dcc.Dropdown(
-                            id="season-selector",
-                            options=[
-                                {
-                                    "label": "Regular Season",
-                                    "value": "Regular Season",
-                                },
-                                {"label": "Playoffs", "value": "Playoffs"},
-                            ],
-                            clearable=False,
-                            value="Regular Season",
-                        ),
-                        width={"size": 2},
-                    ),
-                ]
-            ),
+            create_season_selector_dropdown(),
             dbc.Row(
                 [
                     dbc.Col(
@@ -299,7 +280,7 @@ overview_layout = (
     Output("player-scoring-efficiency-plot", "figure"),
     Input("season-selector", "value"),
 )
-def update_graph(selected_season):
+def update_scoring_efficiency_plot(selected_season):
     regular_season_ts_percent_avg = player_stats_df.query(
         "season_type == 'Regular Season'"
     )["avg_ts_percent"].mean()
