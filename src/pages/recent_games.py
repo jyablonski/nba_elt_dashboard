@@ -301,7 +301,7 @@ def render_team_images(data):
 @callback(Output("pbp-analysis-plot", "figure"), [Input("game-selector", "value")])
 def update_data_table(selected_value):
     filtered_pbp = pbp_plot_df.query(f"game_description == '{selected_value}'")
-    # common_teams = pbp_plot_df["scoring_team"].unique()
+    # common_teams = filtered_pbp["scoring_team"].unique()
     # first_timestamp = filtered_pbp["time_remaining_final"].max() - 2
     # max_margin = filtered_pbp["margin_score"].max() - 2
     # filtered_pbp_plot_kpis = pbp_plot_kpis[
@@ -344,11 +344,12 @@ def update_data_table(selected_value):
         )
     )
 
-    # # Add annotation at the specified coordinates
+    # Add annotation at the specified coordinates
     # figure.add_annotation(
     #     x=first_timestamp,
     #     y=max_margin,
-    #     text="Your Annotation Text <br> hi",
+    #     # text=f"{filtered_pbp_plot_kpis['leading_team_text'][0]} <br> hi",
+    #     text=f"hello world {selected_value}<br> hi",
     #     showarrow=False,
     # )
 

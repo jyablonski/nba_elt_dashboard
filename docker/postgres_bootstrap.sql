@@ -2819,6 +2819,7 @@ CREATE TABLE IF NOT EXISTS player_stats (
 );
 INSERT INTO player_stats (player,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Joel Embiid','Regular Season','PHI','Philadelphia 76ers',30.3,0.586,53.00,11.8,4,6,'Top 20 Scorers',0,0,'Top 5 MVP Candidate',1),
+	 ('Joel Embiid','Playoffs','PHI','Philadelphia 76ers',27.3,0.586,53.00,11.8,4,6,'Top 20 Scorers',0,0,'Top 5 MVP Candidate',1),
 	 ('Luka Doncic','Regular Season','DAL','Dallas Mavericks',33.8,0.645,51.40,5.2,5,1,'Top 20 Scorers',0,0,'Top 5 MVP Candidate',2),
 	 ('Jayson Tatum','Regular Season','BOS','Boston Celtics',29.8,0.670,48.10,19.0,4,7,'Top 20 Scorers',0,0,'Top 5 MVP Candidate',3),
 	 ('De''Aaron Fox','Regular Season','SAC','Sacramento Kings',31.3,0.593,47.50,10.0,3,4,'Top 20 Scorers',1,0,'Top 5 MVP Candidate',4),

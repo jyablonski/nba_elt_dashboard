@@ -1,7 +1,7 @@
 # NBA ELT Dashboard
 ![Tests](https://github.com/jyablonski/nba_elt_dashboard/actions/workflows/test.yml/badge.svg) ![Deployment](https://github.com/jyablonski/nba_elt_dashboard/actions/workflows/deploy.yml/badge.svg) ![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)
 
-Version: 1.0.7
+Version: 1.0.8
 
 ## [Dashboard](https://nbadashboard.jyablonski.dev)
 
@@ -12,7 +12,7 @@ The NBA Dashboard has the following functionalities:
 - Social Media Analysis
 
 ## Running the App
-Clone the Repo & run `make up` which spins up the App locally served [here](http://localhost:9090/) using 2 Docker Containers:
+Clone the Repo & run `make up` which spins up the App locally served [here](http://localhost:9000/) using 2 Docker Containers:
 - Postgres Database
 - Dash Server
 

@@ -1,10 +1,14 @@
 from __future__ import annotations
 
+from datetime import datetime
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     import pandas as pd
 
+
+from dash import dcc, html
+import dash_bootstrap_components as dbc
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -54,9 +58,11 @@ def pbp_transformer(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     )
 
     pbp_events["game_plot_team_text"] = pbp_events.apply(
-        lambda row: row["home_fill"]
-        if row["scoring_team"] == row["home_team"]
-        else row["away_fill"],
+        lambda row: (
+            row["home_fill"]
+            if row["scoring_team"] == row["home_team"]
+            else row["away_fill"]
+        ),
         axis=1,
     )
 
@@ -152,3 +158,50 @@ def generate_team_ratings_figure(df: pd.DataFrame) -> go.Figure:
     )
 
     return team_ratings_fig
+
+
+def create_season_selector_dropdown(
+    current_date: datetime.date = datetime.now().date(),
+) -> dbc.Row:
+    """
+    Function to conditionally create the Regular Season / Playoffs
+    Dropdown Selector for the Scoring Efficiency Plot.
+
+    It will only show Regular Season until the Playoffs, and will
+    default to showing Playoffs first once the Postseason begins.
+
+    Args:
+        current_date (date): Current Date to check various conditions for
+
+    Returns:
+        dbc.Row Object for the Dropdown Selector.
+    """
+    playoff_start = datetime(current_date.year, 4, 15).date()
+    season_start = datetime(current_date.year, 10, 1).date()
+
+    if playoff_start < current_date < season_start:
+        default_season = "Playoffs"
+        options = [
+            {"label": "Regular Season", "value": "Regular Season"},
+            {"label": "Playoffs", "value": "Playoffs"},
+        ]
+    else:
+        default_season = "Regular Season"
+        options = [{"label": "Regular Season", "value": "Regular Season"}]
+
+    dropdown = dbc.Row(
+        [
+            html.H4("Select a Season Type"),
+            dbc.Col(
+                dcc.Dropdown(
+                    id="season-selector",
+                    options=options,
+                    clearable=False,
+                    value=default_season,
+                ),
+                width={"size": 2},
+            ),
+        ]
+    )
+
+    return dropdown
