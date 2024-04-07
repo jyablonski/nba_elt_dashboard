@@ -4,7 +4,6 @@ source_code:
 
 cd:
 - .github/workflows/deploy.yml
-- docker/*
 
 ci:
 - .github/workflows/test.yml
