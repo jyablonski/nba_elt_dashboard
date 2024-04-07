@@ -295,7 +295,7 @@ def update_scoring_efficiency_plot(selected_season):
         x="avg_ppg",
         y="avg_ts_percent",
         labels={
-            "avg_ppg": "Average PPGg",
+            "avg_ppg": "Average PPG",
             "avg_ts_percent": "Average TS%",
         },
         color="is_mvp_candidate",
