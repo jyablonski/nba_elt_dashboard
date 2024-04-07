@@ -2,6 +2,7 @@ from dash import callback, dash_table, dcc, html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import plotly.express as px
+import plotly.graph_objects as go
 
 from src.data_cols.standings import standings_columns
 from src.database import (
@@ -82,7 +83,7 @@ overview_layout = (
                 [
                     html.Br(),
                     html.Div(
-                        f"Last Updated {(bans_df['scrape_time'][0]).strftime('%A, %B %d %-I:%M %p UTC')}"  # noqa
+                        f"Data Last Updated {(bans_df['scrape_time'][0]).strftime('%A, %B %d %-I:%M %p UTC')}"  # noqa
                     ),
                 ]
             ),
@@ -294,7 +295,7 @@ def update_scoring_efficiency_plot(selected_season):
         x="avg_ppg",
         y="avg_ts_percent",
         labels={
-            "avg_ppg": "Average PPG",
+            "avg_ppg": "Average PPGg",
             "avg_ts_percent": "Average TS%",
         },
         color="is_mvp_candidate",
@@ -320,11 +321,30 @@ def update_scoring_efficiency_plot(selected_season):
         opacity=0.5,
     )
 
+    player_logos = []
+    for i, row in filtered_df.iterrows():
+        player_logos.append(
+            go.layout.Image(
+                source=row["player_logo"],
+                x=row["avg_ppg"],
+                y=row["avg_ts_percent"],
+                xref="x",
+                yref="y",
+                xanchor="center",
+                yanchor="middle",
+                sizex=1.5,
+                sizey=1.5,
+            )
+        )
+
+    layout = go.Layout(images=player_logos)
+    fig.update_layout(layout)
+
     fig.update_layout(legend_title_text="", yaxis_tickformat=".0%")
 
     fig.update_traces(
         marker=dict(
-            size=8,
+            size=16,
         ),
         mode="markers",
         hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
@@ -338,7 +358,7 @@ def update_scoring_efficiency_plot(selected_season):
 
     fig.add_annotation(
         x=player_stats_df["avg_ppg"].max(),
-        y=regular_season_ts_percent_avg - 0.01,
+        y=regular_season_ts_percent_avg + 0.01,
         text="League Average TS%",
         yanchor="top",
         showarrow=False,

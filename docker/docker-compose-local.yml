@@ -1,23 +1,22 @@
-version: '3'
 services:
   postgres:
     image: postgres:14-alpine
     container_name: postgres
     ports:
-     - 5432:5432
+      - 5432:5432
     environment:
-     - POSTGRES_USER=nba_dashboard_user
-     - POSTGRES_PASSWORD=postgres
-     - POSTGRES_DB=postgres
+      - POSTGRES_USER=nba_dashboard_user
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
     volumes:
       - ${PWD}/docker/postgres_bootstrap.sql:/docker-entrypoint-initdb.d/bootstrap.sql
-    networks: 
+    networks:
       - dashboard_network
 
   dash_app:
     build:
-        context: ../
-        dockerfile: docker/Dockerfile
+      context: ../
+      dockerfile: docker/Dockerfile
     image: nba_elt_dashboard_local
     environment:
       - IP=postgres
@@ -31,7 +30,7 @@ services:
       - 9000:9000
     depends_on:
       - postgres
-    networks: 
+    networks:
       - dashboard_network
     links:
       - postgres:postgres
