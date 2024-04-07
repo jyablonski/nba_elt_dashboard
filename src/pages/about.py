@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from dash import html
 
 about_layout = html.Div(
@@ -105,7 +107,10 @@ about_layout = html.Div(
             ]
         ),
         html.Br(),
-        html.P("Version: 1.0.8"),
+        html.P(
+            f"Dashboard Last Refreshed {datetime.now().strftime('%A, %B %d %-I:%M %p UTC')}"
+        ),
+        html.P("Version: 1.0.9"),
     ],
     className="custom-padding",
 )

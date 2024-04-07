@@ -1,0 +1,4 @@
+Makefile linguist-vendored
+docker/* linguist-vendored
+*.py linguist-language=python
+*.py linguist-detectable=true

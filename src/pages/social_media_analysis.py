@@ -11,6 +11,11 @@ from src.database import (
 )
 from src.data import team_names_abbreviations
 
+# generating link to the post w/ markdown syntax
+reddit_comments_df["url"] = reddit_comments_df["url"].str.replace(
+    "^(.*)$", "[Link](\\1)", regex=True
+)
+
 social_media_analysis_layout = html.Div(
     [
         # Single div to contain all four KPIs
@@ -105,6 +110,7 @@ social_media_analysis_layout = html.Div(
                             }
                         ],
                         cell_selectable=False,
+                        filter_action="native",
                         style_cell={
                             "overflow": "hidden",
                             "textOverflow": "ellipsis",

@@ -30,8 +30,5 @@ reddit_comments_columns = [
         type="numeric",
         format=FormatTemplate.percentage(1),
     ),
-    dict(
-        id="url",
-        name=["", "URL"],
-    ),
+    dict(id="url", name=["", "URL"], presentation="markdown"),
 ]

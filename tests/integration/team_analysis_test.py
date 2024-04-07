@@ -37,7 +37,7 @@ def test_injuries(test_input, expected_output):
 @pytest.mark.parametrize(
     "test_input,expected_output",
     [
-        ("Los Angeles Clippers", "Paul George"),
+        ("Los Angeles Clippers", "Kawhi Leonard"),
         ("Dallas Mavericks", "Luka Doncic"),
     ],
 )

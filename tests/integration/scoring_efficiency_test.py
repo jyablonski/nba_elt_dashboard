@@ -18,8 +18,8 @@ def test_graph_regular_season():
     assert isinstance(output, go.Figure)
     assert output["layout"]["xaxis"]["title"]["text"] == "Average PPG"
     assert output["layout"]["yaxis"]["title"]["text"] == "Average TS%"
-    assert output["data"][0]["customdata"][0][0] == "Joel Embiid"
-    assert output["data"][0]["customdata"][0][2] == 30.3
+    assert output["data"][0]["customdata"][0][0] == "Luka Doncic"
+    assert output["data"][0]["customdata"][0][2] == 34.1
 
 
 def test_graph_playoffs():
