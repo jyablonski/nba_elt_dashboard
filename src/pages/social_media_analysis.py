@@ -11,6 +11,7 @@ from src.database import (
 )
 from src.data import team_names_abbreviations
 
+# generating link to the post w/ markdown syntax
 reddit_comments_df["url"] = reddit_comments_df["url"].str.replace(
     "^(.*)$", "[Link](\\1)", regex=True
 )
