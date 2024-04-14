@@ -11,7 +11,7 @@ The NBA Dashboard has the following functionalities:
 - NBA Win Prediction Percentages & other Schedule Metrics for upcoming games
 - Social Media Analysis
 
-## Running the App
+## Running The App
 Clone the Repo & run `make up` which spins up the App locally served [here](http://localhost:9000/) using 2 Docker Containers:
 - Postgres Database
 - Dash Server
