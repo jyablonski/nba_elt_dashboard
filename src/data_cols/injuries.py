@@ -1,8 +1,8 @@
 injuries_columns = [
     dict(id="player", name="Player"),
     dict(id="team", name="Team"),
-    dict(id="date", name="Date"),
-    dict(id="status", name="Status"),
+    dict(id="scrape_date", name="Date"),
+    dict(id="injury_status", name="Status"),
     dict(id="injury", name="Injury"),
-    dict(id="description", name="Description"),
+    dict(id="injury_description", name="Description"),
 ]

@@ -55,11 +55,10 @@ overview_layout = (
                     html.Div(
                         [
                             html.Div(
-                                bans_df["sum_active_protocols"][0],
+                                "0",
                                 style={"fontSize": 24},
                             ),
                             html.Div("Active Players in COVID Protocols"),
-                            html.Div(bans_df["protocols_text"][0]),
                         ],
                         className="kpi-card",
                     ),
