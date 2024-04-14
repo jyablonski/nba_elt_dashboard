@@ -27,7 +27,7 @@ The same test suite runs on every commit to any PR
 ![nba_pipeline_diagram](https://github.com/jyablonski/nba_elt_dashboard/assets/16946556/e41ee516-9f38-4b4a-bbeb-8447ce35d480)
 
 1. Links to other Repos providing infrastructure for this Project
-    * [Ingestion Script](https://github.com/jyablonski/python_docker)
+    * [Ingestion Script](https://github.com/jyablonski/nba_elt_ingestion)
     * [dbt](https://github.com/jyablonski/nba_elt_dbt)
     * [ML Pipeline](https://github.com/jyablonski/nba_elt_mlflow)
     * [Terraform](https://github.com/jyablonski/aws_terraform)
