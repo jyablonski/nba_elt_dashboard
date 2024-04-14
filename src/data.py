@@ -93,5 +93,4 @@ source_tables = [
     "transactions",
     "twitter_comments",
     "ml_models.schedule_tonights_games",
-    "ml_models.tonights_games_ml",
 ]

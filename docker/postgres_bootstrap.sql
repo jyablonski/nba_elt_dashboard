@@ -3608,17 +3608,17 @@ CREATE TABLE injuries(
     player text,
     team_acronym text,
     team text,
-    date text,
-    status text,
+    injury_date text,
+    injury_status text,
     injury text,
-    description text,
+    injury_description text,
     total_injuries bigint,
     team_active_injuries numeric,
     team_active_protocols numeric,
     scrape_date date
 );
 
-INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
+INSERT INTO injuries (injury_pk,player,team_acronym,team,injury_date,injury_status,injury,injury_description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
 	 ('05b0a14018dfd1bec7677b72d071909c','Anfernee Simons','POR','Portland Trail Blazers','Tue, Oct 31, 2023','Out','Thumb','Simons underwent thumb surgery and is expected to return in 6 weeks, per Michael Scotto on X.',4,4,0,'2023-11-04'),
 	 ('0c6ada88af75f63710779f75f99e6ba3','De''Aaron Fox','SAC','Sacramento Kings','Fri, Nov 3, 2023','Out','Ankle','Fox is OUT for Saturday''s (Nov.4) game against Houston.',2,2,0,'2023-11-04'),
 	 ('1262330f197b5437f087e2b15c5a06af','Wesley Matthews','ATL','Atlanta Hawks','Wed, Oct 25, 2023','Out','Calf','The Hawks announced that Matthews has a mild right calf strain and will be re-evaluated in two weeks.',2,2,0,'2023-11-04'),
@@ -3629,7 +3629,7 @@ INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,de
 	 ('1a92f6ed88b46f1c27e8393958209ee0','Terance Mann','LAC','Los Angeles Clippers','Thu, Nov 2, 2023','Out','Ankle','Mann said on his YouTube channel that there''s no timeline for his return.',2,2,0,'2023-11-04'),
 	 ('1ef1c52a3b23dada97de79bdd8b2ffbf','Rui Hachimura','LAL','Los Angeles Lakers','Fri, Nov 3, 2023','Out','Eye','Hachimura is OUT for Saturday''s (Nov.4) game against Orlando.',5,5,0,'2023-11-04'),
 	 ('1f7a025e518180f71e689fac627912f8','Jalen Hood-Schifino','LAL','Los Angeles Lakers','Mon, Oct 23, 2023','Out','Knee','Hood-Schifino has a right patella contusion and will be re-evaluated Nov. 3, according to Mike Trudell of Spectrum SportsNet.',5,5,0,'2023-11-04');
-INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
+INSERT INTO injuries (injury_pk,player,team_acronym,team,injury_date,injury_status,injury,injury_description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
 	 ('22e96bd318a2ab2c5b33f6311586c2d3','Alec Burks','DET','Detroit Pistons','Thu, Nov 2, 2023','Day To Day','Forearm','Burks did not play in Thursday''s (Nov. 2) game against New Orleans.',4,4,0,'2023-11-04'),
 	 ('2ee8b30ed372a25075a684f4f43e8402','Bradley Beal','PHX','Phoenix Suns','Fri, Nov 3, 2023','Out','Back','Beal is OUT for Saturday''s (Nov.4) game against Philadelphia.',3,3,0,'2023-11-04'),
 	 ('343f8618c2f7f1d23cb853ec8911fedf','Markieff Morris','DAL','Dallas Mavericks','Fri, Nov 3, 2023','Out','Illness','Morris is OUT for Friday''s (Nov. 3) game against Denver.',2,2,0,'2023-11-04'),
@@ -3640,7 +3640,7 @@ INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,de
 	 ('46e7f6fb7bb9c747b816dfa93789f06f','Wendell Carter','ORL','Orlando Magic','Fri, Nov 3, 2023','Out','Hand','Carter Jr. is OUT for Saturday''s (Nov.3) game against Los Angeles.',3,3,0,'2023-11-04'),
 	 ('4e6b33f4e80e1270df52bebf802bb9d2','Kenrich Williams','OKC','Oklahoma City Thunder','Tue, Oct 31, 2023','Out','Back','Williams has back spasms and remains without a timetable to return.',2,2,0,'2023-11-04'),
 	 ('518aef3237bb239d76399d9349c5d455','Gary Harris','ORL','Orlando Magic','Fri, Nov 3, 2023','Out','Groin','Harris is OUT for Saturday''s (Nov.3) game against Los Angeles.',3,3,0,'2023-11-04');
-INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
+INSERT INTO injuries (injury_pk,player,team_acronym,team,injury_date,injury_status,injury,injury_description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
 	 ('52b6977624d3736383e1422b5ec7c0ca','Gabe Vincent','LAL','Los Angeles Lakers','Fri, Nov 3, 2023','Out','Knee','Vincent is OUT for Saturday''s (Nov.4) game against Orlando.',5,5,0,'2023-11-04'),
 	 ('52ce59115bf52c5ce5ed9ec796dc5be0','Shaedon Sharpe','POR','Portland Trail Blazers','Thu, Nov 2, 2023','Day To Day','Thumb','Sharpe is Probable for Friday''s (Nov.3) game against Memphis.',4,4,0,'2023-11-04'),
 	 ('5316408c1831d9f3623a5f611d85c777','Isaiah Livers','DET','Detroit Pistons','Tue, Oct 24, 2023','Out','Ankle','The Pistons announced that Livers sustained a left ankle sprain and will be out for approximately 6-8 weeks.',4,4,0,'2023-11-04'),
@@ -3651,7 +3651,7 @@ INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,de
 	 ('7d0b8886f4efdcfd09fad421c66cc80d','Brandon Ingram','NOP','New Orleans Pelicans','Fri, Nov 3, 2023','Day To Day','Knee','Ingram is Questionable for Saturday''s (Nov. 4) game against Atlanta.',4,4,0,'2023-11-04'),
 	 ('7e56d88fbedf792e3c8223c296df0695','Devin Booker','PHX','Phoenix Suns','Fri, Nov 3, 2023','Day To Day','Ankle','Booker is Questionable for Saturday''s (Nov.4) game against Philadelphia.',3,3,0,'2023-11-04'),
 	 ('8103d551d82aebbcf4b8cfe165494528','Ricky Rubio','CLE','Cleveland Cavaliers','Wed, Sep 27, 2023','Out','Personal','Rubio is away from the team due to a mental health matter, he will miss an undetermined length of time.',2,2,0,'2023-11-04');
-INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
+INSERT INTO injuries (injury_pk,player,team_acronym,team,injury_date,injury_status,injury,injury_description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
 	 ('83340e076703ee9716b021ca58575cc4','Neemias Queta','BOS','Boston Celtics','Fri, Nov 3, 2023','Out','Foot','Queta is OUT for Saturday''s (Nov. 4) game against Brooklyn.',1,1,0,'2023-11-04'),
 	 ('857e517cedaac4fbc1d912f6e834e0af','Corey Kispert','WAS','Washington Wizards','Fri, Nov 3, 2023','Day To Day','Ankle','Kispert did not play in Friday''s (Nov. 3) game against Miami.',1,1,0,'2023-11-04'),
 	 ('85a8370d814a69703c07473eaced24da','Christian Koloko','TOR','Toronto Raptors','Tue, Oct 24, 2023','Out','Respiratory','Koloko has been dealing with a respiratory issue since the offseason and currently has no timetable to return.',2,2,0,'2023-11-04'),
@@ -3662,7 +3662,7 @@ INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,de
 	 ('9041190599d29b04e70b66ac94802b05','Ty Jerome','CLE','Cleveland Cavaliers','Fri, Nov 3, 2023','Day To Day','Ankle','Jerome did not play in Friday''s (Nov.3) game against Indiana.',2,2,0,'2023-11-04'),
 	 ('9058771c50fc149a7c817331354b63f5','Caleb Martin','MIA','Miami Heat','Fri, Nov 3, 2023','Day To Day','Knee','Martin did not play in Friday''s (Nov. 3) game against Washington.',1,1,0,'2023-11-04'),
 	 ('928e09dd79cfb046feb6cffdfe9b5ac4','Derrick Rose','MEM','Memphis Grizzlies','Wed, Nov 1, 2023','Out','Knee','Grizzlies coach Taylor Jenkins said Rose will be re-evaluated in a week.',4,4,0,'2023-11-04');
-INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
+INSERT INTO injuries (injury_pk,player,team_acronym,team,injury_date,injury_status,injury,injury_description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
 	 ('9397422af882b070dce2622fe808aa7c','Tari Eason','HOU','Houston Rockets','Tue, Oct 24, 2023','Out','Leg','Rockets coach Ime Udoka said Eason is out 2-3 weeks with a stress reaction in his left leg.',3,3,0,'2023-11-04'),
 	 ('95c6a2081a1788cbdd83a1dd1de06c19','Victor Oladipo','HOU','Houston Rockets','Tue, Oct 24, 2023','Out','Knee','Oladipo is out while recovering from a left patellar tendon repair.',3,3,0,'2023-11-04'),
 	 ('a86ab9fcc41147c19e12ec060266e7fb','Shai Gilgeous-Alexander','OKC','Oklahoma City Thunder','Fri, Nov 3, 2023','Day To Day','Knee','Gilgeous-Alexander did not play in Friday''s (Nov. 3) game against Golden State.',2,2,0,'2023-11-04'),
@@ -3673,7 +3673,7 @@ INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,de
 	 ('c2488106b24b9b519194dd9974f0a6c7','Vlatko Cancar','DEN','Denver Nuggets','Thu, Aug 17, 2023','Out','Knee','The Nuggets announced that Cancar underwent surgery on his left knee and is out indefinitely.',1,1,0,'2023-11-04'),
 	 ('c5441441b6d0aca03a9b8da966baeca3','Brandon Clarke','MEM','Memphis Grizzlies','Tue, Oct 24, 2023','Out','Achilles','Clarke has no timetable for return after suffering a torn Achilles in March, according to Adrian Wojnarowski of ESPN.',4,4,0,'2023-11-04'),
 	 ('cf92ee876dbbd3e6fb673a595df00b81','Bojan Bogdanovic','DET','Detroit Pistons','Tue, Oct 24, 2023','Out','Calf','The Pistons announced that Bogdanovic has a right calf strain and will be re-evaluated in four weeks.',4,4,0,'2023-11-04');
-INSERT INTO injuries (injury_pk,player,team_acronym,team,"date",status,injury,description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
+INSERT INTO injuries (injury_pk,player,team_acronym,team,injury_date,injury_status,injury,injury_description,total_injuries,team_active_injuries,team_active_protocols,scrape_date) VALUES
 	 ('d1cfdbae8894b6aaa97061057f0f26a6','Cody Martin','CHA','Charlotte Hornets','Tue, Oct 24, 2023','Out','Knee','Martin hasn''t played since Jan. 14 last season against Boston. A timetable for his return hasn''t been announced.',3,3,0,'2023-11-04'),
 	 ('d727aa2eb4e4102f876449f6dbfd3d07','Taurean Prince','LAL','Los Angeles Lakers','Fri, Nov 3, 2023','Day To Day','Patellar','Prince is Questionable for Saturday''s (Nov.4) game against Orlando.',5,5,0,'2023-11-04'),
 	 ('e0622b957fc749c2a4ff22ccc0bad116','James Bouknight','CHA','Charlotte Hornets','Tue, Oct 24, 2023','Out','Knee','The Hornets announced that Bouknight had surgery and will be re-evaluated in four weeks.',3,3,0,'2023-11-04'),
