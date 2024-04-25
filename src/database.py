@@ -105,7 +105,7 @@ def generate_data(postgres_engine: Engine, source_tables: list[str]):
                 globals()[f"{table_name}_df"] = get_data(
                     table_name=table, conn=connection
                 )
-            elif table == "reddit_sentiment_time_series":
+            elif table in ("reddit_sentiment_time_series", "mov"):
                 globals()[f"{table}_df"] = get_data(
                     table_name=table, conn=connection, limit_amount=10000000
                 )
