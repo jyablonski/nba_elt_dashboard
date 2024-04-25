@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nba-elt-dashboard"
-version = "1.0.10"
+version = "1.0.11"
 description = "NBA Dashboard Project"
 authors = ["jyablonski9 <jyablonski9@gmail.com>"]
 readme = "README.md"
