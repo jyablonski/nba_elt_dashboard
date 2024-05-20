@@ -26,6 +26,7 @@ team_blown_leads_df = team_blown_leads_df.query(
     "season_type == 'Regular Season'"
 ).sort_values(by="net_comebacks", ascending=True)
 
+game_types_df = game_types_df.query("season_type == 'Regular Season'")
 
 schedule_layout = html.Div(
     [

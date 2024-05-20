@@ -3740,7 +3740,8 @@ INSERT INTO game_types (game_type, season_type, n, explanation)
 VALUES ('20 pt Game', 'Regular Season', 356, 'between 11 and 20 points'),
        ('Blowout Game', 'Regular Season', 154, 'more than 20 points'),
        ('10 pt Game', 'Regular Season', 351, 'between 6 and 10 points'),
-       ('Clutch Game', 'Regular Season', 327, '5 points or less');
+       ('Clutch Game', 'Regular Season', 327, '5 points or less'),
+	   ('Clutch Game', 'Playoffs', 11, '5 points or less');
 
 
 DROP TABLE IF EXISTS schedule;
