@@ -85,6 +85,10 @@ def pbp_transformer(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
             "Trailing"
         ]
 
+    # Check if 'TIE' column exists, if not, add it and initialize to 0
+    if "TIE" not in pbp_kpis.columns:
+        pbp_kpis["TIE"] = 0
+
     tot = sum(pbp_kpis["Leading"] + pbp_kpis["TIE"])
     pbp_kpis["pct_leading"] = round(pbp_kpis["Leading"] / tot, 3)
     pbp_kpis.drop(columns=["Trailing"], inplace=True)
