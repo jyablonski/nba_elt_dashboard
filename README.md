@@ -3,13 +3,13 @@
 
 Version: 1.0.13
 
-## [Dashboard](https://nbadashboard.jyablonski.dev)
-
 The NBA Dashboard has the following functionalities:
 - Overview of Standings, Contract Value, and Top Player Analysis
 - Recent Games Analysis
 - NBA Win Prediction Percentages & other Schedule Metrics for upcoming games
 - Social Media Analysis
+
+The Project was built to be hosted on ECS or EKS, but is no longer running on AWS as of August 2024.
 
 ## Running The App
 Clone the Repo & run `make up` which spins up the App locally served [here](http://localhost:9000/) using 2 Docker Containers:
