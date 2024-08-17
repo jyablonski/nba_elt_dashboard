@@ -9,7 +9,7 @@ The NBA Dashboard has the following functionalities:
 - NBA Win Prediction Percentages & other Schedule Metrics for upcoming games
 - Social Media Analysis
 
-The Project was built to be hosted on ECS or EKS, but is no longer running on AWS as of August 2024.
+The Project used to be hosted on ECS under the URL https://nbadashboard.jyablonski.dev, but is no longer running on AWS as of August 2024.
 
 ## Running The App
 Clone the Repo & run `make up` which spins up the App locally served [here](http://localhost:9000/) using 2 Docker Containers:
