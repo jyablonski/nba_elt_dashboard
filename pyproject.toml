@@ -4,9 +4,10 @@ version = "1.0.14"
 description = "NBA Dashboard Project"
 authors = ["jyablonski9 <jyablonski9@gmail.com>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.12"
+python = "^3.12"
 dash = "^2.14.0"
 psycopg2-binary = "^2.9.9"
 sqlalchemy = "^2.0.22"
