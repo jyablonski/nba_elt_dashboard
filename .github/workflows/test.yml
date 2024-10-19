@@ -4,8 +4,8 @@ on:
   pull_request:
 
 env:
-  PYTHON_VERSION: "3.11"
-  POETRY_VERSION: "1.6.1"
+  PYTHON_VERSION: "3.12"
+  POETRY_VERSION: "1.8.3"
 
 
 jobs:

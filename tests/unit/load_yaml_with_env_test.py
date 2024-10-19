@@ -3,6 +3,6 @@ def test_load_yaml_with_env(config_fixture):
         "database": "postgres",
         "host": "postgres",
         "pass": "postgres",
-        "schema": "nba_prod",
+        "schema": "marts",
         "user": "nba_dashboard_user",
     }

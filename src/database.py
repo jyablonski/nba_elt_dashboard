@@ -26,7 +26,7 @@ def load_yaml_with_env(filename: str) -> dict:
 
 
 def sql_connection(
-    user: str, password: str, host: str, database: str, schema: str
+    user: str, password: str, host: str, database: str, schema: str, port: int
 ) -> Engine:
     """
     SQL Connection Function for connecting to Postgres Database
@@ -42,11 +42,13 @@ def sql_connection(
 
         schema (str): The Schema in the DB to connect to.
 
+        port (int): The Port to Connect to the DB
+
     Returns:
         SQL Engine variable to a specified schema in the DB
     """
     connection = create_engine(
-        f"postgresql+psycopg2://{user}:{password}@{host}:5432/{database}",
+        f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}",
         connect_args={"options": f"-csearch_path={schema}"},
         # defining schema to connect to
         echo=False,
@@ -121,6 +123,7 @@ engine = sql_connection(
     host=env["host"],
     database=env["database"],
     schema=env["schema"],
+    port=env["port"],
 )
 
 generate_data(postgres_engine=engine, source_tables=source_tables)

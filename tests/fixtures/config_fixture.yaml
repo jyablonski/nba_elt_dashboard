@@ -6,10 +6,10 @@ dev:
   user: ${RDS_USER}
   pass: postgres
   database: postgres
-  schema: nba_prod
+  schema: marts
 docker_dev:
   host: postgres
   user: ${RDS_USER}
   pass: postgres
   database: postgres
-  schema: nba_prod
+  schema: marts

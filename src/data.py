@@ -92,5 +92,5 @@ source_tables = [
     "team_ratings",
     "transactions",
     "twitter_comments",
-    "ml_models.schedule_tonights_games",
+    "ml.schedule_tonights_games",
 ]

@@ -30,11 +30,12 @@ def postgres_engine() -> Engine:
         host = "localhost"
 
     engine = sql_connection(
-        schema="nba_prod",
+        schema="marts",
         user="nba_dashboard_user",
         password="postgres",
         host=host,
         database="postgres",
+        port=5432,
     )
 
     return engine
@@ -55,6 +56,7 @@ def postgres_conn() -> Engine:
         password="postgres",
         host=host,
         database="postgres",
+        port=5432,
     )
     with conn.begin() as conn:
         yield conn
