@@ -1,6 +1,6 @@
-CREATE SCHEMA nba_prod;
-CREATE SCHEMA ml_models;
-SET search_path TO nba_prod;
+CREATE SCHEMA marts;
+CREATE SCHEMA ml;
+SET search_path TO marts;
 
 DROP TABLE IF EXISTS bans;
 CREATE TABLE IF NOT EXISTS bans
@@ -2818,7 +2818,7 @@ CREATE TABLE IF NOT EXISTS player_stats (
 	is_mvp_candidate text NULL,
 	mvp_rank int8 NULL
 );
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Luka Doncic','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629029.png','Regular Season','DAL','Dallas Mavericks',34.1,0.615,53.00,3.2,61,2,'Top 20 Scorers',9,0,'Top 5 MVP Candidate',1),
 	 ('Shai Gilgeous-Alexander','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628983.png','Regular Season','OKC','Oklahoma City Thunder',30.9,0.644,50.20,8.2,67,3,'Top 20 Scorers',1,0,'Top 5 MVP Candidate',2),
 	 ('Nikola Jokic','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203999.png','Regular Season','DEN','Denver Nuggets',26.1,0.649,49.70,8.2,68,14,'Top 20 Scorers',2,0,'Top 5 MVP Candidate',3),
@@ -2829,7 +2829,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Tyrese Haliburton','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630169.png','Regular Season','IND','Indiana Pacers',20.4,0.603,40.90,3.4,57,48,'Other',13,0,'Other',7),
 	 ('Anthony Davis','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203076.png','Regular Season','LAL','Los Angeles Lakers',24.4,0.617,40.70,0.9,65,20,'Top 20 Scorers',4,0,'Other',9),
 	 ('Jalen Brunson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628973.png','Regular Season','NYK','New York Knicks',27.5,0.592,40.20,5.2,64,6,'Top 20 Scorers',5,0,'Other',10);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Joel Embiid','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203954.png','Playoffs','PHI','Philadelphia 76ers',27.3,0.645,39.90,6.9,34,1,'Top 20 Scorers',35,21,'Other',11),
 	 ('Joel Embiid','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203954.png','Regular Season','PHI','Philadelphia 76ers',35.3,0.645,39.90,6.9,34,1,'Top 20 Scorers',35,21,'Other',11),
 	 ('Kevin Durant','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201142.png','Regular Season','PHX','Phoenix Suns',27.6,0.628,39.80,3.2,63,5,'Top 20 Scorers',7,0,'Other',12),
@@ -2841,7 +2841,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Donovan Mitchell','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628378.png','Regular Season','CLE','Cleveland Cavaliers',27.4,0.600,37.75,7.0,49,7,'Top 20 Scorers',20,6,'Other',18),
 	 ('Domantas Sabonis','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627734.png','Regular Season','SAC','Sacramento Kings',20.0,0.651,37.60,0.6,69,51,'Other',0,0,'Other',19),
 	 ('Trae Young','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629027.png','Regular Season','ATL','Atlanta Hawks',26.4,0.581,36.43,-2.2,51,13,'Top 20 Scorers',18,4,'Other',20);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('James Harden','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201935.png','Regular Season','LAC','Los Angeles Clippers',17.3,0.632,35.00,5.0,61,68,'Other',7,0,'Other',22),
 	 ('Stephen Curry','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201939.png','Regular Season','GSW','Golden State Warriors',26.8,0.618,35.00,1.6,62,10,'Top 20 Scorers',6,0,'Other',21),
 	 ('Paul George','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/202331.png','Regular Season','LAC','Los Angeles Clippers',22.4,0.603,34.90,6.6,62,33,'Other',6,0,'Other',23),
@@ -2852,7 +2852,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Alperen Sengun','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630578.png','Regular Season','HOU','Houston Rockets',21.1,0.585,33.60,0.8,63,41,'Other',6,0,'Other',28),
 	 ('DeMar DeRozan','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201942.png','Regular Season','CHI','Chicago Bulls',23.1,0.582,33.50,-1.4,68,26,'Other',2,0,'Other',29),
 	 ('Zion Williamson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629627.png','Regular Season','NOP','New Orleans Pelicans',22.7,0.619,33.40,2.3,58,29,'Other',11,0,'Other',30);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Scottie Barnes','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630567.png','Regular Season','TOR','Toronto Raptors',19.9,0.566,33.20,-2.4,60,54,'Other',9,0,'Other',31),
 	 ('Brandon Ingram','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627742.png','Regular Season','NOP','New Orleans Pelicans',20.9,0.577,32.70,3.2,63,42,'Other',6,0,'Other',32),
 	 ('Paolo Banchero','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631094.png','Regular Season','ORL','Orlando Magic',22.6,0.554,32.60,0.3,68,30,'Other',2,0,'Other',33),
@@ -2863,7 +2863,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Pascal Siakam','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627783.png','Regular Season','IND','Indiana Pacers',21.6,0.601,31.70,0.7,68,38,'Other',2,0,'Other',38),
 	 ('Chet Holmgren','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631096.png','Regular Season','OKC','Oklahoma City Thunder',17.1,0.642,31.60,5.2,68,71,'Other',0,0,'Other',39),
 	 ('Bam Adebayo','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628389.png','Regular Season','MIA','Miami Heat',19.9,0.571,31.50,-0.3,58,53,'Other',11,0,'Other',40);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Jalen Williams','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631114.png','Regular Season','OKC','Oklahoma City Thunder',19.2,0.623,31.40,5.4,61,59,'Other',7,0,'Other',41),
 	 ('Cade Cunningham','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630595.png','Regular Season','DET','Detroit Pistons',22.2,0.545,30.10,-5.8,58,35,'Other',11,0,'Other',42),
 	 ('D''Angelo Russell','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1626156.png','Regular Season','LAL','Los Angeles Lakers',18.1,0.596,29.80,1.7,64,66,'Other',5,0,'Other',43),
@@ -2874,7 +2874,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Jarrett Allen','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628386.png','Regular Season','CLE','Cleveland Cavaliers',16.3,0.661,28.80,3.6,64,81,'Other',5,0,'Other',48),
 	 ('Julius Randle','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203944.png','Regular Season','NYK','New York Knicks',24.0,0.569,28.54,4.8,46,21,'Other',23,9,'Other',49),
 	 ('Kristaps Porzingis','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/204001.png','Regular Season','BOS','Boston Celtics',20.4,0.650,28.47,7.8,48,49,'Other',21,7,'Other',50);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('CJ McCollum','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203468.png','Regular Season','NOP','New Orleans Pelicans',18.3,0.589,28.22,3.2,53,63,'Other',16,2,'Other',51),
 	 ('Rudy Gobert','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203497.png','Regular Season','MIN','Minnesota Timberwolves',13.7,0.668,28.20,6.0,63,112,'Other',6,0,'Other',52),
 	 ('Jaren Jackson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628991.png','Regular Season','MEM','Memphis Grizzlies',22.5,0.556,28.10,-4.5,60,31,'Other',10,0,'Other',53),
@@ -2885,7 +2885,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Jrue Holiday','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201950.png','Regular Season','BOS','Boston Celtics',12.8,0.605,26.90,6.8,61,122,'Other',8,0,'Other',57),
 	 ('Kyle Kuzma','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628398.png','Regular Season','WAS','Washington Wizards',22.5,0.554,26.40,-8.1,66,32,'Other',4,0,'Other',60),
 	 ('Michael Porter','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629008.png','Regular Season','DEN','Denver Nuggets',17.1,0.613,26.40,5.8,69,72,'Other',1,0,'Other',59);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Myles Turner','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1626167.png','Regular Season','IND','Indiana Pacers',17.0,0.621,26.20,2.5,66,73,'Other',4,0,'Other',61),
 	 ('Terry Rozier','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1626179.png','Regular Season','MIA','Miami Heat',20.0,0.551,26.13,-6.5,52,50,'Other',17,3,'Other',62),
 	 ('Caris LeVert','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627747.png','Regular Season','CLE','Cleveland Cavaliers',14.0,0.518,25.90,2.5,57,104,'Other',12,0,'Other',63),
@@ -2896,7 +2896,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Devin Vassell','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630170.png','Regular Season','SAS','San Antonio Spurs',19.3,0.579,25.50,-4.2,63,58,'Other',6,0,'Other',68),
 	 ('Aaron Gordon','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203932.png','Regular Season','DEN','Denver Nuggets',13.7,0.607,25.40,5.7,64,109,'Other',6,0,'Other',69),
 	 ('LaMelo Ball','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630163.png','Regular Season','CHA','Charlotte Hornets',23.9,0.561,25.28,-6.3,22,22,'Other',47,33,'Other',70);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Malik Monk','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628370.png','Regular Season','SAC','Sacramento Kings',16.0,0.575,24.90,0.6,68,84,'Other',1,0,'Other',71),
 	 ('Bogdan Bogdanovic','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203992.png','Regular Season','ATL','Atlanta Hawks',16.5,0.561,24.70,2.0,66,78,'Other',3,0,'Other',72),
 	 ('Brook Lopez','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201572.png','Regular Season','MIL','Milwaukee Bucks',12.4,0.603,24.60,4.4,67,130,'Other',3,0,'Other',74),
@@ -2907,7 +2907,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Mike Conley','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201144.png','Regular Season','MIN','Minnesota Timberwolves',10.8,0.613,24.10,4.3,64,164,'Other',5,0,'Other',78),
 	 ('RJ Barrett','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629628.png','Regular Season','TOR','Toronto Raptors',19.5,0.576,23.71,-2.3,53,55,'Other',16,2,'Other',79),
 	 ('Desmond Bane','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630217.png','Regular Season','MEM','Memphis Grizzlies',23.9,0.588,23.33,-4.3,40,23,'Other',30,16,'Other',80);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Darius Garland','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629636.png','Regular Season','CLE','Cleveland Cavaliers',18.7,0.571,23.20,2.7,45,61,'Other',24,10,'Other',81),
 	 ('Jerami Grant','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203924.png','Regular Season','POR','Portland Trail Blazers',20.6,0.573,23.00,-6.4,55,46,'Other',14,0,'Other',82),
 	 ('Max Strus','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629622.png','Regular Season','CLE','Cleveland Cavaliers',12.2,0.544,22.90,4.3,60,136,'Other',9,0,'Other',83),
@@ -2918,7 +2918,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Dennis Schroder','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203471.png','Regular Season','BKN','Brooklyn Nets',13.8,0.554,22.30,-2.1,70,107,'Other',0,0,'Other',88),
 	 ('Jonas Valanciunas','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/202685.png','Regular Season','NOP','New Orleans Pelicans',12.6,0.624,22.30,2.4,69,127,'Other',0,0,'Other',89),
 	 ('Donte DiVincenzo','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628978.png','Regular Season','NYK','New York Knicks',14.3,0.586,21.90,1.2,68,101,'Other',1,0,'Other',91);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Klay Thompson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/202691.png','Regular Season','GSW','Golden State Warriors',17.3,0.567,21.90,-0.8,65,69,'Other',3,0,'Other',90),
 	 ('Tyus Jones','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1626145.png','Regular Season','WAS','Washington Wizards',12.0,0.578,21.80,-7.5,66,138,'Other',4,0,'Other',92),
 	 ('Jordan Clarkson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203903.png','Regular Season','UTA','Utah Jazz',17.4,0.524,21.60,-3.3,54,67,'Other',16,2,'Other',93),
@@ -2929,7 +2929,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Al Horford','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201143.png','Regular Season','BOS','Boston Celtics',8.3,0.644,20.90,6.6,57,213,'Other',12,0,'Other',98),
 	 ('Evan Mobley','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630596.png','Regular Season','CLE','Cleveland Cavaliers',15.6,0.615,20.85,1.1,38,89,'Other',31,17,'Other',99),
 	 ('Jabari Smith','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631095.png','Regular Season','HOU','Houston Rockets',13.4,0.565,20.70,-0.7,64,114,'Other',5,0,'Other',101);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Russell Westbrook','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201566.png','Regular Season','LAC','Los Angeles Clippers',11.1,0.511,20.70,1.1,58,158,'Other',10,0,'Other',100),
 	 ('Ivica Zubac','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627826.png','Regular Season','LAC','Los Angeles Clippers',11.4,0.674,20.70,3.0,56,149,'Other',12,0,'Other',102),
 	 ('Tre Jones','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630200.png','Regular Season','SAS','San Antonio Spurs',9.8,0.601,20.60,-0.5,64,180,'Other',5,0,'Other',103),
@@ -2940,7 +2940,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Clint Capela','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203991.png','Regular Season','ATL','Atlanta Hawks',11.3,0.583,20.40,-1.1,61,150,'Other',8,0,'Other',107),
 	 ('Josh Hart','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628404.png','Regular Season','NYK','New York Knicks',9.0,0.509,20.30,3.0,68,195,'Other',1,0,'Other',110),
 	 ('Brandin Podziemski','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641764.png','Regular Season','GSW','Golden State Warriors',9.4,0.529,20.30,3.8,60,188,'Other',8,0,'Other',109);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Spencer Dinwiddie','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203915.png','Regular Season','LAL','Los Angeles Lakers',10.7,0.526,20.20,0.6,63,165,'Other',6,0,'Other',112),
 	 ('Khris Middleton','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203114.png','Regular Season','MIL','Milwaukee Bucks',15.1,0.599,20.20,3.6,45,94,'Other',25,11,'Other',111),
 	 ('Keldon Johnson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629640.png','Regular Season','SAS','San Antonio Spurs',16.0,0.566,20.20,-5.4,64,83,'Other',5,0,'Other',113),
@@ -2951,7 +2951,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Alex Caruso','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627936.png','Regular Season','CHI','Chicago Bulls',9.9,0.601,19.80,0.2,61,178,'Other',9,0,'Other',118),
 	 ('Buddy Hield','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627741.png','Regular Season','PHI','Philadelphia 76ers',12.4,0.580,19.70,0.5,71,131,'Other',-2,0,'Other',119),
 	 ('Saddiq Bey','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630180.png','Regular Season','ATL','Atlanta Hawks',13.7,0.549,19.70,-0.3,63,110,'Other',6,0,'Other',121);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Jalen Suggs','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630591.png','Regular Season','ORL','Orlando Magic',12.5,0.600,19.70,0.8,63,128,'Other',7,0,'Other',120),
 	 ('Isaiah Hartenstein','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628392.png','Regular Season','NYK','New York Knicks',7.2,0.661,19.60,4.4,63,237,'Other',6,0,'Other',122),
 	 ('Jaden Ivey','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631093.png','Regular Season','DET','Detroit Pistons',15.3,0.545,19.60,-4.1,65,93,'Other',4,0,'Other',123),
@@ -2962,7 +2962,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Tim Hardaway','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203501.png','Regular Season','DAL','Dallas Mavericks',15.3,0.548,19.40,0.4,67,92,'Other',3,0,'Other',128),
 	 ('John Collins','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628381.png','Regular Season','UTA','Utah Jazz',14.6,0.608,19.20,-4.3,64,98,'Other',6,0,'Other',130),
 	 ('T.J. McConnell','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/204456.png','Regular Season','IND','Indiana Pacers',9.3,0.580,19.20,0.7,59,189,'Other',11,0,'Other',129);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Aaron Nesmith','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630174.png','Regular Season','IND','Indiana Pacers',12.3,0.638,19.10,1.6,61,134,'Other',9,0,'Other',131),
 	 ('Jakob Poeltl','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627751.png','Regular Season','TOR','Toronto Raptors',11.1,0.653,19.08,-0.3,50,154,'Other',19,5,'Other',132),
 	 ('Zach LaVine','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203897.png','Regular Season','CHI','Chicago Bulls',19.5,0.578,19.05,-3.7,25,56,'Other',45,31,'Other',133),
@@ -2973,7 +2973,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Cole Anthony','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630175.png','Regular Season','ORL','Orlando Magic',11.7,0.545,18.80,1.3,69,141,'Other',1,0,'Other',138),
 	 ('Malik Beasley','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627736.png','Regular Season','MIL','Milwaukee Bucks',11.5,0.620,18.80,4.9,67,146,'Other',3,0,'Other',139),
 	 ('Deandre Ayton','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629028.png','Regular Season','POR','Portland Trail Blazers',15.8,0.597,18.56,-4.9,47,87,'Other',22,8,'Other',140);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Norman Powell','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1626181.png','Regular Season','LAC','Los Angeles Clippers',13.9,0.629,18.50,2.4,65,105,'Other',3,0,'Other',141),
 	 ('Trey Murphy','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630530.png','Regular Season','NOP','New Orleans Pelicans',14.1,0.607,18.49,5.4,44,102,'Other',25,11,'Other',142),
 	 ('Eric Gordon','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201569.png','Regular Season','PHX','Phoenix Suns',11.9,0.593,18.30,1.8,57,139,'Other',13,0,'Other',143),
@@ -2984,7 +2984,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Ayo Dosunmu','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630245.png','Regular Season','CHI','Chicago Bulls',11.8,0.601,17.60,-1.9,68,140,'Other',2,0,'Other',148),
 	 ('Draymond Green','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203110.png','Regular Season','GSW','Golden State Warriors',8.8,0.580,17.55,2.6,43,201,'Other',25,11,'Other',149),
 	 ('De''Anthony Melton','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629001.png','Regular Season','PHI','Philadelphia 76ers',11.5,0.540,17.48,5.9,36,147,'Other',33,19,'Other',150);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Kevin Huerter','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628989.png','Regular Season','SAC','Sacramento Kings',10.2,0.564,17.40,1.2,64,172,'Other',5,0,'Other',151),
 	 ('Jeremy Sochan','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631110.png','Regular Season','SAS','San Antonio Spurs',11.6,0.515,17.30,-4.7,69,142,'Other',0,0,'Other',153),
 	 ('Onyeka Okongwu','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630168.png','Regular Season','ATL','Atlanta Hawks',10.2,0.674,17.30,-0.6,55,173,'Other',14,0,'Other',152),
@@ -2995,7 +2995,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Payton Pritchard','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630202.png','Regular Season','BOS','Boston Celtics',8.4,0.586,16.70,4.8,69,208,'Other',0,0,'Other',158),
 	 ('Keyonte George','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641718.png','Regular Season','UTA','Utah Jazz',12.9,0.542,16.60,-4.3,63,119,'Other',7,0,'Other',159),
 	 ('Kyle Anderson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203937.png','Regular Season','MIN','Minnesota Timberwolves',6.4,0.522,16.50,2.2,66,267,'Other',3,0,'Other',161);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Gary Trent','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629018.png','Regular Season','TOR','Toronto Raptors',12.8,0.550,16.50,-2.3,62,121,'Other',7,0,'Other',160),
 	 ('Santi Aldama','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630583.png','Regular Season','MEM','Memphis Grizzlies',11.0,0.537,16.40,-4.2,57,159,'Other',13,0,'Other',162),
 	 ('Jaden McDaniels','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630183.png','Regular Season','MIN','Minnesota Timberwolves',10.5,0.571,16.40,2.5,59,166,'Other',10,0,'Other',163),
@@ -3006,7 +3006,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Marcus Smart','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203935.png','Regular Season','MEM','Memphis Grizzlies',14.5,0.552,16.28,-1.0,20,100,'Other',50,36,'Other',168),
 	 ('Dereck Lively','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641726.png','Regular Season','DAL','Dallas Mavericks',9.0,0.731,16.11,2.2,51,192,'Other',19,5,'Other',169),
 	 ('Vince Williams','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631246.png','Regular Season','MEM','Memphis Grizzlies',10.0,0.597,16.01,-1.8,52,175,'Other',18,4,'Other',170);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Andrew Nembhard','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629614.png','Regular Season','IND','Indiana Pacers',8.9,0.561,16.00,0.3,56,196,'Other',14,0,'Other',171),
 	 ('Mark Williams','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631109.png','Regular Season','CHA','Charlotte Hornets',12.7,0.675,15.90,-1.1,19,123,'Other',50,36,'Other',172),
 	 ('Obi Toppin','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630167.png','Regular Season','IND','Indiana Pacers',10.2,0.664,15.80,1.3,70,174,'Other',0,0,'Other',173),
@@ -3017,7 +3017,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Harrison Barnes','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203084.png','Regular Season','SAC','Sacramento Kings',12.4,0.629,15.30,-1.7,69,133,'Other',0,0,'Other',177),
 	 ('De''Andre Hunter','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629631.png','Regular Season','ATL','Atlanta Hawks',15.6,0.613,15.28,-1.0,45,90,'Other',24,10,'Other',179),
 	 ('Tari Eason','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631106.png','Regular Season','HOU','Houston Rockets',9.8,0.528,15.23,4.0,22,181,'Other',47,33,'Other',180);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Sam Hauser','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630573.png','Regular Season','BOS','Boston Celtics',8.4,0.652,15.20,5.7,66,209,'Other',3,0,'Other',181),
 	 ('Amen Thompson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641708.png','Regular Season','HOU','Houston Rockets',8.8,0.578,15.12,0.2,50,202,'Other',19,5,'Other',182),
 	 ('Kyle Lowry','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/200768.png','Regular Season','PHI','Philadelphia 76ers',8.2,0.578,15.03,-0.7,50,218,'Other',19,5,'Other',183),
@@ -3028,7 +3028,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Zach Collins','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628380.png','Regular Season','SAS','San Antonio Spurs',11.2,0.562,14.50,-6.3,56,152,'Other',13,0,'Other',187),
 	 ('Scotty Pippen','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630590.png','Regular Season','MEM','Memphis Grizzlies',10.3,0.603,14.48,-1.6,9,170,'Other',61,47,'Other',189),
 	 ('Paul Reed','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630194.png','Regular Season','PHI','Philadelphia 76ers',7.1,0.571,14.40,0.3,69,240,'Other',0,0,'Other',190);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Dennis Smith','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628372.png','Regular Season','BKN','Brooklyn Nets',6.6,0.503,13.92,-0.5,54,261,'Other',16,2,'Other',191),
 	 ('Isaiah Joe','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630198.png','Regular Season','OKC','Oklahoma City Thunder',8.0,0.617,13.90,4.6,64,222,'Other',4,0,'Other',192),
 	 ('Kris Dunn','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627739.png','Regular Season','UTA','Utah Jazz',5.4,0.551,13.90,0.4,61,309,'Other',9,0,'Other',193),
@@ -3039,7 +3039,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Terance Mann','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629611.png','Regular Season','LAC','Los Angeles Clippers',8.3,0.588,13.60,0.8,61,211,'Other',7,0,'Other',198),
 	 ('Shaedon Sharpe','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631101.png','Regular Season','POR','Portland Trail Blazers',15.9,0.524,13.58,-7.7,32,85,'Other',37,23,'Other',199),
 	 ('Derrick Jones','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627884.png','Regular Season','DAL','Dallas Mavericks',8.9,0.606,13.50,0.1,65,198,'Other',5,0,'Other',200);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Trayce Jackson-Davis','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631218.png','Regular Season','GSW','Golden State Warriors',7.6,0.708,13.50,0.8,54,228,'Other',14,0,'Other',201),
 	 ('Dyson Daniels','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630700.png','Regular Season','NOP','New Orleans Pelicans',5.5,0.518,13.44,1.8,52,299,'Other',17,3,'Other',202),
 	 ('Grant Williams','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629684.png','Regular Season','CHA','Charlotte Hornets',9.6,0.578,13.40,-2.3,65,186,'Other',4,0,'Other',203),
@@ -3050,7 +3050,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Day''Ron Sharpe','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630549.png','Regular Season','BKN','Brooklyn Nets',7.2,0.605,13.06,1.4,52,236,'Other',18,4,'Other',208),
 	 ('Taurean Prince','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627752.png','Regular Season','LAL','Los Angeles Lakers',8.9,0.574,13.00,-2.0,67,197,'Other',2,0,'Other',210),
 	 ('Georges Niang','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627777.png','Regular Season','CLE','Cleveland Cavaliers',9.3,0.577,13.00,0.7,69,190,'Other',0,0,'Other',209);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Josh Green','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630182.png','Regular Season','DAL','Dallas Mavericks',8.5,0.604,12.96,-0.9,54,205,'Other',16,2,'Other',211),
 	 ('Jalen Smith','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630188.png','Regular Season','IND','Indiana Pacers',10.4,0.697,12.90,-0.6,49,169,'Other',21,7,'Other',213),
 	 ('Mitchell Robinson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629011.png','Regular Season','NYK','New York Knicks',6.2,0.567,12.90,1.6,21,275,'Other',48,34,'Other',212),
@@ -3061,7 +3061,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Cason Wallace','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641717.png','Regular Season','OKC','Oklahoma City Thunder',6.8,0.627,12.50,1.3,68,256,'Other',0,0,'Other',218),
 	 ('Bojan Bogdanovic','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/202711.png','Regular Season','NYK','New York Knicks',16.7,0.577,12.48,-7.3,44,75,'Other',25,11,'Other',220),
 	 ('Talen Horton-Tucker','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629659.png','Regular Season','UTA','Utah Jazz',9.7,0.499,12.48,-1.8,45,185,'Other',25,11,'Other',219);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Jose Alvarado','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630631.png','Regular Season','NOP','New Orleans Pelicans',6.7,0.531,12.30,3.7,48,258,'Other',21,7,'Other',221),
 	 ('Lonnie Walker','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629022.png','Regular Season','BKN','Brooklyn Nets',10.2,0.562,12.21,1.1,49,171,'Other',21,7,'Other',222),
 	 ('Moses Moody','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630541.png','Regular Season','GSW','Golden State Warriors',7.9,0.566,11.96,1.0,53,224,'Other',15,1,'Other',223),
@@ -3072,7 +3072,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Jordan Hawkins','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641722.png','Regular Season','NOP','New Orleans Pelicans',8.7,0.541,11.70,0.3,58,204,'Other',11,0,'Other',229),
 	 ('Patrick Beverley','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201976.png','Regular Season','MIL','Milwaukee Bucks',6.0,0.530,11.70,-1.2,65,285,'Other',5,0,'Other',228),
 	 ('Gregory Jackson',NULL,'Regular Season','MEM','Memphis Grizzlies',13.4,0.577,11.63,-2.8,36,115,'Other',34,20,'Other',231);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Patrick Williams','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630172.png','Regular Season','CHI','Chicago Bulls',10.0,0.553,11.63,-0.3,43,176,'Other',27,13,'Other',232),
 	 ('Dante Exum','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203957.png','Regular Season','DAL','Dallas Mavericks',8.3,0.654,11.63,3.4,44,210,'Other',26,12,'Other',230),
 	 ('Jabari Walker','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631133.png','Regular Season','POR','Portland Trail Blazers',8.5,0.555,11.60,-4.0,60,206,'Other',9,0,'Other',233),
@@ -3083,7 +3083,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Cameron Payne','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1626166.png','Regular Season','PHI','Philadelphia 76ers',7.3,0.573,11.40,-0.6,65,233,'Other',4,0,'Other',237),
 	 ('Sam Merrill','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630241.png','Regular Season','CLE','Cleveland Cavaliers',8.0,0.607,11.32,0.9,51,221,'Other',18,4,'Other',239),
 	 ('Daniel Theis','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628464.png','Regular Season','LAC','Los Angeles Clippers',6.1,0.593,11.27,1.0,53,280,'Other',15,1,'Other',240);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Isaiah Jackson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630543.png','Regular Season','IND','Indiana Pacers',7.0,0.687,11.26,0.1,50,247,'Other',20,6,'Other',241),
 	 ('Luke Kornet','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628436.png','Regular Season','BOS','Boston Celtics',5.2,0.717,11.13,2.6,51,318,'Other',18,4,'Other',242),
 	 ('Joe Ingles','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/204060.png','Regular Season','ORL','Orlando Magic',4.4,0.597,11.10,2.2,56,351,'Other',14,0,'Other',243),
@@ -3094,7 +3094,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Bilal Coulibaly','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641731.png','Regular Season','WAS','Washington Wizards',8.4,0.543,11.00,-6.7,63,207,'Other',7,0,'Other',247),
 	 ('Toumani Camara','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641739.png','Regular Season','POR','Portland Trail Blazers',7.1,0.536,11.00,-2.8,66,238,'Other',3,0,'Other',249),
 	 ('Luke Kennard','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628379.png','Regular Season','MEM','Memphis Grizzlies',11.1,0.650,10.95,-4.2,36,157,'Other',34,20,'Other',250);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Trey Lyles','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1626168.png','Regular Season','SAC','Sacramento Kings',7.1,0.602,10.82,2.4,49,239,'Other',20,6,'Other',251),
 	 ('Pat Connaughton','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1626192.png','Regular Season','MIL','Milwaukee Bucks',5.6,0.605,10.80,0.0,64,294,'Other',6,0,'Other',254),
 	 ('Aaron Holiday','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628988.png','Regular Season','HOU','Houston Rockets',6.6,0.581,10.80,1.1,66,263,'Other',3,0,'Other',252),
@@ -3105,7 +3105,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Vasilije Micic','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203995.png','Regular Season','CHA','Charlotte Hornets',6.7,0.548,10.32,0.7,48,260,'Other',21,7,'Other',258),
 	 ('Christian Wood','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1626174.png','Regular Season','LAL','Los Angeles Lakers',6.9,0.568,10.26,0.1,50,249,'Other',19,5,'Other',259),
 	 ('Killian Hayes','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630165.png','Regular Season','DET','Detroit Pistons',6.9,0.474,10.20,-5.8,42,251,'Other',27,13,'Other',260);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('John Konchar','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629723.png','Regular Season','MEM','Memphis Grizzlies',4.2,0.535,10.18,-3.0,54,363,'Other',16,2,'Other',261),
 	 ('Cody Martin','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628998.png','Regular Season','CHA','Charlotte Hornets',7.5,0.460,10.13,-5.6,28,229,'Other',41,27,'Other',263),
 	 ('Jeff Dowtin','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630288.png','Regular Season','PHI','Philadelphia 76ers',5.6,0.829,10.13,4.6,5,298,'Other',64,50,'Other',262),
@@ -3116,7 +3116,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Quentin Grimes','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629656.png','Regular Season','DET','Detroit Pistons',7.0,0.516,9.57,-0.8,51,244,'Other',18,4,'Other',268),
 	 ('Josh Okogie','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629006.png','Regular Season','PHX','Phoenix Suns',4.9,0.549,9.50,0.5,54,328,'Other',16,2,'Other',269),
 	 ('Kenrich Williams','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629026.png','Regular Season','OKC','Oklahoma City Thunder',4.1,0.553,9.50,2.8,55,369,'Other',13,0,'Other',270);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Aaron Wiggins','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630598.png','Regular Season','OKC','Oklahoma City Thunder',6.1,0.674,9.40,0.7,65,282,'Other',3,0,'Other',274),
 	 ('Julian Champagnie','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630577.png','Regular Season','SAS','San Antonio Spurs',6.0,0.563,9.40,-1.9,61,286,'Other',8,0,'Other',272),
 	 ('Malaki Branham','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631103.png','Regular Season','SAS','San Antonio Spurs',8.8,0.522,9.40,-5.5,64,203,'Other',5,0,'Other',271),
@@ -3127,7 +3127,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Drew Eubanks','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629234.png','Regular Season','PHX','Phoenix Suns',5.3,0.664,9.10,-1.3,64,312,'Other',6,0,'Other',278),
 	 ('Jordan Goodwin','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630692.png','Regular Season','MEM','Memphis Grizzlies',5.5,0.455,9.07,-1.7,48,306,'Other',22,8,'Other',279),
 	 ('Haywood Highsmith','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629312.png','Regular Season','MIA','Miami Heat',5.3,0.557,9.02,-0.9,53,311,'Other',16,2,'Other',280);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Derrick Rose','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201565.png','Regular Season','MEM','Memphis Grizzlies',8.0,0.540,9.00,-1.4,24,223,'Other',46,32,'Other',281),
 	 ('Gabe Vincent','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629216.png','Regular Season','LAL','Los Angeles Lakers',5.4,0.411,9.00,-0.4,5,307,'Other',64,50,'Other',284),
 	 ('DeJon Jarreau',NULL,'Regular Season','MEM','Memphis Grizzlies',4.8,0.375,9.00,-2.7,6,332,'Other',64,50,'Other',283),
@@ -3138,7 +3138,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Ziaire Williams','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630533.png','Regular Season','MEM','Memphis Grizzlies',8.2,0.511,8.64,-4.8,51,215,'Other',19,5,'Other',288),
 	 ('David Roddy','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631223.png','Regular Season','PHX','Phoenix Suns',7.0,0.486,8.60,-3.8,60,245,'Other',10,0,'Other',289),
 	 ('Dwight Powell','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203939.png','Regular Season','DAL','Dallas Mavericks',3.6,0.734,8.43,0.9,55,399,'Other',15,1,'Other',290);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Craig Porter','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641854.png','Regular Season','CLE','Cleveland Cavaliers',5.9,0.563,8.40,-0.3,45,289,'Other',24,10,'Other',291),
 	 ('Cedi Osman','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1626224.png','Regular Season','SAS','San Antonio Spurs',6.7,0.596,8.30,-4.9,65,259,'Other',4,0,'Other',292),
 	 ('Anthony Black','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641710.png','Regular Season','ORL','Orlando Magic',4.7,0.554,8.20,-0.5,63,334,'Other',7,0,'Other',293),
@@ -3149,7 +3149,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Cam Reddish','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629629.png','Regular Season','LAL','Los Angeles Lakers',6.2,0.521,8.03,-0.2,40,274,'Other',29,15,'Other',299),
 	 ('Mason Plumlee','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203486.png','Regular Season','LAC','Los Angeles Clippers',5.5,0.653,8.03,1.1,34,302,'Other',34,20,'Other',298),
 	 ('Jevon Carter','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628975.png','Regular Season','CHI','Chicago Bulls',4.9,0.489,7.90,0.2,65,330,'Other',5,0,'Other',300);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Maxi Kleber','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628467.png','Regular Season','DAL','Dallas Mavericks',4.4,0.543,7.88,1.8,33,352,'Other',37,23,'Other',302),
 	 ('Jake LaRavia','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631222.png','Regular Season','MEM','Memphis Grizzlies',8.2,0.488,7.88,-4.8,25,219,'Other',45,31,'Other',301),
 	 ('Gary Payton','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627780.png','Regular Season','GSW','Golden State Warriors',5.2,0.597,7.80,1.4,33,317,'Other',35,21,'Other',303),
@@ -3160,7 +3160,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Delon Wright','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1626153.png','Regular Season','MIA','Miami Heat',4.1,0.490,7.65,-1.0,39,374,'Other',30,16,'Other',308),
 	 ('Dalano Banton','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630625.png','Regular Season','POR','Portland Trail Blazers',7.4,0.520,7.50,-2.1,42,231,'Other',27,13,'Other',311),
 	 ('Buddy Boeheim','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631205.png','Regular Season','DET','Detroit Pistons',6.0,0.694,7.50,7.0,1,284,'Other',68,54,'Other',309);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Markquis Nowell','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641806.png','Regular Season','TOR','Toronto Raptors',2.0,0.532,7.50,4.0,1,480,'Other',68,54,'Other',310),
 	 ('Vit Krejci','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630249.png','Regular Season','ATL','Atlanta Hawks',4.4,0.524,7.43,0.1,9,350,'Other',60,46,'Other',312),
 	 ('James Wiseman','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630164.png','Regular Season','DET','Detroit Pistons',6.4,0.656,7.38,-4.1,50,270,'Other',19,5,'Other',313),
@@ -3171,7 +3171,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Evan Fournier','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203095.png','Regular Season','DET','Detroit Pistons',6.9,0.482,7.20,-3.2,20,253,'Other',49,35,'Other',318),
 	 ('Thaddeus Young','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201152.png','Regular Season','PHX','Phoenix Suns',4.5,0.603,7.20,-0.9,27,347,'Other',43,29,'Other',319),
 	 ('Bismack Biyombo',NULL,'Regular Season','OKC','Oklahoma City Thunder',4.6,0.555,7.20,-1.7,35,343,'Other',33,19,'Other',320);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Bol Bol','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629626.png','Regular Season','PHX','Phoenix Suns',5.7,0.682,7.13,1.0,31,292,'Other',39,25,'Other',321),
 	 ('Jontay Porter','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629007.png','Regular Season','TOR','Toronto Raptors',4.3,0.500,7.05,-2.9,25,358,'Other',44,30,'Other',323),
 	 ('Bones Hyland','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630538.png','Regular Season','LAC','Los Angeles Clippers',6.2,0.470,7.05,-1.0,30,277,'Other',38,24,'Other',322),
@@ -3182,7 +3182,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Jacob Gilyard','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631367.png','Regular Season','MEM','Memphis Grizzlies',4.7,0.597,6.75,-4.2,37,337,'Other',33,19,'Other',328),
 	 ('Seth Curry','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203552.png','Regular Season','CHA','Charlotte Hornets',5.3,0.519,6.69,1.3,43,315,'Other',26,12,'Other',329),
 	 ('Trey Jemison','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641998.png','Regular Season','MEM','Memphis Grizzlies',6.1,0.615,6.68,-2.5,17,279,'Other',53,39,'Other',330);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Lamar Stevens','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630205.png','Regular Season','MEM','Memphis Grizzlies',6.1,0.536,6.68,-0.3,31,281,'Other',39,25,'Other',331),
 	 ('Dominick Barlow','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631230.png','Regular Season','SAS','San Antonio Spurs',4.7,0.557,6.68,-1.5,30,338,'Other',39,25,'Other',332),
 	 ('Jaylen Nowell','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629669.png','Regular Season','MEM','Memphis Grizzlies',5.7,0.453,6.60,-0.3,9,293,'Other',61,47,'Other',335),
@@ -3193,7 +3193,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Bruno Fernando','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628981.png','Regular Season','ATL','Atlanta Hawks',4.8,0.576,6.45,-1.2,32,333,'Other',37,23,'Other',338),
 	 ('Blake Wesley','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631104.png','Regular Season','SAS','San Antonio Spurs',4.1,0.543,6.36,-2.9,48,371,'Other',21,7,'Other',339),
 	 ('Jordan McLaughlin','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629162.png','Regular Season','MIN','Minnesota Timberwolves',3.0,0.589,6.31,1.4,43,426,'Other',26,12,'Other',340);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Kevin Knox','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628995.png','Regular Season','DET','Detroit Pistons',7.2,0.570,6.30,-2.7,31,235,'Other',38,24,'Other',341),
 	 ('Davion Mitchell','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630558.png','Regular Season','SAC','Sacramento Kings',4.4,0.549,6.30,-1.6,59,353,'Other',10,0,'Other',342),
 	 ('Aleksandar Vezenkov',NULL,'Regular Season','SAC','Sacramento Kings',5.6,0.574,6.23,0.1,35,297,'Other',34,20,'Other',343),
@@ -3204,7 +3204,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Doug McDermott','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203926.png','Regular Season','IND','Indiana Pacers',5.7,0.600,6.11,-2.7,53,291,'Other',17,3,'Other',349),
 	 ('Gradey Dick','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641711.png','Regular Season','TOR','Toronto Raptors',6.9,0.539,6.11,-5.3,48,252,'Other',21,7,'Other',348),
 	 ('Malachi Flynn','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630201.png','Regular Season','DET','Detroit Pistons',4.0,0.518,6.10,-2.1,57,375,'Other',12,0,'Other',350);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Oshae Brissett','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629052.png','Regular Season','BOS','Boston Celtics',3.6,0.531,6.08,1.9,45,397,'Other',24,10,'Other',351),
 	 ('Alex Len','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203458.png','Regular Season','SAC','Sacramento Kings',2.7,0.616,6.00,3.2,35,434,'Other',34,20,'Other',352),
 	 ('Jordan Nwora','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629670.png','Regular Season','TOR','Toronto Raptors',6.4,0.565,6.00,-2.4,40,271,'Other',29,15,'Other',354),
@@ -3215,7 +3215,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Justin Holiday','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203200.png','Regular Season','DEN','Denver Nuggets',3.9,0.604,5.93,0.4,45,382,'Other',25,11,'Other',358),
 	 ('Ben Sheppard','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641767.png','Regular Season','IND','Indiana Pacers',4.3,0.551,5.85,0.9,45,360,'Other',25,11,'Other',359),
 	 ('Jahmi''us Ramsey',NULL,'Regular Season','TOR','Toronto Raptors',6.4,0.506,5.70,-5.2,5,268,'Other',64,50,'Other',360);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Jarace Walker','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641716.png','Regular Season','IND','Indiana Pacers',3.7,0.500,5.63,0.4,27,392,'Other',43,29,'Other',361),
 	 ('Dereon Seabron','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631220.png','Regular Season','NOP','New Orleans Pelicans',2.3,0.448,5.63,4.7,6,462,'Other',63,49,'Other',362),
 	 ('Armoni Brooks','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629717.png','Regular Season','BKN','Brooklyn Nets',4.2,0.448,5.55,2.8,10,365,'Other',60,46,'Other',363),
@@ -3226,7 +3226,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Lester Quinones','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631311.png','Regular Season','GSW','Golden State Warriors',4.5,0.531,5.33,0.4,31,346,'Other',37,23,'Other',369),
 	 ('Richaun Holmes','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1626158.png','Regular Season','WAS','Washington Wizards',4.6,0.588,5.33,-2.1,37,341,'Other',33,19,'Other',368),
 	 ('Bryce McGowens','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631121.png','Regular Season','CHA','Charlotte Hornets',5.2,0.575,5.31,-3.8,50,320,'Other',19,5,'Other',370);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Shake Milton','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629003.png','Regular Season','NYK','New York Knicks',4.7,0.494,5.30,-1.3,44,336,'Other',25,11,'Other',371),
 	 ('Danuel House','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627863.png','Regular Season','PHI','Philadelphia 76ers',4.2,0.575,5.25,0.6,34,364,'Other',35,21,'Other',372),
 	 ('A.J. Green',NULL,'Regular Season','MIL','Milwaukee Bucks',4.7,0.636,5.25,0.5,47,339,'Other',23,9,'Other',376),
@@ -3237,7 +3237,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Kenyon Martin','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630231.png','Regular Season','LAC','Los Angeles Clippers',5.0,0.460,5.25,-2.0,2,325,'Other',66,52,'Other',374),
 	 ('Dru Smith','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630696.png','Regular Season','MIA','Miami Heat',4.3,0.576,5.18,-4.8,9,355,'Other',60,46,'Other',380),
 	 ('Orlando Robinson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631115.png','Regular Season','MIA','Miami Heat',3.4,0.604,5.18,0.8,29,409,'Other',40,26,'Other',381);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Jalen Wilson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630592.png','Regular Season','BKN','Brooklyn Nets',4.5,0.544,5.18,-0.9,31,348,'Other',39,25,'Other',379),
 	 ('Caleb Houstan','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631216.png','Regular Season','ORL','Orlando Magic',4.2,0.569,5.17,-0.8,53,362,'Other',17,3,'Other',383),
 	 ('Dalen Terry','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631207.png','Regular Season','CHI','Chicago Bulls',2.6,0.496,5.17,0.8,47,443,'Other',23,9,'Other',382),
@@ -3248,7 +3248,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Trevelin Queen','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630243.png','Regular Season','ORL','Orlando Magic',3.1,0.462,4.95,-0.7,13,422,'Other',57,43,'Other',388),
 	 ('Jamal Cain','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631288.png','Regular Season','MIA','Miami Heat',4.9,0.531,4.95,-1.7,17,329,'Other',52,38,'Other',389),
 	 ('Izaiah Brockington',NULL,'Regular Season','NOP','New Orleans Pelicans',4.0,0.400,4.88,3.0,1,377,'Other',68,54,'Other',390);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Jason Preston',NULL,'Regular Season','UTA','Utah Jazz',1.0,0.333,4.80,4.3,4,528,'Other',66,52,'Other',392),
 	 ('Keon Johnson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630553.png','Regular Season','BKN','Brooklyn Nets',7.0,0.598,4.80,-5.8,4,246,'Other',66,52,'Other',393),
 	 ('Dexter Dennis','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641926.png','Regular Season','DAL','Dallas Mavericks',5.5,0.541,4.80,-2.3,4,305,'Other',66,52,'Other',391),
@@ -3259,7 +3259,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Otto Porter','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203490.png','Regular Season','TOR','Toronto Raptors',2.6,0.568,4.65,1.5,15,441,'Other',54,40,'Other',398),
 	 ('Patrick Baldwin','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631116.png','Regular Season','WAS','Washington Wizards',3.4,0.488,4.65,-0.1,27,407,'Other',43,29,'Other',399),
 	 ('Matthew Hurt',NULL,'Regular Season','MEM','Memphis Grizzlies',4.0,0.453,4.58,-1.5,8,376,'Other',62,48,'Other',402);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Gui Santos',NULL,'Regular Season','GSW','Golden State Warriors',3.3,0.633,4.58,1.3,18,415,'Other',50,36,'Other',401),
 	 ('DeAndre Jordan','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201599.png','Regular Season','DEN','Denver Nuggets',4.0,0.609,4.58,-2.8,30,379,'Other',40,26,'Other',400),
 	 ('Nick Smith','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641733.png','Regular Season','CHA','Charlotte Hornets',5.9,0.517,4.56,-4.0,43,290,'Other',26,12,'Other',403),
@@ -3270,7 +3270,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Stanley Umude','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630649.png','Regular Season','DET','Detroit Pistons',5.3,0.647,4.43,-3.1,24,314,'Other',45,31,'Other',407),
 	 ('Garrison Mathews','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629726.png','Regular Season','ATL','Atlanta Hawks',3.7,0.637,4.42,-1.8,53,390,'Other',16,2,'Other',410),
 	 ('Zeke Nnaji','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630192.png','Regular Season','DEN','Denver Nuggets',3.2,0.522,4.42,-3.1,53,420,'Other',17,3,'Other',409);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('JT Thor','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630550.png','Regular Season','CHA','Charlotte Hornets',2.8,0.457,4.42,-1.0,52,432,'Other',17,3,'Other',411),
 	 ('Onuralp Bitim','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641931.png','Regular Season','CHI','Chicago Bulls',4.6,0.544,4.35,-1.6,14,340,'Other',56,42,'Other',413),
 	 ('Svi Mykhailiuk','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629004.png','Regular Season','BOS','Boston Celtics',3.1,0.497,4.35,2.1,30,425,'Other',39,25,'Other',412),
@@ -3281,7 +3281,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Cody Zeller','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203469.png','Regular Season','NOP','New Orleans Pelicans',1.9,0.481,4.20,1.6,38,485,'Other',31,17,'Other',418),
 	 ('Adama Sanogo','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641766.png','Regular Season','CHI','Chicago Bulls',2.5,0.940,4.20,5.3,4,450,'Other',66,52,'Other',417),
 	 ('Drew Peterson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641809.png','Regular Season','BOS','Boston Celtics',3.0,1.500,4.13,2.0,1,428,'Other',68,54,'Other',420);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Sandro Mamukelashvili','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630572.png','Regular Season','SAS','San Antonio Spurs',2.4,0.527,4.05,0.7,37,460,'Other',32,18,'Other',421),
 	 ('Nate Hinton','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630207.png','Regular Season','HOU','Houston Rockets',2.8,0.698,4.05,1.5,11,431,'Other',58,44,'Other',422),
 	 ('Ish Smith',NULL,'Regular Season','CHA','Charlotte Hornets',3.2,0.435,4.03,-6.5,43,418,'Other',26,12,'Other',423),
@@ -3292,7 +3292,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Mike Muscala','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/203488.png','Regular Season','OKC','Oklahoma City Thunder',3.5,0.472,3.95,-2.1,42,406,'Other',26,12,'Other',428),
 	 ('Furkan Korkmaz','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627788.png','Regular Season','PHI','Philadelphia 76ers',2.5,0.519,3.90,1.3,35,447,'Other',34,20,'Other',429),
 	 ('Collin Gillespie','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631221.png','Regular Season','DEN','Denver Nuggets',3.3,0.639,3.83,-0.1,19,416,'Other',51,37,'Other',431);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Jericho Sims','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630579.png','Regular Season','NYK','New York Knicks',2.2,0.744,3.83,-0.7,40,468,'Other',29,15,'Other',430),
 	 ('Moussa Diabate','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631217.png','Regular Season','LAC','Los Angeles Clippers',2.6,0.576,3.75,-0.2,11,438,'Other',57,43,'Other',433),
 	 ('Cory Joseph','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/202709.png','Regular Season','GSW','Golden State Warriors',2.4,0.470,3.75,-0.5,26,457,'Other',42,28,'Other',432),
@@ -3303,7 +3303,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Nassir Little','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629642.png','Regular Season','PHX','Phoenix Suns',3.6,0.577,3.60,-2.0,38,398,'Other',32,18,'Other',439),
 	 ('Anthony Gill','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630264.png','Regular Season','WAS','Washington Wizards',2.6,0.563,3.60,1.4,40,442,'Other',30,16,'Other',437),
 	 ('P.J. Tucker','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/200782.png','Regular Season','LAC','Los Angeles Clippers',1.6,0.496,3.53,-1.0,22,494,'Other',46,32,'Other',440);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Aleksej Pokusevski','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630197.png','Regular Season','CHA','Charlotte Hornets',2.6,0.411,3.38,-2.6,16,439,'Other',53,39,'Other',442),
 	 ('Hamidou Diallo',NULL,'Regular Season','WAS','Washington Wizards',1.0,0.500,3.38,2.0,2,518,'Other',68,54,'Other',441),
 	 ('Wenyen Gabriel','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629117.png','Regular Season','MEM','Memphis Grizzlies',3.4,0.351,3.30,-3.2,5,410,'Other',65,51,'Other',443),
@@ -3314,7 +3314,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Luka Garza','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630568.png','Regular Season','MIN','Minnesota Timberwolves',3.9,0.556,3.15,-1.0,18,383,'Other',51,37,'Other',445),
 	 ('Noah Clowney','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641730.png','Regular Season','BKN','Brooklyn Nets',3.1,0.638,3.15,-1.8,11,421,'Other',59,45,'Other',447),
 	 ('Micah Potter','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630695.png','Regular Season','UTA','Utah Jazz',3.7,0.908,3.08,-1.9,7,391,'Other',63,49,'Other',454);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Kira Lewis','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630184.png','Regular Season','UTA','Utah Jazz',2.4,0.402,3.08,-1.0,22,461,'Other',48,34,'Other',450),
 	 ('Jalen McDaniels','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629667.png','Regular Season','TOR','Toronto Raptors',3.1,0.423,3.08,-1.9,40,423,'Other',29,15,'Other',452),
 	 ('Wesley Matthews','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/202083.png','Regular Season','ATL','Atlanta Hawks',2.8,0.521,3.08,-2.7,29,430,'Other',40,26,'Other',451),
@@ -3325,7 +3325,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Maozinha Pereira',NULL,'Regular Season','MEM','Memphis Grizzlies',2.0,0.500,3.00,4.0,1,478,'Other',69,55,'Other',455),
 	 ('R.J. Hampton','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630181.png','Regular Season','MIA','Miami Heat',1.3,0.336,2.93,2.6,8,512,'Other',61,47,'Other',462),
 	 ('Kenneth Lofton','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631254.png','Regular Season','PHI','Philadelphia 76ers',2.4,0.413,2.93,-0.5,17,458,'Other',52,38,'Other',460);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Moses Brown','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629650.png','Regular Season','POR','Portland Trail Blazers',2.2,0.435,2.93,-1.7,15,470,'Other',54,40,'Other',461),
 	 ('Tosan Evbuomwan','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641787.png','Regular Season','DET','Detroit Pistons',4.3,0.597,2.93,-5.9,9,357,'Other',60,46,'Other',459),
 	 ('Lindy Waters','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630322.png','Regular Season','OKC','Oklahoma City Thunder',2.6,0.633,2.85,-0.5,29,440,'Other',39,25,'Other',463),
@@ -3336,7 +3336,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Ish Wainright','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630688.png','Regular Season','PHX','Phoenix Suns',2.3,0.462,2.70,-0.6,10,463,'Other',60,46,'Other',471),
 	 ('Jordan Ford','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630259.png','Regular Season','SAC','Sacramento Kings',2.0,0.761,2.70,2.3,6,483,'Other',63,49,'Other',469),
 	 ('Colby Jones','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641732.png','Regular Season','SAC','Sacramento Kings',2.0,0.374,2.70,0.1,20,484,'Other',49,35,'Other',468);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Brandon Boston','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630527.png','Regular Season','LAC','Los Angeles Clippers',3.9,0.475,2.70,-3.0,24,385,'Other',44,30,'Other',470),
 	 ('James Johnson',NULL,'Regular Season','IND','Indiana Pacers',0.9,0.436,2.70,0.3,7,531,'Other',63,49,'Other',472),
 	 ('Chuma Okeke','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629643.png','Regular Season','ORL','Orlando Magic',2.5,0.472,2.63,-1.5,42,452,'Other',28,14,'Other',473),
@@ -3347,7 +3347,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Isaiah Mobley','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630600.png','Regular Season','CLE','Cleveland Cavaliers',2.0,0.462,2.48,-1.5,6,475,'Other',63,49,'Other',478),
 	 ('Amari Bailey','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641735.png','Regular Season','CHA','Charlotte Hornets',1.4,0.322,2.40,1.8,5,508,'Other',64,50,'Other',479),
 	 ('Johnny Davis','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631098.png','Regular Season','WAS','Washington Wizards',2.4,0.387,2.40,-2.5,39,455,'Other',31,17,'Other',481);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Udoka Azubuike','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628962.png','Regular Season','PHX','Phoenix Suns',2.5,0.652,2.40,-2.7,14,449,'Other',56,42,'Other',480),
 	 ('Terry Taylor','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630678.png','Regular Season','CHI','Chicago Bulls',1.6,0.548,2.33,0.6,27,500,'Other',43,29,'Other',483),
 	 ('Leonard Miller','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631159.png','Regular Season','MIN','Minnesota Timberwolves',1.7,0.682,2.33,-0.8,9,490,'Other',60,46,'Other',484),
@@ -3358,7 +3358,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Boban Marjanovic','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1626246.png','Regular Season','HOU','Houston Rockets',2.5,0.519,2.10,-2.5,11,445,'Other',58,44,'Other',488),
 	 ('Kessler Edwards','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630556.png','Regular Season','SAC','Sacramento Kings',1.6,0.540,2.03,-0.4,44,495,'Other',25,11,'Other',489),
 	 ('Josh Minott','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631169.png','Regular Season','MIN','Minnesota Timberwolves',1.6,0.573,2.03,0.2,24,499,'Other',45,31,'Other',490);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Taj Gibson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201959.png','Regular Season','DET','Detroit Pistons',1.1,0.367,1.95,-1.6,17,516,'Other',52,38,'Other',491),
 	 ('Brandon Williams','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630314.png','Regular Season','DAL','Dallas Mavericks',2.0,0.447,1.95,-2.3,12,479,'Other',58,44,'Other',492),
 	 ('Cole Swider','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631306.png','Regular Season','MIA','Miami Heat',2.3,0.483,1.95,0.1,11,466,'Other',58,44,'Other',493),
@@ -3369,7 +3369,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Justin Minaya','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631303.png','Regular Season','POR','Portland Trail Blazers',1.2,0.361,1.80,-1.0,25,514,'Other',44,30,'Other',499),
 	 ('Frank Ntilikina','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1628373.png','Regular Season','CHA','Charlotte Hornets',1.0,0.253,1.80,-0.2,5,527,'Other',64,50,'Other',498),
 	 ('Danny Green','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201980.png','Regular Season','PHI','Philadelphia 76ers',0.0,0.000,1.73,0.0,2,546,'Other',67,53,'Other',501);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Dylan Windler','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629685.png','Regular Season','ATL','Atlanta Hawks',1.3,0.682,1.73,-0.1,12,511,'Other',57,43,'Other',500),
 	 ('Jermaine Samuels','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631257.png','Regular Season','HOU','Houston Rockets',1.6,0.758,1.73,-1.0,11,493,'Other',58,44,'Other',502),
 	 ('Kobe Brown','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641738.png','Regular Season','LAC','Los Angeles Clippers',1.7,0.477,1.73,-1.8,36,488,'Other',32,18,'Other',503),
@@ -3380,7 +3380,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Jett Howard','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641724.png','Regular Season','ORL','Orlando Magic',1.6,0.464,1.50,-0.1,14,492,'Other',56,42,'Other',508),
 	 ('Garrett Temple','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/202066.png','Regular Season','TOR','Toronto Raptors',1.4,0.486,1.43,-0.6,16,506,'Other',53,39,'Other',509),
 	 ('Mouhamadou Gueye','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631338.png','Regular Season','TOR','Toronto Raptors',1.7,0.213,1.28,-6.0,3,489,'Other',66,52,'Other',510);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('AJ Griffin','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631100.png','Regular Season','ATL','Atlanta Hawks',2.1,0.403,1.28,-1.6,18,472,'Other',51,37,'Other',512),
 	 ('Pat Spencer',NULL,'Regular Season','GSW','Golden State Warriors',0.7,1.000,1.28,0.0,3,536,'Other',65,51,'Other',511),
 	 ('Keyontae Johnson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641749.png','Regular Season','OKC','Oklahoma City Thunder',1.2,0.344,1.20,-0.8,9,513,'Other',59,45,'Other',513),
@@ -3391,7 +3391,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Kendall Brown','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631112.png','Regular Season','IND','Indiana Pacers',1.4,0.601,1.13,-1.0,10,509,'Other',60,46,'Other',516),
 	 ('Jacob Toppin','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631210.png','Regular Season','NYK','New York Knicks',1.4,0.658,1.13,-1.8,9,505,'Other',60,46,'Other',517),
 	 ('E.J. Liddell','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630604.png','Regular Season','NOP','New Orleans Pelicans',0.5,0.291,1.05,-0.5,8,541,'Other',61,47,'Other',521);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Jay Huff','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630643.png','Regular Season','DEN','Denver Nuggets',1.5,0.738,1.05,-1.2,13,504,'Other',57,43,'Other',520),
 	 ('Admiral Schofield','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629678.png','Regular Season','ORL','Orlando Magic',1.0,0.437,0.98,-0.5,20,523,'Other',50,36,'Other',525),
 	 ('Robin Lopez','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/201577.png','Regular Season','MIL','Milwaukee Bucks',1.1,0.453,0.98,-1.4,16,515,'Other',54,40,'Other',522),
@@ -3402,7 +3402,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Hunter Tyson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641816.png','Regular Season','DEN','Denver Nuggets',0.7,0.364,0.83,0.3,11,535,'Other',59,45,'Other',529),
 	 ('Jalen Slawson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641771.png','Regular Season','SAC','Sacramento Kings',0.9,0.600,0.83,-1.7,7,530,'Other',62,48,'Other',528),
 	 ('Emoni Bates','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641734.png','Regular Season','CLE','Cleveland Cavaliers',2.3,0.370,0.83,-5.5,11,464,'Other',58,44,'Other',530);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Isaiah Thomas',NULL,'Regular Season','PHX','Phoenix Suns',0.0,0.000,0.75,-1.0,1,561,'Other',69,55,'Other',531),
 	 ('Jalen Hood-Schifino','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641720.png','Regular Season','LAL','Los Angeles Lakers',1.6,0.316,0.75,-2.6,21,498,'Other',48,34,'Other',532),
 	 ('Jordan Miller','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1641757.png','Regular Season','LAC','Los Angeles Clippers',1.6,0.658,0.68,-1.6,8,496,'Other',60,46,'Other',534),
@@ -3413,7 +3413,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Jamaree Bouyea',NULL,'Regular Season','POR','Portland Trail Blazers',1.7,0.238,0.53,-3.7,6,491,'Other',63,49,'Other',539),
 	 ('Xavier Moon','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629875.png','Regular Season','LAC','Los Angeles Clippers',1.8,0.619,0.53,-4.0,6,486,'Other',62,48,'Other',538),
 	 ('D.J. Carton',NULL,'Regular Season','TOR','Toronto Raptors',2.8,0.539,0.45,-7.8,4,433,'Other',65,51,'Other',542);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Ryan Arcidiacono','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627853.png','Regular Season','NYK','New York Knicks',0.0,0.000,0.45,0.1,20,556,'Other',49,35,'Other',541),
 	 ('Charlie Brown','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629718.png','Regular Season','NYK','New York Knicks',0.8,0.300,0.45,-0.8,8,534,'Other',61,47,'Other',540),
 	 ('Usman Garuba','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1630586.png','Regular Season','GSW','Golden State Warriors',0.0,0.000,0.38,-1.7,3,558,'Other',65,51,'Other',544),
@@ -3424,7 +3424,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Dariq Miller-Whitehead',NULL,'Regular Season','BKN','Brooklyn Nets',1.5,0.255,0.23,-11.0,2,503,'Other',68,54,'Other',547),
 	 ('Dmytro Skapintsev',NULL,'Regular Season','NYK','New York Knicks',0.0,0.000,0.00,0.0,2,544,'Other',67,53,'Other',549),
 	 ('Justin Jackson',NULL,'Regular Season','MIN','Minnesota Timberwolves',0.0,NULL,0.00,0.0,2,543,'Other',67,53,'Other',550);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Lindell Wigginton','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629623.png','Regular Season','MIL','Milwaukee Bucks',2.0,0.510,-0.15,-3.3,3,476,'Other',67,53,'Other',552),
 	 ('Shaquille Harrison','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1627885.png','Regular Season','MEM','Memphis Grizzlies',0.7,0.500,-0.15,-3.7,3,537,'Other',67,53,'Other',551),
 	 ('Kaiser Gates','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1629232.png','Regular Season','NOP','New Orleans Pelicans',0.0,0.000,-0.38,-2.0,1,545,'Other',68,54,'Other',553),
@@ -3435,7 +3435,7 @@ INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team
 	 ('Mouhamed Gueye','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631243.png','Regular Season','ATL','Atlanta Hawks',0.0,0.000,-1.73,-6.5,2,548,'Other',67,53,'Other',558),
 	 ('Alondes Williams','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631214.png','Regular Season','MIA','Miami Heat',0.0,0.000,-1.88,-4.0,2,549,'Other',67,53,'Other',560),
 	 ('Quenton Jackson','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631245.png','Regular Season','IND','Indiana Pacers',0.0,NULL,-1.88,-6.0,1,550,'Other',69,55,'Other',559);
-INSERT INTO nba_prod.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
+INSERT INTO marts.player_stats (player,player_logo,season_type,team,full_team,avg_ppg,avg_ts_percent,avg_mvp_score,avg_plus_minus,games_played,ppg_rank,scoring_category,games_missed,penalized_games_missed,is_mvp_candidate,mvp_rank) VALUES
 	 ('Ron Harper','https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/1631199.png','Regular Season','TOR','Toronto Raptors',0.0,NULL,-2.25,-9.0,1,555,'Other',68,54,'Other',561);
 
 DROP TABLE IF EXISTS twitter_comments;
@@ -3820,8 +3820,8 @@ INSERT INTO schedule_season_remaining (game_date,day_name,game_ts,avg_team_rank,
 	 (current_date + INTERVAL '1 DAY','Monday',current_timestamp + INTERVAL '1 DAY',26,'7:30 PM','Toronto Raptors','Portland Trail Blazers',NULL,NULL,'logos/tor.png','logos/por.png','Toronto Raptors','Portland Trail Blazers');
 
 
-DROP TABLE IF EXISTS ml_models.schedule_tonights_games;
-CREATE TABLE IF NOT EXISTS ml_models.schedule_tonights_games(
+DROP TABLE IF EXISTS ml.schedule_tonights_games;
+CREATE TABLE IF NOT EXISTS ml.schedule_tonights_games(
 	home_team text NULL,
 	away_team text NULL,
 	avg_team_rank numeric,
@@ -3837,7 +3837,7 @@ CREATE TABLE IF NOT EXISTS ml_models.schedule_tonights_games(
 	away_is_great_value int4 NULL
 );
 
-INSERT INTO ml_models.schedule_tonights_games (home_team,away_team,avg_team_rank,home_team_odds,away_team_odds,start_time,game_date,home_moneyline,away_moneyline,home_team_predicted_win_pct,away_team_predicted_win_pct,home_is_great_value,away_is_great_value) VALUES
+INSERT INTO ml.schedule_tonights_games (home_team,away_team,avg_team_rank,home_team_odds,away_team_odds,start_time,game_date,home_moneyline,away_moneyline,home_team_predicted_win_pct,away_team_predicted_win_pct,home_is_great_value,away_is_great_value) VALUES
 	 ('Charlotte Hornets','Detroit Pistons', 3, 'Charlotte Hornets (-170)','Detroit Pistons (+140)','7:00 PM',current_date,-170.0,140.0,0.876,0.124,0,0),
 	 ('Memphis Grizzlies','Denver Nuggets', 9.5, 'Memphis Grizzlies (+165)','Denver Nuggets (-200)','7:00 PM',current_date,165.0,-200.0,0.198,0.802,1,0),
 	 ('Cleveland Cavaliers','Oklahoma City Thunder', 15.5, 'Cleveland Cavaliers (-160)','Oklahoma City Thunder (+130)','7:30 PM',current_date,-160.0,130.0,0.597,0.403,0,0),
@@ -3848,7 +3848,7 @@ INSERT INTO ml_models.schedule_tonights_games (home_team,away_team,avg_team_rank
 	 ('Dallas Mavericks','Brooklyn Nets', 13, 'Dallas Mavericks (-240)','Brooklyn Nets (+190)','8:30 PM',current_date,-240.0,190.0,0.878,0.122,0,0),
 	 ('Utah Jazz','Los Angeles Clippers', 8, 'Utah Jazz (+130)','Los Angeles Clippers (-152)','9:30 PM',current_date,130.0,-152.0,0.158,0.842,0,0),
 	 ('Sacramento Kings','Golden State Warriors', 5, 'Sacramento Kings (-160)','Golden State Warriors (+130)','10:00 PM',current_date,-160.0,130.0,0.779,0.221,1,0);
-INSERT INTO ml_models.schedule_tonights_games (home_team,away_team,avg_team_rank,home_team_odds,away_team_odds,start_time,game_date,home_moneyline,away_moneyline,home_team_predicted_win_pct,away_team_predicted_win_pct,home_is_great_value,away_is_great_value) VALUES
+INSERT INTO ml.schedule_tonights_games (home_team,away_team,avg_team_rank,home_team_odds,away_team_odds,start_time,game_date,home_moneyline,away_moneyline,home_team_predicted_win_pct,away_team_predicted_win_pct,home_is_great_value,away_is_great_value) VALUES
 	 ('Portland Trail Blazers','Orlando Magic', 25.5, 'Portland Trail Blazers (+115)','Orlando Magic (-140)','10:00 PM',current_date,115.0,-140.0,0.332,0.668,0,0);
 
 DROP TABLE IF EXISTS social_media_aggs;
@@ -5284,8 +5284,8 @@ INSERT INTO team_record_daily_rollup (team,"date",conference,running_total_games
 	 ('CHI','2022-10-25','Eastern',4,2,2,0.500,'2-2','8th'),
 	 ('TOR','2022-10-25','Eastern',4,2,2,0.500,'2-2','9th');
 
-DROP TABLE IF EXISTS ml_models.tonights_games_ml;
-CREATE TABLE IF NOT EXISTS ml_models.tonights_games_ml
+DROP TABLE IF EXISTS ml.tonights_games_ml;
+CREATE TABLE IF NOT EXISTS ml.tonights_games_ml
 (
     index bigint,
     home_team text COLLATE pg_catalog."default",
@@ -5311,6 +5311,55 @@ CREATE TABLE IF NOT EXISTS ml_models.tonights_games_ml
     away_team_predicted_win_pct double precision
 );
 
-INSERT INTO ml_models.tonights_games_ml(
+INSERT INTO ml.tonights_games_ml(
 	index, home_team, home_moneyline, away_team, away_moneyline, proper_date, home_team_rank, home_days_rest, home_team_avg_pts_scored, home_team_avg_pts_scored_opp, home_team_win_pct, home_team_win_pct_last10, home_is_top_players, away_team_rank, away_days_rest, away_team_avg_pts_scored, away_team_avg_pts_scored_opp, away_team_win_pct, away_team_win_pct_last10, away_is_top_players, home_team_predicted_win_pct, away_team_predicted_win_pct)
 	VALUES (1, 'Golden State Warriors', '-195', 'Denver Nuggets', 165, current_date, 1, 2, 123, 109, 0.752, 0.655, 2, 18, 1, 102, 123, 0.565, 0.612, 2, 0.828, 0.172);
+
+DROP TABLE IF EXISTS team_odds_outcomes;
+CREATE TABLE IF NOT EXISTS team_odds_outcomes (
+	team text NULL,
+	season_type text NULL,
+	games_played int8 NULL,
+	games_covered_spread int8 NULL,
+	games_favorite int8 NULL,
+	games_underdog int8 NULL,
+	games_favorite_covered int8 NULL,
+	games_underdog_covered int8 NULL,
+	pct_covered_spread numeric NULL,
+	pct_favorite_covered numeric NULL,
+	pct_underdog_covered numeric NULL
+);
+
+INSERT INTO team_odds_outcomes (team,season_type,games_played,games_covered_spread,games_favorite,games_underdog,games_favorite_covered,games_underdog_covered,pct_covered_spread,pct_favorite_covered,pct_underdog_covered) VALUES
+	 ('OKC','Regular Season',74,48,71,3,46,2,0.649,0.648,0.667),
+	 ('NYK','Regular Season',73,35,61,12,31,4,0.479,0.508,0.333),
+	 ('HOU','Regular Season',76,39,58,18,29,10,0.513,0.500,0.556),
+	 ('ORL','Regular Season',76,38,41,35,23,15,0.500,0.561,0.429),
+	 ('MEM','Regular Season',75,36,50,25,27,9,0.480,0.540,0.360),
+	 ('DAL','Regular Season',75,35,35,40,15,20,0.467,0.429,0.500),
+	 ('MIN','Regular Season',75,37,53,22,22,15,0.493,0.415,0.682),
+	 ('ATL','Regular Season',73,36,27,46,9,27,0.493,0.333,0.587),
+	 ('PHI','Regular Season',74,25,26,48,6,19,0.338,0.231,0.396),
+	 ('NOP','Regular Season',74,31,19,55,9,22,0.419,0.474,0.400);
+INSERT INTO team_odds_outcomes (team,season_type,games_played,games_covered_spread,games_favorite,games_underdog,games_favorite_covered,games_underdog_covered,pct_covered_spread,pct_favorite_covered,pct_underdog_covered) VALUES
+	 ('PHX','Regular Season',74,26,42,32,15,11,0.351,0.357,0.344),
+	 ('SAC','Regular Season',74,33,45,29,20,13,0.446,0.444,0.448),
+	 ('LAC','Regular Season',75,44,44,31,25,19,0.587,0.568,0.613),
+	 ('LAL','Regular Season',75,38,45,30,21,17,0.507,0.467,0.567),
+	 ('CHI','Regular Season',74,38,17,57,8,30,0.514,0.471,0.526),
+	 ('IND','Regular Season',74,36,46,28,20,16,0.486,0.435,0.571),
+	 ('CHA','Regular Season',75,33,9,66,1,32,0.440,0.111,0.485),
+	 ('BKN','Regular Season',75,39,12,63,2,37,0.520,0.167,0.587),
+	 ('MIA','Regular Season',75,35,41,34,19,16,0.467,0.463,0.471),
+	 ('GSW','Regular Season',74,35,47,27,20,15,0.473,0.426,0.556);
+INSERT INTO team_odds_outcomes (team,season_type,games_played,games_covered_spread,games_favorite,games_underdog,games_favorite_covered,games_underdog_covered,pct_covered_spread,pct_favorite_covered,pct_underdog_covered) VALUES
+	 ('DET','Regular Season',75,41,35,40,17,24,0.547,0.486,0.600),
+	 ('BOS','Regular Season',74,33,72,2,32,1,0.446,0.444,0.500),
+	 ('POR','Regular Season',74,46,9,65,6,40,0.622,0.667,0.615),
+	 ('UTA','Regular Season',76,36,6,70,1,35,0.474,0.167,0.500),
+	 ('DEN','Regular Season',74,34,54,20,23,11,0.459,0.426,0.550),
+	 ('TOR','Regular Season',75,46,14,61,9,37,0.613,0.643,0.607),
+	 ('MIL','Regular Season',73,34,52,21,24,10,0.466,0.462,0.476),
+	 ('SAS','Regular Season',74,34,22,52,11,23,0.459,0.500,0.442),
+	 ('WAS','Regular Season',75,30,3,72,0,30,0.400,0.000,0.417),
+	 ('CLE','Regular Season',74,42,68,6,37,5,0.568,0.544,0.833);

@@ -10,7 +10,7 @@ about_layout = html.Div(
         ),
         html.H1("About this Project", style={"text-align": "left"}),
         html.P(
-            "This dashboard shows up to date information about the 2023-24 NBA Season.  "
+            "This dashboard shows up to date information about the 2024-25 NBA Season.  "
             "It's built w/ Dash and hosted on AWS via ECS & Route53"
         ),
         html.H2("Data"),
@@ -110,7 +110,7 @@ about_layout = html.Div(
         html.P(
             f"Dashboard Last Refreshed {datetime.now().strftime('%A, %B %d %-I:%M %p UTC')}"
         ),
-        html.P("Version: 1.0.14"),
+        html.P("Version: 1.1.0"),
     ],
     className="custom-padding",
 )
