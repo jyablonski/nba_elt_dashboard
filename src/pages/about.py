@@ -10,7 +10,7 @@ about_layout = html.Div(
         ),
         html.H1("About this Project", style={"text-align": "left"}),
         html.P(
-            "This dashboard shows up to date information about the 2023-24 NBA Season.  "
+            "This dashboard shows up to date information about the 2024-25 NBA Season.  "
             "It's built w/ Dash and hosted on AWS via ECS & Route53"
         ),
         html.H2("Data"),

@@ -5314,3 +5314,52 @@ CREATE TABLE IF NOT EXISTS ml.tonights_games_ml
 INSERT INTO ml.tonights_games_ml(
 	index, home_team, home_moneyline, away_team, away_moneyline, proper_date, home_team_rank, home_days_rest, home_team_avg_pts_scored, home_team_avg_pts_scored_opp, home_team_win_pct, home_team_win_pct_last10, home_is_top_players, away_team_rank, away_days_rest, away_team_avg_pts_scored, away_team_avg_pts_scored_opp, away_team_win_pct, away_team_win_pct_last10, away_is_top_players, home_team_predicted_win_pct, away_team_predicted_win_pct)
 	VALUES (1, 'Golden State Warriors', '-195', 'Denver Nuggets', 165, current_date, 1, 2, 123, 109, 0.752, 0.655, 2, 18, 1, 102, 123, 0.565, 0.612, 2, 0.828, 0.172);
+
+DROP TABLE IF EXISTS team_odds_outcomes;
+CREATE TABLE IF NOT EXISTS team_odds_outcomes (
+	team text NULL,
+	season_type text NULL,
+	games_played int8 NULL,
+	games_covered_spread int8 NULL,
+	games_favorite int8 NULL,
+	games_underdog int8 NULL,
+	games_favorite_covered int8 NULL,
+	games_underdog_covered int8 NULL,
+	pct_covered_spread numeric NULL,
+	pct_favorite_covered numeric NULL,
+	pct_underdog_covered numeric NULL
+);
+
+INSERT INTO team_odds_outcomes (team,season_type,games_played,games_covered_spread,games_favorite,games_underdog,games_favorite_covered,games_underdog_covered,pct_covered_spread,pct_favorite_covered,pct_underdog_covered) VALUES
+	 ('OKC','Regular Season',74,48,71,3,46,2,0.649,0.648,0.667),
+	 ('NYK','Regular Season',73,35,61,12,31,4,0.479,0.508,0.333),
+	 ('HOU','Regular Season',76,39,58,18,29,10,0.513,0.500,0.556),
+	 ('ORL','Regular Season',76,38,41,35,23,15,0.500,0.561,0.429),
+	 ('MEM','Regular Season',75,36,50,25,27,9,0.480,0.540,0.360),
+	 ('DAL','Regular Season',75,35,35,40,15,20,0.467,0.429,0.500),
+	 ('MIN','Regular Season',75,37,53,22,22,15,0.493,0.415,0.682),
+	 ('ATL','Regular Season',73,36,27,46,9,27,0.493,0.333,0.587),
+	 ('PHI','Regular Season',74,25,26,48,6,19,0.338,0.231,0.396),
+	 ('NOP','Regular Season',74,31,19,55,9,22,0.419,0.474,0.400);
+INSERT INTO team_odds_outcomes (team,season_type,games_played,games_covered_spread,games_favorite,games_underdog,games_favorite_covered,games_underdog_covered,pct_covered_spread,pct_favorite_covered,pct_underdog_covered) VALUES
+	 ('PHX','Regular Season',74,26,42,32,15,11,0.351,0.357,0.344),
+	 ('SAC','Regular Season',74,33,45,29,20,13,0.446,0.444,0.448),
+	 ('LAC','Regular Season',75,44,44,31,25,19,0.587,0.568,0.613),
+	 ('LAL','Regular Season',75,38,45,30,21,17,0.507,0.467,0.567),
+	 ('CHI','Regular Season',74,38,17,57,8,30,0.514,0.471,0.526),
+	 ('IND','Regular Season',74,36,46,28,20,16,0.486,0.435,0.571),
+	 ('CHA','Regular Season',75,33,9,66,1,32,0.440,0.111,0.485),
+	 ('BKN','Regular Season',75,39,12,63,2,37,0.520,0.167,0.587),
+	 ('MIA','Regular Season',75,35,41,34,19,16,0.467,0.463,0.471),
+	 ('GSW','Regular Season',74,35,47,27,20,15,0.473,0.426,0.556);
+INSERT INTO team_odds_outcomes (team,season_type,games_played,games_covered_spread,games_favorite,games_underdog,games_favorite_covered,games_underdog_covered,pct_covered_spread,pct_favorite_covered,pct_underdog_covered) VALUES
+	 ('DET','Regular Season',75,41,35,40,17,24,0.547,0.486,0.600),
+	 ('BOS','Regular Season',74,33,72,2,32,1,0.446,0.444,0.500),
+	 ('POR','Regular Season',74,46,9,65,6,40,0.622,0.667,0.615),
+	 ('UTA','Regular Season',76,36,6,70,1,35,0.474,0.167,0.500),
+	 ('DEN','Regular Season',74,34,54,20,23,11,0.459,0.426,0.550),
+	 ('TOR','Regular Season',75,46,14,61,9,37,0.613,0.643,0.607),
+	 ('MIL','Regular Season',73,34,52,21,24,10,0.466,0.462,0.476),
+	 ('SAS','Regular Season',74,34,22,52,11,23,0.459,0.500,0.442),
+	 ('WAS','Regular Season',75,30,3,72,0,30,0.400,0.000,0.417),
+	 ('CLE','Regular Season',74,42,68,6,37,5,0.568,0.544,0.833);

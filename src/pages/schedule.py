@@ -12,6 +12,7 @@ from src.database import (
     schedule_season_remaining_df,
     schedule_tonights_games_df,
     team_blown_leads_df,
+    team_odds_outcomes_df,
 )
 
 past_schedule_analysis_df = past_schedule_analysis_df.sort_values(
@@ -25,6 +26,11 @@ preseason_odds_df = preseason_odds_df.sort_values(
 team_blown_leads_df = team_blown_leads_df.query(
     "season_type == 'Regular Season'"
 ).sort_values(by="net_comebacks", ascending=True)
+
+team_odds_outcomes_df = team_odds_outcomes_df.query(
+    "season_type == 'Regular Season'"
+).sort_values(by="pct_covered_spread", ascending=True)
+
 
 game_types_df = game_types_df.query("season_type == 'Regular Season'")
 
@@ -99,12 +105,16 @@ schedule_layout = html.Div(
                                         "value": "strength-of-schedule",
                                     },
                                     {
-                                        "label": "Vegas Preseason Over / Under Odds",
+                                        "label": "Team Comebacks Analysis (Regular Season)",
+                                        "value": "team-comebacks",
+                                    },
+                                    {
+                                        "label": "Preseason Over / Under Trajectory",
                                         "value": "vegas-preseason-odds",
                                     },
                                     {
-                                        "label": "Team Comebacks Analysis (Regular Season)",
-                                        "value": "team-comebacks",
+                                        "label": "Covering the Spread Metrics",
+                                        "value": "team-spread-metrics",
                                     },
                                 ],
                                 value="strength-of-schedule",
@@ -287,6 +297,43 @@ def update_schedule_plot(selected_schedule_plot):
         )
         return fig
 
+    elif selected_schedule_plot == "team-spread-metrics":
+        fig = px.bar(
+            team_odds_outcomes_df,
+            x="pct_covered_spread",
+            y="team",
+            color="pct_covered_spread",
+            color_continuous_scale="RdYlGn",
+            labels={"team": "Team", "pct_covered_spread": "% Games Covered Spread"},
+            custom_data=[
+                "team",
+                "games_played",
+                "games_covered_spread",
+                "games_favorite",
+                "games_underdog",
+                "games_favorite_covered",
+                "games_underdog_covered",
+                "pct_covered_spread",
+                "pct_favorite_covered",
+                "pct_underdog_covered",
+            ],
+        )
+
+        fig.update_traces(
+            hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
+            hovertemplate="<b>%{customdata[0]}</b><br>"
+            "<b>Total Games Played:</b> %{customdata[1]}<br>"
+            "<b>Games as Favorite:</b> %{customdata[3]}<br>"
+            "<b>Games as Underdog:</b> %{customdata[4]}<br>"
+            "<b>Games Covered Spread:</b> %{customdata[2]}<br>"
+            "<b>Games Favorite Covered:</b> %{customdata[5]}<br>"
+            "<b>Games Underdog Covered:</b> %{customdata[6]}<br>"
+            "<b>% Games Covered Spread:</b> %{customdata[7]:.2%}<br>"
+            "<b>% Games Covered Spread as Favorite:</b> %{customdata[8]:.2%}<br>"
+            "<b>% Games Covered Spread as Underdog:</b> %{customdata[9]:.2%}<br>",
+        )
+        fig.update_layout(legend_title_text="", xaxis_tickformat=".0%")
+        return fig
     else:
         fig = px.bar(
             team_blown_leads_df,
