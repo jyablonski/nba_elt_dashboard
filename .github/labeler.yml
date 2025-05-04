@@ -1,12 +1,12 @@
 source_code:
-- src/*
-- tests/*
+  - src/*
+  - tests/*
 
 cd:
-- .github/workflows/deploy.yml
+  - .github/workflows/deploy.yml
 
 ci:
-- .github/workflows/test.yml
+  - .github/workflows/test.yml
 
 dependencies:
-- poetry.lock
+  - uv.lock

@@ -1,22 +1,32 @@
 FROM python:3.12-slim AS base
 
-ENV POETRY_VIRTUALENVS_IN_PROJECT=1 \
-    POETRY_NO_INTERACTION=1
+ENV DEBIAN_FRONTEND=noninteractive \
+    PATH="/.venv/bin:/root/.cargo/bin:$PATH" \
+    UV_COMPILE_BYTECODE=1 \
+    UV_PYTHON_DOWNLOADS=never \
+    UV_PYTHON=3.12
 
+# install OS-level deps once in base (so we don't repeat in each stage)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
+# -------------------------------
+# Stage: Install Python deps
+# -------------------------------
 FROM base AS python-deps
 
-COPY docker/install_packages.sh ./
-COPY pyproject.toml poetry.lock ./
+COPY pyproject.toml uv.lock ./
 
-RUN ./install_packages.sh && \
-    pip install poetry && \
-    poetry install
+RUN pip install uv==0.6.12 && \
+    uv sync --frozen --no-dev
 
+# -------------------------------
+# Stage: Runtime
+# -------------------------------
 FROM base AS runtime
 
-COPY --from=python-deps /.venv /.venv
-
-ENV PATH="/.venv/bin:$PATH"
+COPY --from=python-deps ./.venv ./.venv
 
 RUN useradd --create-home appuser
 WORKDIR /home/appuser

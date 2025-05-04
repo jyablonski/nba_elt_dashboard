@@ -1,7 +1,7 @@
 # NBA ELT Dashboard
 ![Tests](https://github.com/jyablonski/nba_elt_dashboard/actions/workflows/test.yml/badge.svg) ![Deployment](https://github.com/jyablonski/nba_elt_dashboard/actions/workflows/deploy.yml/badge.svg) ![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)
 
-Version: 1.1.0
+Version: 1.1.1
 
 The NBA Dashboard has the following functionalities:
 - Overview of Standings, Contract Value, and Top Player Analysis
