@@ -110,7 +110,7 @@ about_layout = html.Div(
         html.P(
             f"Dashboard Last Refreshed {datetime.now().strftime('%A, %B %d %-I:%M %p UTC')}"
         ),
-        html.P("Version: 1.1.1"),
+        html.P("Version: 1.1.2"),
     ],
     className="custom-padding",
 )
