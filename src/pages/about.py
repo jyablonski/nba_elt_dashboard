@@ -94,12 +94,12 @@ about_layout = html.Div(
                 "Connect with me on ",
                 html.A(
                     html.Img(src="../assets/linkedin.png", height="30px"),
-                    href="https://www.linkedin.com/in/jyablonski",
+                    href="https://www.linkedin.com/in/jacobyablonski",
                 ),
                 " and ",
                 html.A(
                     html.Img(src="../assets/github.png", height="30px"),
-                    href="https://github.com/jyablonski",
+                    href="https://github.com/jacobyablonski",
                 ),
                 html.Br(),
                 html.Br(),
