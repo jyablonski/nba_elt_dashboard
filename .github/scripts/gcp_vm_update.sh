@@ -7,7 +7,7 @@ REPO_DIR="nba_elt_dashboard"
 
 echo "SSHing into $VM_USER@$VM_IP..."
 
-ssh $VM_USER@$VM_IP <<EOF
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $VM_USER@$VM_IP <<EOF
   set -e
   echo "Navigating to project directory..."
   cd ~/$REPO_DIR
