@@ -13,7 +13,7 @@ ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $VM_USER@$VM_IP 
   cd ~/$REPO_DIR
 
   echo "Stopping current Docker Compose services..."
-  sudo docker compose down
+  sudo ~/.docker/cli-plugins/docker-compose down
 
   echo "Pulling latest code from master..."
   git pull origin master
