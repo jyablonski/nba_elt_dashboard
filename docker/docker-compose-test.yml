@@ -16,7 +16,9 @@ services:
   dash_app_test_runner:
     build:
       context: ../
-      dockerfile: docker/Dockerfile.test
+      dockerfile: docker/Dockerfile
+      args:
+        INSTALL_DEV_DEPENDENCIES: "true"
     image: nba_elt_dashboard_local_test
     environment:
       - IP=postgres

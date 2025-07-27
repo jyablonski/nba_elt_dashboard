@@ -3,10 +3,6 @@ name: Test Pipeline
 on:
   pull_request:
 
-env:
-  PYTHON_VERSION: "3.12"
-  POETRY_VERSION: "1.8.3"
-
 
 jobs:
   pytest_build:
@@ -14,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Run Tests
         run: |

@@ -10,8 +10,8 @@ def test_schedule_analysis_sos():
     assert isinstance(output, go.Figure)
     assert output["layout"]["xaxis"]["title"]["text"] == "% Games Below .500 Teams"
     assert output["layout"]["yaxis"]["title"]["text"] == "Team"
-    assert output["data"][0]["customdata"][0][0] == "OKC"
-    assert output["data"][0]["customdata"][0][1] == 0.488
+    assert output["data"][0]["customdata"][0][0] == "HOU"
+    assert output["data"][0]["customdata"][0][1] == 0.268
 
 
 def test_schedule_analysis_preseason_over_unders():
