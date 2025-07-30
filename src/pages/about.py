@@ -10,8 +10,18 @@ about_layout = html.Div(
         ),
         html.H1("About this Project", style={"text-align": "left"}),
         html.P(
-            "This dashboard shows up to date information about the 2024-25 NBA Season.  "
-            "It's built w/ Dash and hosted on AWS via ECS & Route53"
+            [
+                "This dashboard shows up to date information about the current NBA Season. "
+                "It's built with Dash, hosted on cloud infrastructure, and routed through AWS Route 53 "
+                "for custom domain management.",
+                html.Br(),
+                html.Br(),
+                "For more details, visit the internal ",
+                html.A(
+                    "Documentation Site",
+                    href="https://doqs.jyablonski.dev",
+                ),
+            ]
         ),
         html.H2("Data"),
         html.Ul(
@@ -40,7 +50,7 @@ about_layout = html.Div(
                     ]
                 ),
                 html.Li(
-                    "A Logistic Regression ML Model is used to provide Win % Predictions \
+                    "A custom Logistic Regression ML Model is used to provide Win % Predictions \
                     in the Schedule Tab"
                 ),
             ]
@@ -58,7 +68,7 @@ about_layout = html.Div(
                 html.Li(
                     html.A(
                         "Ingestion Script",
-                        href="https://github.com/jyablonski/python_docker",
+                        href="https://github.com/jyablonski/nba_elt_ingestion",
                     )
                 ),
                 html.Li(
@@ -83,6 +93,12 @@ about_layout = html.Div(
                     html.A(
                         "Terraform",
                         href="https://github.com/jyablonski/aws_terraform",
+                    ),
+                ),
+                html.Li(
+                    html.A(
+                        "Internal Documentation",
+                        href="https://github.com/jyablonski/doqs",
                     ),
                 ),
             ]
@@ -110,7 +126,7 @@ about_layout = html.Div(
         html.P(
             f"Dashboard Last Refreshed {datetime.now().strftime('%A, %B %d %-I:%M %p UTC')}"
         ),
-        html.P("Version: 1.1.2"),
+        html.P("Version: 1.1.3"),
     ],
     className="custom-padding",
 )
