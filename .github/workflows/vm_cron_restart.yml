@@ -1,0 +1,25 @@
+name: Daily GCP VM Restart
+
+# cron job that restarts the service once a day to pull fresh data
+on:
+  schedule:
+    - cron: "15 12 * * *" # Run daily at 12:15 UTC
+  workflow_dispatch: # Optional manual trigger
+
+jobs:
+  refresh_gcp_vm:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.GCP_SSH_KEY }}
+
+      - name: Run restart script on GCP VM
+        run: bash .github/scripts/vm_restart.sh
+        env:
+          GCP_VM_IP: ${{ secrets.GCP_VM_IP }}

@@ -27,7 +27,6 @@ services:
       - RDS_DB=postgres
       - RDS_SCHEMA=marts
       - ENV_TYPE=docker_dev
-    restart: always
     ports:
       - 9000:9000
     depends_on:

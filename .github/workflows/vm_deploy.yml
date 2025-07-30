@@ -1,4 +1,4 @@
-name: Deploy to GCP VM
+name: Deploy Pipeline (GCP)
 
 on:
   push:
@@ -20,6 +20,6 @@ jobs:
           ssh-private-key: ${{ secrets.GCP_SSH_KEY }}
 
       - name: Run deployment script on GCP VM
-        run: bash .github/scripts/gcp_vm_update.sh
+        run: bash .github/scripts/vm_deploy.sh
         env:
           GCP_VM_IP: ${{ secrets.GCP_VM_IP }}
