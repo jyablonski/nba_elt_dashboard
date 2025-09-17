@@ -293,7 +293,7 @@ def update_reddit_team_sentiment(selected_team):
         labels={
             "scrape_date": "Date",
             "num_comments": "Number of Comments",
-            "game_outcome": "Game Outcome",
+            "game_outcome": "Previous Day's Game Outcome",
         },
         title=f"{selected_team} - Comments by Game Outcome Over Time",
     )
