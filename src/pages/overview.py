@@ -15,8 +15,9 @@ from src.database import (
     team_contracts_analysis_df,
     team_ratings_df,
 )
-from src.utils import create_season_selector_dropdown, generate_team_ratings_figure
+from src.utils import create_season_selector_dropdown
 
+# Constants
 MVP_CANDIDATE_COLORS = {
     "Top 5 MVP Candidate": "#9362DA",
     "Other": "#383b3d",
@@ -48,7 +49,6 @@ def create_standings_table(conference_name, data):
         id=f"{conference_name.lower()}-standings-table",
         columns=standings_columns,
         data=data,
-        # Styling
         style_cell={
             "background-color": "#383b3d",
             "textAlign": "center",
@@ -56,14 +56,104 @@ def create_standings_table(conference_name, data):
             "color": "rgb(230, 224, 224)",
             "padding": "8px",
         },
-        # Hidden columns
         hidden_columns=["active_protocols", "conference", "team"],
-        # Table behavior
         cell_selectable=False,
         css=[{"selector": ".show-hide", "rule": "display: none"}],
         sort_action="native",
         page_size=15,
     )
+
+
+def generate_team_ratings_figure_themed(df):
+    """Create team ratings figure with dark theme applied"""
+    ortg_avg = df["ortg"].mean()
+    drtg_avg = df["drtg"].mean()
+
+    team_ratings_fig = px.scatter(
+        df,
+        x="ortg",
+        y="drtg",
+        labels={
+            "ortg": "Offensive Rating",
+            "drtg": "Defensive Rating",
+        },
+        title="Team Offensive vs Defensive Ratings",
+        custom_data=[
+            "team",
+            "ortg",
+            "drtg",
+            "nrtg",
+            "ortg_rank",
+            "drtg_rank",
+            "nrtg_rank",
+        ],
+    )
+
+    # Apply dark theme
+    team_ratings_fig.update_layout(
+        paper_bgcolor="#15171a",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font={
+            "color": "rgb(230, 224, 224)",
+            "family": "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
+        },
+        xaxis={
+            "gridcolor": "#383b3d",
+            "linecolor": "#383b3d",
+            "tickcolor": "#383b3d",
+            "zerolinecolor": "#383b3d",
+        },
+        yaxis={
+            "gridcolor": "#383b3d",
+            "linecolor": "#383b3d",
+            "tickcolor": "#383b3d",
+            "zerolinecolor": "#383b3d",
+            "autorange": "reversed",
+        },
+        margin={"l": 80, "r": 40, "t": 80, "b": 60},
+        title={"x": 0.5, "xanchor": "center"},
+    )
+
+    team_ratings_fig.add_hline(
+        y=drtg_avg, line_width=2, line_dash="dash", line_color="rgb(230, 224, 224)", opacity=0.7
+    )
+    team_ratings_fig.add_vline(
+        x=ortg_avg, line_width=2, line_dash="dash", line_color="rgb(230, 224, 224)", opacity=0.7
+    )
+
+    team_logos = []
+    for i, row in df.iterrows():
+        team_logos.append(
+            go.layout.Image(
+                source=f"../assets/{row['team_logo']}",
+                x=row["ortg"],
+                y=row["drtg"],
+                xref="x",
+                yref="y",
+                xanchor="center",
+                yanchor="middle",
+                sizex=2.5,
+                sizey=2.5,
+            )
+        )
+
+    layout = go.Layout(images=team_logos)
+    team_ratings_fig.update_layout(layout)
+
+    team_ratings_fig.update_traces(
+        mode="markers",
+        marker=dict(size=25, opacity=0),
+        hoverlabel=COMMON_HOVER_STYLE,
+        hovertemplate=(
+            "<b>%{customdata[0]}</b><br>"
+            "<b>Offensive Rating:</b> %{customdata[1]} (Rank: %{customdata[4]})<br>"
+            "<b>Defensive Rating:</b> %{customdata[2]} (Rank: %{customdata[5]})<br>"
+            "<b>Net Rating:</b> %{customdata[3]} (Rank: %{customdata[6]})<br>"
+            "<extra></extra>"
+        ),
+    )
+
+    return team_ratings_fig
 
 
 def create_player_value_analysis_chart():
@@ -90,7 +180,6 @@ def create_player_value_analysis_chart():
         color_discrete_map=VALUE_ANALYSIS_COLORS,
     )
 
-    # Apply dark theme with transparent plot background
     fig.update_layout(
         paper_bgcolor="#15171a",
         plot_bgcolor="rgba(0,0,0,0)",
@@ -158,7 +247,6 @@ def create_team_contract_analysis_chart():
         ],
     )
 
-    # Apply dark theme with transparent plot background
     fig.update_layout(
         paper_bgcolor="#15171a",
         plot_bgcolor="rgba(0,0,0,0)",
@@ -324,7 +412,7 @@ overview_layout = html.Div(
                         html.H3("Team Ratings", style={"margin-bottom": "15px"}),
                         dcc.Graph(
                             id="team-ratings-plot",
-                            figure=generate_team_ratings_figure(df=team_ratings_df),
+                            figure=generate_team_ratings_figure_themed(df=team_ratings_df),
                             style={"height": "500px"},
                         ),
                     ],
