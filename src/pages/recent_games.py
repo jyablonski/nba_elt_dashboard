@@ -3,260 +3,328 @@ from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import plotly.express as px
 
-# from src.data_cols.injury_tracker import injury_tracker_columns
 from src.data_cols.recent_games_players import recent_games_players_columns
 from src.data_cols.recent_games_teams import recent_games_teams_columns
 from src.database import (
-    # injury_tracker_df,
     recent_games_players_df,
     recent_games_teams_df,
     pbp_df,
 )
 from src.utils import pbp_transformer
 
+PERFORMANCE_COLORS = {
+    1: "#9362DA",  # Season high (purple) - matches .legend .season-high
+    2: "#3fb7d9",  # 10+ above (blue) - matches .legend .ten-above
+    3: "#e04848",  # 10+ below (red) - matches .legend .ten-below
+}
+
+COMMON_HOVER_STYLE = dict(
+    bgcolor="rgba(255, 255, 255, 0.95)",
+    font_size=12,
+    font_family="'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
+    font_color="#000000",
+)
+
+# Data preprocessing
 pbp_plot_kpis, pbp_plot_df = pbp_transformer(pbp_df)
 yesterdays_games = pbp_df["game_description"].drop_duplicates()
 
+GAME_OPTIONS = [{"label": game, "value": game} for game in yesterdays_games]
 
+
+def create_performance_legend():
+    """Create the performance color legend"""
+    return html.Div(
+        [
+            html.H5(
+                "Table Cell Coloring",
+                style={"margin-bottom": "10px", "color": "rgb(230, 224, 224)", "font-size": "16px"},
+            ),
+            html.Div(
+                [
+                    html.Div(
+                        [
+                            html.Span(
+                                style={
+                                    "backgroundColor": "#9362DA",
+                                    "border": "1px solid #ccc",
+                                    "width": "30px",
+                                    "height": "15px",
+                                    "display": "inline-block",
+                                    "marginRight": "5px",
+                                    "marginTop": "3px",
+                                }
+                            ),
+                            " Season High",
+                        ],
+                        style={"display": "flex", "alignItems": "center", "marginRight": "15px"},
+                    ),
+                    html.Div(
+                        [
+                            html.Span(
+                                style={
+                                    "backgroundColor": "#3fb7d9",
+                                    "border": "1px solid #ccc",
+                                    "width": "30px",
+                                    "height": "15px",
+                                    "display": "inline-block",
+                                    "marginRight": "5px",
+                                    "marginTop": "3px",
+                                }
+                            ),
+                            " 10+ pts Above",
+                        ],
+                        style={"display": "flex", "alignItems": "center", "marginRight": "15px"},
+                    ),
+                    html.Div(
+                        [
+                            html.Span(
+                                style={
+                                    "backgroundColor": "#e04848",
+                                    "border": "1px solid #ccc",
+                                    "width": "30px",
+                                    "height": "15px",
+                                    "display": "inline-block",
+                                    "marginRight": "5px",
+                                    "marginTop": "3px",
+                                }
+                            ),
+                            " 10+ pts Below",
+                        ],
+                        style={"display": "flex", "alignItems": "center", "marginRight": "15px"},
+                    ),
+                ],
+                style={"display": "flex", "flex-wrap": "wrap", "alignItems": "center"},
+            ),
+        ],
+        style={"width": "100%", "overflow": "hidden"},
+    )
+
+
+def create_players_table():
+    """Create the players performance table"""
+    return dash_table.DataTable(
+        id="player-recent-games-table",
+        columns=recent_games_players_columns,
+        data=recent_games_players_df.to_dict("records"),
+        # Table behavior
+        css=[
+            {"selector": ".show-hide", "rule": "display: none"},
+            {
+                "selector": ".dash-cell img",
+                "rule": "max-height: 80px; max-width: 80px; height: auto; width: auto; display: block; margin: 0 auto;",
+            },
+        ],
+        cell_selectable=False,
+        sort_action="native",
+        page_size=15,
+        # Styling
+        style_cell={
+            "background-color": "#383b3d",
+            "textAlign": "center",
+            "fontSize": 15,
+            "color": "rgb(230, 224, 224)",
+            "padding": "8px",
+            "height": "auto",
+            "minHeight": "50px",
+            "whiteSpace": "normal",
+        },
+        # Column widths
+        style_cell_conditional=[
+            {"if": {"column_id": "player_logo"}, "width": "12%", "padding": "4px"},
+            {"if": {"column_id": "player"}, "width": "18%", "textAlign": "left"},
+            {"if": {"column_id": "outcome"}, "width": "8%"},
+            {"if": {"column_id": "salary"}, "width": "10%"},
+            {"if": {"column_id": "pts"}, "width": "8%"},
+            {"if": {"column_id": "game_ts_percent"}, "width": "12%"},
+            {"if": {"column_id": "plus_minus"}, "width": "10%"},
+        ],
+        # Performance-based conditional formatting
+        style_data_conditional=[
+            # Points coloring
+            {
+                "if": {"filter_query": "{pts_color} = 1", "column_id": "pts"},
+                "backgroundColor": PERFORMANCE_COLORS[1],
+                "color": "white",
+                "fontWeight": "bold",
+            },
+            {
+                "if": {"filter_query": "{pts_color} = 2", "column_id": "pts"},
+                "backgroundColor": PERFORMANCE_COLORS[2],
+                "color": "white",
+                "fontWeight": "bold",
+            },
+            {
+                "if": {"filter_query": "{pts_color} = 3", "column_id": "pts"},
+                "backgroundColor": PERFORMANCE_COLORS[3],
+                "color": "white",
+                "fontWeight": "bold",
+            },
+            # True shooting coloring
+            {
+                "if": {"filter_query": "{ts_color} = 1", "column_id": "game_ts_percent"},
+                "backgroundColor": PERFORMANCE_COLORS[1],
+                "color": "white",
+                "fontWeight": "bold",
+            },
+        ],
+    )
+
+
+def create_teams_table():
+    """Create the teams performance table"""
+    return dash_table.DataTable(
+        id="team-recent-games-table",
+        columns=recent_games_teams_columns,
+        data=recent_games_teams_df.to_dict("records"),
+        # Table behavior
+        css=[
+            {"selector": ".show-hide", "rule": "display: none"},
+            {
+                "selector": ".dash-cell img",
+                "rule": "max-height: 40px; max-width: 40px; height: auto; width: auto; display: block; margin: 0 auto;",
+            },
+        ],
+        cell_selectable=False,
+        merge_duplicate_headers=True,
+        # Styling
+        style_cell={
+            "background-color": "#383b3d",
+            "textAlign": "center",
+            "fontSize": 15,
+            "color": "rgb(230, 224, 224)",
+            "padding": "8px",
+            "height": "auto",
+            "minHeight": "45px",
+            "whiteSpace": "normal",
+        },
+        # Column widths
+        style_cell_conditional=[
+            {"if": {"column_id": "team_logo"}, "width": "12%", "padding": "4px"},
+            {"if": {"column_id": "opp_logo"}, "width": "12%", "padding": "4px"},
+            {"if": {"column_id": "pts_scored"}, "width": "10%"},
+            {"if": {"column_id": "max_team_lead"}, "width": "12%"},
+            {"if": {"column_id": "pts_scored_opp"}, "width": "10%"},
+            {"if": {"column_id": "max_opponent_lead"}, "width": "12%"},
+            {"if": {"column_id": "mov"}, "width": "8%"},
+            {"if": {"column_id": "vs"}, "width": "6%"},
+        ],
+        # Performance-based conditional formatting
+        style_data_conditional=[
+            # Team points coloring
+            {
+                "if": {"filter_query": "{pts_color} = 1", "column_id": "pts_scored"},
+                "backgroundColor": PERFORMANCE_COLORS[1],
+                "color": "white",
+                "fontWeight": "bold",
+            },
+            {
+                "if": {"filter_query": "{pts_color} = 2", "column_id": "pts_scored"},
+                "backgroundColor": PERFORMANCE_COLORS[2],
+                "color": "white",
+                "fontWeight": "bold",
+            },
+            {
+                "if": {"filter_query": "{pts_color} = 3", "column_id": "pts_scored"},
+                "backgroundColor": PERFORMANCE_COLORS[3],
+                "color": "white",
+                "fontWeight": "bold",
+            },
+            # Opponent points coloring
+            {
+                "if": {"filter_query": "{opp_pts_color} = 1", "column_id": "pts_scored_opp"},
+                "backgroundColor": PERFORMANCE_COLORS[1],
+                "color": "white",
+                "fontWeight": "bold",
+            },
+            {
+                "if": {"filter_query": "{opp_pts_color} = 2", "column_id": "pts_scored_opp"},
+                "backgroundColor": PERFORMANCE_COLORS[2],
+                "color": "white",
+                "fontWeight": "bold",
+            },
+            {
+                "if": {"filter_query": "{opp_pts_color} = 3", "column_id": "pts_scored_opp"},
+                "backgroundColor": PERFORMANCE_COLORS[3],
+                "color": "white",
+                "fontWeight": "bold",
+            },
+        ],
+    )
+
+
+# Layout
 recent_games_layout = html.Div(
     [
-        html.Br(),
-        html.H3("Play by Play Plot"),
-        dbc.Row(
+        # Play by Play Section
+        html.Div(
             [
-                html.Br(),
-                dbc.Col(
-                    [
-                        html.H4("Select a Game"),
-                        dcc.Dropdown(
-                            id="game-selector",
-                            options=[
-                                {"label": game, "value": game}
-                                for game in yesterdays_games
-                            ],
-                            clearable=False,
-                            value=yesterdays_games[0],
-                        ),
-                    ],
-                    width=3,
+                html.H3(
+                    "Play by Play Analysis", style={"margin-bottom": "20px", "text-align": "center"}
                 ),
-                dbc.Col(
+                dbc.Row(
                     [
-                        dcc.Graph(
-                            id="pbp-analysis-plot",
-                            config={"displayModeBar": False},
-                        ),
-                    ],
-                    width=12,
-                ),
-            ]
-        ),
-        dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        html.H5(
-                            "Table Cell Coloring",
-                            style={"margin-left": "0px"},
-                        ),
-                        html.Div(
+                        dbc.Col(
                             [
-                                html.Div(
-                                    [
-                                        html.Span(className="legend-color season-high"),
-                                        " Season High",
-                                    ],
-                                    className="legend-item",
+                                html.Label(
+                                    "Select Game:",
+                                    style={"margin-bottom": "10px", "fontWeight": "bold"},
                                 ),
-                                html.Div(
-                                    [
-                                        html.Span(className="legend-color ten-above"),
-                                        " 10+ pts Above",
-                                    ],
-                                    className="legend-item",
-                                ),
-                                html.Div(
-                                    [
-                                        html.Span(className="legend-color ten-below"),
-                                        " 10+ pts Below",
-                                    ],
-                                    className="legend-item",
+                                dcc.Dropdown(
+                                    id="game-selector",
+                                    options=GAME_OPTIONS,
+                                    clearable=False,
+                                    value=yesterdays_games[0]
+                                    if len(yesterdays_games) > 0
+                                    else None,
+                                    style={"margin-bottom": "20px"},
                                 ),
                             ],
-                            className="legend",
-                            style={"margin-left": "10px"},
+                            width=4,
                         ),
-                    ],
-                    width={"size": 3},
+                    ]
                 ),
-            ]
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            [
+                                dcc.Graph(
+                                    id="pbp-analysis-plot",
+                                    config={"displayModeBar": False},
+                                    style={"height": "600px"},
+                                ),
+                            ],
+                            width=12,
+                        ),
+                    ]
+                ),
+            ],
+            style={"margin-bottom": "40px"},
         ),
+        # Legend Section
+        dbc.Row(
+            [
+                dbc.Col([create_performance_legend()], width=6),
+            ],
+            style={"margin-bottom": "20px"},
+        ),
+        # Tables Section
         dbc.Row(
             [
                 dbc.Col(
                     [
-                        html.H1("Top Players"),
-                        dash_table.DataTable(
-                            id="player-recent-games-table",
-                            columns=recent_games_players_columns,
-                            data=recent_games_players_df.to_dict("records"),
-                            css=[{"selector": ".show-hide", "rule": "display: none"}],
-                            cell_selectable=False,
-                            sort_action="native",
-                            page_size=15,
-                            style_cell={"background-color": "#383b3d"},
-                            style_cell_conditional=[
-                                {"if": {"column_id": "player_logo"}, "width": "18%"},
-                                {"if": {"column_id": "player"}, "width": "16%"},
-                                {"if": {"column_id": "outcome"}, "width": "2%"},
-                                {"if": {"column_id": "salary"}, "width": "4%"},
-                                {"if": {"column_id": "pts"}, "width": "4%"},
-                                {"if": {"column_id": "game_ts_percent"}, "width": "4%"},
-                                {"if": {"column_id": "plus_minus"}, "width": "4%"},
-                            ],
-                            style_data_conditional=[
-                                {
-                                    "if": {"column_id": "player_logo"},
-                                    "width": "50px",
-                                    "white-space": "normal",
-                                },
-                                {
-                                    "if": {
-                                        "filter_query": "{pts_color} = 1",
-                                        "column_id": "pts",
-                                    },
-                                    "backgroundColor": "#9362DA",
-                                },
-                                {
-                                    "if": {
-                                        "filter_query": "{pts_color} = 2",
-                                        "column_id": "pts",
-                                    },
-                                    "backgroundColor": "#3fb7d9",
-                                },
-                                {
-                                    "if": {
-                                        "filter_query": "{pts_color} = 3",
-                                        "column_id": "pts",
-                                    },
-                                    "backgroundColor": "#e04848",
-                                },
-                                {
-                                    "if": {
-                                        "filter_query": "{ts_color} = 1",
-                                        "column_id": "game_ts_percent",
-                                    },
-                                    "backgroundColor": "#9362DA",
-                                },
-                            ],
-                        ),
-                    ],
-                ),
-                dbc.Col(
-                    [
-                        html.H1("Team Victories"),
-                        html.Div(
-                            dash_table.DataTable(
-                                id="team-recent-games-table",
-                                columns=recent_games_teams_columns,
-                                data=recent_games_teams_df.to_dict("records"),
-                                css=[
-                                    {"selector": ".show-hide", "rule": "display: none"}
-                                ],
-                                cell_selectable=False,
-                                style_cell={"background-color": "#383b3d"},
-                                merge_duplicate_headers=True,
-                                style_cell_conditional=[
-                                    {"if": {"column_id": "team_logo"}, "width": "18%"},
-                                    {"if": {"column_id": "opp_logo"}, "width": "18%"},
-                                    {"if": {"column_id": "pts_scored"}, "width": "4%"},
-                                    {
-                                        "if": {"column_id": "max_team_lead"},
-                                        "width": "4%",
-                                    },
-                                    {
-                                        "if": {"column_id": "pts_scored_opp"},
-                                        "width": "4%",
-                                    },
-                                    {
-                                        "if": {"column_id": "max_opponent_lead"},
-                                        "width": "4%",
-                                    },
-                                    {"if": {"column_id": "mov"}, "width": "4%"},
-                                    {"if": {"column_id": "vs"}, "width": "4%"},
-                                ],
-                                style_data_conditional=[
-                                    {
-                                        "if": {"column_id": "team_logo"},
-                                        "width": "50px",
-                                        "white-space": "normal",
-                                    },
-                                    {
-                                        "if": {"column_id": "opp_logo"},
-                                        "width": "50px",
-                                        "white-space": "normal",
-                                    },
-                                    {
-                                        "if": {
-                                            "filter_query": "{pts_color} = 1",
-                                            "column_id": "pts_scored",
-                                        },
-                                        "backgroundColor": "#9362DA",
-                                    },
-                                    {
-                                        "if": {
-                                            "filter_query": "{pts_color} = 2",
-                                            "column_id": "pts_scored",
-                                        },
-                                        "backgroundColor": "#3fb7d9",
-                                    },
-                                    {
-                                        "if": {
-                                            "filter_query": "{pts_color} = 3s",
-                                            "column_id": "pts_scored",
-                                        },
-                                        "backgroundColor": "#e04848",
-                                    },
-                                    {
-                                        "if": {
-                                            "filter_query": "{opp_pts_color} = 1",
-                                            "column_id": "pts_scored_opp",
-                                        },
-                                        "backgroundColor": "#9362DA",
-                                    },
-                                    {
-                                        "if": {
-                                            "filter_query": "{opp_pts_color} = 2",
-                                            "column_id": "pts_scored_opp",
-                                        },
-                                        "backgroundColor": "#3fb7d9",
-                                    },
-                                    {
-                                        "if": {
-                                            "filter_query": "{opp_pts_color} = 3",
-                                            "column_id": "pts_scored_opp",
-                                        },
-                                        "backgroundColor": "#e04848",
-                                    },
-                                ],
-                            ),
-                            className="team-data-table",
-                        ),
+                        html.H3("Top Player Performances", style={"margin-bottom": "15px"}),
+                        create_players_table(),
                     ],
                     width=6,
                 ),
-                # html.Div(
-                #     [
-                #         html.H1("Injury Report"),
-                #         dash_table.DataTable(
-                #             id="injury-tracker-table",
-                #             columns=injury_tracker_columns,
-                #             data=injury_tracker_df.to_dict("records"),
-                #             css=[{"selector": ".show-hide", "rule": "display: none"}],
-                #         ),
-                #     ],
-                #     style={"width": "32%", "display": "inline-block"},
-                # ),
+                dbc.Col(
+                    [
+                        html.H3("Team Game Results", style={"margin-bottom": "15px"}),
+                        html.Div([create_teams_table()], className="team-data-table"),
+                    ],
+                    width=6,
+                ),
             ]
         ),
     ],
@@ -264,14 +332,15 @@ recent_games_layout = html.Div(
 )
 
 
+# Callbacks
 @callback(
     Output("player-recent-games-table", "data"),
     Input("player-recent-games-table", "data"),
 )
-def render_images(data):
+def render_player_images(data):
+    """Render player images in the table"""
     for row in data:
-        row["player_logo"] = f'![Missing Image]({row["player_logo"]})'
-
+        row["player_logo"] = f"![Player Image]({row['player_logo']})"
     return data
 
 
@@ -280,88 +349,94 @@ def render_images(data):
     Input("team-recent-games-table", "data"),
 )
 def render_team_images(data):
+    """Render team logos in the table"""
     for row in data:
-        row["team_logo"] = f'![Missing Image](assets/{row["team_logo"]})'
-        row["opp_logo"] = f'![Missing Image](assets/{row["opp_logo"]})'
-
+        row["team_logo"] = f"![Team Logo](assets/{row['team_logo']})"
+        row["opp_logo"] = f"![Opponent Logo](assets/{row['opp_logo']})"
     return data
 
 
-# @callback(
-#     Output("injury-tracker-table", "data"),
-#     Input("injury-tracker-table", "data"),
-# )
-# def render_images_injuries(data):
-#     for row in data:
-#         row["player_logo"] = f'![Missing Image]({row["player_logo"]})'
-
-#     return data
-
-
 @callback(Output("pbp-analysis-plot", "figure"), [Input("game-selector", "value")])
-def update_data_table(selected_value):
-    filtered_pbp = pbp_plot_df.query(f"game_description == '{selected_value}'")
-    # common_teams = filtered_pbp["scoring_team"].unique()
-    # first_timestamp = filtered_pbp["time_remaining_final"].max() - 2
-    # max_margin = filtered_pbp["margin_score"].max() - 2
-    # filtered_pbp_plot_kpis = pbp_plot_kpis[
-    #     pbp_plot_kpis["scoring_team"].isin(common_teams)
-    # ]
+def update_pbp_plot(selected_game):
+    """Update play-by-play analysis plot"""
+    if not selected_game:
+        return {}
 
-    figure = (
-        px.scatter(
-            filtered_pbp,
-            x="time_remaining_final",
-            y="margin_score",
-            labels={
-                "margin_score": "Score Differential",
-                "time_remaining_final": "",
-            },
-            # hover_name="scoring_team",
-            custom_data=[
-                "play",
-                "time_quarter",
-                "quarter",
-                "leading_team_text",
-                "score",
-                "game_plot_team_text",
-            ],
-        )
-        .update_traces(
-            marker=dict(
-                color=filtered_pbp["scoring_team_color"],
-                size=8,
-            ),
-            mode="markers+lines",  # Combine markers and lines
-            hoverlabel=dict(bgcolor="white", font_size=12, font_family="Rockwell"),
-            hovertemplate="<b>Timestamp:</b> %{customdata[1]} in the %{customdata[2]}<br>"
-            "<b>Scoring Team:</b> %{customdata[5]} (%{customdata[3]} %{customdata[4]})<br>"
-            "<b>Play:</b> %{customdata[0]}<br>",
-        )
-        .update_layout(
-            font_color="white",
-            title_font_color="white",
-        )
+    filtered_pbp = pbp_plot_df.query(f"game_description == '{selected_game}'")
+
+    if filtered_pbp.empty:
+        return {}
+
+    fig = px.scatter(
+        filtered_pbp,
+        x="time_remaining_final",
+        y="margin_score",
+        labels={
+            "margin_score": "Score Differential",
+            "time_remaining_final": "Game Time",
+        },
+        title=f"Play-by-Play Score Flow: {selected_game}",
+        custom_data=[
+            "play",
+            "time_quarter",
+            "quarter",
+            "leading_team_text",
+            "score",
+            "game_plot_team_text",
+        ],
     )
 
-    # Add annotation at the specified coordinates
-    # figure.add_annotation(
-    #     x=first_timestamp,
-    #     y=max_margin,
-    #     # text=f"{filtered_pbp_plot_kpis['leading_team_text'][0]} <br> hi",
-    #     text=f"hello world {selected_value}<br> hi",
-    #     showarrow=False,
-    # )
+    # Apply dark theme layout with transparent backgrounds
+    fig.update_layout(
+        paper_bgcolor="rgba(0,0,0,0)",  # Transparent paper background
+        plot_bgcolor="rgba(0,0,0,0)",  # Transparent plot background
+        font={
+            "color": "rgb(230, 224, 224)",
+            "family": "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
+        },
+        xaxis={
+            "gridcolor": "#383b3d",
+            "linecolor": "#383b3d",
+            "tickcolor": "#383b3d",
+            "zerolinecolor": "#383b3d",
+        },
+        yaxis={
+            "gridcolor": "#383b3d",
+            "linecolor": "#383b3d",
+            "tickcolor": "#383b3d",
+            "zerolinecolor": "#383b3d",
+        },
+        margin={"l": 80, "r": 40, "t": 80, "b": 60},
+        title={"x": 0.5, "xanchor": "center"},
+    )
 
-    # yeeeahhh mfer
-    figure.update_xaxes(
+    # Update traces with team colors and styling
+    fig.update_traces(
+        marker=dict(
+            color=filtered_pbp["scoring_team_color"],
+            size=8,
+            line=dict(width=1, color="rgb(230, 224, 224)"),
+        ),
+        mode="markers+lines",
+        hoverlabel=COMMON_HOVER_STYLE,
+        hovertemplate=(
+            "<b>Time:</b> %{customdata[1]} in %{customdata[2]}<br>"
+            "<b>Scoring Team:</b> %{customdata[5]}<br>"
+            "<b>Score:</b> %{customdata[4]} (%{customdata[3]})<br>"
+            "<b>Play:</b> %{customdata[0]}<br>"
+            "<extra></extra>"
+        ),
+    )
+
+    # Custom x-axis for game quarters
+    fig.update_xaxes(
         autorange="reversed",
         ticktext=[
             "1st Quarter",
             "2nd Quarter",
             "3rd Quarter",
             "4th Quarter",
-            "End of 4th Quarter",
+            "End of 4th",
             "1st OT",
             "2nd OT",
             "3rd OT",
@@ -369,22 +444,19 @@ def update_data_table(selected_value):
         ],
         tickvals=[48.00, 36.00, 24.00, 12.00, 0.00, -5.00, -10.00, -15.00, -20.00],
         showline=True,
-        linecolor="white",
+        linecolor="rgb(230, 224, 224)",
         linewidth=1,
-        row=1,
-        col=1,
         mirror=True,
-    )
-    figure.update_yaxes(
-        showline=True,
-        linecolor="white",
-        linewidth=1,
-        row=1,
-        col=1,
-        mirror=True,
+        title="Game Progress",
     )
 
-    figure.update_layout(
-        plot_bgcolor="rgba(0, 0, 0, 0)", paper_bgcolor="rgba(0, 0, 0, 0)"
+    # Style y-axis
+    fig.update_yaxes(
+        showline=True,
+        linecolor="rgb(230, 224, 224)",
+        linewidth=1,
+        mirror=True,
+        title="Score Differential",
     )
-    return figure
+
+    return fig

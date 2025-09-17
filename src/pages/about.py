@@ -115,7 +115,7 @@ about_layout = html.Div(
                 " and ",
                 html.A(
                     html.Img(src="../assets/github.png", height="30px"),
-                    href="https://github.com/jacobyablonski",
+                    href="https://github.com/jyablonski",
                 ),
                 html.Br(),
                 html.Br(),

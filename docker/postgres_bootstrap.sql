@@ -5363,3 +5363,126 @@ INSERT INTO team_odds_outcomes (team,season_type,games_played,games_covered_spre
 	 ('SAS','Regular Season',74,34,22,52,11,23,0.459,0.500,0.442),
 	 ('WAS','Regular Season',75,30,3,72,0,30,0.400,0.000,0.417),
 	 ('CLE','Regular Season',74,42,68,6,37,5,0.568,0.544,0.833);
+
+DROP TABLE IF EXISTS reddit_recent_keywords;
+CREATE TABLE IF NOT EXISTS reddit_recent_keywords (
+	word text NULL,
+	word_frequency int8 NULL,
+	frequency_rank int8 NULL,
+	nba_team_flairs_using_word int8 NULL,
+	top_nba_team_flair text NULL,
+	most_common_sentiment text NULL,
+	avg_sentiment_when_used numeric NULL,
+	analysis_date date NULL
+);
+
+INSERT INTO reddit_recent_keywords (word,word_frequency,frequency_rank,nba_team_flairs_using_word,top_nba_team_flair,most_common_sentiment,avg_sentiment_when_used,analysis_date) VALUES
+	 ('kawhi',431,1,29,'LAL','Neutral',-0.114,'2025-09-17'),
+	 ('ballmer',387,2,30,'LAL','Neutral',-0.028,'2025-09-17'),
+	 ('clippers',332,3,30,'LAL','Neutral',-0.062,'2025-09-17'),
+	 ('money',328,4,30,'LAL','Neutral',-0.008,'2025-09-17'),
+	 ('year',305,5,25,'GSW','Neutral',0.030,'2025-09-17'),
+	 ('contract',292,6,27,'LAL','Neutral',-0.140,'2025-09-17'),
+	 ('silver',282,7,30,'TOR','Neutral',0.017,'2025-09-17'),
+	 ('cap',242,8,25,'LAL','Neutral',-0.128,'2025-09-17'),
+	 ('warriors',215,9,25,'GSW','Neutral',0.182,'2025-09-17'),
+	 ('aspiration',179,10,20,'LAL','Neutral',-0.089,'2025-09-17');
+INSERT INTO reddit_recent_keywords (word,word_frequency,frequency_rank,nba_team_flairs_using_word,top_nba_team_flair,most_common_sentiment,avg_sentiment_when_used,analysis_date) VALUES
+	 ('luka',174,11,18,'LAL','Neutral',0.111,'2025-09-17'),
+	 ('shit',171,12,25,'LAL','Neutral',-0.394,'2025-09-17'),
+	 ('trade',167,13,24,'LAL','Neutral',0.002,'2025-09-17'),
+	 ('deal',165,14,21,'LAL','Neutral',0.070,'2025-09-17'),
+	 ('point',163,15,23,'LAL','Neutral',-0.005,'2025-09-17'),
+	 ('lakers',161,16,20,'LAL','Neutral',0.076,'2025-09-17'),
+	 ('turkish',151,17,20,'MIL','Neutral',-0.183,'2025-09-17'),
+	 ('greek',150,18,20,'MIL','Neutral',-0.256,'2025-09-17'),
+	 ('turkey',149,19,21,'GSW','Neutral',-0.117,'2025-09-17'),
+	 ('company',136,20,19,'LAL','Neutral',-0.054,'2025-09-17');
+INSERT INTO reddit_recent_keywords (word,word_frequency,frequency_rank,nba_team_flairs_using_word,top_nba_team_flair,most_common_sentiment,avg_sentiment_when_used,analysis_date) VALUES
+	 ('watch',133,21,20,'LAL','Neutral',0.186,'2025-09-17'),
+	 ('turks',130,22,15,'CLE','Neutral',-0.253,'2025-09-17'),
+	 ('fuck',130,23,25,'GSW','Neutral',-0.334,'2025-09-17'),
+	 ('cuban',127,24,21,'GSW','Neutral',-0.003,'2025-09-17'),
+	 ('owners',124,25,23,'BOS','Neutral',0.063,'2025-09-17'),
+	 ('million',122,26,21,'DEN','Neutral',0.024,'2025-09-17'),
+	 ('giannis',120,27,18,'MIL','Neutral',0.012,'2025-09-17'),
+	 ('paid',119,28,20,'DEN','Neutral',-0.079,'2025-09-17'),
+	 ('greeks',118,29,16,'SAS','Neutral',-0.317,'2025-09-17'),
+	 ('pay',115,30,20,'LAL','Neutral',-0.080,'2025-09-17');
+INSERT INTO reddit_recent_keywords (word,word_frequency,frequency_rank,nba_team_flairs_using_word,top_nba_team_flair,most_common_sentiment,avg_sentiment_when_used,analysis_date) VALUES
+	 ('best',114,31,23,'LAL','Neutral',0.595,'2025-09-17'),
+	 ('fan',113,32,16,'LAL','Neutral',0.253,'2025-09-17'),
+	 ('kuminga',113,33,15,'GSW','Neutral',0.197,'2025-09-17'),
+	 ('sports',110,34,20,'LAL','Neutral',-0.019,'2025-09-17'),
+	 ('punishment',110,35,24,'LAL','Neutral',-0.438,'2025-09-17'),
+	 ('genocide',108,36,15,'CLE','Neutral',-0.289,'2025-09-17'),
+	 ('against',108,37,20,'BOS','Neutral',-0.223,'2025-09-17'),
+	 ('last',105,38,18,'GSW','Neutral',0.056,'2025-09-17'),
+	 ('greece',103,39,16,'BOS','Neutral',-0.135,'2025-09-17'),
+	 ('adam',103,40,22,'LAL','Neutral',0.062,'2025-09-17');
+INSERT INTO reddit_recent_keywords (word,word_frequency,frequency_rank,nba_team_flairs_using_word,top_nba_team_flair,most_common_sentiment,avg_sentiment_when_used,analysis_date) VALUES
+	 ('love',102,41,21,'GSW','Neutral',0.510,'2025-09-17'),
+	 ('fucking',101,42,19,'LAL','Neutral',-0.116,'2025-09-17'),
+	 ('sign',100,43,20,'LAL','Neutral',0.047,'2025-09-17'),
+	 ('lebron',98,44,14,'LAL','Neutral',0.294,'2025-09-17'),
+	 ('pablo',97,45,19,'LAL','Neutral',-0.081,'2025-09-17'),
+	 ('guilty',96,46,20,'POR','Neutral',-0.326,'2025-09-17'),
+	 ('world',93,47,19,'LAL','Neutral',0.074,'2025-09-17'),
+	 ('until',92,48,18,'LAL','Neutral',0.004,'2025-09-17'),
+	 ('salary',89,49,19,'LAL','Neutral',-0.014,'2025-09-17'),
+	 ('balmer',88,50,14,'LAL','Neutral',-0.090,'2025-09-17');
+INSERT INTO reddit_recent_keywords (word,word_frequency,frequency_rank,nba_team_flairs_using_word,top_nba_team_flair,most_common_sentiment,avg_sentiment_when_used,analysis_date) VALUES
+	 ('media',88,51,22,'LAL','Neutral',0.165,'2025-09-17'),
+	 ('wants',87,52,17,'LAL','Neutral',-0.012,'2025-09-17'),
+	 ('heard',87,53,17,'SAS','Neutral',-0.020,'2025-09-17'),
+	 ('hate',86,54,19,'LAL','Neutral',-0.328,'2025-09-17'),
+	 ('picks',84,55,19,'LAL','Neutral',-0.035,'2025-09-17'),
+	 ('history',84,56,18,'BOS','Neutral',0.045,'2025-09-17'),
+	 ('case',83,57,15,'LAL','Neutral',-0.198,'2025-09-17'),
+	 ('jokic',83,58,18,'LAL','Neutral',0.185,'2025-09-17'),
+	 ('happened',81,59,19,'LAL','Neutral',0.010,'2025-09-17'),
+	 ('having',81,60,21,'LAL','Neutral',0.103,'2025-09-17');
+INSERT INTO reddit_recent_keywords (word,word_frequency,frequency_rank,nba_team_flairs_using_word,top_nba_team_flair,most_common_sentiment,avg_sentiment_when_used,analysis_date) VALUES
+	 ('steph',80,61,14,'GSW','Neutral',0.436,'2025-09-17'),
+	 ('move',79,62,16,'LAL','Neutral',-0.023,'2025-09-17'),
+	 ('leonard',79,63,16,'LAL','Neutral',-0.196,'2025-09-17'),
+	 ('rules',78,64,14,'BOS','Neutral',-0.098,'2025-09-17'),
+	 ('find',76,65,17,'SAS','Neutral',0.081,'2025-09-17'),
+	 ('court',76,66,20,'GSW','Neutral',-0.035,'2025-09-17'),
+	 ('mavs',76,67,11,'LAL','Neutral',0.087,'2025-09-17'),
+	 ('fact',75,68,15,'LAL','Neutral',0.067,'2025-09-17'),
+	 ('owner',75,69,17,'GSW','Neutral',0.019,'2025-09-17'),
+	 ('far',75,70,20,'BOS','Neutral',-0.009,'2025-09-17');
+INSERT INTO reddit_recent_keywords (word,word_frequency,frequency_rank,nba_team_flairs_using_word,top_nba_team_flair,most_common_sentiment,avg_sentiment_when_used,analysis_date) VALUES
+	 ('comment',74,71,21,'LAL','Neutral',-0.118,'2025-09-17'),
+	 ('matter',73,72,17,'SAS','Neutral',0.111,'2025-09-17'),
+	 ('worth',73,73,18,'BOS','Neutral',0.304,'2025-09-17'),
+	 ('end',73,74,16,'LAL','Neutral',-0.084,'2025-09-17'),
+	 ('side',72,75,17,'MIL','Neutral',0.026,'2025-09-17'),
+	 ('likely',72,76,15,'LAL','Neutral',0.121,'2025-09-17'),
+	 ('billionaires',70,77,17,'LAL','Neutral',0.052,'2025-09-17'),
+	 ('hit',70,78,15,'SAS','Neutral',-0.249,'2025-09-17'),
+	 ('draft',70,79,13,'LAL','Neutral',0.036,'2025-09-17'),
+	 ('care',69,80,14,'CHA','Neutral',0.190,'2025-09-17');
+INSERT INTO reddit_recent_keywords (word,word_frequency,frequency_rank,nba_team_flairs_using_word,top_nba_team_flair,most_common_sentiment,avg_sentiment_when_used,analysis_date) VALUES
+	 ('investigation',69,81,15,'LAL','Neutral',-0.176,'2025-09-17'),
+	 ('needs',68,82,18,'GSW','Neutral',-0.025,'2025-09-17'),
+	 ('definitely',68,83,18,'LAL','Neutral',0.316,'2025-09-17'),
+	 ('war',68,84,13,'GSW','Neutral',-0.454,'2025-09-17'),
+	 ('thought',68,85,19,'LAL','Neutral',0.071,'2025-09-17'),
+	 ('wrong',68,86,19,'LAL','Neutral',-0.240,'2025-09-17'),
+	 ('exactly',67,87,18,'LAL','Neutral',0.020,'2025-09-17'),
+	 ('espn',67,88,16,'LAL','Neutral',0.108,'2025-09-17'),
+	 ('value',67,89,14,'GSW','Neutral',0.402,'2025-09-17'),
+	 ('russ',66,90,14,'OKC','Neutral',0.345,'2025-09-17');
+INSERT INTO reddit_recent_keywords (word,word_frequency,frequency_rank,nba_team_flairs_using_word,top_nba_team_flair,most_common_sentiment,avg_sentiment_when_used,analysis_date) VALUES
+	 ('during',66,91,16,'BOS','Neutral',-0.018,'2025-09-17'),
+	 ('curry',65,92,13,'GSW','Neutral',0.365,'2025-09-17'),
+	 ('reddit',65,93,16,'LAL','Neutral',-0.013,'2025-09-17'),
+	 ('went',64,94,14,'LAL','Neutral',-0.011,'2025-09-17'),
+	 ('especially',64,95,18,'BOS','Neutral',0.025,'2025-09-17'),
+	 ('live',64,96,17,'BOS','Neutral',0.126,'2025-09-17'),
+	 ('used',64,97,18,'GSW','Neutral',0.106,'2025-09-17'),
+	 ('himself',63,98,17,'LAL','Neutral',-0.040,'2025-09-17'),
+	 ('country',63,99,15,'BOS','Neutral',-0.088,'2025-09-17'),
+	 ('market',63,100,15,'OKC','Neutral',0.279,'2025-09-17');

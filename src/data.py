@@ -80,6 +80,7 @@ source_tables = [
     "recent_games_players",
     "recent_games_teams",
     "reddit_comments",
+    "reddit_recent_keywords",
     "reddit_sentiment_time_series",
     "rolling_avg_stats",
     "schedule_season_remaining",
