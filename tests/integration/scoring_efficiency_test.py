@@ -16,8 +16,8 @@ def test_graph_regular_season():
     output = update_scoring_efficiency_plot("Regular Season")
 
     assert isinstance(output, go.Figure)
-    assert output["layout"]["xaxis"]["title"]["text"] == "Average PPG"
-    assert output["layout"]["yaxis"]["title"]["text"] == "Average TS%"
+    assert output["layout"]["xaxis"]["title"]["text"] == "Average Points Per Game"
+    assert output["layout"]["yaxis"]["title"]["text"] == "True Shooting %"
     assert output["data"][0]["customdata"][0][0] == "Luka Doncic"
     assert output["data"][0]["customdata"][0][2] == 34.1
 
@@ -31,7 +31,7 @@ def test_graph_playoffs():
     output = update_scoring_efficiency_plot("Playoffs")
 
     assert isinstance(output, go.Figure)
-    assert output["layout"]["xaxis"]["title"]["text"] == "Average PPG"
-    assert output["layout"]["yaxis"]["title"]["text"] == "Average TS%"
+    assert output["layout"]["xaxis"]["title"]["text"] == "Average Points Per Game"
+    assert output["layout"]["yaxis"]["title"]["text"] == "True Shooting %"
     assert output["data"][0]["customdata"][0][0] == "Joel Embiid"
     assert output["data"][0]["customdata"][0][2] == 27.3

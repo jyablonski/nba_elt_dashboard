@@ -115,7 +115,7 @@ about_layout = html.Div(
                 " and ",
                 html.A(
                     html.Img(src="../assets/github.png", height="30px"),
-                    href="https://github.com/jacobyablonski",
+                    href="https://github.com/jyablonski",
                 ),
                 html.Br(),
                 html.Br(),
@@ -126,7 +126,7 @@ about_layout = html.Div(
         html.P(
             f"Dashboard Last Refreshed {datetime.now().strftime('%A, %B %d %-I:%M %p UTC')}"
         ),
-        html.P("Version: 1.1.3"),
+        html.P("Version: 1.1.4"),
     ],
     className="custom-padding",
 )
