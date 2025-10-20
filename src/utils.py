@@ -1,14 +1,10 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    import pandas as pd
-
 
 from dash import dcc, html
 import dash_bootstrap_components as dbc
+import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -30,6 +26,10 @@ def pbp_transformer(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
     print("Running PBP Transformer")
 
+    # Handle empty dataframe
+    if df.empty:
+        return pd.DataFrame(), pd.DataFrame()
+
     def replace_na(series, value):
         return series.fillna(value)
 
@@ -50,18 +50,14 @@ def pbp_transformer(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
             "leading_team_text": last_record_team["leading_team_text"].values[0],
             "time_remaining_final": last_record_team["time_remaining_final"].values[0],
             "prev_time": last_record_team["time_remaining_final"].values[0],
-            "time_difference": round(
-                60 * (last_record_team["prev_time"].values[0] - 0)
-            ),
+            "time_difference": round(60 * (last_record_team["prev_time"].values[0] - 0)),
         },
         ignore_index=True,
     )
 
     pbp_events["game_plot_team_text"] = pbp_events.apply(
         lambda row: (
-            row["home_fill"]
-            if row["scoring_team"] == row["home_team"]
-            else row["away_fill"]
+            row["home_fill"] if row["scoring_team"] == row["home_team"] else row["away_fill"]
         ),
         axis=1,
     )
@@ -81,9 +77,7 @@ def pbp_transformer(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     # Update "Leading" values by adding "Trailing" to the opponent's "Leading"
     for index, row in pbp_kpis.iterrows():
         opponent_team = "DEN" if row["scoring_team"] == "MIA" else "MIA"
-        pbp_kpis.loc[pbp_kpis["scoring_team"] == opponent_team, "Leading"] += row[
-            "Trailing"
-        ]
+        pbp_kpis.loc[pbp_kpis["scoring_team"] == opponent_team, "Leading"] += row["Trailing"]
 
     # Check if 'TIE' column exists, if not, add it and initialize to 0
     if "TIE" not in pbp_kpis.columns:
