@@ -50,14 +50,6 @@ bump-major:
 	@git push --tags
 	@git push
 
-.PHONY: start-postgres
-start-postgres:
-	@docker compose -f docker/docker-compose-postgres.yml up -d
-
-.PHONY: stop-postgres
-stop-postgres:
-	@docker compose -f docker/docker-compose-postgres.yml down
-
 .PHONY: ci-test
 ci-test:
 	@make start-postgres
@@ -92,7 +84,3 @@ lint:
         black .; \
         ruff check .; \
     fi
-
-.PHONY: test1
-test1:
-	@docker compose -f docker/docker-compose-test.yml up --exit-code-from dash_app_test_runner

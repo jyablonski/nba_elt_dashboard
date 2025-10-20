@@ -27,25 +27,15 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Build and Push Docker Image to ECR
+        uses: jyablonski/actions/deploy@v1
         with:
           role-to-assume: ${{ env.IAM_ROLE }}
-          role-session-name: ${{ env.IAM_ROLE_SESSION }}
           aws-region: ${{ env.AWS_REGION }}
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Build, tag, and push image to Amazon ECR
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ env.ECR_REPO }}
-          IMAGE_TAG: ${{ env.IMAGE_NAME }}
-        run: |
-          docker-compose -f docker/docker-compose-build.yml build
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          ecr-repo: ${{ env.ECR_REPO }}
+          image-name: ${{ env.IMAGE_NAME }}
+          dockerfile: docker/Dockerfile
+          context: .
 
       - name: Cycle ECS Service
         env:
