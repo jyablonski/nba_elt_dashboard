@@ -28,7 +28,7 @@ def test_schedule_analysis_team_comebacks():
     output = update_schedule_plot("team-comebacks")
 
     assert isinstance(output, go.Figure)
-    assert output["layout"]["xaxis"]["title"]["text"] == "Net Comebacks (10+ Point Games)"
+    assert output["layout"]["xaxis"]["title"]["text"] == "Net Comebacks (Comebacks - Blown Leads)"
     assert output["layout"]["yaxis"]["title"]["text"] == "Team"
     assert output["data"][0]["customdata"][0][0] == "WAS"
     assert output["data"][0]["customdata"][0][1] == 15

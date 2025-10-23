@@ -53,6 +53,15 @@ game_types_df = game_types_df.query("season_type == 'Regular Season'")
 
 def create_tonight_games_table():
     """Create tonight's games table with conditional formatting"""
+    # Enhanced table style with better column widths
+    enhanced_cell_style = {
+        **BASE_TABLE_STYLE,
+        "minWidth": "100px",
+        "maxWidth": "180px",
+        "whiteSpace": "normal",
+        "height": "auto",
+    }
+
     return dash_table.DataTable(
         columns=tonights_schedule_columns,
         data=schedule_tonights_games_df.to_dict("records"),
@@ -63,7 +72,14 @@ def create_tonight_games_table():
         page_size=15,
         merge_duplicate_headers=True,
         # Styling
-        style_cell=BASE_TABLE_STYLE,
+        style_cell=enhanced_cell_style,
+        style_header={
+            "backgroundColor": "#1e1e1e",
+            "fontWeight": "bold",
+            "textAlign": "center",
+            "padding": "12px",
+            "borderBottom": "2px solid #007bff",
+        },
         style_data_conditional=[
             {
                 "if": {
@@ -83,12 +99,25 @@ def create_tonight_games_table():
                 "color": "white",
                 "fontWeight": "bold",
             },
+            # Alternating row colors for better readability
+            {
+                "if": {"row_index": "odd"},
+                "backgroundColor": "#2a2a2a",
+            },
         ],
     )
 
 
 def create_full_schedule_table():
     """Create full schedule table"""
+    enhanced_cell_style = {
+        **BASE_TABLE_STYLE,
+        "minWidth": "100px",
+        "maxWidth": "180px",
+        "whiteSpace": "normal",
+        "height": "auto",
+    }
+
     return dash_table.DataTable(
         columns=future_schedule_columns,
         data=schedule_season_remaining_df.to_dict("records"),
@@ -98,7 +127,20 @@ def create_full_schedule_table():
         sort_action="native",
         page_size=15,
         # Styling
-        style_cell=BASE_TABLE_STYLE,
+        style_cell=enhanced_cell_style,
+        style_header={
+            "backgroundColor": "#1e1e1e",
+            "fontWeight": "bold",
+            "textAlign": "center",
+            "padding": "12px",
+            "borderBottom": "2px solid #007bff",
+        },
+        style_data_conditional=[
+            {
+                "if": {"row_index": "odd"},
+                "backgroundColor": "#2a2a2a",
+            },
+        ],
     )
 
 
@@ -223,15 +265,15 @@ def create_spread_metrics_plot():
         hoverlabel=COMMON_HOVER_STYLE,
         hovertemplate=(
             "<b>%{customdata[0]}</b><br>"
-            "<b>Total Games:</b> %{customdata[1]}<br>"
+            "<b>Games Played:</b> %{customdata[1]}<br>"
+            "<b>Games Covered Spread:</b> %{customdata[2]}<br>"
             "<b>Games as Favorite:</b> %{customdata[3]}<br>"
             "<b>Games as Underdog:</b> %{customdata[4]}<br>"
-            "<b>Games Covered:</b> %{customdata[2]}<br>"
-            "<b>Favorite Covered:</b> %{customdata[5]}<br>"
-            "<b>Underdog Covered:</b> %{customdata[6]}<br>"
-            "<b>% Covered Overall:</b> %{customdata[7]:.2%}<br>"
-            "<b>% Covered as Favorite:</b> %{customdata[8]:.2%}<br>"
-            "<b>% Covered as Underdog:</b> %{customdata[9]:.2%}<br>"
+            "<b>Favorite Games Covered:</b> %{customdata[5]}<br>"
+            "<b>Underdog Games Covered:</b> %{customdata[6]}<br>"
+            "<b>% Covered Spread:</b> %{customdata[7]:.1%}<br>"
+            "<b>% Favorite Covered:</b> %{customdata[8]:.1%}<br>"
+            "<b>% Underdog Covered:</b> %{customdata[9]:.1%}<br>"
             "<extra></extra>"
         ),
     )
@@ -246,8 +288,8 @@ def create_comebacks_plot():
         y="team",
         color="net_comebacks",
         color_continuous_scale=[[0, "#e04848"], [0.5, "#383b3d"], [1, "#3fb7d9"]],
-        labels={"team": "Team", "net_comebacks": "Net Comebacks (10+ Point Games)"},
-        title="Team Comeback/Blown Lead Analysis",
+        labels={"team": "Team", "net_comebacks": "Net Comebacks (Comebacks - Blown Leads)"},
+        title="Team Comeback Performance",
         custom_data=[
             "team",
             "blown_leads_10pt",
@@ -265,9 +307,10 @@ def create_comebacks_plot():
         hoverlabel=COMMON_HOVER_STYLE,
         hovertemplate=(
             "<b>%{customdata[0]}</b><br>"
-            "<b>10+ Pt Blown Leads:</b> %{customdata[1]} (Rank: %{customdata[2]})<br>"
-            "<b>10+ Pt Comebacks:</b> %{customdata[3]} (Rank: %{customdata[4]})<br>"
-            "<b>Net Comebacks:</b> %{customdata[5]} (Rank: %{customdata[6]})<br>"
+            "<b>Comebacks:</b> %{customdata[1]}<br>"
+            "<b>Blown Leads:</b> %{customdata[2]}<br>"
+            "<b>Net Comebacks:</b> %{customdata[3]}<br>"
+            "<b>Comeback Win %:</b> %{customdata[4]:.1%}<br>"
             "<extra></extra>"
         ),
     )
@@ -275,12 +318,11 @@ def create_comebacks_plot():
 
 
 def create_game_types_plot():
-    """Create game types margin analysis plot"""
+    """Create game types distribution plot"""
     fig = px.bar(
         game_types_df,
-        x="game_type",
-        y="n",
-        text="n",
+        x="n",
+        y="game_type",
         labels={"n": "Number of Games", "game_type": "Game Type"},
         title="Distribution of Games by Margin",
         color_discrete_sequence=[SINGLE_BAR_COLOR],
@@ -303,122 +345,199 @@ def create_game_types_plot():
     return fig
 
 
-# Layout
+# Improved Layout with Cards and Better Spacing
 schedule_layout = html.Div(
     [
-        # Header Section
-        dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        html.Div(
-                            [
-                                "Moneyline Odds for tonight's games provided by ",
-                                html.A(
-                                    html.Img(
-                                        src="../assets/draftkings.png",
-                                        height="60px",
-                                        style={"vertical-align": "middle"},
-                                    ),
-                                    href="https://www.draftkings.com",
-                                    target="_blank",
+        # Header Section with Card
+        dbc.Card(
+            dbc.CardBody(
+                [
+                    html.H1(
+                        "Upcoming Games",
+                        className="text-center mb-4",
+                        style={
+                            "font-size": "2.5rem",
+                            "font-weight": "bold",
+                            "color": "#ffffff",
+                        },
+                    ),
+                    # Info and Button Row
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                html.Div(
+                                    [
+                                        html.Span(
+                                            "Moneyline odds provided by ",
+                                            className="me-2",
+                                            style={"font-size": "14px", "color": "#cccccc"},
+                                        ),
+                                        html.A(
+                                            html.Img(
+                                                src="../assets/draftkings.png",
+                                                height="32px",
+                                                style={"vertical-align": "middle"},
+                                            ),
+                                            href="https://www.draftkings.com",
+                                            target="_blank",
+                                            className="mx-2",
+                                        ),
+                                        html.Span(
+                                            "•",
+                                            className="mx-3",
+                                            style={"color": "#666", "font-size": "16px"},
+                                        ),
+                                        html.Span(
+                                            "●",
+                                            className="me-2",
+                                            style={"color": "#4CAF50", "font-size": "16px"},
+                                        ),
+                                        html.Span(
+                                            "Green = Great Value",
+                                            style={
+                                                "font-weight": "600",
+                                                "color": "#4CAF50",
+                                                "font-size": "14px",
+                                            },
+                                        ),
+                                    ],
+                                    className="d-flex align-items-center justify-content-center flex-wrap",
                                 ),
-                            ],
-                            style={"margin-bottom": "20px", "text-align": "center"},
-                        )
-                    ]
-                )
-            ]
-        ),
-        # Controls Section
-        dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        html.H1("Upcoming Games", style={"margin-bottom": "15px"}),
-                        html.Label(
-                            "Select Schedule View:",
-                            style={"margin-bottom": "5px", "fontWeight": "bold"},
-                        ),
-                        dcc.Dropdown(
-                            id="schedule-table-selector",
-                            options=SCHEDULE_TABLE_OPTIONS,
-                            value="tonights-games",
-                            clearable=False,
-                            style={"margin-bottom": "10px"},
-                        ),
-                    ],
-                    width=4,
-                ),
-                dbc.Col(
-                    [
-                        html.Div(
-                            [
+                                lg=8,
+                                md=12,
+                                className="mb-3 mb-lg-0",
+                            ),
+                            dbc.Col(
                                 html.A(
-                                    "🎯 Make & Track Predictions",
+                                    [
+                                        html.I(className="fas fa-bullseye me-2"),
+                                        "Make & Track Bet Predictions",
+                                    ],
                                     href="https://api.jyablonski.dev/bets",
-                                    className="rest-api-link",
+                                    className="btn btn-primary w-100",
                                     style={
-                                        "font-size": "16px",
-                                        "font-weight": "bold",
-                                        "text-decoration": "none",
-                                        "color": "#007bff",
-                                        "border": "2px solid #007bff",
-                                        "padding": "8px 16px",
-                                        "border-radius": "5px",
-                                        "display": "inline-block",
+                                        "font-weight": "600",
+                                        "padding": "10px 20px",
+                                        "border-radius": "8px",
+                                        "font-size": "14px",
                                     },
                                 ),
-                            ],
-                            style={"text-align": "right", "margin-top": "35px"},
-                        )
-                    ],
-                    width=8,
-                ),
-            ],
-            style={"margin-bottom": "20px"},
+                                lg=4,
+                                md=12,
+                                className="d-flex align-items-center",
+                            ),
+                        ],
+                        className="align-items-center",
+                    ),
+                ]
+            ),
+            className="mb-4 shadow-sm",
+            style={"backgroundColor": "#1a1a1a", "border": "1px solid #333"},
         ),
-        # Schedule Table Section
-        dbc.Row([dbc.Col([html.Div(id="schedule-table")], width=12)]),
-        html.Br(),
-        # Analysis Section
-        dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        html.H3("NBA Schedule Analysis", style={"margin-bottom": "20px"}),
-                        # Plot Selector
-                        html.Div(
-                            [
-                                html.Label(
-                                    "Select Analysis Plot:",
-                                    style={"margin-bottom": "10px", "fontWeight": "bold"},
+        # Schedule Table Card
+        dbc.Card(
+            dbc.CardBody(
+                [
+                    # Controls
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                [
+                                    html.Label(
+                                        "Select Schedule View:",
+                                        className="form-label fw-bold mb-2",
+                                        style={"font-size": "14px", "color": "#e0e0e0"},
+                                    ),
+                                    dcc.Dropdown(
+                                        id="schedule-table-selector",
+                                        options=SCHEDULE_TABLE_OPTIONS,
+                                        value="tonights-games",
+                                        clearable=False,
+                                        style={"width": "300px"},
+                                        className="mb-3",
+                                    ),
+                                ],
+                                width=12,
+                            ),
+                        ],
+                    ),
+                    # Table
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                html.Div(
+                                    id="schedule-table",
+                                    style={
+                                        "overflow-x": "auto",
+                                        "border-radius": "8px",
+                                    },
                                 ),
-                                dcc.Dropdown(
-                                    id="schedule-plot-selector",
-                                    options=SCHEDULE_PLOT_OPTIONS,
-                                    value="strength-of-schedule",
-                                    clearable=False,
-                                    style={"width": "400px", "margin-bottom": "20px"},
+                                width=12,
+                            )
+                        ]
+                    ),
+                ]
+            ),
+            className="mb-5 shadow-sm",
+            style={"backgroundColor": "#1a1a1a", "border": "1px solid #333"},
+        ),
+        # Analysis Section Card
+        dbc.Card(
+            dbc.CardBody(
+                [
+                    html.H3(
+                        "NBA Schedule Analysis",
+                        className="mb-4",
+                        style={
+                            "font-weight": "bold",
+                            "color": "#ffffff",
+                            "font-size": "1.8rem",
+                        },
+                    ),
+                    # Plot Selector
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                [
+                                    html.Label(
+                                        "Select Analysis Plot:",
+                                        className="form-label fw-bold mb-2",
+                                        style={"font-size": "14px", "color": "#e0e0e0"},
+                                    ),
+                                    dcc.Dropdown(
+                                        id="schedule-plot-selector",
+                                        options=SCHEDULE_PLOT_OPTIONS,
+                                        value="strength-of-schedule",
+                                        clearable=False,
+                                        style={"width": "100%", "max-width": "500px"},
+                                        className="mb-4",
+                                    ),
+                                ],
+                                width=12,
+                            ),
+                        ]
+                    ),
+                    # Chart
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                dcc.Graph(
+                                    id="schedule-plot",
+                                    style={"height": "600px"},
+                                    config={"displayModeBar": True, "displaylogo": False},
                                 ),
-                            ]
-                        ),
-                        # Charts Row
-                        dbc.Row(
-                            [
-                                dbc.Col(
-                                    [dcc.Graph(id="schedule-plot", style={"height": "500px"})],
-                                    width=12,
-                                ),
-                            ]
-                        ),
-                    ],
-                    width=12,
-                )
-            ]
+                                width=12,
+                            ),
+                        ]
+                    ),
+                ]
+            ),
+            className="shadow-sm",
+            style={"backgroundColor": "#1a1a1a", "border": "1px solid #333"},
         ),
     ],
-    className="custom-padding",
+    className="container-fluid px-4 py-4",
+    style={"max-width": "1600px", "margin": "0 auto"},
 )
 
 

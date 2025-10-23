@@ -1,39 +1,39 @@
 .custom-padding {
-    padding-left: 15px;
-    padding-right: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .player-headshot-container {
-    max-height: 25px;
-    max-width: 25px;
-    width: 32%;
-    display: inline-block;
-    margin-right: 30px;
+  max-height: 25px;
+  max-width: 25px;
+  width: 32%;
+  display: inline-block;
+  margin-right: 30px;
 }
 
 body {
-    font-size: 15px;
-    color: rgb(230, 224, 224);
-    font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  color: rgb(230, 224, 224);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* THIS IS BREAKING CONDITIONAL FORMATTING SCHEDULE */
 /* DASH TABLE CELLS */
 .dash-spreadsheet td {
-    background-color: #383b3d;
-    border-color: #383b3d00 !important;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    text-align: center !important;
+  background-color: #383b3d;
+  border-color: #383b3d00 !important;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  text-align: center !important;
 }
 
 table tr:hover td.dash-cell {
-    background-color: #5e6063 !important;
+  background-color: #5e6063 !important;
 }
 
 .dash-spreadsheet-container table {
-    --accent: #1EAEDB !important;
-    --selected-background: #FF4136 !important;
-    --selected-color: #3C3C3C !important;
+  --accent: #1eaedb !important;
+  --selected-background: #ff4136 !important;
+  --selected-color: #3c3c3c !important;
 }
 
 /* table tr td.dash-cell:active {
@@ -42,112 +42,112 @@ table tr:hover td.dash-cell {
 
 /* DASH TABLE COLUMNS */
 .dash-spreadsheet th {
-    background-color: #222222 !important;
-    border: 1px solid rgb(0, 0, 0) !important;
-    text-align: center !important;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: #222222 !important;
+  border: 1px solid rgb(0, 0, 0) !important;
+  text-align: center !important;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
 /* dash table border */
 .dash-spreadsheet {
-    border: 1px solid rgb(0, 0, 0) !important;
+  border: 1px solid rgb(0, 0, 0) !important;
 }
 
 .kpi-card {
-    width: 25%;
-    border: 2px solid #000000;
-    padding: 10px;
-    margin: 5px;
-    text-align: center;
-    background-color: #15171a;
+  width: 25%;
+  border: 2px solid #000000;
+  padding: 10px;
+  margin: 5px;
+  text-align: center;
+  background-color: #15171a;
 }
 
 h1,
 h3 {
-    text-align: center;
+  text-align: center;
 }
 
 .Select-control {
-    background-color: rgb(25, 25, 25) !important;
-    color: white;
+  background-color: rgb(25, 25, 25) !important;
+  color: white;
 }
 
 .Select-menu-outer {
-    background-color: rgb(25, 25, 25);
-    color: white;
+  background-color: rgb(25, 25, 25);
+  color: white;
 }
 
 .Select-value-label {
-    color: white !important;
+  color: white !important;
 }
 
 /* player images  */
 img[src*="/nba"] {
-    width: 150px;
-    height: 100px;
-    display: block;
-    margin: 0 auto;
+  width: 150px;
+  height: 100px;
+  display: block;
+  margin: 0 auto;
 
-    /* center that mfer */
-    transform: translateY(4px);
+  /* center that mfer */
+  transform: translateY(4px);
 }
 
 /* team logos */
 
 .team-data-table img {
-    max-width: 75px;
-    max-height: 75px;
+  max-width: 75px;
+  max-height: 75px;
 
-    display: block;
-    margin: 0 auto;
+  display: block;
+  margin: 0 auto;
 
-    /* center that mfer */
-    transform: translateY(8px);
+  /* center that mfer */
+  transform: translateY(8px);
 }
 
 .rest-api-link {
-    display: inline-block;
-    padding: 10px 10px;
-    background-color: rgb(51, 45, 53);
-    color: #fff;
-    border: 2px solid #000;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-left: 55px;
-    margin-bottom: 5px;
+  display: inline-block;
+  padding: 10px 10px;
+  background-color: rgb(51, 45, 53);
+  color: #fff;
+  border: 2px solid #000;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-left: 55px;
+  margin-bottom: 5px;
 }
 
 .rest-api-link:hover {
-    background-color: rgb(94, 73, 99);
+  background-color: rgb(94, 73, 99);
 }
 
 .legend {
-    list-style: none;
-    margin-left: -30px;
+  list-style: none;
+  margin-left: -30px;
 }
 
 .legend-item {
-    float: left;
-    margin-right: 10px;
+  float: left;
+  margin-right: 10px;
 }
 
 .legend-color {
-    border: 1px solid #ccc;
-    float: left;
-    width: 30px;
-    height: 15px;
-    margin-right: 5px;
-    margin-top: 3px;
+  border: 1px solid #ccc;
+  float: left;
+  width: 30px;
+  height: 15px;
+  margin-right: 5px;
+  margin-top: 3px;
 }
 
 .legend .season-high {
-    background-color: #9362DA;
+  background-color: #9362da;
 }
 
 .legend .ten-above {
-    background-color: #3fb7d9;
+  background-color: #3fb7d9;
 }
 
 .legend .ten-below {
-    background-color: #e04848;
+  background-color: #e04848;
 }

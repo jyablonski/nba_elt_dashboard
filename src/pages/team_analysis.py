@@ -248,7 +248,10 @@ def update_injuries(selected_team):
     if not selected_team:
         return html.Div("No team selected")
 
-    filtered_injuries = injuries_df.query(f"team == '{selected_team}'")
+    # Sort by scrape_date in descending order (most recent first)
+    filtered_injuries = injuries_df.query(f"team == '{selected_team}'").sort_values(
+        by="scrape_date", ascending=False
+    )
 
     if filtered_injuries.empty:
         return html.Div(
@@ -275,9 +278,10 @@ def update_transactions(selected_team):
     if not selected_team:
         return html.Div("No team selected")
 
+    # Sort by date in descending order (most recent first)
     filtered_transactions = transactions_df.query(
         f'transaction.str.contains("{selected_team}")', engine="python"
-    )
+    ).sort_values(by="date", ascending=False)
 
     if filtered_transactions.empty:
         return html.Div(
