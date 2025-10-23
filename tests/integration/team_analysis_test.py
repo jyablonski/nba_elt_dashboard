@@ -48,7 +48,4 @@ def test_transactions():
 
     if output.data and len(output.data) > 0:
         assert "transaction" in output.data[0]
-        assert (
-            output.data[0]["transaction"]
-            == "The Toronto Raptors signed Gradey Dick to a multi-year contract."
-        )
+        assert output.data[0]["transaction"] == "The Toronto Raptors waived Joe Wieskamp."

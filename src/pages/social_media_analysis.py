@@ -17,9 +17,9 @@ from src.config import DARK_LAYOUT_TEMPLATE
 
 # Constants
 GAME_OUTCOME_COLORS = {
-    "W": "#3fb7d9",  # Blue for wins (from your theme)
-    "L": "#e04848",  # Red for losses (from your theme)
-    "NO GAME": "#383b3d",  # Gray for no games (from your theme)
+    "W": "#3fb7d9",
+    "L": "#e04848",
+    "NO GAME": "#383b3d",
 }
 
 SOCIAL_MEDIA_OPTIONS = [
@@ -239,7 +239,7 @@ social_media_analysis_layout = html.Div(
             [
                 dbc.Col(
                     [
-                        html.H3("Reddit Sentiment Analysis", style={"margin-bottom": "15px"}),
+                        html.H3("Comments by Team Flair", style={"margin-bottom": "15px"}),
                         # Team Selector
                         html.Div(
                             [
