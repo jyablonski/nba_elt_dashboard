@@ -307,10 +307,11 @@ def create_comebacks_plot():
         hoverlabel=COMMON_HOVER_STYLE,
         hovertemplate=(
             "<b>%{customdata[0]}</b><br>"
-            "<b>Comebacks:</b> %{customdata[1]}<br>"
-            "<b>Blown Leads:</b> %{customdata[2]}<br>"
-            "<b>Net Comebacks:</b> %{customdata[3]}<br>"
-            "<b>Comeback Win %:</b> %{customdata[4]:.1%}<br>"
+            "<b>Comebacks:</b> %{customdata[3]}<br>"
+            "<b>Blown Leads:</b> %{customdata[1]}<br>"
+            "<b>Net Comebacks:</b> %{customdata[5]}<br>"
+            "<b>Comeback Rank:</b> %{customdata[4]}<br>"
+            "<b>Blown Lead Rank:</b> %{customdata[2]}<br>"
             "<extra></extra>"
         ),
     )
