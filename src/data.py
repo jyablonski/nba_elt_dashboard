@@ -94,5 +94,5 @@ source_tables = [
     "team_record_daily_rollup",
     "transactions",
     "twitter_comments",
-    "ml.schedule_tonights_games",
+    "schedule_tonights_games",
 ]

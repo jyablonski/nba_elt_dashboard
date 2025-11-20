@@ -20,11 +20,11 @@ ARG INSTALL_DEV_DEPENDENCIES=false
 
 COPY pyproject.toml uv.lock ./
 
-RUN pip install uv==0.8.2 && \
+RUN pip install uv==0.9.10 && \
     if [ "$INSTALL_DEV_DEPENDENCIES" = "true" ]; then \
-        uv sync --frozen --group test; \
+    uv sync --frozen --group test; \
     else \
-        uv sync --frozen --no-dev; \
+    uv sync --frozen --no-dev; \
     fi
 
 # -------------------------------

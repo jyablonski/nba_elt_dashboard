@@ -15,6 +15,10 @@ ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $VM_USER@$VM_IP 
   echo "Stopping current Docker Compose services..."
   sudo ~/.docker/cli-plugins/docker-compose down
 
+  echo "Cleaning up Docker resources..."
+  sudo docker system prune -a -f
+  sudo docker volume prune -f
+
   echo "Pulling latest code from master..."
   git pull origin master
 
@@ -23,6 +27,9 @@ ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $VM_USER@$VM_IP 
 
   echo "Starting updated service with Docker Compose..."
   sudo ~/.docker/cli-plugins/docker-compose up -d
+
+  echo "Checking disk usage..."
+  df -h / | grep -v Filesystem
 
   echo "Deployment complete."
 EOF

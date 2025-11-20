@@ -25,7 +25,7 @@ services:
       - RDS_USER=nba_dashboard_user
       - RDS_PW=postgres
       - RDS_DB=postgres
-      - RDS_SCHEMA=marts
+      - RDS_SCHEMA=gold
       - ENV_TYPE=docker_dev
     ports:
       - 9000:9000

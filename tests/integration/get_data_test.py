@@ -10,10 +10,8 @@ def test_generate_data(postgres_engine):
 
 
 def test_get_data(postgres_conn):
-    df = get_data(table_name="schedule", schema="marts", conn=postgres_conn)
-    df_limit = get_data(
-        table_name="schedule", schema="marts", conn=postgres_conn, limit_amount=1
-    )
+    df = get_data(table_name="schedule", schema="gold", conn=postgres_conn)
+    df_limit = get_data(table_name="schedule", schema="gold", conn=postgres_conn, limit_amount=1)
 
     assert list(df.columns) == [
         "game_date",
@@ -35,7 +33,7 @@ def test_get_data(postgres_conn):
 
 
 def test_get_data_no_schema(postgres_conn):
-    df = get_data(table_name="marts.reddit_comments", schema=None, conn=postgres_conn)
+    df = get_data(table_name="gold.reddit_comments", schema=None, conn=postgres_conn)
 
     assert list(df.columns) == [
         "scrape_date",
