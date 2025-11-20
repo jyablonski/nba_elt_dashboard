@@ -23,6 +23,7 @@ jobs:
         run: bash .github/scripts/vm_deploy.sh
         env:
           GCP_VM_IP: ${{ secrets.GCP_VM_IP }}
+          GIT_COMMIT: ${{ github.sha }}
 
   notify:
     needs: [deploy_gcp_vm]

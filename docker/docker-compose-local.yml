@@ -17,6 +17,8 @@ services:
     build:
       context: ../
       dockerfile: docker/Dockerfile
+      args:
+        GIT_COMMIT: ${GIT_COMMIT:-dev} # Use 'dev' as default for local
     image: nba_elt_dashboard_local
     environment:
       - IP=postgres

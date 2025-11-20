@@ -32,6 +32,10 @@ RUN pip install uv==0.9.10 && \
 # -------------------------------
 FROM base AS runtime
 
+# Add build argument for git commit SHA
+ARG GIT_COMMIT=unknown
+ENV GIT_COMMIT=${GIT_COMMIT}
+
 COPY --from=python-deps ./.venv ./.venv
 
 RUN useradd --create-home appuser
