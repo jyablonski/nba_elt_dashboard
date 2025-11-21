@@ -30,7 +30,7 @@ def postgres_engine() -> Engine:
         host = "localhost"
 
     engine = sql_connection(
-        schema="marts",
+        schema="gold",
         user="nba_dashboard_user",
         password="postgres",
         host=host,
@@ -78,9 +78,7 @@ def team_ratings_fixture() -> pd.DataFrame:
     """
     Fixture to load Team Ratings CSV Fixture for Testing
     """
-    file_name = os.path.join(
-        os.path.dirname(__file__), "fixtures/team_ratings_fixture.csv"
-    )
+    file_name = os.path.join(os.path.dirname(__file__), "fixtures/team_ratings_fixture.csv")
     df = pd.read_csv(file_name)
 
     return df

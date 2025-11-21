@@ -72,7 +72,7 @@ def create_performance_legend():
                                     "marginTop": "3px",
                                 }
                             ),
-                            " 10+ pts Above",
+                            " 10+ pts Above Avg",
                         ],
                         style={"display": "flex", "alignItems": "center", "marginRight": "15px"},
                     ),
@@ -89,7 +89,7 @@ def create_performance_legend():
                                     "marginTop": "3px",
                                 }
                             ),
-                            " 10+ pts Below",
+                            " 10+ pts Below Avg",
                         ],
                         style={"display": "flex", "alignItems": "center", "marginRight": "15px"},
                     ),

@@ -23,3 +23,16 @@ jobs:
         run: bash .github/scripts/vm_deploy.sh
         env:
           GCP_VM_IP: ${{ secrets.GCP_VM_IP }}
+          GIT_COMMIT: ${{ github.sha }}
+
+  notify:
+    needs: [deploy_gcp_vm]
+    if: always() && github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack Alert
+        uses: jyablonski/actions/alert@v1
+        with:
+          status: ${{ contains(needs.*.result, 'failure') && 'failure' || 'success' }}
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          custom_message: "Common Modules Package"

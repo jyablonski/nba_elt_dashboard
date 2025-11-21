@@ -1,6 +1,9 @@
+import os
 from datetime import datetime
 
 from dash import html
+
+GIT_COMMIT = os.getenv("GIT_COMMIT", "unknown")
 
 about_layout = html.Div(
     [
@@ -123,10 +126,8 @@ about_layout = html.Div(
             ]
         ),
         html.Br(),
-        html.P(
-            f"Dashboard Last Refreshed {datetime.now().strftime('%A, %B %d %-I:%M %p UTC')}"
-        ),
-        html.P("Version: 1.1.7"),
+        html.P(f"Dashboard Last Refreshed {datetime.now().strftime('%A, %B %d %-I:%M %p UTC')}"),
+        html.P(f"Version: {GIT_COMMIT[:7]}"),  # Show short commit SHA
     ],
     className="custom-padding",
 )

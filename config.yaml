@@ -6,19 +6,19 @@ dev:
   user: ${RDS_USER}
   pass: postgres
   database: postgres
-  schema: marts
+  schema: gold
   port: 5432
 docker_dev:
   host: postgres
   user: ${RDS_USER}
   pass: postgres
   database: postgres
-  schema: marts
+  schema: gold
   port: 5432
 prod:
   host: ${IP}
   user: ${RDS_USER}
   pass: ${RDS_PW}
   database: ${RDS_DB}
-  schema: marts
+  schema: gold
   port: 17841
