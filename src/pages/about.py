@@ -10,7 +10,7 @@ GIT_COMMIT = os.getenv("GIT_COMMIT", "unknown")
 about_layout = html.Div(
     [
         page_hero(
-            title="About this project.",
+            title="About This Project.",
         ),
         html.P(
             [

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import plotly.graph_objects as go
 import plotly.express as px
+import pandas as pd
 from dash import callback, dcc, html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
@@ -34,11 +35,6 @@ GAME_OUTCOME_COLORS = {
     "NO GAME": "#383b3d",
 }
 
-SOCIAL_MEDIA_OPTIONS = [
-    {"label": "Reddit", "value": "reddit"},
-    {"label": "Twitter (Out of Commission 😢)", "value": "twitter"},
-]
-
 TEAM_OPTIONS = [{"label": team, "value": team} for team in team_names_abbreviations]
 
 DEFAULT_TEAM = default_team(reddit_sentiment_time_series_df)
@@ -70,30 +66,23 @@ reddit_display_df["comment_preview"] = reddit_display_df["comment"].map(_comment
 _KPIS = snapshot_kpis(reddit_comments_df, reddit_recent_keywords_df, social_media_aggs_df)
 
 
-def _fmt_pct_compound(x: float | None) -> str:
-    if x is None:
-        return "—"
-    return f"{100.0 * float(x):.1f}%"
-
-
-def _sentiment_caption(mean_compound: float | None) -> str:
-    if mean_compound is None:
-        return "No sentiment in sample"
-    v = float(mean_compound)
-    if v > 0.12:
-        return "Sample skews positive vs neutral"
-    if v < -0.12:
-        return "Sample skews negative vs neutral"
-    return "Close to neutral on average"
+def _avg_comment_score() -> tuple[str, str | None]:
+    s = reddit_display_df.get("score")
+    if s is None or len(s) == 0:
+        return "—", None
+    v = float(pd.to_numeric(s, errors="coerce").mean())
+    if pd.isna(v):
+        return "—", None
+    return f"{v:,.1f}", "Mean upvotes on sampled comments"
 
 
 def create_insight_kpi(*, headline: str, title: str, subtitle: str | None = None) -> html.Div:
     parts = [
-        html.Div(headline, style={"fontSize": 26, "fontWeight": "bold"}),
-        html.Div(title, style={"fontSize": 14}),
+        html.Div(headline, className="kpi-card__value"),
+        html.Div(title, className="kpi-card__title"),
     ]
     if subtitle:
-        parts.append(html.Div(subtitle, className="small text-muted"))
+        parts.append(html.Div(subtitle, className="kpi-card__sub"))
     return create_kpi_card(parts)
 
 
@@ -361,6 +350,7 @@ def _kpi_row() -> list:
     if pdiff is not None:
         diff_txt = f"{pdiff:+.1f}% vs rolling average snapshot"
 
+    avg_pts, avg_sub = _avg_comment_score()
     cards = [
         create_insight_kpi(
             headline=f"{rt:,}" if rt is not None else "—",
@@ -368,9 +358,9 @@ def _kpi_row() -> list:
             subtitle=diff_txt,
         ),
         create_insight_kpi(
-            headline=_fmt_pct_compound(_KPIS["avg_compound"]),
-            title="Mean VADER compound",
-            subtitle=_sentiment_caption(_KPIS["avg_compound"]),
+            headline=avg_pts,
+            title="Avg comment score",
+            subtitle=avg_sub,
         ),
     ]
     tw = _KPIS["top_word"]
@@ -398,56 +388,22 @@ def _kpi_row() -> list:
     return cards
 
 
-_twitter_total = (
-    int(social_media_aggs_df["twitter_tot_comments"].iloc[0])
-    if not social_media_aggs_df.empty and "twitter_tot_comments" in social_media_aggs_df.columns
-    else 0
-)
-
 social_media_analysis_layout = html.Div(
     [
         page_hero(
-            title="r/NBA social pulse",
+            title="r/NBA Social Pulse",
             meta=[
                 html.Div(
-                    [
-                        html.Img(
-                            src="../assets/reddit.png",
-                            alt="Reddit",
-                            style={"height": "52px", "width": "52px"},
-                        ),
-                        html.Div(
-                            [
-                                html.Div(
-                                    "Data source",
-                                    className="text-uppercase small text-muted mb-1",
-                                ),
-                                dcc.Dropdown(
-                                    id="social-media-selector",
-                                    options=SOCIAL_MEDIA_OPTIONS,
-                                    value="reddit",
-                                    clearable=False,
-                                    className="dash-dropdown",
-                                    style={"minWidth": "260px", "maxWidth": "360px"},
-                                ),
-                            ],
-                            className="text-start",
-                        ),
-                    ],
-                    className="d-inline-flex flex-wrap align-items-center justify-content-center gap-3",
+                    html.Img(
+                        src="../assets/reddit.png",
+                        alt="Reddit",
+                        style={"height": "48px", "width": "48px"},
+                    ),
+                    className="d-flex justify-content-center",
                 ),
             ],
         ),
-        html.P(
-            (
-                "Twitter pipeline is paused; charts and KPIs reflect the Reddit scrape and "
-                "downstream keyword / flair rollups."
-                if _twitter_total == 0
-                else "Showing Reddit as primary feed; Twitter totals are non-zero but lightly used."
-            ),
-            className="text-muted small mb-3",
-        ),
-        dbc.Row([dbc.Col(c, xs=12, sm=6, xl=3, className="mb-3") for c in _kpi_row()], className="social-media-insights-kpi g-2"),
+        html.Div(_kpi_row(), className="kpi-container"),
         dbc.Row(
             [
                 dbc.Col(

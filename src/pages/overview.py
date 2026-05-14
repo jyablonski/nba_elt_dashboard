@@ -18,7 +18,10 @@ from src.database import (
 from src.theme.plotly import TRACE_HOVERLABEL, apply_dark_layout
 from src.ui.sections import page_hero, section_header
 from src.ui.tables import dark_datatable
-from src.utils import create_season_selector_dropdown, generate_team_ratings_figure
+from src.utils import generate_team_ratings_figure, scoring_efficiency_season_config
+
+# Scoring-efficiency season filter (aligned initial table + dropdown at import time)
+_SCORING_SEASON_DEFAULT, _SCORING_SEASON_OPTIONS = scoring_efficiency_season_config()
 
 # Constants
 VALUE_ANALYSIS_COLORS = {
@@ -45,7 +48,7 @@ def _scoring_efficiency_records(selected_season: str | None) -> list[dict]:
     season = selected_season or "Regular Season"
     rs_avg = _regular_season_league_avg_ts_percent()
     filtered = player_stats_df.query(
-        "season_type == @season & avg_ppg >= 20", local_dict={"season": season}
+        "season_type == @season and avg_ppg >= 20", local_dict={"season": season}
     )
     if filtered.empty:
         return []
@@ -70,7 +73,7 @@ def _scoring_efficiency_records(selected_season: str | None) -> list[dict]:
 def create_player_scoring_efficiency_table():
     return dark_datatable(
         columns=player_scoring_efficiency_columns,
-        data=_scoring_efficiency_records("Regular Season"),
+        data=_scoring_efficiency_records(_SCORING_SEASON_DEFAULT),
         table_id="player-scoring-efficiency-table",
         sort_action="native",
         sort_mode="single",
@@ -226,14 +229,12 @@ overview_layout = html.Div(
                     [
                         html.Div(
                             f"{bans_df['tot_wins'][0]} - {bans_df['tot_wins'][1]}",
-                            style={"fontSize": 24, "fontWeight": "bold", "margin-bottom": "5px"},
+                            className="kpi-card__value",
                         ),
+                        html.Div("League wide home vs road wins", className="kpi-card__title"),
                         html.Div(
-                            "League Wide Home - Road Win Record", style={"margin-bottom": "5px"}
-                        ),
-                        html.Div(
-                            f"{bans_df['win_pct'][0] * 100:.0f}% - {bans_df['win_pct'][1] * 100:.0f}% Win Percentage Splits",
-                            className="small text-muted",
+                            f"{bans_df['win_pct'][0] * 100:.0f}% - {bans_df['win_pct'][1] * 100:.0f}% win percentage splits",
+                            className="kpi-card__sub",
                         ),
                     ]
                 ),
@@ -242,12 +243,12 @@ overview_layout = html.Div(
                     [
                         html.Div(
                             f"{bans_df['avg_pts'][0]:.1f}",
-                            style={"fontSize": 24, "fontWeight": "bold", "margin-bottom": "5px"},
+                            className="kpi-card__value",
                         ),
-                        html.Div("League Average Points Per Game", style={"margin-bottom": "5px"}),
+                        html.Div("League average points per game", className="kpi-card__title"),
                         html.Div(
-                            f"{((bans_df['avg_pts'][0] - bans_df['last_yr_ppg'][0]) / bans_df['avg_pts'][0]) * 100:.2f}% difference vs Last Season",
-                            className="small text-muted",
+                            f"{((bans_df['avg_pts'][0] - bans_df['last_yr_ppg'][0]) / bans_df['avg_pts'][0]) * 100:.2f}% difference vs last season",
+                            className="kpi-card__sub",
                         ),
                     ]
                 ),
@@ -256,14 +257,12 @@ overview_layout = html.Div(
                     [
                         html.Div(
                             str(len(injuries_df)),
-                            style={"fontSize": 24, "fontWeight": "bold", "margin-bottom": "5px"},
+                            className="kpi-card__value",
                         ),
+                        html.Div("Players on injury report", className="kpi-card__title"),
                         html.Div(
-                            "Players Currently on Injury Report", style={"margin-bottom": "5px"}
-                        ),
-                        html.Div(
-                            "Includes all injury designations",
-                            className="small text-muted",
+                            "All injury designations",
+                            className="kpi-card__sub",
                         ),
                     ]
                 ),
@@ -272,21 +271,20 @@ overview_layout = html.Div(
                     [
                         html.Div(
                             bans_df["upcoming_game_date"][0].strftime("%B %d"),
-                            style={"fontSize": 24, "fontWeight": "bold", "margin-bottom": "5px"},
+                            className="kpi-card__value",
                         ),
                         html.Div(
-                            f"{bans_df['upcoming_games'][0]} Upcoming Games",
-                            style={"margin-bottom": "5px"},
+                            f"{bans_df['upcoming_games'][0]} upcoming games",
+                            className="kpi-card__title",
                         ),
                         html.Div(
                             bans_df["upcoming_game_date"][0].strftime("%A"),
-                            className="small text-muted",
+                            className="kpi-card__sub",
                         ),
                     ]
                 ),
             ],
             className="kpi-container",
-            style={"display": "flex", "justify-content": "space-between", "margin-bottom": "20px"},
         ),
         # Standings Section
         dbc.Row(
@@ -314,8 +312,6 @@ overview_layout = html.Div(
             ],
             style={"margin-bottom": "30px"},
         ),
-        # Season Selector
-        create_season_selector_dropdown(),
         # Charts Section 1
         dbc.Row(
             [
@@ -326,6 +322,20 @@ overview_layout = html.Div(
                             "Players averaging 20+ PPG for the selected season. "
                             "True shooting % is tinted when at or above the regular-season league average.",
                             className="text-muted small mb-2",
+                        ),
+                        html.Div(
+                            [
+                                html.Span("Season type", className="text-muted small me-2"),
+                                dcc.Dropdown(
+                                    id="scoring-efficiency-season",
+                                    options=_SCORING_SEASON_OPTIONS,
+                                    value=_SCORING_SEASON_DEFAULT,
+                                    clearable=False,
+                                    className="dash-dropdown flex-grow-1",
+                                    style={"minWidth": "200px", "maxWidth": "420px"},
+                                ),
+                            ],
+                            className="d-flex flex-wrap align-items-center gap-2 mb-3",
                         ),
                         create_player_scoring_efficiency_table(),
                     ],
@@ -379,7 +389,7 @@ overview_layout = html.Div(
 
 @callback(
     Output("player-scoring-efficiency-table", "data"),
-    Input("season-selector", "value"),
+    Input("scoring-efficiency-season", "value"),
 )
 def update_scoring_efficiency_table(selected_season):
     return _scoring_efficiency_records(selected_season)

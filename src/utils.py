@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 
 from dash import dcc
 import dash_bootstrap_components as dbc
@@ -162,34 +162,34 @@ def generate_team_ratings_figure(df: pd.DataFrame) -> go.Figure:
     return team_ratings_fig
 
 
+def scoring_efficiency_season_config(
+    current_date: date | None = None,
+) -> tuple[str, list[dict[str, str]]]:
+    """Default value and dropdown options for the Overview scoring-efficiency filter.
+
+    Playoffs appears only during a bounded postseason window (not all of Jul–Sep).
+    """
+    if current_date is None:
+        current_date = datetime.now().date()
+    year = current_date.year
+    playoff_start = datetime(year, 4, 15).date()
+    playoff_end = datetime(year, 6, 30).date()
+    opt_rs: dict[str, str] = {"label": "Regular Season", "value": "Regular Season"}
+    opt_po: dict[str, str] = {"label": "Playoffs", "value": "Playoffs"}
+    if playoff_start <= current_date <= playoff_end:
+        return "Playoffs", [opt_rs, opt_po]
+    return "Regular Season", [opt_rs]
+
+
 def create_season_selector_dropdown(
-    current_date: datetime.date = datetime.now().date(),
+    current_date: date | None = None,
 ) -> dbc.Row:
     """
-    Function to conditionally create the Regular Season / Playoffs
-    Dropdown Selector for the Scoring Efficiency Plot.
+    Row with "Season type" header + dropdown (legacy layout helper; tests only).
 
-    It will only show Regular Season until the Playoffs, and will
-    default to showing Playoffs first once the Postseason begins.
-
-    Args:
-        current_date (date): Current Date to check various conditions for
-
-    Returns:
-        dbc.Row Object for the Dropdown Selector.
+    Overview embeds the dropdown next to the scoring-efficiency table instead.
     """
-    playoff_start = datetime(current_date.year, 4, 15).date()
-    season_start = datetime(current_date.year, 10, 1).date()
-
-    if playoff_start < current_date < season_start:
-        default_season = "Playoffs"
-        options = [
-            {"label": "Regular Season", "value": "Regular Season"},
-            {"label": "Playoffs", "value": "Playoffs"},
-        ]
-    else:
-        default_season = "Regular Season"
-        options = [{"label": "Regular Season", "value": "Regular Season"}]
+    default_season, options = scoring_efficiency_season_config(current_date)
 
     dropdown = dbc.Row(
         [
@@ -197,7 +197,7 @@ def create_season_selector_dropdown(
                 [
                     section_header("Season type"),
                     dcc.Dropdown(
-                        id="season-selector",
+                        id="scoring-efficiency-season",
                         options=options,
                         clearable=False,
                         value=default_season,
