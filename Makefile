@@ -7,18 +7,18 @@ build:
 .PHONY: test
 test:
 	uv sync --group test
-	uv run pytest --cov=src --cov-report=term-missing \
+	uv run pytest --color=yes --cov=src --cov-report=term-missing \
 		--cov-fail-under=$(COVERAGE_THRESHOLD) tests/
 
 .PHONY: test-unit
 test-unit:
 	uv sync --group test
-	uv run pytest tests/unit
+	uv run pytest --color=yes tests/unit
 
 .PHONY: ci-test
 ci-test:
 	uv sync --group test
-	uv run pytest --cov=src --cov-report=term-missing \
+	uv run pytest --color=yes --cov=src --cov-report=term-missing \
 		--cov-fail-under=$(COVERAGE_THRESHOLD) tests/
 
 .PHONY: up
