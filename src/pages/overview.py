@@ -38,9 +38,7 @@ team_contracts_analysis_df = team_contracts_analysis_df.sort_values(
 
 
 def _regular_season_league_avg_ts_percent() -> float:
-    return float(
-        player_stats_df.query("season_type == 'Regular Season'")["avg_ts_percent"].mean()
-    )
+    return float(player_stats_df.query("season_type == 'Regular Season'")["avg_ts_percent"].mean())
 
 
 def _scoring_efficiency_records(selected_season: str | None) -> list[dict]:
@@ -82,7 +80,10 @@ def create_player_scoring_efficiency_table():
         style_cell={"padding": "8px", "minWidth": "72px"},
         style_data_conditional=[
             {
-                "if": {"filter_query": '{is_mvp_candidate} contains "Top 5"', "column_id": "is_mvp_candidate"},
+                "if": {
+                    "filter_query": '{is_mvp_candidate} contains "Top 5"',
+                    "column_id": "is_mvp_candidate",
+                },
                 "color": "#9362DA",
                 "fontWeight": "600",
             },
@@ -218,7 +219,7 @@ overview_layout = html.Div(
                 html.Div(
                     _overview_scrape.strftime("Last updated: %A, %B %d at %H:%M UTC"),
                     className="text-muted small",
-                )
+                ),
             ],
         ),
         # KPI Section

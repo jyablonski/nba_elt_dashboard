@@ -124,7 +124,9 @@ def snapshot_kpis(
         kw = keywords_df.copy()
         if "frequency_rank" in kw.columns:
             kw["_rank"] = pd.to_numeric(kw["frequency_rank"], errors="coerce")
-            kw = kw.sort_values(["_rank", "word_frequency"], ascending=[True, False], na_position="last")
+            kw = kw.sort_values(
+                ["_rank", "word_frequency"], ascending=[True, False], na_position="last"
+            )
         else:
             kw = kw.sort_values("word_frequency", ascending=False)
         top = kw.iloc[0]

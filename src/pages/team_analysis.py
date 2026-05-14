@@ -89,7 +89,7 @@ def _fmt_num(x: object, *, decimals: int = 1) -> str:
         if decimals <= 0:
             return str(int(round(v)))
         return f"{v:.{decimals}f}"
-    except (TypeError, ValueError):
+    except TypeError, ValueError:
         return str(x)
 
 
@@ -131,9 +131,15 @@ team_analysis_layout = html.Div(
                             ],
                             class_name="kpi-card kpi-card--tool",
                         ),
-                        html.Div(id="kpi-boxes-1", className="kpi-card kpi-card--stat team-kpi-card"),
-                        html.Div(id="kpi-boxes-2", className="kpi-card kpi-card--stat team-kpi-card"),
-                        html.Div(id="kpi-boxes-3", className="kpi-card kpi-card--stat team-kpi-card"),
+                        html.Div(
+                            id="kpi-boxes-1", className="kpi-card kpi-card--stat team-kpi-card"
+                        ),
+                        html.Div(
+                            id="kpi-boxes-2", className="kpi-card kpi-card--stat team-kpi-card"
+                        ),
+                        html.Div(
+                            id="kpi-boxes-3", className="kpi-card kpi-card--stat team-kpi-card"
+                        ),
                     ],
                     className="kpi-container",
                 ),
@@ -383,11 +389,11 @@ def update_kpi_boxes_3(selected_team):
     r0 = kpi_values.iloc[0]
     try:
         tov_s = f"{float(r0['tov_percent_opp']):.1f}%"
-    except (TypeError, ValueError):
+    except TypeError, ValueError:
         tov_s = str(r0["tov_percent_opp"])
     try:
         efg_s = f"{float(r0['efg_percent_opp']):.1%}"
-    except (TypeError, ValueError):
+    except TypeError, ValueError:
         efg_s = str(r0["efg_percent_opp"])
 
     return [

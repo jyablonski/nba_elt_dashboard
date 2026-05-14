@@ -53,7 +53,7 @@ game_types_df = game_types_df.query("season_type == 'Regular Season'")
 def _truthy_great_value(raw: object) -> bool:
     try:
         return int(raw) == 1
-    except (TypeError, ValueError):
+    except TypeError, ValueError:
         return False
 
 
@@ -62,7 +62,7 @@ def _fmt_game_date(val: Any) -> str:
         return "—"
     try:
         return pd.Timestamp(val).strftime("%a %b %d").replace(" 0", " ")
-    except (ValueError, TypeError, OSError):
+    except ValueError, TypeError, OSError:
         return str(val)
 
 
@@ -71,7 +71,7 @@ def _fmt_pct(val: Any) -> str:
         return "—"
     try:
         return f"{float(val):.1%}"
-    except (TypeError, ValueError):
+    except TypeError, ValueError:
         return "—"
 
 
@@ -83,7 +83,7 @@ def _fmt_rank(val: Any) -> str:
         if x == int(x):
             return str(int(x))
         return f"{x:.1f}"
-    except (TypeError, ValueError):
+    except TypeError, ValueError:
         return "—"
 
 
@@ -108,8 +108,12 @@ def create_tonight_games_cards() -> html.Div:
                 [
                     html.Div(
                         [
-                            html.Span(_fmt_game_date(row.get("game_date")), className="schedule-card-date"),
-                            html.Span(str(row.get("start_time") or "—"), className="schedule-card-time"),
+                            html.Span(
+                                _fmt_game_date(row.get("game_date")), className="schedule-card-date"
+                            ),
+                            html.Span(
+                                str(row.get("start_time") or "—"), className="schedule-card-time"
+                            ),
                         ],
                         className="schedule-card-meta",
                     ),
@@ -138,7 +142,10 @@ def create_tonight_games_cards() -> html.Div:
                             html.Div(
                                 [
                                     html.Span("Avg team rank", className="schedule-card-stat-lbl"),
-                                    html.Span(_fmt_rank(row.get("avg_team_rank")), className="schedule-card-stat-val"),
+                                    html.Span(
+                                        _fmt_rank(row.get("avg_team_rank")),
+                                        className="schedule-card-stat-val",
+                                    ),
                                 ],
                                 className="schedule-card-stat",
                             ),

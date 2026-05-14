@@ -20,7 +20,10 @@ def test_normalized_daily_volume_prefers_time_series():
     )
     comments = pd.DataFrame()
     out = normalized_daily_volume(ts, comments)
-    assert list(out["scrape_date"].dt.date) == [pd.Timestamp("2024-01-01").date(), pd.Timestamp("2024-01-02").date()]
+    assert list(out["scrape_date"].dt.date) == [
+        pd.Timestamp("2024-01-01").date(),
+        pd.Timestamp("2024-01-02").date(),
+    ]
     assert out["volume"].tolist() == [15, 7]
 
 
@@ -121,9 +124,7 @@ def test_daily_weighted_sentiment_comments_mean_path():
 
 def test_normalized_daily_volume_ts_groupby_empty_drops_to_comments():
     ts = pd.DataFrame({"scrape_date": [pd.NaT, pd.NaT], "num_comments": [1, 2]})
-    comments = pd.DataFrame(
-        {"scrape_date": pd.to_datetime(["2024-01-01"]), "compound": [0.0]}
-    )
+    comments = pd.DataFrame({"scrape_date": pd.to_datetime(["2024-01-01"]), "compound": [0.0]})
     out = normalized_daily_volume(ts, comments)
     assert len(out) == 1
     assert int(out["volume"].iloc[0]) == 1

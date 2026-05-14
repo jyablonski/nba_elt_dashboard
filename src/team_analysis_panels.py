@@ -72,7 +72,9 @@ def build_injury_panel_rows(df: pd.DataFrame) -> list[html.Div]:
                             html.Div(
                                 [
                                     html.Span(player, className="team-panel-injury-name"),
-                                    html.Span(_norm_status(status), className=_status_badge_class(status)),
+                                    html.Span(
+                                        _norm_status(status), className=_status_badge_class(status)
+                                    ),
                                 ],
                                 className="team-panel-injury-line1",
                             ),
@@ -206,7 +208,9 @@ def filter_transactions_last_days(
     if transactions_df is None or transactions_df.empty:
         return pd.DataFrame(columns=cols)
     sub = transactions_df.loc[
-        transactions_df["transaction"].astype(str).str.contains(re.escape(team_name), case=False, na=False)
+        transactions_df["transaction"]
+        .astype(str)
+        .str.contains(re.escape(team_name), case=False, na=False)
     ].copy()
     if sub.empty:
         return sub

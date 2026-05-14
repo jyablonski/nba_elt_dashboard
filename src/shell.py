@@ -15,7 +15,7 @@ def season_phase_label(feature_flags_df: pd.DataFrame) -> str:
             return False
         try:
             return int(v) == 1
-        except (TypeError, ValueError):
+        except TypeError, ValueError:
             return bool(v)
 
     if _on("playoffs"):

@@ -117,7 +117,9 @@ def build_league_volume_figure() -> go.Figure:
         y="volume",
         title="League-wide comment volume",
     )
-    fig.update_traces(hoverlabel=TRACE_HOVERLABEL, hovertemplate="%{x}<br>%{y:,} comments<extra></extra>")
+    fig.update_traces(
+        hoverlabel=TRACE_HOVERLABEL, hovertemplate="%{x}<br>%{y:,} comments<extra></extra>"
+    )
     apply_dark_layout(fig, transparent_plot=True)
     fig.update_layout(
         xaxis_title="Date",
@@ -139,7 +141,9 @@ def build_league_sentiment_figure() -> go.Figure:
         title="League sentiment (volume-weighted when available)",
         markers=True,
     )
-    fig.update_traces(hoverlabel=TRACE_HOVERLABEL, hovertemplate="%{x}<br>compound %{y:.3f}<extra></extra>")
+    fig.update_traces(
+        hoverlabel=TRACE_HOVERLABEL, hovertemplate="%{x}<br>compound %{y:.3f}<extra></extra>"
+    )
     apply_dark_layout(fig, transparent_plot=True)
     fig.update_layout(
         xaxis_title="Date",
@@ -164,7 +168,9 @@ def build_top_keywords_figure() -> go.Figure:
         orientation="h",
         title="Top keywords in recent threads",
     )
-    fig.update_traces(hoverlabel=TRACE_HOVERLABEL, hovertemplate="%{y}<br>%{x} mentions<extra></extra>")
+    fig.update_traces(
+        hoverlabel=TRACE_HOVERLABEL, hovertemplate="%{y}<br>%{x} mentions<extra></extra>"
+    )
     apply_dark_layout(fig, transparent_plot=True)
     fig.update_layout(
         xaxis_title="Mentions",
@@ -187,7 +193,9 @@ def build_top_flairs_figure() -> go.Figure:
         orientation="h",
         title="Most common user flairs (sample)",
     )
-    fig.update_traces(hoverlabel=TRACE_HOVERLABEL, hovertemplate="%{y}<br>%{x} comments<extra></extra>")
+    fig.update_traces(
+        hoverlabel=TRACE_HOVERLABEL, hovertemplate="%{y}<br>%{x} comments<extra></extra>"
+    )
     apply_dark_layout(fig, transparent_plot=True)
     fig.update_layout(
         xaxis_title="Comments",
@@ -304,9 +312,7 @@ _TEAM_CHART_INIT = _team_outcome_figure(DEFAULT_TEAM)
 
 
 def create_slim_comments_table():
-    sub = reddit_display_df[
-        ["scrape_date", "flair", "score", "compound", "comment_preview", "url"]
-    ]
+    sub = reddit_display_df[["scrape_date", "flair", "score", "compound", "comment_preview", "url"]]
     rows = sub.to_dict("records")
     tooltip_data = [
         {"comment_preview": {"value": str(c)[:4000], "type": "markdown"}}
@@ -375,7 +381,9 @@ def _kpi_row() -> list:
         )
     else:
         cards.append(
-            create_insight_kpi(headline="—", title="Top trending token", subtitle="No keyword table rows")
+            create_insight_kpi(
+                headline="—", title="Top trending token", subtitle="No keyword table rows"
+            )
         )
     n_flairs = _KPIS["distinct_flairs"]
     cards.append(
@@ -407,13 +415,17 @@ social_media_analysis_layout = html.Div(
         dbc.Row(
             [
                 dbc.Col(
-                    dcc.Graph(figure=build_league_volume_figure(), config={"displayModeBar": False}),
+                    dcc.Graph(
+                        figure=build_league_volume_figure(), config={"displayModeBar": False}
+                    ),
                     xs=12,
                     lg=6,
                     className="mb-3",
                 ),
                 dbc.Col(
-                    dcc.Graph(figure=build_league_sentiment_figure(), config={"displayModeBar": False}),
+                    dcc.Graph(
+                        figure=build_league_sentiment_figure(), config={"displayModeBar": False}
+                    ),
                     xs=12,
                     lg=6,
                     className="mb-3",
@@ -440,7 +452,9 @@ social_media_analysis_layout = html.Div(
             [
                 html.Div(
                     [
-                        html.H4("Comments vs prior game result", className="mb-0 align-self-center"),
+                        html.H4(
+                            "Comments vs prior game result", className="mb-0 align-self-center"
+                        ),
                         html.Div(
                             [
                                 html.Label(

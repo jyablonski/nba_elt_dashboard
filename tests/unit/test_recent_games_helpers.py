@@ -108,7 +108,16 @@ def test_teams_row_no_match_falls_back_to_score_margin():
         }
     )
     teams = pd.DataFrame(
-        [{"team": "X", "opponent": "Y", "mov": 99, "home_team": "X", "team_logo": "a", "opp_logo": "b"}]
+        [
+            {
+                "team": "X",
+                "opponent": "Y",
+                "mov": 99,
+                "home_team": "X",
+                "team_logo": "a",
+                "opp_logo": "b",
+            }
+        ]
     )
     specs = build_game_card_specs(pbp, teams)
     assert specs[0].margin == 12

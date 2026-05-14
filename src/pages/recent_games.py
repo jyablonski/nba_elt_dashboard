@@ -134,7 +134,9 @@ def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]
     elif away_abbr and home_abbr:
         title_line = f"{away_abbr} @ {home_abbr}"
     else:
-        title_line = str(game_desc).replace(" Vs. ", " @ ").replace(" vs. ", " @ ").replace(" vs ", " @ ")
+        title_line = (
+            str(game_desc).replace(" Vs. ", " @ ").replace(" vs. ", " @ ").replace(" vs ", " @ ")
+        )
 
     st = pbp_flow_stats(pbp_plot_df[pbp_plot_df["game_description"] == game_desc])
 
@@ -345,7 +347,16 @@ def create_simple_players_table():
                 "whiteSpace": "normal",
             },
         )
-    cols_keep = ["team", "player", "pts", "game_ts_percent", "plus_minus", "outcome", "pts_color", "ts_color"]
+    cols_keep = [
+        "team",
+        "player",
+        "pts",
+        "game_ts_percent",
+        "plus_minus",
+        "outcome",
+        "pts_color",
+        "ts_color",
+    ]
     rows = recent_games_players_df[cols_keep].to_dict("records")
     return dark_datatable(
         table_id="player-recent-games-table",
