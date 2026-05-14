@@ -3,7 +3,7 @@ import os
 from sqlalchemy.engine.base import Engine
 
 from src.data import source_tables
-from src.db_connection import get_data, sql_connection
+from src.db_connection import coerce_engine_port, get_data, sql_connection
 from src.yaml_config import load_yaml_with_env
 
 
@@ -22,9 +22,7 @@ def generate_data(postgres_engine: Engine, source_tables: list[str]) -> None:
 
 
 env = load_yaml_with_env("config.yaml")[os.environ.get("ENV_TYPE", "dev")]
-_port = env["port"]
-if isinstance(_port, str):
-    _port = int(_port)
+_port = coerce_engine_port(env["port"])
 
 engine = sql_connection(
     user=env["user"],

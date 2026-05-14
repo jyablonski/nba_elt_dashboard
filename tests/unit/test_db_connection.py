@@ -1,6 +1,11 @@
 from sqlalchemy.engine import make_url
 
-from src.db_connection import sql_connection
+from src.db_connection import coerce_engine_port, sql_connection
+
+
+def test_coerce_engine_port_string_and_int():
+    assert coerce_engine_port("5432") == 5432
+    assert coerce_engine_port(5432) == 5432
 
 
 def test_sql_connection_url_contains_components():

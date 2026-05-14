@@ -1,5 +1,3 @@
-"""Helpers for Recent Games tab (card strip, flow stats)."""
-
 from __future__ import annotations
 
 from dataclasses import dataclass

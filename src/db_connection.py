@@ -7,6 +7,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Connection, Engine
 
 
+def coerce_engine_port(port: object) -> int:
+    """Normalize DB port from config (YAML may supply a string or numeric type)."""
+    return int(port)
+
+
 def sql_connection(
     user: str, password: str, host: str, database: str, schema: str, port: int
 ) -> Engine:
