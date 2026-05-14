@@ -81,3 +81,35 @@ def test_create_tonight_games_cards_value_highlight():
     assert "schedule-card-team--value" in flat
     assert "87.6%" in flat
     assert "schedule-tonight-grid" in flat
+    assert "schedule-tonight-slate" in flat
+    assert "schedule-tonight-slate-date" in flat
+    assert flat.count("Mar 14") == 1
+
+
+def test_create_tonight_games_cards_multi_day_repeats_date_on_cards():
+    base = {
+        "home_team": "Charlotte Hornets",
+        "away_team": "Detroit Pistons",
+        "avg_team_rank": 3,
+        "home_team_odds": "Charlotte Hornets (-170)",
+        "away_team_odds": "Detroit Pistons (+140)",
+        "start_time": "7:00 PM",
+        "home_moneyline": -170.0,
+        "away_moneyline": 140.0,
+        "home_team_predicted_win_pct": 0.876,
+        "away_team_predicted_win_pct": 0.124,
+        "home_is_great_value": 0,
+        "away_is_great_value": 0,
+    }
+    df = pd.DataFrame(
+        [
+            {**base, "game_date": pd.Timestamp("2024-03-14")},
+            {**base, "game_date": pd.Timestamp("2024-03-15"), "start_time": "8:00 PM"},
+        ]
+    )
+    with patch.object(schedule_mod, "schedule_tonights_games_df", df):
+        out = schedule_mod.create_tonight_games_cards()
+    flat = str(out)
+    assert "schedule-tonight-slate-date" not in flat
+    assert flat.count("schedule-card-date") == 2
+    assert "Mar 14" in flat and "Mar 15" in flat

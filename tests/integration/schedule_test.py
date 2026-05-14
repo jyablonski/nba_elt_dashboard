@@ -10,6 +10,7 @@ def test_schedule_tonights_cards_contract():
     assert isinstance(output, html.Div)
     flat = str(output)
     assert "Detroit Pistons" in flat
+    assert "schedule-tonight-slate" in flat
     assert "schedule-tonight-grid" in flat
 
 

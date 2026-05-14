@@ -96,6 +96,14 @@ def create_tonight_games_cards() -> html.Div:
             className="schedule-empty text-muted small",
         )
 
+    slate_date_label: str | None = None
+    if "game_date" in df.columns:
+        parsed = pd.to_datetime(df["game_date"], errors="coerce").dropna()
+        if not parsed.empty:
+            unique_days = pd.Series(parsed.dt.normalize().unique())
+            if len(unique_days) == 1:
+                slate_date_label = _fmt_game_date(unique_days.iloc[0])
+
     cards: list[html.Div] = []
     for _, row in df.iterrows():
         home_gv = _truthy_great_value(row.get("home_is_great_value"))
@@ -103,19 +111,24 @@ def create_tonight_games_cards() -> html.Div:
         away_line = str(row.get("away_team_odds") or row.get("away_team") or "—")
         home_line = str(row.get("home_team_odds") or row.get("home_team") or "—")
 
+        meta_children: list = []
+        if slate_date_label is None:
+            meta_children.append(
+                html.Span(_fmt_game_date(row.get("game_date")), className="schedule-card-date"),
+            )
+        meta_children.append(
+            html.Span(str(row.get("start_time") or "—"), className="schedule-card-time"),
+        )
+        meta_cls = "schedule-card-meta"
+        if slate_date_label is not None:
+            meta_cls += " schedule-card-meta--solo-time"
+
         cards.append(
             html.Div(
                 [
                     html.Div(
-                        [
-                            html.Span(
-                                _fmt_game_date(row.get("game_date")), className="schedule-card-date"
-                            ),
-                            html.Span(
-                                str(row.get("start_time") or "—"), className="schedule-card-time"
-                            ),
-                        ],
-                        className="schedule-card-meta",
+                        meta_children,
+                        className=meta_cls,
                     ),
                     html.Div(
                         [
@@ -177,7 +190,13 @@ def create_tonight_games_cards() -> html.Div:
             )
         )
 
-    return html.Div(cards, className="schedule-tonight-grid")
+    wrap_children: list = []
+    if slate_date_label:
+        wrap_children.append(
+            html.Div(slate_date_label, className="schedule-tonight-slate-date"),
+        )
+    wrap_children.append(html.Div(cards, className="schedule-tonight-grid"))
+    return html.Div(wrap_children, className="schedule-tonight-slate")
 
 
 def create_full_schedule_table():
@@ -458,7 +477,12 @@ schedule_layout = html.Div(
                     [
                         html.Span("Games & odds", className="schedule-panel-kicker"),
                         html.P(
-                            "Switch between tonight's slate and the rest of the season.",
+                            [
+                                "Odds shown here are generated from a logistic regression model. ",
+                                "See the ",
+                                html.Span("About", className="fw-semibold"),
+                                " tab for methodology, data sources, and more.",
+                            ],
                             className="schedule-panel-lede text-muted small mb-0",
                         ),
                     ],

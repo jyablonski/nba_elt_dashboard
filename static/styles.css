@@ -568,6 +568,21 @@ img[src*="/nba"] {
 }
 
 /* Tonight cards */
+.schedule-tonight-slate {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.schedule-tonight-slate-date {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  padding: 0 2px;
+}
+
 .schedule-tonight-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
@@ -577,8 +592,8 @@ img[src*="/nba"] {
 .schedule-tonight-card {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 14px 16px 16px;
+  gap: 14px;
+  padding: 16px 16px 18px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-subtle);
   background-color: var(--bg-elevated);
@@ -590,8 +605,12 @@ img[src*="/nba"] {
   align-items: baseline;
   justify-content: space-between;
   gap: 8px;
-  padding-bottom: 10px;
+  padding-bottom: 8px;
   border-bottom: 1px solid var(--border-subtle);
+}
+
+.schedule-card-meta--solo-time {
+  justify-content: flex-end;
 }
 
 .schedule-card-date {
@@ -610,27 +629,33 @@ img[src*="/nba"] {
 .schedule-card-matchup {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  align-items: center;
+  align-items: stretch;
   gap: 8px 10px;
 }
 
 .schedule-card-team {
   font-size: 0.82rem;
   line-height: 1.35;
-  padding: 8px 10px;
+  padding: 10px 12px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-subtle);
   background-color: var(--surface-raised);
   color: var(--text);
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
 }
 
 .schedule-card-team--away {
   text-align: right;
+  justify-content: flex-end;
 }
 
 .schedule-card-team--home {
   text-align: left;
+  justify-content: flex-start;
 }
 
 .schedule-card-team--value {
@@ -643,26 +668,54 @@ img[src*="/nba"] {
   font-size: 0.75rem;
   font-weight: 700;
   color: var(--text-muted);
+  align-self: center;
 }
 
 .schedule-card-stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
+  gap: 0;
+  margin-top: 2px;
+  padding: 10px 0 2px;
+  border-top: 1px solid var(--border-subtle);
+  align-self: stretch;
+  width: 100%;
 }
 
 @media (max-width: 360px) {
   .schedule-card-stats {
     grid-template-columns: 1fr;
+    gap: 0;
+    padding-top: 8px;
+  }
+
+  .schedule-card-stat {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 10px 8px !important;
+  }
+
+  .schedule-card-stat:last-child {
+    border-bottom: none;
   }
 }
 
 .schedule-card-stat {
-  padding: 8px 6px;
-  border-radius: var(--radius-sm);
-  background-color: var(--surface-raised);
-  border: 1px solid var(--border-subtle);
+  padding: 8px 10px;
+  border-radius: 0;
+  background-color: transparent;
+  border: none;
+  border-right: 1px solid var(--border-subtle);
   text-align: center;
+}
+
+.schedule-card-stat:first-child {
+  padding-left: 2px;
+}
+
+.schedule-card-stat:last-child {
+  border-right: none;
+  padding-right: 2px;
 }
 
 .schedule-card-stat-lbl {

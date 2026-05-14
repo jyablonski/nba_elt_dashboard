@@ -210,12 +210,8 @@ _overview_scrape = bans_df["scrape_time"][0]
 overview_layout = html.Div(
     [
         page_hero(
-            title="The league at a glance.",
+            title="League Overview",
             meta=[
-                html.Div(
-                    f"League snapshot · {_overview_scrape.strftime('%A, %B %d')}",
-                    className="text-muted small",
-                ),
                 html.Div(
                     _overview_scrape.strftime("Last updated: %A, %B %d at %H:%M UTC"),
                     className="text-muted small",
