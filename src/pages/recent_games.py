@@ -1,4 +1,4 @@
-from dash import callback, dash_table, dcc, html
+from dash import callback, dcc, html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import plotly.express as px
@@ -10,6 +10,9 @@ from src.database import (
     recent_games_teams_df,
     pbp_df,
 )
+from src.theme.plotly import TRACE_HOVERLABEL, apply_dark_layout
+from src.ui.sections import page_hero, section_header
+from src.ui.tables import dark_datatable
 from src.utils import pbp_transformer
 
 PERFORMANCE_COLORS = {
@@ -17,13 +20,6 @@ PERFORMANCE_COLORS = {
     2: "#3fb7d9",  # 10+ above (blue) - matches .legend .ten-above
     3: "#e04848",  # 10+ below (red) - matches .legend .ten-below
 }
-
-COMMON_HOVER_STYLE = dict(
-    bgcolor="rgba(255, 255, 255, 0.95)",
-    font_size=12,
-    font_family="'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-    font_color="#000000",
-)
 
 # Data preprocessing
 pbp_plot_kpis, pbp_plot_df = pbp_transformer(pbp_df)
@@ -33,13 +29,9 @@ GAME_OPTIONS = [{"label": game, "value": game} for game in yesterdays_games]
 
 
 def create_performance_legend():
-    """Create the performance color legend"""
     return html.Div(
         [
-            html.H5(
-                "Table Cell Coloring",
-                style={"margin-bottom": "10px", "color": "rgb(230, 224, 224)", "font-size": "16px"},
-            ),
+            section_header("Table cell coloring"),
             html.Div(
                 [
                     html.Div(
@@ -102,12 +94,10 @@ def create_performance_legend():
 
 
 def create_players_table():
-    """Create the players performance table"""
-    return dash_table.DataTable(
-        id="player-recent-games-table",
+    return dark_datatable(
+        table_id="player-recent-games-table",
         columns=recent_games_players_columns,
         data=recent_games_players_df.to_dict("records"),
-        # Table behavior
         css=[
             {"selector": ".show-hide", "rule": "display: none"},
             {
@@ -118,12 +108,9 @@ def create_players_table():
         cell_selectable=False,
         sort_action="native",
         page_size=15,
-        # Styling
         style_cell={
-            "background-color": "#383b3d",
             "textAlign": "center",
             "fontSize": 15,
-            "color": "rgb(230, 224, 224)",
             "padding": "8px",
             "height": "auto",
             "minHeight": "50px",
@@ -172,12 +159,10 @@ def create_players_table():
 
 
 def create_teams_table():
-    """Create the teams performance table"""
-    return dash_table.DataTable(
-        id="team-recent-games-table",
+    return dark_datatable(
+        table_id="team-recent-games-table",
         columns=recent_games_teams_columns,
         data=recent_games_teams_df.to_dict("records"),
-        # Table behavior
         css=[
             {"selector": ".show-hide", "rule": "display: none"},
             {
@@ -187,12 +172,9 @@ def create_teams_table():
         ],
         cell_selectable=False,
         merge_duplicate_headers=True,
-        # Styling
         style_cell={
-            "background-color": "#383b3d",
             "textAlign": "center",
             "fontSize": 15,
-            "color": "rgb(230, 224, 224)",
             "padding": "8px",
             "height": "auto",
             "minHeight": "45px",
@@ -256,20 +238,18 @@ def create_teams_table():
 # Layout
 recent_games_layout = html.Div(
     [
+        page_hero(
+            title="Recaps, play-by-play flow, and standouts.",
+        ),
         # Play by Play Section
         html.Div(
             [
-                html.H3(
-                    "Play by Play Analysis", style={"margin-bottom": "20px", "text-align": "center"}
-                ),
+                section_header("Play by Play Analysis"),
                 dbc.Row(
                     [
                         dbc.Col(
                             [
-                                html.Label(
-                                    "Select Game:",
-                                    style={"margin-bottom": "10px", "fontWeight": "bold"},
-                                ),
+                                html.Label("Select Game:", className="form-label fw-bold mb-2"),
                                 dcc.Dropdown(
                                     id="game-selector",
                                     options=GAME_OPTIONS,
@@ -277,7 +257,7 @@ recent_games_layout = html.Div(
                                     value=yesterdays_games[0]
                                     if len(yesterdays_games) > 0
                                     else None,
-                                    style={"margin-bottom": "20px"},
+                                    className="dash-dropdown mb-3",
                                 ),
                             ],
                             width=4,
@@ -313,14 +293,14 @@ recent_games_layout = html.Div(
             [
                 dbc.Col(
                     [
-                        html.H3("Top Player Performances", style={"margin-bottom": "15px"}),
+                        section_header("Top Player Performances"),
                         create_players_table(),
                     ],
                     width=6,
                 ),
                 dbc.Col(
                     [
-                        html.H3("Team Game Results", style={"margin-bottom": "15px"}),
+                        section_header("Team Game Results"),
                         html.Div([create_teams_table()], className="team-data-table"),
                     ],
                     width=6,
@@ -386,27 +366,9 @@ def update_pbp_plot(selected_game):
         ],
     )
 
-    # Apply dark theme layout with transparent backgrounds
+    apply_dark_layout(fig, transparent_plot=True)
     fig.update_layout(
-        paper_bgcolor="rgba(0,0,0,0)",  # Transparent paper background
-        plot_bgcolor="rgba(0,0,0,0)",  # Transparent plot background
-        font={
-            "color": "rgb(230, 224, 224)",
-            "family": "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-        },
-        xaxis={
-            "gridcolor": "#383b3d",
-            "linecolor": "#383b3d",
-            "tickcolor": "#383b3d",
-            "zerolinecolor": "#383b3d",
-        },
-        yaxis={
-            "gridcolor": "#383b3d",
-            "linecolor": "#383b3d",
-            "tickcolor": "#383b3d",
-            "zerolinecolor": "#383b3d",
-        },
-        margin={"l": 80, "r": 40, "t": 80, "b": 60},
+        paper_bgcolor="rgba(0,0,0,0)",
         title={"x": 0.5, "xanchor": "center"},
     )
 
@@ -418,7 +380,7 @@ def update_pbp_plot(selected_game):
             line=dict(width=1, color="rgb(230, 224, 224)"),
         ),
         mode="markers+lines",
-        hoverlabel=COMMON_HOVER_STYLE,
+        hoverlabel=TRACE_HOVERLABEL,
         hovertemplate=(
             "<b>Time:</b> %{customdata[1]} in %{customdata[2]}<br>"
             "<b>Scoring Team:</b> %{customdata[5]}<br>"

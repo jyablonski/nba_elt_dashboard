@@ -1,15 +1,14 @@
-from dash import html
-
-
-def create_kpi_card(content, class_name="kpi-card"):
-    """Helper function to create consistent KPI cards"""
-    return html.Div(content, className=class_name)
+from src.ui.cards import kpi_card as create_kpi_card  # noqa: F401
 
 
 BASE_TABLE_STYLE = {
     "background-color": "#383b3d",
     "textAlign": "center",
     "fontSize": 12,
+    "whiteSpace": "normal",
+    "height": "auto",
+    "minHeight": "2.25rem",
+    "lineHeight": "1.35",
 }
 
 # Dark theme layout template
@@ -18,7 +17,7 @@ DARK_LAYOUT_TEMPLATE = {
     "paper_bgcolor": "#15171a",
     "font": {
         "color": "rgb(230, 224, 224)",
-        "family": "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
+        "family": "Inter, system-ui, sans-serif",
     },
     "xaxis": {
         "gridcolor": "#383b3d",

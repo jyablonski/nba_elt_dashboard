@@ -1,11 +1,13 @@
-from dash import callback, dash_table, dcc, html
+from __future__ import annotations
+
+import plotly.graph_objects as go
+import plotly.express as px
+from dash import callback, dcc, html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
-import plotly.express as px
 
-from src.config import create_kpi_card
+from src.data_cols.reddit_comments import reddit_comments_slim_columns
 from src.data_cols.reddit_recent_keywords import reddit_keyword_columns
-from src.data_cols.reddit_comments import reddit_comments_columns
 from src.database import (
     reddit_comments_df,
     reddit_sentiment_time_series_df,
@@ -13,9 +15,19 @@ from src.database import (
     social_media_aggs_df,
 )
 from src.data import team_names_abbreviations
-from src.config import DARK_LAYOUT_TEMPLATE
+from src.social_media_insights import (
+    daily_weighted_sentiment,
+    default_team,
+    normalized_daily_volume,
+    snapshot_kpis,
+    top_flairs,
+    top_keywords,
+)
+from src.theme.plotly import TRACE_HOVERLABEL, apply_dark_layout
+from src.ui.cards import kpi_card as create_kpi_card
+from src.ui.sections import page_hero, section_header
+from src.ui.tables import dark_datatable
 
-# Constants
 GAME_OUTCOME_COLORS = {
     "W": "#3fb7d9",
     "L": "#e04848",
@@ -29,40 +41,177 @@ SOCIAL_MEDIA_OPTIONS = [
 
 TEAM_OPTIONS = [{"label": team, "value": team} for team in team_names_abbreviations]
 
-COMMON_HOVER_STYLE = dict(
-    bgcolor="#222222",
-    font_size=12,
-    font_family="'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-    font_color="rgb(230, 224, 224)",
-)
+DEFAULT_TEAM = default_team(reddit_sentiment_time_series_df)
 
-# Data preprocessing
-reddit_comments_df["url"] = reddit_comments_df["url"].str.replace(
-    "^(.*)$", "[Link](\\1)", regex=True
-)
+COMMENTS_TOOLTIP_CSS = [
+    {
+        "selector": ".dash-table-tooltip",
+        "rule": (
+            "background-color: #222222; font-family: Inter, system-ui, sans-serif; "
+            "color: rgb(230, 224, 224)"
+        ),
+    }
+]
+
+# Display frame: markdown links + short preview (full text in tooltip)
+reddit_display_df = reddit_comments_df.copy()
+reddit_display_df["url"] = reddit_display_df["url"].str.replace("^(.*)$", "[Link](\\1)", regex=True)
 
 
-def create_metric_kpi(value, label, difference=None):
-    """Create a metric KPI card with value, label, and optional difference"""
-    content = [
-        html.Div(value, style={"fontSize": 24, "fontWeight": "bold"}),
-        html.Div(label, style={"fontSize": 14}),
+def _comment_preview(text: object, limit: int = 160) -> str:
+    t = str(text).strip()
+    if len(t) <= limit:
+        return t
+    return f"{t[: limit - 1]}…"
+
+
+reddit_display_df["comment_preview"] = reddit_display_df["comment"].map(_comment_preview)
+
+_KPIS = snapshot_kpis(reddit_comments_df, reddit_recent_keywords_df, social_media_aggs_df)
+
+
+def _fmt_pct_compound(x: float | None) -> str:
+    if x is None:
+        return "—"
+    return f"{100.0 * float(x):.1f}%"
+
+
+def _sentiment_caption(mean_compound: float | None) -> str:
+    if mean_compound is None:
+        return "No sentiment in sample"
+    v = float(mean_compound)
+    if v > 0.12:
+        return "Sample skews positive vs neutral"
+    if v < -0.12:
+        return "Sample skews negative vs neutral"
+    return "Close to neutral on average"
+
+
+def create_insight_kpi(*, headline: str, title: str, subtitle: str | None = None) -> html.Div:
+    parts = [
+        html.Div(headline, style={"fontSize": 26, "fontWeight": "bold"}),
+        html.Div(title, style={"fontSize": 14}),
     ]
+    if subtitle:
+        parts.append(html.Div(subtitle, className="small text-muted"))
+    return create_kpi_card(parts)
 
-    if difference is not None:
-        content.append(
-            html.Div(
-                f"{difference}% difference from average", style={"fontSize": 12, "color": "gray"}
+
+def _empty_fig(message: str) -> go.Figure:
+    fig = go.Figure()
+    fig.update_layout(
+        annotations=[
+            dict(
+                text=message,
+                xref="paper",
+                yref="paper",
+                x=0.5,
+                y=0.5,
+                showarrow=False,
+                font=dict(size=14, color="rgb(180, 175, 175)"),
             )
-        )
+        ],
+        xaxis=dict(visible=False),
+        yaxis=dict(visible=False),
+    )
+    apply_dark_layout(fig, transparent_plot=True)
+    return fig
 
-    return create_kpi_card(content)
+
+def build_league_volume_figure() -> go.Figure:
+    d = normalized_daily_volume(reddit_sentiment_time_series_df, reddit_comments_df)
+    if d.empty:
+        return _empty_fig("No daily volume to plot")
+    fig = px.area(
+        d,
+        x="scrape_date",
+        y="volume",
+        title="League-wide comment volume",
+    )
+    fig.update_traces(hoverlabel=TRACE_HOVERLABEL, hovertemplate="%{x}<br>%{y:,} comments<extra></extra>")
+    apply_dark_layout(fig, transparent_plot=True)
+    fig.update_layout(
+        xaxis_title="Date",
+        yaxis_title="Comments",
+        title={"x": 0.5, "xanchor": "center"},
+        margin=dict(l=48, r=24, t=48, b=48),
+    )
+    return fig
+
+
+def build_league_sentiment_figure() -> go.Figure:
+    d = daily_weighted_sentiment(reddit_sentiment_time_series_df, reddit_comments_df)
+    if d.empty:
+        return _empty_fig("No sentiment trend to plot")
+    fig = px.line(
+        d,
+        x="scrape_date",
+        y="sentiment",
+        title="League sentiment (volume-weighted when available)",
+        markers=True,
+    )
+    fig.update_traces(hoverlabel=TRACE_HOVERLABEL, hovertemplate="%{x}<br>compound %{y:.3f}<extra></extra>")
+    apply_dark_layout(fig, transparent_plot=True)
+    fig.update_layout(
+        xaxis_title="Date",
+        yaxis_title="Avg compound",
+        yaxis=dict(range=[-1, 1], tickformat=".2f"),
+        title={"x": 0.5, "xanchor": "center"},
+        margin=dict(l=48, r=24, t=48, b=48),
+    )
+    fig.add_hline(y=0, line_dash="dot", line_color="rgba(255,255,255,0.25)", line_width=1)
+    return fig
+
+
+def build_top_keywords_figure() -> go.Figure:
+    kwd = top_keywords(reddit_recent_keywords_df, 14)
+    if kwd.empty:
+        return _empty_fig("No keyword rankings")
+    kwd = kwd.sort_values("word_frequency", ascending=True)
+    fig = px.bar(
+        kwd,
+        x="word_frequency",
+        y="word",
+        orientation="h",
+        title="Top keywords in recent threads",
+    )
+    fig.update_traces(hoverlabel=TRACE_HOVERLABEL, hovertemplate="%{y}<br>%{x} mentions<extra></extra>")
+    apply_dark_layout(fig, transparent_plot=True)
+    fig.update_layout(
+        xaxis_title="Mentions",
+        yaxis_title="",
+        title={"x": 0.5, "xanchor": "center"},
+        margin=dict(l=120, r=24, t=48, b=48),
+    )
+    return fig
+
+
+def build_top_flairs_figure() -> go.Figure:
+    fl = top_flairs(reddit_display_df, 12)
+    if fl.empty:
+        return _empty_fig("No flair counts")
+    fl = fl.sort_values("count", ascending=True)
+    fig = px.bar(
+        fl,
+        x="count",
+        y="flair",
+        orientation="h",
+        title="Most common user flairs (sample)",
+    )
+    fig.update_traces(hoverlabel=TRACE_HOVERLABEL, hovertemplate="%{y}<br>%{x} comments<extra></extra>")
+    apply_dark_layout(fig, transparent_plot=True)
+    fig.update_layout(
+        xaxis_title="Comments",
+        yaxis_title="",
+        title={"x": 0.5, "xanchor": "center"},
+        margin=dict(l=140, r=24, t=48, b=48),
+    )
+    return fig
 
 
 def create_keywords_table():
-    """Create the reddit keywords data table"""
-    return dash_table.DataTable(
-        id="keywords-table",
+    return dark_datatable(
+        table_id="keywords-table",
         columns=reddit_keyword_columns,
         data=reddit_recent_keywords_df.to_dict("records"),
         css=[{"selector": ".show-hide", "rule": "display: none"}],
@@ -70,14 +219,14 @@ def create_keywords_table():
         filter_action="native",
         sort_action="native",
         page_size=20,
-        # Base styling
         style_cell={
-            "overflow": "hidden",
-            "textOverflow": "ellipsis",
-            "maxWidth": 0,
-            "background-color": "#383b3d",
+            "whiteSpace": "normal",
+            "height": "auto",
+            "minHeight": "2.5rem",
+            "lineHeight": "1.35",
             "textAlign": "center",
             "fontSize": 15,
+            "color": "rgb(230, 224, 224)",
         },
         hidden_columns=[
             "top_nba_team_flair",
@@ -85,7 +234,6 @@ def create_keywords_table():
             "avg_sentiment_when_used",
             "analysis_date",
         ],
-        # Column-specific styling
         style_cell_conditional=[
             {
                 "if": {"column_id": "word"},
@@ -95,22 +243,21 @@ def create_keywords_table():
             },
             {"if": {"column_id": "word_frequency"}, "width": "25%"},
             {"if": {"column_id": "frequency_rank"}, "width": "25%"},
-            {"if": {"column_id": "nba_teams_flairs_using_word"}, "width": "25%"},
+            {"if": {"column_id": "nba_team_flairs_using_word"}, "width": "25%"},
         ],
-        # Conditional formatting for sentiment
         style_data_conditional=[
             {
                 "if": {
-                    "filter_query": "{avg_sentiment_When_used} > 0.1",
-                    "column_id": "avg_sentiment_When_used",
+                    "filter_query": "{avg_sentiment_when_used} > 0.1",
+                    "column_id": "avg_sentiment_when_used",
                 },
                 "backgroundColor": "#4CAF50",
                 "color": "white",
             },
             {
                 "if": {
-                    "filter_query": "{avg_sentiment_When_used} < -0.1",
-                    "column_id": "avg_sentiment_When_used",
+                    "filter_query": "{avg_sentiment_when_used} < -0.1",
+                    "column_id": "avg_sentiment_when_used",
                 },
                 "backgroundColor": "#F44336",
                 "color": "white",
@@ -119,171 +266,17 @@ def create_keywords_table():
     )
 
 
-def create_data_table():
-    """Create the social media data table with consistent styling"""
-    return dash_table.DataTable(
-        id="social-media-table",
-        columns=reddit_comments_columns,
-        data=reddit_comments_df.to_dict("records"),
-        # Styling
-        css=[
-            {
-                "selector": ".dash-table-tooltip",
-                "rule": "background-color: grey; font-family: 'Gill Sans','Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; color: white",
-            }
-        ],
-        # Table behavior
-        cell_selectable=False,
-        filter_action="native",
-        sort_action="native",
-        page_size=15,
-        merge_duplicate_headers=True,
-        # Base styling
-        style_cell={
-            "overflow": "hidden",
-            "textOverflow": "ellipsis",
-            "maxWidth": 0,
-            "background-color": "#383b3d",
-            "textAlign": "center",
-            "fontSize": 12,
-        },
-        # Column-specific styling
-        style_cell_conditional=[
-            {"if": {"column_id": "scrape_date"}, "width": "8%"},
-            {"if": {"column_id": "author"}, "width": "8%"},
-            {"if": {"column_id": "flair"}, "width": "8%"},
-            {"if": {"column_id": "score"}, "width": "6%"},
-            {"if": {"column_id": "compound"}, "width": "5%"},
-            {"if": {"column_id": "pos"}, "width": "4%"},
-            {"if": {"column_id": "neg"}, "width": "4%"},
-            {"if": {"column_id": "neu"}, "width": "4%"},
-            {"if": {"column_id": "url"}, "width": "8%"},
-            {"if": {"column_id": "comment"}, "textAlign": "left", "width": "40%"},
-        ],
-        # Tooltips
-        tooltip_data=[
-            {column: {"value": str(value), "type": "markdown"} for column, value in row.items()}
-            for row in reddit_comments_df.to_dict("records")
-        ],
-        tooltip_duration=None,
-    )
-
-
-# Layout
-social_media_analysis_layout = html.Div(
-    [
-        # KPI Section
-        html.Div(
-            [
-                # Reddit Logo
-                create_kpi_card(
-                    [
-                        html.Img(
-                            src="../assets/reddit.png", style={"height": "75px", "width": "75px"}
-                        )
-                    ]
-                ),
-                # Social Media Selector
-                create_kpi_card(
-                    [
-                        html.H4("Select Social Media Type", style={"margin-bottom": "10px"}),
-                        dcc.Dropdown(
-                            id="social-media-selector",
-                            options=SOCIAL_MEDIA_OPTIONS,
-                            value="reddit",
-                            clearable=False,
-                            className="dash-dropdown",
-                        ),
-                    ]
-                ),
-                # Reddit Metrics
-                create_metric_kpi(
-                    value=social_media_aggs_df["reddit_tot_comments"][0],
-                    label="Total Reddit Comments Scraped",
-                    difference=social_media_aggs_df["reddit_pct_difference"][0],
-                ),
-                # Twitter Metrics
-                create_metric_kpi(
-                    value=social_media_aggs_df["twitter_tot_comments"][0],
-                    label="Total Twitter Tweets Scraped",
-                    difference=social_media_aggs_df["twitter_pct_difference"][0],
-                ),
-            ],
-            className="kpi-container",
-            style={"display": "flex", "justify-content": "space-between", "margin-bottom": "20px"},
-        ),
-        # Data Tables Section
-        dbc.Row(
-            [
-                # Comments Table
-                dbc.Col(
-                    [
-                        html.H3("Recent Comments", style={"margin-bottom": "15px"}),
-                        create_data_table(),
-                    ],
-                    width=8,
-                ),
-                # Keywords Table
-                dbc.Col(
-                    [
-                        html.H3("Trending Keywords", style={"margin-bottom": "15px"}),
-                        create_keywords_table(),
-                    ],
-                    width=4,
-                ),
-            ]
-        ),
-        html.Br(),
-        # Sentiment Analysis Section
-        dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        html.H3("Comments by Team Flair", style={"margin-bottom": "15px"}),
-                        # Team Selector
-                        html.Div(
-                            [
-                                html.Label(
-                                    "Select Team:",
-                                    style={"margin-right": "10px", "fontWeight": "bold"},
-                                ),
-                                dcc.Dropdown(
-                                    id="social-media-team-selector",
-                                    options=TEAM_OPTIONS,
-                                    value="GSW",
-                                    clearable=False,
-                                    style={"width": "250px", "display": "inline-block"},
-                                ),
-                            ],
-                            style={"margin-bottom": "20px"},
-                        ),
-                        # Chart
-                        dcc.Graph(
-                            id="social-media-plot", style={"width": "100%", "height": "500px"}
-                        ),
-                    ],
-                    width=12,
-                )
-            ]
-        ),
-    ],
-    className="custom-padding",
-)
-
-
-@callback(Output("social-media-plot", "figure"), Input("social-media-team-selector", "value"))
-def update_reddit_team_sentiment(selected_team):
-    """Update sentiment plot based on selected team"""
+def _team_outcome_figure(selected_team: str | None) -> go.Figure:
     if not selected_team:
-        return {}
+        return _empty_fig("Pick a team")
 
-    # Filter data
-    filtered_data = reddit_sentiment_time_series_df.query(f"team == '{selected_team}'")
+    filtered_data = reddit_sentiment_time_series_df[
+        reddit_sentiment_time_series_df["team"] == selected_team
+    ]
 
     if filtered_data.empty:
-        return {}
+        return _empty_fig(f"No flair timeline rows for {selected_team}")
 
-    # Create plot
     fig = px.bar(
         filtered_data,
         x="scrape_date",
@@ -295,20 +288,18 @@ def update_reddit_team_sentiment(selected_team):
             "num_comments": "Number of Comments",
             "game_outcome": "Previous Day's Game Outcome",
         },
-        title=f"{selected_team} - Comments by Game Outcome Over Time",
+        title=f"{selected_team} — comments by prior game outcome",
     )
 
-    # Update layout with dark theme
+    apply_dark_layout(fig, transparent_plot=True)
     fig.update_layout(
-        **DARK_LAYOUT_TEMPLATE,
         legend_title_text="Game Outcome",
         showlegend=True,
         title={"x": 0.5, "xanchor": "center"},
     )
 
-    # Update hover template
     fig.update_traces(
-        hoverlabel=COMMON_HOVER_STYLE,
+        hoverlabel=TRACE_HOVERLABEL,
         hovertemplate=(
             "<b>Date:</b> %{x}<br>"
             "<b>Comments:</b> %{y}<br>"
@@ -318,3 +309,236 @@ def update_reddit_team_sentiment(selected_team):
     )
 
     return fig
+
+
+_TEAM_CHART_INIT = _team_outcome_figure(DEFAULT_TEAM)
+
+
+def create_slim_comments_table():
+    sub = reddit_display_df[
+        ["scrape_date", "flair", "score", "compound", "comment_preview", "url"]
+    ]
+    rows = sub.to_dict("records")
+    tooltip_data = [
+        {"comment_preview": {"value": str(c)[:4000], "type": "markdown"}}
+        for c in reddit_display_df["comment"].tolist()
+    ]
+    return dark_datatable(
+        table_id="social-media-slim-table",
+        columns=reddit_comments_slim_columns,
+        data=rows,
+        css=COMMENTS_TOOLTIP_CSS,
+        cell_selectable=False,
+        filter_action="native",
+        sort_action="native",
+        page_size=12,
+        style_cell={
+            "whiteSpace": "normal",
+            "height": "auto",
+            "minHeight": "2.25rem",
+            "lineHeight": "1.35",
+            "textAlign": "center",
+            "fontSize": 13,
+            "color": "rgb(230, 224, 224)",
+        },
+        style_cell_conditional=[
+            {"if": {"column_id": "scrape_date"}, "width": "10%"},
+            {"if": {"column_id": "flair"}, "width": "10%"},
+            {"if": {"column_id": "score"}, "width": "8%"},
+            {"if": {"column_id": "compound"}, "width": "10%"},
+            {"if": {"column_id": "url"}, "width": "8%"},
+            {"if": {"column_id": "comment_preview"}, "textAlign": "left", "width": "54%"},
+        ],
+        tooltip_data=tooltip_data,
+        tooltip_duration=None,
+    )
+
+
+def _kpi_row() -> list:
+    rt = _KPIS["reddit_total"]
+    pdiff = _KPIS["reddit_pct_diff"]
+    diff_txt = None
+    if pdiff is not None:
+        diff_txt = f"{pdiff:+.1f}% vs rolling average snapshot"
+
+    cards = [
+        create_insight_kpi(
+            headline=f"{rt:,}" if rt is not None else "—",
+            title="Reddit comments in latest scrape",
+            subtitle=diff_txt,
+        ),
+        create_insight_kpi(
+            headline=_fmt_pct_compound(_KPIS["avg_compound"]),
+            title="Mean VADER compound",
+            subtitle=_sentiment_caption(_KPIS["avg_compound"]),
+        ),
+    ]
+    tw = _KPIS["top_word"]
+    twf = _KPIS["top_word_freq"]
+    if tw is not None and twf is not None:
+        cards.append(
+            create_insight_kpi(
+                headline=tw,
+                title="Top trending token",
+                subtitle=f"{twf:,} mentions in ranked window",
+            )
+        )
+    else:
+        cards.append(
+            create_insight_kpi(headline="—", title="Top trending token", subtitle="No keyword table rows")
+        )
+    n_flairs = _KPIS["distinct_flairs"]
+    cards.append(
+        create_insight_kpi(
+            headline=f"{n_flairs:,}" if n_flairs is not None else "—",
+            title="Distinct flairs in sample",
+            subtitle="Fan identity diversity in this pull",
+        )
+    )
+    return cards
+
+
+_twitter_total = (
+    int(social_media_aggs_df["twitter_tot_comments"].iloc[0])
+    if not social_media_aggs_df.empty and "twitter_tot_comments" in social_media_aggs_df.columns
+    else 0
+)
+
+social_media_analysis_layout = html.Div(
+    [
+        page_hero(
+            title="r/NBA social pulse",
+            meta=[
+                html.Div(
+                    [
+                        html.Img(
+                            src="../assets/reddit.png",
+                            alt="Reddit",
+                            style={"height": "52px", "width": "52px"},
+                        ),
+                        html.Div(
+                            [
+                                html.Div(
+                                    "Data source",
+                                    className="text-uppercase small text-muted mb-1",
+                                ),
+                                dcc.Dropdown(
+                                    id="social-media-selector",
+                                    options=SOCIAL_MEDIA_OPTIONS,
+                                    value="reddit",
+                                    clearable=False,
+                                    className="dash-dropdown",
+                                    style={"minWidth": "260px", "maxWidth": "360px"},
+                                ),
+                            ],
+                            className="text-start",
+                        ),
+                    ],
+                    className="d-inline-flex flex-wrap align-items-center justify-content-center gap-3",
+                ),
+            ],
+        ),
+        html.P(
+            (
+                "Twitter pipeline is paused; charts and KPIs reflect the Reddit scrape and "
+                "downstream keyword / flair rollups."
+                if _twitter_total == 0
+                else "Showing Reddit as primary feed; Twitter totals are non-zero but lightly used."
+            ),
+            className="text-muted small mb-3",
+        ),
+        dbc.Row([dbc.Col(c, xs=12, sm=6, xl=3, className="mb-3") for c in _kpi_row()], className="social-media-insights-kpi g-2"),
+        dbc.Row(
+            [
+                dbc.Col(
+                    dcc.Graph(figure=build_league_volume_figure(), config={"displayModeBar": False}),
+                    xs=12,
+                    lg=6,
+                    className="mb-3",
+                ),
+                dbc.Col(
+                    dcc.Graph(figure=build_league_sentiment_figure(), config={"displayModeBar": False}),
+                    xs=12,
+                    lg=6,
+                    className="mb-3",
+                ),
+            ],
+        ),
+        dbc.Row(
+            [
+                dbc.Col(
+                    dcc.Graph(figure=build_top_keywords_figure(), config={"displayModeBar": False}),
+                    xs=12,
+                    lg=6,
+                    className="mb-3",
+                ),
+                dbc.Col(
+                    dcc.Graph(figure=build_top_flairs_figure(), config={"displayModeBar": False}),
+                    xs=12,
+                    lg=6,
+                    className="mb-3",
+                ),
+            ],
+        ),
+        html.Div(
+            [
+                html.Div(
+                    [
+                        html.H4("Comments vs prior game result", className="mb-0 align-self-center"),
+                        html.Div(
+                            [
+                                html.Label(
+                                    "Team",
+                                    className="form-label fw-bold mb-0 me-2",
+                                    htmlFor="social-media-team-selector",
+                                ),
+                                dcc.Dropdown(
+                                    id="social-media-team-selector",
+                                    options=TEAM_OPTIONS,
+                                    value=DEFAULT_TEAM,
+                                    clearable=False,
+                                    className="dash-dropdown",
+                                    style={"minWidth": "220px", "maxWidth": "320px"},
+                                ),
+                            ],
+                            className="d-flex flex-wrap align-items-center",
+                        ),
+                    ],
+                    className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3",
+                ),
+                html.Div(
+                    dcc.Graph(
+                        id="social-media-plot",
+                        figure=_TEAM_CHART_INIT,
+                        style={"width": "100%", "height": "460px"},
+                    ),
+                    className="social-media-flair-chart-wrap",
+                ),
+            ],
+            className="mb-2",
+        ),
+        html.Details(
+            [
+                html.Summary("Detailed tables (full keyword stats & comment preview)"),
+                html.Div(
+                    [
+                        section_header("Recent comments"),
+                        create_slim_comments_table(),
+                        section_header("Trending keywords"),
+                        create_keywords_table(),
+                    ],
+                    className="mt-3",
+                ),
+            ],
+            className="social-media-details mb-4",
+            open=False,
+        ),
+    ],
+    className="custom-padding",
+)
+
+
+@callback(Output("social-media-plot", "figure"), Input("social-media-team-selector", "value"))
+def update_reddit_team_sentiment(selected_team):
+    """Update sentiment plot based on selected team"""
+    return _team_outcome_figure(selected_team)

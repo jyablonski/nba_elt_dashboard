@@ -32,3 +32,17 @@ reddit_comments_columns = [
     ),
     dict(id="url", name=["", "URL"], presentation="markdown"),
 ]
+
+reddit_comments_slim_columns = [
+    dict(id="scrape_date", name="Date"),
+    dict(id="flair", name="Flair"),
+    dict(id="score", name="Upvotes"),
+    dict(
+        id="compound",
+        name="Sentiment",
+        type="numeric",
+        format=FormatTemplate.percentage(1),
+    ),
+    dict(id="comment_preview", name="Preview"),
+    dict(id="url", name="Link", presentation="markdown"),
+]

@@ -1,9 +1,9 @@
-from dash import callback, dash_table, dcc, html
+from dash import callback, dcc, html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import plotly.express as px
 
-from src.config import DARK_LAYOUT_TEMPLATE, BASE_TABLE_STYLE, SINGLE_BAR_COLOR
+from src.config import SINGLE_BAR_COLOR
 from src.data_cols.future_schedule import future_schedule_columns
 from src.data_cols.tonights_schedule import tonights_schedule_columns
 from src.database import (
@@ -15,6 +15,9 @@ from src.database import (
     team_blown_leads_df,
     team_odds_outcomes_df,
 )
+from src.theme.plotly import TRACE_HOVERLABEL, apply_dark_layout
+from src.ui.sections import page_hero, section_header
+from src.ui.tables import dark_datatable
 
 # Constants
 SCHEDULE_TABLE_OPTIONS = [
@@ -29,13 +32,6 @@ SCHEDULE_PLOT_OPTIONS = [
     {"label": "Covering the Spread Metrics", "value": "team-spread-metrics"},
     {"label": "Game Types by Margin of Victory", "value": "game-types"},
 ]
-
-COMMON_HOVER_STYLE = dict(
-    bgcolor="#222222",
-    font_size=12,
-    font_family="'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-    font_color="rgb(230, 224, 224)",
-)
 
 # Data preprocessing
 past_schedule_analysis_df = past_schedule_analysis_df.sort_values(
@@ -52,33 +48,29 @@ game_types_df = game_types_df.query("season_type == 'Regular Season'")
 
 
 def create_tonight_games_table():
-    """Create tonight's games table with conditional formatting"""
-    # Enhanced table style with better column widths
     enhanced_cell_style = {
-        **BASE_TABLE_STYLE,
         "minWidth": "100px",
         "maxWidth": "180px",
         "whiteSpace": "normal",
         "height": "auto",
     }
 
-    return dash_table.DataTable(
+    return dark_datatable(
+        table_id="schedule-tonights-table",
         columns=tonights_schedule_columns,
         data=schedule_tonights_games_df.to_dict("records"),
-        # Table behavior
         css=[{"selector": ".show-hide", "rule": "display: none"}],
         cell_selectable=False,
         sort_action="native",
         page_size=15,
         merge_duplicate_headers=True,
-        # Styling
         style_cell=enhanced_cell_style,
         style_header={
             "backgroundColor": "#1e1e1e",
             "fontWeight": "bold",
             "textAlign": "center",
             "padding": "12px",
-            "borderBottom": "2px solid #007bff",
+            "borderBottom": "2px solid var(--accent)",
         },
         style_data_conditional=[
             {
@@ -109,31 +101,28 @@ def create_tonight_games_table():
 
 
 def create_full_schedule_table():
-    """Create full schedule table"""
     enhanced_cell_style = {
-        **BASE_TABLE_STYLE,
         "minWidth": "100px",
         "maxWidth": "180px",
         "whiteSpace": "normal",
         "height": "auto",
     }
 
-    return dash_table.DataTable(
+    return dark_datatable(
+        table_id="schedule-full-table",
         columns=future_schedule_columns,
         data=schedule_season_remaining_df.to_dict("records"),
-        # Table behavior
         css=[{"selector": ".show-hide", "rule": "display: none"}],
         cell_selectable=False,
         sort_action="native",
         page_size=15,
-        # Styling
         style_cell=enhanced_cell_style,
         style_header={
             "backgroundColor": "#1e1e1e",
             "fontWeight": "bold",
             "textAlign": "center",
             "padding": "12px",
-            "borderBottom": "2px solid #007bff",
+            "borderBottom": "2px solid var(--accent)",
         },
         style_data_conditional=[
             {
@@ -145,7 +134,6 @@ def create_full_schedule_table():
 
 
 def create_strength_of_schedule_plot():
-    """Create strength of schedule analysis plot"""
     fig = px.bar(
         past_schedule_analysis_df,
         x="pct_vs_below_500",
@@ -167,15 +155,15 @@ def create_strength_of_schedule_plot():
         ],
     )
 
+    apply_dark_layout(fig, transparent_plot=True)
     fig.update_layout(
-        **DARK_LAYOUT_TEMPLATE,
         legend_title_text="",
         xaxis_tickformat=".0%",
         title={"x": 0.5, "xanchor": "center"},
     )
 
     fig.update_traces(
-        hoverlabel=COMMON_HOVER_STYLE,
+        hoverlabel=TRACE_HOVERLABEL,
         hovertemplate=(
             "<b>%{customdata[0]}</b><br>"
             "<b>Record:</b> %{customdata[9]}<br>"
@@ -194,7 +182,6 @@ def create_strength_of_schedule_plot():
 
 
 def create_preseason_odds_plot():
-    """Create preseason over/under trajectory plot"""
     fig = px.bar(
         preseason_odds_df,
         x="wins_differential",
@@ -213,10 +200,11 @@ def create_preseason_odds_plot():
         ],
     )
 
-    fig.update_layout(**DARK_LAYOUT_TEMPLATE, title={"x": 0.5, "xanchor": "center"})
+    apply_dark_layout(fig, transparent_plot=True)
+    fig.update_layout(title={"x": 0.5, "xanchor": "center"})
 
     fig.update_traces(
-        hoverlabel=COMMON_HOVER_STYLE,
+        hoverlabel=TRACE_HOVERLABEL,
         hovertemplate=(
             "<b>%{customdata[0]}</b><br>"
             "<b>Wins Differential:</b> %{customdata[1]}<br>"
@@ -231,7 +219,6 @@ def create_preseason_odds_plot():
 
 
 def create_spread_metrics_plot():
-    """Create spread covering metrics plot"""
     fig = px.bar(
         team_odds_outcomes_df,
         x="pct_covered_spread",
@@ -254,15 +241,15 @@ def create_spread_metrics_plot():
         ],
     )
 
+    apply_dark_layout(fig, transparent_plot=True)
     fig.update_layout(
-        **DARK_LAYOUT_TEMPLATE,
         legend_title_text="",
         xaxis_tickformat=".0%",
         title={"x": 0.5, "xanchor": "center"},
     )
 
     fig.update_traces(
-        hoverlabel=COMMON_HOVER_STYLE,
+        hoverlabel=TRACE_HOVERLABEL,
         hovertemplate=(
             "<b>%{customdata[0]}</b><br>"
             "<b>Games Played:</b> %{customdata[1]}<br>"
@@ -281,7 +268,6 @@ def create_spread_metrics_plot():
 
 
 def create_comebacks_plot():
-    """Create team comebacks analysis plot"""
     fig = px.bar(
         team_blown_leads_df,
         x="net_comebacks",
@@ -301,10 +287,11 @@ def create_comebacks_plot():
         ],
     )
 
-    fig.update_layout(**DARK_LAYOUT_TEMPLATE, title={"x": 0.5, "xanchor": "center"})
+    apply_dark_layout(fig, transparent_plot=True)
+    fig.update_layout(title={"x": 0.5, "xanchor": "center"})
 
     fig.update_traces(
-        hoverlabel=COMMON_HOVER_STYLE,
+        hoverlabel=TRACE_HOVERLABEL,
         hovertemplate=(
             "<b>%{customdata[0]}</b><br>"
             "<b>Comebacks:</b> %{customdata[3]}<br>"
@@ -319,7 +306,6 @@ def create_comebacks_plot():
 
 
 def create_game_types_plot():
-    """Create game types distribution plot"""
     fig = px.bar(
         game_types_df,
         x="n",
@@ -330,10 +316,11 @@ def create_game_types_plot():
         custom_data=["game_type", "n", "explanation"],
     )
 
-    fig.update_layout(**DARK_LAYOUT_TEMPLATE, title={"x": 0.5, "xanchor": "center"})
+    apply_dark_layout(fig, transparent_plot=True)
+    fig.update_layout(title={"x": 0.5, "xanchor": "center"})
 
     fig.update_traces(
-        hoverlabel=COMMON_HOVER_STYLE,
+        hoverlabel=TRACE_HOVERLABEL,
         hovertemplate=(
             "<b>Game Type:</b> %{customdata[0]}<br>"
             "<b># Games:</b> %{customdata[1]}<br>"
@@ -349,18 +336,16 @@ def create_game_types_plot():
 # Improved Layout with Cards and Better Spacing
 schedule_layout = html.Div(
     [
+        page_hero(
+            title="Tonight's games and season-long schedule intel.",
+        ),
         # Header Section with Card
         dbc.Card(
             dbc.CardBody(
                 [
-                    html.H1(
+                    html.H2(
                         "Upcoming Games",
-                        className="text-center mb-4",
-                        style={
-                            "font-size": "2.5rem",
-                            "font-weight": "bold",
-                            "color": "#ffffff",
-                        },
+                        className="text-center mb-4 fw-bold display-6 text-light",
                     ),
                     # Info and Button Row
                     dbc.Row(
@@ -370,36 +355,23 @@ schedule_layout = html.Div(
                                     [
                                         html.Span(
                                             "Moneyline odds provided by ",
-                                            className="me-2",
-                                            style={"font-size": "14px", "color": "#cccccc"},
+                                            className="me-2 small text-muted",
                                         ),
                                         html.A(
                                             html.Img(
                                                 src="../assets/draftkings.png",
                                                 height="32px",
-                                                style={"vertical-align": "middle"},
+                                                className="align-middle",
                                             ),
                                             href="https://www.draftkings.com",
                                             target="_blank",
                                             className="mx-2",
                                         ),
-                                        html.Span(
-                                            "•",
-                                            className="mx-3",
-                                            style={"color": "#666", "font-size": "16px"},
-                                        ),
-                                        html.Span(
-                                            "●",
-                                            className="me-2",
-                                            style={"color": "#4CAF50", "font-size": "16px"},
-                                        ),
+                                        html.Span("•", className="mx-3 text-secondary"),
+                                        html.Span("●", className="me-2 text-success"),
                                         html.Span(
                                             "Green = Great Value",
-                                            style={
-                                                "font-weight": "600",
-                                                "color": "#4CAF50",
-                                                "font-size": "14px",
-                                            },
+                                            className="fw-semibold small text-success",
                                         ),
                                     ],
                                     className="d-flex align-items-center justify-content-center flex-wrap",
@@ -415,13 +387,7 @@ schedule_layout = html.Div(
                                         "Make & Track Bet Predictions",
                                     ],
                                     href="https://api.jyablonski.dev/bets",
-                                    className="btn btn-primary w-100",
-                                    style={
-                                        "font-weight": "600",
-                                        "padding": "10px 20px",
-                                        "border-radius": "8px",
-                                        "font-size": "14px",
-                                    },
+                                    className="btn btn-primary w-100 fw-semibold rounded-3 py-2",
                                 ),
                                 lg=4,
                                 md=12,
@@ -432,8 +398,7 @@ schedule_layout = html.Div(
                     ),
                 ]
             ),
-            className="mb-4 shadow-sm",
-            style={"backgroundColor": "#1a1a1a", "border": "1px solid #333"},
+            className="mb-4 shadow-sm app-schedule-card",
         ),
         # Schedule Table Card
         dbc.Card(
@@ -446,8 +411,7 @@ schedule_layout = html.Div(
                                 [
                                     html.Label(
                                         "Select Schedule View:",
-                                        className="form-label fw-bold mb-2",
-                                        style={"font-size": "14px", "color": "#e0e0e0"},
+                                        className="form-label fw-bold mb-2 text-muted",
                                     ),
                                     dcc.Dropdown(
                                         id="schedule-table-selector",
@@ -455,7 +419,7 @@ schedule_layout = html.Div(
                                         value="tonights-games",
                                         clearable=False,
                                         style={"width": "300px"},
-                                        className="mb-3",
+                                        className="dash-dropdown mb-3",
                                     ),
                                 ],
                                 width=12,
@@ -479,22 +443,13 @@ schedule_layout = html.Div(
                     ),
                 ]
             ),
-            className="mb-5 shadow-sm",
-            style={"backgroundColor": "#1a1a1a", "border": "1px solid #333"},
+            className="mb-5 shadow-sm app-schedule-card",
         ),
         # Analysis Section Card
         dbc.Card(
             dbc.CardBody(
                 [
-                    html.H3(
-                        "NBA Schedule Analysis",
-                        className="mb-4",
-                        style={
-                            "font-weight": "bold",
-                            "color": "#ffffff",
-                            "font-size": "1.8rem",
-                        },
-                    ),
+                    section_header("NBA Schedule Analysis"),
                     # Plot Selector
                     dbc.Row(
                         [
@@ -502,8 +457,7 @@ schedule_layout = html.Div(
                                 [
                                     html.Label(
                                         "Select Analysis Plot:",
-                                        className="form-label fw-bold mb-2",
-                                        style={"font-size": "14px", "color": "#e0e0e0"},
+                                        className="form-label fw-bold mb-2 text-muted",
                                     ),
                                     dcc.Dropdown(
                                         id="schedule-plot-selector",
@@ -511,7 +465,7 @@ schedule_layout = html.Div(
                                         value="strength-of-schedule",
                                         clearable=False,
                                         style={"width": "100%", "max-width": "500px"},
-                                        className="mb-4",
+                                        className="dash-dropdown mb-4",
                                     ),
                                 ],
                                 width=12,
@@ -533,8 +487,7 @@ schedule_layout = html.Div(
                     ),
                 ]
             ),
-            className="shadow-sm",
-            style={"backgroundColor": "#1a1a1a", "border": "1px solid #333"},
+            className="shadow-sm app-schedule-card",
         ),
     ],
     className="container-fluid px-4 py-4",

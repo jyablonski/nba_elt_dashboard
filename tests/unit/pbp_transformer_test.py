@@ -1,3 +1,5 @@
+import pandas as pd
+
 from src.utils import pbp_transformer
 
 
@@ -46,3 +48,15 @@ def test_pbp_transformer(pbp_fixture):
         "time_difference",
         "game_plot_team_text",
     ]
+
+
+def test_pbp_transformer_empty_df():
+    empty = pd.DataFrame()
+    k, d = pbp_transformer(empty)
+    assert k.empty and d.empty
+
+
+def test_pbp_transformer_adds_tie_column_when_absent_from_pivot(pbp_fixture):
+    sub = pbp_fixture[pbp_fixture["leading_team_text"] != "TIE"].copy()
+    kpis, _ = pbp_transformer(sub)
+    assert "TIE" in kpis.columns

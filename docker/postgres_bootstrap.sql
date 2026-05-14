@@ -4113,7 +4113,7 @@ INSERT INTO transactions ("date","transaction") VALUES
 	 ('2023-07-18','The Brooklyn Nets waived Raiquan Gray.');
 
 
--- 2023-05-28 update: this table is made from dbt in prod.  for testing im just making a blank table to test 
+-- 2023-05-28 update: this table is made from dbt in prod.  for testing im just making a blank table to test
 -- past bets functionality.
 DROP TABLE IF EXISTS mov;
 CREATE TABLE IF NOT EXISTS mov

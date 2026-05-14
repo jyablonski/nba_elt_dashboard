@@ -1,0 +1,141 @@
+/* =============================================================================
+   Shell tab rail — under .nba-shell-tabs (see server.py).
+   dbc.Tabs renders: TabContainer > ul#tabs.nav.nav-tabs + .tab-content
+   Bootswatch SLATE ends with .nav-tabs .nav-link { background-image: linear-gradient }
+   Assets load after external_stylesheets; use !important on competing props.
+   ============================================================================= */
+
+.nba-shell-tabs {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* One continuous “rail”: round the list only; clip children to that shape */
+.nba-shell-tabs ul.nav.nav-tabs,
+.nba-shell-tabs ul#tabs.nav.nav-tabs {
+  display: flex !important;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: stretch;
+  column-gap: 0 !important;
+  row-gap: 0 !important;
+  gap: 0 !important;
+  margin: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 0.125rem !important;
+  padding-inline-start: 0 !important;
+  list-style: none !important;
+  overflow: hidden;
+  background-color: var(--surface-raised, #15171a) !important;
+  background-image: none !important;
+  filter: none !important;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08)) !important;
+  border-radius: var(--radius-md, 0.5rem) !important;
+  border-bottom: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08)) !important;
+}
+
+.nba-shell-tabs ul.nav.nav-tabs > li.nav-item,
+.nba-shell-tabs ul#tabs.nav.nav-tabs > li.nav-item {
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+.nba-shell-tabs ul.nav.nav-tabs .nav-link,
+.nba-shell-tabs ul#tabs.nav.nav-tabs .nav-link {
+  position: relative;
+  box-sizing: border-box;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.5rem 1.1rem !important;
+  margin: 0 !important;
+  margin-bottom: 0 !important;
+  color: var(--text-muted, #8d9694) !important;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-decoration: none !important;
+  text-shadow: none !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  filter: none !important;
+  border: none !important;
+  /* No per-tab rounding — avoids “floating pill” look vs one bar */
+  border-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-bottom: 2px solid transparent !important;
+  box-shadow: none !important;
+  isolation: auto !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nba-shell-tabs ul.nav.nav-tabs .nav-item:not(:last-child) .nav-link,
+.nba-shell-tabs ul#tabs.nav.nav-tabs .nav-item:not(:last-child) .nav-link {
+  border-right: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08)) !important;
+}
+
+.nba-shell-tabs ul.nav.nav-tabs .nav-link:hover,
+.nba-shell-tabs ul.nav.nav-tabs .nav-link:focus,
+.nba-shell-tabs ul#tabs.nav.nav-tabs .nav-link:hover,
+.nba-shell-tabs ul#tabs.nav.nav-tabs .nav-link:focus {
+  color: var(--text, #e8e6e3) !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  filter: none !important;
+  text-shadow: none !important;
+  border-color: transparent !important;
+  border-bottom-color: transparent !important;
+}
+
+.nba-shell-tabs ul.nav.nav-tabs .nav-link:focus-visible,
+.nba-shell-tabs ul#tabs.nav.nav-tabs .nav-link:focus-visible {
+  outline: 2px solid var(--accent, #4fd1c5);
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+.nba-shell-tabs ul.nav.nav-tabs .nav-link.active,
+.nba-shell-tabs ul.nav.nav-tabs .nav-item.show .nav-link,
+.nba-shell-tabs ul.nav.nav-tabs .nav-link.active:hover,
+.nba-shell-tabs ul.nav.nav-tabs .nav-link.active:focus,
+.nba-shell-tabs ul#tabs.nav.nav-tabs .nav-link.active,
+.nba-shell-tabs ul#tabs.nav.nav-tabs .nav-item.show .nav-link,
+.nba-shell-tabs ul#tabs.nav.nav-tabs .nav-link.active:hover,
+.nba-shell-tabs ul#tabs.nav.nav-tabs .nav-link.active:focus {
+  color: var(--accent, #4fd1c5) !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  filter: none !important;
+  text-shadow: none !important;
+  border-color: transparent !important;
+  border-bottom: 2px solid var(--accent, #4fd1c5) !important;
+  border-bottom-color: var(--accent, #4fd1c5) !important;
+}
+
+.nba-shell-tabs .tab-content {
+  margin-top: var(--space-3, 0.75rem);
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.nba-shell-tabs .tab-pane {
+  background: transparent;
+}
+
+@media (max-width: 900px) {
+  .nba-shell-tabs ul.nav.nav-tabs,
+  .nba-shell-tabs ul#tabs.nav.nav-tabs {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.nba-tab-label {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}

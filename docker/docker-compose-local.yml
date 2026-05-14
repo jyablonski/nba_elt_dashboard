@@ -27,6 +27,8 @@ services:
       - RDS_DB=postgres
       - RDS_SCHEMA=gold
       - ENV_TYPE=docker_dev
+      # Pick up bind-mounted `src/` / `static/` edits without manual `docker compose restart dash_app`
+      - DASH_RELOAD=1
     restart: on-failure
     ports:
       - 9000:9000

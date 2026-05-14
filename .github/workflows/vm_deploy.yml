@@ -6,6 +6,10 @@ on:
       - master
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   deploy_gcp_vm:
     runs-on: ubuntu-latest

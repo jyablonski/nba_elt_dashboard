@@ -1,10 +1,10 @@
-from dash import callback, dash_table, dcc, html
+from dash import callback, dcc, html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import plotly.express as px
-import plotly.graph_objects as go
 
-from src.config import create_kpi_card
+from src.ui.cards import kpi_card as create_kpi_card
+from src.data_cols.player_stats import player_scoring_efficiency_columns
 from src.data_cols.standings import standings_columns
 from src.database import (
     bans_df,
@@ -15,14 +15,12 @@ from src.database import (
     team_contracts_analysis_df,
     team_ratings_df,
 )
-from src.utils import create_season_selector_dropdown
+from src.theme.plotly import TRACE_HOVERLABEL, apply_dark_layout
+from src.ui.sections import page_hero, section_header
+from src.ui.tables import dark_datatable
+from src.utils import create_season_selector_dropdown, generate_team_ratings_figure
 
 # Constants
-MVP_CANDIDATE_COLORS = {
-    "Top 5 MVP Candidate": "#9362DA",
-    "Other": "#383b3d",
-}
-
 VALUE_ANALYSIS_COLORS = {
     "Superstars": "#9362DA",
     "Great Value": "#3fb7d9",
@@ -30,32 +28,79 @@ VALUE_ANALYSIS_COLORS = {
     "Bad Value": "#e04848",
 }
 
-COMMON_HOVER_STYLE = dict(
-    bgcolor="rgba(255, 255, 255, 0.95)",
-    font_size=12,
-    font_family="'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-    font_color="#000000",
-)
-
 # Data preprocessing
 team_contracts_analysis_df = team_contracts_analysis_df.sort_values(
     by="team_pct_salary_earned", ascending=True
 )
 
 
+def _regular_season_league_avg_ts_percent() -> float:
+    return float(
+        player_stats_df.query("season_type == 'Regular Season'")["avg_ts_percent"].mean()
+    )
+
+
+def _scoring_efficiency_records(selected_season: str | None) -> list[dict]:
+    """Players with 20+ PPG for the selected season; TS% benchmark vs reg.-season league avg."""
+    season = selected_season or "Regular Season"
+    rs_avg = _regular_season_league_avg_ts_percent()
+    filtered = player_stats_df.query(
+        "season_type == @season & avg_ppg >= 20", local_dict={"season": season}
+    )
+    if filtered.empty:
+        return []
+    rows: list[dict] = []
+    for _, row in filtered.iterrows():
+        ts = float(row["avg_ts_percent"])
+        rows.append(
+            {
+                "player": str(row["player"]),
+                "team": str(row["team"]),
+                "avg_ppg": round(float(row["avg_ppg"]), 1),
+                "avg_ts_percent": ts,
+                "games_played": int(row["games_played"]),
+                "is_mvp_candidate": str(row["is_mvp_candidate"]),
+                "ts_vs_reg_pp": round((ts - rs_avg) * 100, 1),
+            }
+        )
+    rows.sort(key=lambda r: r["avg_ppg"], reverse=True)
+    return rows
+
+
+def create_player_scoring_efficiency_table():
+    return dark_datatable(
+        columns=player_scoring_efficiency_columns,
+        data=_scoring_efficiency_records("Regular Season"),
+        table_id="player-scoring-efficiency-table",
+        sort_action="native",
+        sort_mode="single",
+        sort_by=[{"column_id": "avg_ppg", "direction": "desc"}],
+        page_size=15,
+        style_cell={"padding": "8px", "minWidth": "72px"},
+        style_data_conditional=[
+            {
+                "if": {"filter_query": '{is_mvp_candidate} contains "Top 5"', "column_id": "is_mvp_candidate"},
+                "color": "#9362DA",
+                "fontWeight": "600",
+            },
+            {
+                "if": {"filter_query": "{ts_vs_reg_pp} >= 0", "column_id": "avg_ts_percent"},
+                "color": "#7ee8d4",
+            },
+            {
+                "if": {"filter_query": "{ts_vs_reg_pp} < 0", "column_id": "avg_ts_percent"},
+                "color": "#e8e6e3",
+            },
+        ],
+    )
+
+
 def create_standings_table(conference_name, data):
-    """Create a standardized standings table"""
-    return dash_table.DataTable(
-        id=f"{conference_name.lower()}-standings-table",
+    return dark_datatable(
         columns=standings_columns,
         data=data,
-        style_cell={
-            "background-color": "#383b3d",
-            "textAlign": "center",
-            "fontSize": 12,
-            "color": "rgb(230, 224, 224)",
-            "padding": "8px",
-        },
+        table_id=f"{conference_name.lower()}-standings-table",
+        style_cell={"padding": "8px"},
         hidden_columns=["active_protocols", "conference", "team"],
         cell_selectable=False,
         css=[{"selector": ".show-hide", "rule": "display: none"}],
@@ -64,100 +109,7 @@ def create_standings_table(conference_name, data):
     )
 
 
-def generate_team_ratings_figure_themed(df):
-    """Create team ratings figure with dark theme applied"""
-    ortg_avg = df["ortg"].mean()
-    drtg_avg = df["drtg"].mean()
-
-    team_ratings_fig = px.scatter(
-        df,
-        x="ortg",
-        y="drtg",
-        labels={
-            "ortg": "Offensive Rating",
-            "drtg": "Defensive Rating",
-        },
-        title="Team Offensive vs Defensive Ratings",
-        custom_data=[
-            "team",
-            "ortg",
-            "drtg",
-            "nrtg",
-            "ortg_rank",
-            "drtg_rank",
-            "nrtg_rank",
-        ],
-    )
-
-    # Apply dark theme
-    team_ratings_fig.update_layout(
-        paper_bgcolor="#15171a",
-        plot_bgcolor="rgba(0,0,0,0)",
-        font={
-            "color": "rgb(230, 224, 224)",
-            "family": "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-        },
-        xaxis={
-            "gridcolor": "#383b3d",
-            "linecolor": "#383b3d",
-            "tickcolor": "#383b3d",
-            "zerolinecolor": "#383b3d",
-        },
-        yaxis={
-            "gridcolor": "#383b3d",
-            "linecolor": "#383b3d",
-            "tickcolor": "#383b3d",
-            "zerolinecolor": "#383b3d",
-            "autorange": "reversed",
-        },
-        margin={"l": 80, "r": 40, "t": 80, "b": 60},
-        title={"x": 0.5, "xanchor": "center"},
-    )
-
-    team_ratings_fig.add_hline(
-        y=drtg_avg, line_width=2, line_dash="dash", line_color="rgb(230, 224, 224)", opacity=0.7
-    )
-    team_ratings_fig.add_vline(
-        x=ortg_avg, line_width=2, line_dash="dash", line_color="rgb(230, 224, 224)", opacity=0.7
-    )
-
-    team_logos = []
-    for i, row in df.iterrows():
-        team_logos.append(
-            go.layout.Image(
-                source=f"../assets/{row['team_logo']}",
-                x=row["ortg"],
-                y=row["drtg"],
-                xref="x",
-                yref="y",
-                xanchor="center",
-                yanchor="middle",
-                sizex=2.5,
-                sizey=2.5,
-            )
-        )
-
-    layout = go.Layout(images=team_logos)
-    team_ratings_fig.update_layout(layout)
-
-    team_ratings_fig.update_traces(
-        mode="markers",
-        marker=dict(size=25, opacity=0),
-        hoverlabel=COMMON_HOVER_STYLE,
-        hovertemplate=(
-            "<b>%{customdata[0]}</b><br>"
-            "<b>Offensive Rating:</b> %{customdata[1]} (Rank: %{customdata[4]})<br>"
-            "<b>Defensive Rating:</b> %{customdata[2]} (Rank: %{customdata[5]})<br>"
-            "<b>Net Rating:</b> %{customdata[3]} (Rank: %{customdata[6]})<br>"
-            "<extra></extra>"
-        ),
-    )
-
-    return team_ratings_fig
-
-
 def create_player_value_analysis_chart():
-    """Create the player value analysis scatter plot"""
     fig = px.scatter(
         contract_value_analysis_df,
         x="salary",
@@ -180,33 +132,15 @@ def create_player_value_analysis_chart():
         color_discrete_map=VALUE_ANALYSIS_COLORS,
     )
 
+    apply_dark_layout(fig, transparent_plot=True)
+    fig.update_xaxes(tickformat="$,.0f")
     fig.update_layout(
-        paper_bgcolor="#15171a",
-        plot_bgcolor="rgba(0,0,0,0)",
-        font={
-            "color": "rgb(230, 224, 224)",
-            "family": "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-        },
-        xaxis={
-            "gridcolor": "#383b3d",
-            "linecolor": "#383b3d",
-            "tickcolor": "#383b3d",
-            "zerolinecolor": "#383b3d",
-            "tickformat": "$,.0f",
-        },
-        yaxis={
-            "gridcolor": "#383b3d",
-            "linecolor": "#383b3d",
-            "tickcolor": "#383b3d",
-            "zerolinecolor": "#383b3d",
-        },
-        margin={"l": 80, "r": 40, "t": 80, "b": 60},
         legend_title_text="Player Category",
         title={"x": 0.5, "xanchor": "center"},
     )
 
     fig.update_traces(
-        hoverlabel=COMMON_HOVER_STYLE,
+        hoverlabel=TRACE_HOVERLABEL,
         hovertemplate=(
             "<b>%{customdata[0]}</b><br>"
             "<b>Team:</b> %{customdata[1]}<br>"
@@ -223,7 +157,6 @@ def create_player_value_analysis_chart():
 
 
 def create_team_contract_analysis_chart():
-    """Create the team contract value analysis bar chart"""
     fig = px.bar(
         team_contracts_analysis_df,
         x="team_pct_salary_earned",
@@ -247,32 +180,12 @@ def create_team_contract_analysis_chart():
         ],
     )
 
-    fig.update_layout(
-        paper_bgcolor="#15171a",
-        plot_bgcolor="rgba(0,0,0,0)",
-        font={
-            "color": "rgb(230, 224, 224)",
-            "family": "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-        },
-        xaxis={
-            "gridcolor": "#383b3d",
-            "linecolor": "#383b3d",
-            "tickcolor": "#383b3d",
-            "zerolinecolor": "#383b3d",
-            "tickformat": ".0%",
-        },
-        yaxis={
-            "gridcolor": "#383b3d",
-            "linecolor": "#383b3d",
-            "tickcolor": "#383b3d",
-            "zerolinecolor": "#383b3d",
-        },
-        margin={"l": 80, "r": 40, "t": 80, "b": 60},
-        title={"x": 0.5, "xanchor": "center"},
-    )
+    apply_dark_layout(fig, transparent_plot=True)
+    fig.update_xaxes(tickformat=".0%")
+    fig.update_layout(title={"x": 0.5, "xanchor": "center"})
 
     fig.update_traces(
-        hoverlabel=COMMON_HOVER_STYLE,
+        hoverlabel=TRACE_HOVERLABEL,
         hovertemplate=(
             "<b>%{customdata[0]}</b><br>"
             "<b>Win Percentage:</b> %{customdata[1]:.1%}<br>"
@@ -287,9 +200,24 @@ def create_team_contract_analysis_chart():
     return fig
 
 
+_overview_scrape = bans_df["scrape_time"][0]
+
 # Layout
 overview_layout = html.Div(
     [
+        page_hero(
+            title="The league at a glance.",
+            meta=[
+                html.Div(
+                    f"League snapshot · {_overview_scrape.strftime('%A, %B %d')}",
+                    className="text-muted small",
+                ),
+                html.Div(
+                    _overview_scrape.strftime("Last updated: %A, %B %d at %H:%M UTC"),
+                    className="text-muted small",
+                )
+            ],
+        ),
         # KPI Section
         html.Div(
             [
@@ -305,7 +233,7 @@ overview_layout = html.Div(
                         ),
                         html.Div(
                             f"{bans_df['win_pct'][0] * 100:.0f}% - {bans_df['win_pct'][1] * 100:.0f}% Win Percentage Splits",
-                            style={"fontSize": 12, "color": "gray"},
+                            className="small text-muted",
                         ),
                     ]
                 ),
@@ -319,7 +247,7 @@ overview_layout = html.Div(
                         html.Div("League Average Points Per Game", style={"margin-bottom": "5px"}),
                         html.Div(
                             f"{((bans_df['avg_pts'][0] - bans_df['last_yr_ppg'][0]) / bans_df['avg_pts'][0]) * 100:.2f}% difference vs Last Season",
-                            style={"fontSize": 12, "color": "gray"},
+                            className="small text-muted",
                         ),
                     ]
                 ),
@@ -335,7 +263,7 @@ overview_layout = html.Div(
                         ),
                         html.Div(
                             "Includes all injury designations",
-                            style={"fontSize": 12, "color": "gray"},
+                            className="small text-muted",
                         ),
                     ]
                 ),
@@ -352,7 +280,7 @@ overview_layout = html.Div(
                         ),
                         html.Div(
                             bans_df["upcoming_game_date"][0].strftime("%A"),
-                            style={"fontSize": 12, "color": "gray"},
+                            className="small text-muted",
                         ),
                     ]
                 ),
@@ -360,21 +288,12 @@ overview_layout = html.Div(
             className="kpi-container",
             style={"display": "flex", "justify-content": "space-between", "margin-bottom": "20px"},
         ),
-        # Data Update Info
-        html.Div(
-            [
-                html.P(
-                    f"Data Last Updated: {(bans_df['scrape_time'][0]).strftime('%A, %B %d at %-I:%M %p UTC')}",
-                    style={"text-align": "center", "color": "gray", "margin-bottom": "20px"},
-                )
-            ]
-        ),
         # Standings Section
         dbc.Row(
             [
                 dbc.Col(
                     [
-                        html.H3("Western Conference", style={"margin-bottom": "15px"}),
+                        section_header("Western Conference"),
                         create_standings_table(
                             "Western",
                             standings_df.query('conference == "Western"').to_dict("records"),
@@ -384,7 +303,7 @@ overview_layout = html.Div(
                 ),
                 dbc.Col(
                     [
-                        html.H3("Eastern Conference", style={"margin-bottom": "15px"}),
+                        section_header("Eastern Conference"),
                         create_standings_table(
                             "Eastern",
                             standings_df.query('conference == "Eastern"').to_dict("records"),
@@ -402,17 +321,22 @@ overview_layout = html.Div(
             [
                 dbc.Col(
                     [
-                        html.H3("Player Scoring Efficiency", style={"margin-bottom": "15px"}),
-                        dcc.Graph(id="player-scoring-efficiency-plot", style={"height": "500px"}),
+                        section_header("Player Scoring Efficiency"),
+                        html.P(
+                            "Players averaging 20+ PPG for the selected season. "
+                            "True shooting % is tinted when at or above the regular-season league average.",
+                            className="text-muted small mb-2",
+                        ),
+                        create_player_scoring_efficiency_table(),
                     ],
                     width=6,
                 ),
                 dbc.Col(
                     [
-                        html.H3("Team Ratings", style={"margin-bottom": "15px"}),
+                        section_header("Team Ratings"),
                         dcc.Graph(
                             id="team-ratings-plot",
-                            figure=generate_team_ratings_figure_themed(df=team_ratings_df),
+                            figure=generate_team_ratings_figure(df=team_ratings_df),
                             style={"height": "500px"},
                         ),
                     ],
@@ -426,7 +350,7 @@ overview_layout = html.Div(
             [
                 dbc.Col(
                     [
-                        html.H3("Player Value Analysis", style={"margin-bottom": "15px"}),
+                        section_header("Player Value Analysis"),
                         dcc.Graph(
                             id="player-value-analysis-plot",
                             figure=create_player_value_analysis_chart(),
@@ -437,7 +361,7 @@ overview_layout = html.Div(
                 ),
                 dbc.Col(
                     [
-                        html.H3("Team Contract Efficiency", style={"margin-bottom": "15px"}),
+                        section_header("Team Contract Efficiency"),
                         dcc.Graph(
                             id="contract-bar-plot",
                             figure=create_team_contract_analysis_chart(),
@@ -454,127 +378,8 @@ overview_layout = html.Div(
 
 
 @callback(
-    Output("player-scoring-efficiency-plot", "figure"),
+    Output("player-scoring-efficiency-table", "data"),
     Input("season-selector", "value"),
 )
-def update_scoring_efficiency_plot(selected_season):
-    """Update player scoring efficiency plot based on season selection"""
-    if not selected_season:
-        selected_season = "Regular Season"
-
-    # Calculate league average
-    regular_season_ts_percent_avg = player_stats_df.query("season_type == 'Regular Season'")[
-        "avg_ts_percent"
-    ].mean()
-
-    # Filter data
-    filtered_df = player_stats_df.copy().query(
-        f"season_type == '{selected_season}' & avg_ppg >= 20"
-    )
-
-    if filtered_df.empty:
-        return {}
-
-    # Create scatter plot
-    fig = px.scatter(
-        filtered_df,
-        x="avg_ppg",
-        y="avg_ts_percent",
-        labels={
-            "avg_ppg": "Average Points Per Game",
-            "avg_ts_percent": "True Shooting %",
-        },
-        title=f"Player Scoring Efficiency - {selected_season}",
-        color="is_mvp_candidate",
-        color_discrete_map=MVP_CANDIDATE_COLORS,
-        custom_data=[
-            "player",
-            "team",
-            "avg_ppg",
-            "avg_ts_percent",
-            "games_played",
-            "is_mvp_candidate",
-        ],
-    )
-
-    # Apply dark theme with transparent plot background
-    fig.update_layout(
-        paper_bgcolor="#15171a",
-        plot_bgcolor="rgba(0,0,0,0)",
-        font={
-            "color": "rgb(230, 224, 224)",
-            "family": "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-        },
-        xaxis={
-            "gridcolor": "#383b3d",
-            "linecolor": "#383b3d",
-            "tickcolor": "#383b3d",
-            "zerolinecolor": "#383b3d",
-        },
-        yaxis={
-            "gridcolor": "#383b3d",
-            "linecolor": "#383b3d",
-            "tickcolor": "#383b3d",
-            "zerolinecolor": "#383b3d",
-            "tickformat": ".0%",
-        },
-        margin={"l": 80, "r": 40, "t": 80, "b": 60},
-        legend_title_text="Player Type",
-        title={"x": 0.5, "xanchor": "center"},
-    )
-
-    # Add league average line
-    fig.add_hline(
-        y=regular_season_ts_percent_avg,
-        line_width=2,
-        line_dash="dash",
-        line_color="rgb(230, 224, 224)",
-        opacity=0.7,
-    )
-
-    # Add player logos
-    player_logos = []
-    for i, row in filtered_df.iterrows():
-        player_logos.append(
-            go.layout.Image(
-                source=row["player_logo"],
-                x=row["avg_ppg"],
-                y=row["avg_ts_percent"],
-                xref="x",
-                yref="y",
-                xanchor="center",
-                yanchor="middle",
-                sizex=1.5,
-                sizey=1.5,
-            )
-        )
-
-    fig.update_layout(images=player_logos)
-
-    # Update traces
-    fig.update_traces(
-        marker=dict(size=16, line=dict(width=1, color="rgb(230, 224, 224)")),
-        mode="markers",
-        hoverlabel=COMMON_HOVER_STYLE,
-        hovertemplate=(
-            "<b>%{customdata[0]}</b><br>"
-            "<b>Team:</b> %{customdata[1]}<br>"
-            "<b>Type:</b> %{customdata[5]}<br>"
-            "<b>PPG:</b> %{customdata[2]:.1f}<br>"
-            "<b>True Shooting:</b> %{customdata[3]:.1%}<br>"
-            "<b>Games Played:</b> %{customdata[4]}<br>"
-            "<extra></extra>"
-        ),
-    )
-
-    # Add annotation for league average
-    fig.add_annotation(
-        x=filtered_df["avg_ppg"].max() * 0.95,
-        y=regular_season_ts_percent_avg + 0.01,
-        text="League Average TS%",
-        yanchor="bottom",
-        showarrow=False,
-        font=dict(color="rgb(230, 224, 224)"),
-    )
-
-    return fig
+def update_scoring_efficiency_table(selected_season):
+    return _scoring_efficiency_records(selected_season)

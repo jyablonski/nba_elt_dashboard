@@ -3,7 +3,7 @@ name = "nba-elt-dashboard"
 version = "1.1.7"
 description = "NBA Dashboard Project"
 authors = [{ name = "jyablonski9", email = "jyablonski9@gmail.com" }]
-requires-python = ">3.12, <3.13"
+requires-python = ">=3.14,<3.15"
 readme = "README.md"
 dependencies = [
     "dash>=2.14.0,<3",
@@ -21,8 +21,15 @@ test = [
     "coveralls>=3.3.1",
     "pytest-cov>=4.1.0",
     "pytest-mock>=3.12.0",
+    "testcontainers>=4.14.2",
+    "sqlparse>=0.5.5",
 ]
-dev = ["ipykernel>=6.25.2", "ruff>=0.1.1"]
+dev = [
+    "ipykernel>=6.25.2",
+    "pre-commit>=4.0.0",
+    "ruff>=0.14.1",
+    "ty>=0.0.35",
+]
 
 [tool.uv]
 package = false
@@ -34,11 +41,29 @@ build-backend = "hatchling.build"
 [tool.ruff]
 line-length = 100
 
+[tool.ty.src]
+# Incremental adoption: dynamic `database` globals and Dash stubs are noisy elsewhere.
+include = ["src/theme", "src/ui"]
+
 [tool.pytest.ini_options]
 filterwarnings = ["ignore::DeprecationWarning"]
 testpaths = ["tests"]
 markers = [
     "wip: work in progress",
     "infrastructure: mocks for dummy data (sql db, http endpoint etc)",
+    "integration: needs Docker + Postgres (Testcontainers)",
+    "e2e: browser tests; run with RUN_E2E=1 (see tests/e2e/README.md)",
 ]
 addopts = "-v"
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+omit = ["src/pages/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+]

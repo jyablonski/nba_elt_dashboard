@@ -1,4 +1,4 @@
-from dash import callback, dash_table, dcc, html
+from dash import callback, dcc, html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import plotly.express as px
@@ -13,7 +13,10 @@ from src.database import (
     transactions_df,
 )
 from src.data import team_names
-from src.config import DARK_LAYOUT_TEMPLATE
+from src.ui.cards import kpi_card as create_kpi_card
+from src.theme.plotly import TRACE_HOVERLABEL, apply_dark_layout
+from src.ui.sections import page_hero, section_header
+from src.ui.tables import dark_datatable
 
 TEAM_OPTIONS = [{"label": team, "value": team} for team in team_names]
 
@@ -27,48 +30,35 @@ MVP_CANDIDATE_COLORS = {
     "Other": "#383b3d",  # Gray from your theme
 }
 
-COMMON_HOVER_STYLE = dict(
-    bgcolor="#222222",
-    font_size=12,
-    font_family="'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
-    font_color="rgb(230, 224, 224)",
-)
+TOOLTIP_CSS = [
+    {
+        "selector": ".dash-table-tooltip",
+        "rule": (
+            "background-color: #222222; font-family: Inter, system-ui, sans-serif; "
+            "color: rgb(230, 224, 224)"
+        ),
+    }
+]
 
 
-def create_kpi_card(content, class_name="kpi-card"):
-    """Helper function to create consistent KPI cards"""
-    return html.Div(content, className=class_name)
-
-
-def create_data_table(columns, data, conditional_columns=None):
-    """Create a standardized data table with consistent styling"""
-    return dash_table.DataTable(
+def create_data_table(columns, data, *, table_id: str, conditional_columns=None):
+    return dark_datatable(
+        table_id=table_id,
         columns=columns,
         data=data,
-        # Styling
-        css=[
-            {
-                "selector": ".dash-table-tooltip",
-                "rule": "background-color: #222222; font-family: 'Gill Sans','Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; color: rgb(230, 224, 224)",
-            }
-        ],
-        # Table behavior
+        css=TOOLTIP_CSS,
         cell_selectable=False,
         sort_action="native",
         page_size=10,
-        # Base styling
         style_cell={
-            "overflow": "hidden",
-            "textOverflow": "ellipsis",
-            "maxWidth": 0,
-            "background-color": "#383b3d",
+            "whiteSpace": "normal",
+            "height": "auto",
+            "minHeight": "2.5rem",
+            "lineHeight": "1.35",
             "textAlign": "center",
             "fontSize": 12,
-            "color": "rgb(230, 224, 224)",
         },
-        # Column-specific styling
         style_cell_conditional=conditional_columns or [],
-        # Tooltips
         tooltip_data=[
             {column: {"value": str(value), "type": "markdown"} for column, value in row.items()}
             for row in data
@@ -80,13 +70,16 @@ def create_data_table(columns, data, conditional_columns=None):
 # Layout
 team_analysis_layout = html.Div(
     [
+        page_hero(
+            title="Per-team trends, health, and roster moves.",
+        ),
         # KPI Section
         html.Div(
             [
                 # Team Selector
                 create_kpi_card(
                     [
-                        html.H4("Select Team", style={"margin-bottom": "10px"}),
+                        html.H4("Select Team", className="mb-2"),
                         dcc.Dropdown(
                             id="team-selector",
                             options=TEAM_OPTIONS,
@@ -109,7 +102,7 @@ team_analysis_layout = html.Div(
             [
                 dbc.Col(
                     [
-                        html.H3("Game Margin of Victory", style={"margin-bottom": "15px"}),
+                        section_header("Game Margin of Victory"),
                         dcc.Graph(
                             id="mov-plot",
                             config={"displayModeBar": False},
@@ -120,7 +113,7 @@ team_analysis_layout = html.Div(
                 ),
                 dbc.Col(
                     [
-                        html.H3("Player Scoring Efficiency", style={"margin-bottom": "15px"}),
+                        section_header("Player Scoring Efficiency"),
                         dcc.Graph(
                             id="team-player-efficiency-plot",
                             config={"displayModeBar": False},
@@ -137,14 +130,14 @@ team_analysis_layout = html.Div(
             [
                 dbc.Col(
                     [
-                        html.H3("Team Injuries", style={"margin-bottom": "15px"}),
+                        section_header("Team Injuries"),
                         html.Div(id="injuries-table"),
                     ],
                     width=6,
                 ),
                 dbc.Col(
                     [
-                        html.H3("Team Transactions", style={"margin-bottom": "15px"}),
+                        section_header("Team Transactions"),
                         html.Div(id="transactions-table"),
                     ],
                     width=6,
@@ -181,10 +174,11 @@ def update_mov(selected_team):
         custom_data=["game_date", "opponent", "mov", "outcome", "pts_scored", "pts_scored_opp"],
     )
 
-    fig.update_layout(**DARK_LAYOUT_TEMPLATE, title={"x": 0.5, "xanchor": "center"})
+    apply_dark_layout(fig, transparent_plot=True)
+    fig.update_layout(title={"x": 0.5, "xanchor": "center"})
 
     fig.update_traces(
-        hoverlabel=COMMON_HOVER_STYLE,
+        hoverlabel=TRACE_HOVERLABEL,
         hovertemplate=(
             "<b>%{customdata[0]} %{customdata[3]}</b> vs <b>%{customdata[1]}</b><br>"
             "<b>Score:</b> %{customdata[4]} - %{customdata[5]}<br>"
@@ -218,8 +212,8 @@ def update_team_player_efficiency(selected_team):
         custom_data=["player", "avg_ppg", "avg_ts_percent", "is_mvp_candidate", "games_played"],
     )
 
+    apply_dark_layout(fig, transparent_plot=True)
     fig.update_layout(
-        **DARK_LAYOUT_TEMPLATE,
         legend_title_text="Player Type",
         yaxis_tickformat=".0%",
         title={"x": 0.5, "xanchor": "center"},
@@ -228,7 +222,7 @@ def update_team_player_efficiency(selected_team):
     fig.update_traces(
         textposition="top center",
         textfont={"color": "rgb(230, 224, 224)", "size": 10},
-        hoverlabel=COMMON_HOVER_STYLE,
+        hoverlabel=TRACE_HOVERLABEL,
         hovertemplate=(
             "<b>%{customdata[0]}</b><br>"
             "<b>Type:</b> %{customdata[3]}<br>"
@@ -261,6 +255,7 @@ def update_injuries(selected_team):
     return create_data_table(
         columns=injuries_columns,
         data=filtered_injuries.to_dict("records"),
+        table_id="team-injuries-table",
         conditional_columns=[
             {"if": {"column_id": "player"}, "width": "15%"},
             {"if": {"column_id": "team"}, "width": "15%"},
@@ -291,6 +286,7 @@ def update_transactions(selected_team):
     return create_data_table(
         columns=transactions_columns,
         data=filtered_transactions.to_dict("records"),
+        table_id="team-transactions-table",
         conditional_columns=[
             {"if": {"column_id": "date"}, "width": "20%"},
             {"if": {"column_id": "transaction"}, "width": "80%", "textAlign": "left"},

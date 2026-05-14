@@ -1,5 +1,15 @@
-def test_load_yaml_with_env(config_fixture):
-    assert config_fixture == {
+import os
+from pathlib import Path
+
+from src.yaml_config import load_yaml_with_env
+
+
+def test_load_yaml_with_env():
+    root = Path(__file__).resolve().parents[1]
+    cfg = root / "fixtures" / "config_fixture.yaml"
+    os.environ.setdefault("RDS_USER", "nba_dashboard_user")
+    data = load_yaml_with_env(str(cfg))["docker_dev"]
+    assert data == {
         "database": "postgres",
         "host": "postgres",
         "pass": "postgres",
