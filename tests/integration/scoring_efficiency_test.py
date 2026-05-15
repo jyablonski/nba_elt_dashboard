@@ -10,7 +10,7 @@ def test_scoring_efficiency_table_regular_season():
     luka = next(r for r in rows if r["player"] == "Luka Doncic")
     assert luka["avg_ppg"] == 34.1
     assert "avg_ts_percent" in luka
-    assert "ts_vs_reg_pp" in luka
+    assert luka["ts_ge_rs_avg"] in (0, 1)
 
 
 def test_scoring_efficiency_table_playoffs():

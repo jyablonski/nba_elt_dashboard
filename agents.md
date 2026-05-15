@@ -1,10 +1,10 @@
-# NBA ELT Dashboard — agent guide
+# NBA ELT Dashboard - agent guide
 
 Concise orientation for coding agents and new contributors. For user-facing setup, see [README.md](README.md).
 
 ## What this is
 
-A **Plotly Dash** web app (Python **3.14**) that visualizes NBA analytics loaded from **Postgres** (typically `gold.*` tables from the upstream dbt pipeline). It is **not** the ingestion/dbt/ML repo—those live elsewhere (README links). This repo is the **read-only dashboard** plus Docker/CI wiring.
+A **Plotly Dash** web app (Python **3.14**) that visualizes NBA analytics loaded from **Postgres** (typically `gold.*` tables from the upstream dbt pipeline). It is **not** the ingestion/dbt/ML repo; those live elsewhere (README links). This repo is the **read-only dashboard** plus Docker/CI wiring.
 
 ## Stack
 
@@ -18,9 +18,9 @@ A **Plotly Dash** web app (Python **3.14**) that visualizes NBA analytics loaded
 ## Entry point and app shape
 
 - **Run:** `python -m src.server` (or Docker per `make up`).
-- **`src/server.py`** constructs `dash.Dash`, registers **`dbc.Tabs`** as the main shell (no separate top brand row—**`app.title`** still sets the browser tab title), and assigns each tab’s `children=` to a page layout imported from **`src/pages/`**.
+- **`src/server.py`** constructs `dash.Dash`, registers **`dbc.Tabs`** as the main shell (no separate top brand row; **`app.title`** still sets the browser tab title), and assigns each tab’s `children=` to a page layout imported from **`src/pages/`**.
 - **Navigation:** single-page app with tabs (not multipage URLs). Tab counts/badges are built at import time in `server.py` using `src.shell` helpers.
-- **Assets:** `assets_folder="../static"` relative to the app module; CSS lives under **`static/`** (`styles.css` for global tokens and chrome; **`tab_shell.css`** for the shell tab rail scoped under `.nba-shell-tabs` — dbc `Tabs` renders **`ul#tabs.nav.nav-tabs`**, and Bootswatch SLATE layers gradients on `.nav-tabs .nav-link`).
+- **Assets:** `assets_folder="../static"` relative to the app module; CSS lives under **`static/`** (`styles.css` for global tokens and chrome; **`tab_shell.css`** for the shell tab rail scoped under `.nba-shell-tabs` - dbc `Tabs` renders **`ul#tabs.nav.nav-tabs`**, and Bootswatch SLATE layers gradients on `.nav-tabs .nav-link`).
 
 ## Data loading (important)
 
@@ -64,7 +64,7 @@ docker/              # Dockerfile, compose, postgres_bootstrap.sql
 
 Each **`src/pages/<name>.py`** typically defines:
 
-- `<name>_layout` — `html.Div` / `dbc` tree.
+- `<name>_layout` - `html.Div` / `dbc` tree.
 - `@callback` functions bound to controls on that tab.
 
 **`src/ui/`** centralizes repeated patterns (`dark_datatable`, KPI cards, `page_hero`, `section_header`). **`src/theme/plotly.py`** applies consistent dark styling to figures.
@@ -73,7 +73,7 @@ Each **`src/pages/<name>.py`** typically defines:
 
 ## Configuration
 
-- **`config.yaml`** — per-environment host, port, credentials, schema. **`ENV_TYPE`** selects the block; values can use **`${VAR}`** env substitution (see `yaml_config`).
+- **`config.yaml`** - per-environment host, port, credentials, schema. **`ENV_TYPE`** selects the block; values can use **`${VAR}`** env substitution (see `yaml_config`).
 - Local Docker: **`docker/docker-compose-local.yml`** aligns env with the compose Postgres service.
 
 ## Tests and quality
@@ -103,4 +103,4 @@ Integration tests use **Testcontainers** to start Postgres, load **`docker/postg
 
 ## Design doc
 
-High-level redesign notes (palette, phases, out-of-scope items): **`docs/2025-05-13-redesign-plan.md`**. Treat it as intent, not a spec—verify against code.
+High-level redesign notes (palette, phases, out-of-scope items): **`docs/2025-05-13-redesign-plan.md`**. Treat it as intent, not a spec; verify against code.

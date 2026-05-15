@@ -124,7 +124,7 @@ def test_teams_row_no_match_falls_back_to_score_margin():
 
 
 def test_pbp_flow_stats_empty_paths():
-    assert pbp_flow_stats(None)["plays"] == "—"
-    assert pbp_flow_stats(pd.DataFrame())["plays"] == "—"
+    assert pbp_flow_stats(None)["plays"] == "-"
+    assert pbp_flow_stats(pd.DataFrame())["plays"] == "-"
     bad = pd.DataFrame({"time_remaining_final": [1.0]})
-    assert pbp_flow_stats(bad)["plays"] == "—"
+    assert pbp_flow_stats(bad)["plays"] == "-"

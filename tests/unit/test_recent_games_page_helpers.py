@@ -15,8 +15,8 @@ from src.pages.recent_games import (
 
 def test_pbp_chart_subtitle_non_empty():
     s = _pbp_chart_subtitle()
-    assert "margin" in s.lower()
-    assert len(s) > 20
+    assert "play-by-play" in s.lower()
+    assert len(s) > 10
 
 
 def test_slate_date_label_format():
@@ -64,4 +64,4 @@ def test_flow_legend_and_stats_known_game():
     assert "Max lead" in flat
     assert "recent-games-pbp-heading" in flat
     assert "plays" in meta
-    assert meta["plays"] != "—"
+    assert meta["plays"] != "-"

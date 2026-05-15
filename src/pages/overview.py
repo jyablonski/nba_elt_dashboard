@@ -42,7 +42,7 @@ def _regular_season_league_avg_ts_percent() -> float:
 
 
 def _scoring_efficiency_records(selected_season: str | None) -> list[dict]:
-    """Players with 20+ PPG for the selected season; TS% benchmark vs reg.-season league avg."""
+    """Players with 20+ PPG for the selected season; TS% tint vs regular-season league avg."""
     season = selected_season or "Regular Season"
     rs_avg = _regular_season_league_avg_ts_percent()
     filtered = player_stats_df.query(
@@ -61,7 +61,7 @@ def _scoring_efficiency_records(selected_season: str | None) -> list[dict]:
                 "avg_ts_percent": ts,
                 "games_played": int(row["games_played"]),
                 "is_mvp_candidate": str(row["is_mvp_candidate"]),
-                "ts_vs_reg_pp": round((ts - rs_avg) * 100, 1),
+                "ts_ge_rs_avg": 1 if ts >= rs_avg else 0,
             }
         )
     rows.sort(key=lambda r: r["avg_ppg"], reverse=True)
@@ -88,14 +88,15 @@ def create_player_scoring_efficiency_table():
                 "fontWeight": "600",
             },
             {
-                "if": {"filter_query": "{ts_vs_reg_pp} >= 0", "column_id": "avg_ts_percent"},
+                "if": {"filter_query": "{ts_ge_rs_avg} = 1", "column_id": "avg_ts_percent"},
                 "color": "#7ee8d4",
             },
             {
-                "if": {"filter_query": "{ts_vs_reg_pp} < 0", "column_id": "avg_ts_percent"},
+                "if": {"filter_query": "{ts_ge_rs_avg} = 0", "column_id": "avg_ts_percent"},
                 "color": "#e8e6e3",
             },
         ],
+        hidden_columns=["ts_ge_rs_avg"],
     )
 
 
@@ -107,7 +108,6 @@ def create_standings_table(conference_name, data):
         style_cell={"padding": "8px"},
         hidden_columns=["active_protocols", "conference", "team"],
         cell_selectable=False,
-        css=[{"selector": ".show-hide", "rule": "display: none"}],
         sort_action="native",
         page_size=15,
     )
@@ -213,7 +213,7 @@ overview_layout = html.Div(
             title="League Overview",
             meta=[
                 html.Div(
-                    _overview_scrape.strftime("Last updated: %A, %B %d at %H:%M UTC"),
+                    _overview_scrape.strftime("Data Last updated: %A, %B %d at %H:%M UTC"),
                     className="text-muted small",
                 ),
             ],
@@ -316,8 +316,14 @@ overview_layout = html.Div(
                     [
                         section_header("Player Scoring Efficiency"),
                         html.P(
-                            "Players averaging 20+ PPG for the selected season. "
-                            "True shooting % is tinted when at or above the regular-season league average.",
+                            [
+                                "Players averaging 20+ PPG for the selected season. ",
+                                html.Span(
+                                    "highlighted",
+                                    className="scoring-efficiency-legend-ts",
+                                ),
+                                " = above league average.",
+                            ],
                             className="text-muted small mb-2",
                         ),
                         html.Div(
@@ -341,6 +347,27 @@ overview_layout = html.Div(
                 dbc.Col(
                     [
                         section_header("Team Ratings"),
+                        html.P(
+                            "Each logo is a team; dashed lines mark league-average offensive and defensive rating.",
+                            className="text-muted small mb-2",
+                        ),
+                        html.Div(
+                            [
+                                html.Span(
+                                    "Season type", className="text-muted small me-2 invisible"
+                                ),
+                                html.Div(
+                                    className="dash-dropdown flex-grow-1 invisible rounded border",
+                                    style={
+                                        "minHeight": "38px",
+                                        "minWidth": "200px",
+                                        "maxWidth": "420px",
+                                    },
+                                ),
+                            ],
+                            className="d-flex flex-wrap align-items-center gap-2 mb-3",
+                            role="presentation",
+                        ),
                         dcc.Graph(
                             id="team-ratings-plot",
                             figure=generate_team_ratings_figure(df=team_ratings_df),
@@ -350,6 +377,7 @@ overview_layout = html.Div(
                     width=6,
                 ),
             ],
+            className="g-3 overview-paired-plots-row",
             style={"margin-bottom": "30px"},
         ),
         # Charts Section 2
@@ -377,7 +405,8 @@ overview_layout = html.Div(
                     ],
                     width=6,
                 ),
-            ]
+            ],
+            className="g-3 overview-paired-plots-row",
         ),
     ],
     className="custom-padding",

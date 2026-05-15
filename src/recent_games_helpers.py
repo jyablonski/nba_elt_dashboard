@@ -87,11 +87,11 @@ def build_game_card_specs(pbp_df: pd.DataFrame, teams_df: pd.DataFrame) -> list[
 def pbp_flow_stats(pbp_events: pd.DataFrame) -> dict[str, Any]:
     """Stats for the selected game's PBP event frame (transformed)."""
     empty: dict[str, Any] = {
-        "max_lead": "—",
-        "lead_changes": "—",
-        "ties": "—",
-        "swing": "—",
-        "plays": "—",
+        "max_lead": "-",
+        "lead_changes": "-",
+        "ties": "-",
+        "swing": "-",
+        "plays": "-",
     }
     if pbp_events is None or pbp_events.empty or "margin_score" not in pbp_events.columns:
         return empty
@@ -103,7 +103,7 @@ def pbp_flow_stats(pbp_events: pd.DataFrame) -> dict[str, Any]:
     ties = int(np.sum(m == 0))
     m_time = sub.sort_values("time_remaining_final")["margin_score"].astype(float)
     dm = m_time.diff().abs().dropna()
-    swing = int(dm.max()) if not dm.empty else "—"
+    swing = int(dm.max()) if not dm.empty else "-"
     return {
         "max_lead": max_lead,
         "lead_changes": changes,

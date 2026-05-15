@@ -73,15 +73,15 @@ def test_build_injuries_panel_renders():
 def test_extract_eta_patterns():
     import src.team_analysis_panels as tap
 
-    assert tap._extract_eta("") == "—"
-    assert tap._extract_eta("   ") == "—"
+    assert tap._extract_eta("") == "-"
+    assert tap._extract_eta("   ") == "-"
     assert tap._extract_eta("Expected back today for practice") == "today"
     assert tap._extract_eta("Listed as day to day") == "day-to-day"
     assert tap._extract_eta("Will be re-evaluated Nov 12") == "re-eval Nov 12"
     assert tap._extract_eta("out 2-4 weeks") == "est. 2–4 wks"
     assert tap._extract_eta("miss 3 weeks") == "est. 3 wks"
     assert tap._extract_eta("return in 5 days") == "est. 5 days"
-    assert tap._extract_eta("no timeline given") == "—"
+    assert tap._extract_eta("no timeline given") == "-"
 
 
 def test_status_badge_classes():
@@ -117,8 +117,8 @@ def test_transaction_category_and_highlight_and_date():
     pre = tap._highlight_transaction_text("The club later signed him.")
     assert pre[0].children == "The club later "
 
-    assert tap._format_tx_date(None) == "—"
-    assert tap._format_tx_date(float("nan")) == "—"
+    assert tap._format_tx_date(None) == "-"
+    assert tap._format_tx_date(float("nan")) == "-"
     assert "Jan" in tap._format_tx_date(pd.Timestamp("2024-01-05"))
 
 

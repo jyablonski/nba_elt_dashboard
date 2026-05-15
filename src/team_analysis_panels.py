@@ -30,7 +30,7 @@ def _status_badge_class(status: str) -> str:
 def _extract_eta(description: str) -> str:
     """Best-effort timeline from free-text injury blurbs."""
     if not description or not str(description).strip():
-        return "—"
+        return "-"
     t = str(description)
     if re.search(r"\btoday\b", t, re.I):
         return "today"
@@ -52,7 +52,7 @@ def _extract_eta(description: str) -> str:
     m = re.search(r"(\d+)\s*days?", t, re.I)
     if m:
         return f"est. {m.group(1)} days"
-    return "—"
+    return "-"
 
 
 def build_injury_panel_rows(df: pd.DataFrame) -> list[html.Div]:
@@ -150,7 +150,7 @@ def _transaction_category(tx: str) -> str:
 
 def _format_tx_date(d: Any) -> str:
     if d is None or (isinstance(d, float) and pd.isna(d)):
-        return "—"
+        return "-"
     ts = pd.Timestamp(d)
     return ts.strftime("%b %d").replace(" 0", " ")
 

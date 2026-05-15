@@ -57,7 +57,7 @@ def _slate_date_label() -> str:
 
 
 def _pbp_chart_subtitle() -> str:
-    return "Pick a game below to see how the scoring margin changed over time."
+    return "Pick a game below to view play-by-play."
 
 
 def _slate_summary_bar() -> html.Div:
@@ -269,7 +269,7 @@ def render_game_cards(selected: str | None) -> html.Div:
                 tabIndex=0,
             )
         )
-    return html.Div(cells, className=row_cls)
+    return html.Div(html.Div(cells, className=row_cls), className="recent-games-card-strip-inner")
 
 
 def _pbp_quarter_axis_config(x_min: float) -> tuple[list[float], list[str], list[dict]]:
@@ -333,7 +333,6 @@ def create_simple_players_table():
             table_id="player-recent-games-table",
             columns=RECENT_PLAYERS_SIMPLE_COLUMNS,
             data=[],
-            css=[{"selector": ".show-hide", "rule": "display: none"}],
             cell_selectable=False,
             sort_action="native",
             page_size=12,
@@ -362,7 +361,6 @@ def create_simple_players_table():
         table_id="player-recent-games-table",
         columns=RECENT_PLAYERS_SIMPLE_COLUMNS,
         data=rows,
-        css=[{"selector": ".show-hide", "rule": "display: none"}],
         cell_selectable=False,
         sort_action="native",
         page_size=12,
@@ -447,10 +445,10 @@ recent_games_layout = html.Div(
                     html.Div(
                         id="recent-games-card-strip",
                         children=render_game_cards(_default_sel),
-                        className="mb-3 w-100",
+                        className="recent-games-card-strip mb-3 w-100",
                     ),
                 ],
-                className="recent-games-shell text-center w-100",
+                className="recent-games-shell text-center w-100 py-3",
             ),
             html.Div(
                 [

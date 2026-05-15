@@ -112,7 +112,7 @@ def _team_kpi_stack(*rows: html.Div) -> html.Div:
 team_analysis_layout = html.Div(
     [
         page_hero(
-            title="Per-team trends, health, and roster moves.",
+            title="Per-team trends, health, and roster moves",
         ),
         html.Div(
             [
@@ -256,7 +256,7 @@ def update_mov(selected_team):
 
 @callback(Output("team-player-efficiency-table", "children"), Input("team-selector", "value"))
 def update_team_player_efficiency(selected_team):
-    """Sortable table: PPG, TS%, and role — no on-chart labels."""
+    """Sortable table: PPG, TS%, and role - no on-chart labels."""
     if not selected_team:
         return html.Div("Select a team to load player stats.", className="small text-muted")
 
@@ -280,7 +280,6 @@ def update_team_player_efficiency(selected_team):
         table_id="team-player-efficiency-datatable",
         columns=col_defs,
         data=data,
-        css=[{"selector": ".show-hide", "rule": "display: none"}],
         cell_selectable=False,
         sort_action="native",
         page_size=20,

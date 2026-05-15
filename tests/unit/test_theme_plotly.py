@@ -19,7 +19,7 @@ def test_apply_dark_layout_transparent_plot():
 
 
 def test_apply_dark_layout_plotly_json_contract():
-    """Phase 7b — stable layout keys/colors for dark theme (regression guard)."""
+    """Phase 7b - stable layout keys/colors for dark theme (regression guard)."""
     fig = go.Figure(data=go.Scatter(x=[1, 2], y=[3, 4]))
     apply_dark_layout(fig, transparent_plot=False)
     layout = fig.to_plotly_json()["layout"]

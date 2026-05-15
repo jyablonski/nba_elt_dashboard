@@ -11,6 +11,7 @@ def page_hero(
     *,
     kicker: str | None = None,
     subtitle: str | None = None,
+    title_meta: Sequence | None = None,
     meta: Sequence | None = None,
 ) -> html.Div:
     children: list = []
@@ -18,7 +19,23 @@ def page_hero(
         children.append(
             html.Div(kicker, className="text-uppercase small app-hero-kicker mb-1"),
         )
-    children.append(html.H1(title, className="app-hero-title mb-2"))
+    if title_meta:
+        children.append(
+            html.Div(
+                [
+                    html.H1(title, className="app-hero-title mb-0"),
+                    html.Div(
+                        list(title_meta),
+                        className="d-flex align-items-center flex-shrink-0",
+                    ),
+                ],
+                className=(
+                    "d-flex flex-wrap align-items-center justify-content-center gap-3 gap-md-4 mb-2"
+                ),
+            ),
+        )
+    else:
+        children.append(html.H1(title, className="app-hero-title mb-2"))
     if subtitle:
         children.append(html.P(subtitle, className="text-muted small mb-0"))
     if meta:

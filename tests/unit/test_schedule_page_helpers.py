@@ -19,19 +19,19 @@ def test_truthy_great_value_cases():
 
 def test_fmt_game_date():
     assert "Mar" in schedule_mod._fmt_game_date(pd.Timestamp("2024-03-14"))
-    assert schedule_mod._fmt_game_date(None) == "—"
-    assert schedule_mod._fmt_game_date(float("nan")) == "—"
+    assert schedule_mod._fmt_game_date(None) == "-"
+    assert schedule_mod._fmt_game_date(float("nan")) == "-"
 
 
 def test_fmt_pct():
     assert schedule_mod._fmt_pct(0.876) == "87.6%"
-    assert schedule_mod._fmt_pct(None) == "—"
+    assert schedule_mod._fmt_pct(None) == "-"
 
 
 def test_fmt_rank():
     assert schedule_mod._fmt_rank(3) == "3"
     assert schedule_mod._fmt_rank(9.5) == "9.5"
-    assert schedule_mod._fmt_rank(None) == "—"
+    assert schedule_mod._fmt_rank(None) == "-"
 
 
 def test_create_tonight_games_cards_empty_slate():

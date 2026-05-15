@@ -1,4 +1,4 @@
-"""Phase 7e — assert core design tokens and shell hooks exist in global CSS."""
+"""Phase 7e - assert core design tokens and shell hooks exist in global CSS."""
 
 from pathlib import Path
 

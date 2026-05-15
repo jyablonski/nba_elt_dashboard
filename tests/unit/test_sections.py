@@ -19,6 +19,15 @@ def test_page_hero_with_meta():
     assert "K" in str(h) and "meta" in str(h)
 
 
+def test_page_hero_with_title_meta():
+    h = page_hero(
+        "T",
+        title_meta=[html.Span("logo", id="hero-logo")],
+    )
+    s = str(h)
+    assert "T" in s and "hero-logo" in s
+
+
 def test_section_header_with_aside():
     s = section_header("Main", aside="note")
     assert "Main" in str(s) and "note" in str(s)

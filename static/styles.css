@@ -1,5 +1,5 @@
 /* =============================================================================
-   NBA Dashboard — global styles (v2)
+   NBA Dashboard - global styles (v2)
    Tokens first; components reference variables only.
    ============================================================================= */
 
@@ -82,6 +82,15 @@ h3 {
 .custom-padding {
   padding-left: 15px;
   padding-right: 15px;
+}
+
+.overview-paired-plots-row {
+  align-items: flex-start;
+}
+
+.scoring-efficiency-legend-ts {
+  color: #7ee8d4;
+  font-weight: 600;
 }
 
 /* -----------------------------------------------------------------------------
@@ -277,7 +286,7 @@ h3 {
   text-align: center !important;
 }
 
-/* Row hover: inset ring only — avoids overriding inline conditional backgrounds. */
+/* Row hover: inset ring only - avoids overriding inline conditional backgrounds. */
 .dash-spreadsheet tbody tr:hover .dash-cell {
   box-shadow: inset 0 0 0 1px rgba(127, 232, 212, 0.4);
 }
@@ -969,6 +978,26 @@ img[src*="/nba"] {
 
 .recent-games-card-strip {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.recent-games-card-strip-inner {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.recent-games-card-strip-inner > .recent-games-card-row--wrap {
+  width: auto;
+  max-width: 100%;
+}
+
+.recent-games-card-strip-inner > .recent-games-card-row--scroll {
+  width: 100%;
+  max-width: 100%;
 }
 
 .recent-games-card-row {
@@ -988,6 +1017,7 @@ img[src*="/nba"] {
   padding-bottom: 8px;
   align-items: stretch;
   scrollbar-gutter: stable;
+  justify-content: safe center;
 }
 
 .recent-games-card-row--scroll .recent-games-card {
@@ -997,19 +1027,20 @@ img[src*="/nba"] {
 
 /* Few games: wider minimum cell so cards are not cramped */
 .recent-games-card-row--wrap {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 14px;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: stretch;
-  max-width: 100%;
+  gap: 14px;
+  width: 100%;
 }
 
 .recent-games-card-row--wrap .recent-games-card {
   box-sizing: border-box;
+  flex: 0 1 320px;
   width: 100%;
+  min-width: 200px;
   max-width: 320px;
-  justify-self: center;
 }
 
 .recent-games-card {
@@ -1236,7 +1267,7 @@ img[src*="/nba"] {
 }
 
 /* -----------------------------------------------------------------------------
-   Team Analysis — injury + transaction panels
+   Team Analysis - injury + transaction panels
    ----------------------------------------------------------------------------- */
 
 .team-panel {

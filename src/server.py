@@ -2,7 +2,7 @@ import os
 
 import dash
 import dash_bootstrap_components as dbc
-from dash import html
+from dash import Input, Output, html
 
 from src.pages.about import about_layout
 from src.pages.overview import overview_layout
@@ -109,6 +109,29 @@ app.layout = dbc.Container(
             className="mx-0 g-0",
         ),
     ],
+)
+
+app.clientside_callback(
+    """
+    function(clickData) {
+        if (!clickData || !clickData.points || !clickData.points.length) {
+            return window.dash_clientside.no_update;
+        }
+        var cd = clickData.points[0].customdata;
+        if (!cd || !cd.length) {
+            return window.dash_clientside.no_update;
+        }
+        var url = cd[0];
+        if (typeof url !== "string" || !url.startsWith("http")) {
+            return window.dash_clientside.no_update;
+        }
+        window.open(url, "_blank", "noopener,noreferrer");
+        return window.dash_clientside.no_update;
+    }
+    """,
+    Output("social-media-top-threads-dummy", "children"),
+    Input("social-media-top-threads-graph", "clickData"),
+    prevent_initial_call=True,
 )
 
 if __name__ == "__main__":

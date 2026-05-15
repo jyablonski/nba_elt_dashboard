@@ -59,7 +59,7 @@ def _truthy_great_value(raw: object) -> bool:
 
 def _fmt_game_date(val: Any) -> str:
     if val is None or (isinstance(val, float) and pd.isna(val)):
-        return "—"
+        return "-"
     try:
         return pd.Timestamp(val).strftime("%a %b %d").replace(" 0", " ")
     except ValueError, TypeError, OSError:
@@ -68,23 +68,23 @@ def _fmt_game_date(val: Any) -> str:
 
 def _fmt_pct(val: Any) -> str:
     if val is None or (isinstance(val, float) and pd.isna(val)):
-        return "—"
+        return "-"
     try:
         return f"{float(val):.1%}"
     except TypeError, ValueError:
-        return "—"
+        return "-"
 
 
 def _fmt_rank(val: Any) -> str:
     if val is None or (isinstance(val, float) and pd.isna(val)):
-        return "—"
+        return "-"
     try:
         x = float(val)
         if x == int(x):
             return str(int(x))
         return f"{x:.1f}"
     except TypeError, ValueError:
-        return "—"
+        return "-"
 
 
 def create_tonight_games_cards() -> html.Div:
@@ -108,8 +108,8 @@ def create_tonight_games_cards() -> html.Div:
     for _, row in df.iterrows():
         home_gv = _truthy_great_value(row.get("home_is_great_value"))
         away_gv = _truthy_great_value(row.get("away_is_great_value"))
-        away_line = str(row.get("away_team_odds") or row.get("away_team") or "—")
-        home_line = str(row.get("home_team_odds") or row.get("home_team") or "—")
+        away_line = str(row.get("away_team_odds") or row.get("away_team") or "-")
+        home_line = str(row.get("home_team_odds") or row.get("home_team") or "-")
 
         meta_children: list = []
         if slate_date_label is None:
@@ -117,7 +117,7 @@ def create_tonight_games_cards() -> html.Div:
                 html.Span(_fmt_game_date(row.get("game_date")), className="schedule-card-date"),
             )
         meta_children.append(
-            html.Span(str(row.get("start_time") or "—"), className="schedule-card-time"),
+            html.Span(str(row.get("start_time") or "-"), className="schedule-card-time"),
         )
         meta_cls = "schedule-card-meta"
         if slate_date_label is not None:
@@ -211,7 +211,6 @@ def create_full_schedule_table():
         table_id="schedule-full-table",
         columns=future_schedule_columns,
         data=schedule_season_remaining_df.to_dict("records"),
-        css=[{"selector": ".show-hide", "rule": "display: none"}],
         cell_selectable=False,
         sort_action="native",
         page_size=15,

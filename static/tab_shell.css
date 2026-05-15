@@ -1,5 +1,5 @@
 /* =============================================================================
-   Shell tab rail — under .nba-shell-tabs (see server.py).
+   Shell tab rail - under .nba-shell-tabs (see server.py).
    dbc.Tabs renders: TabContainer > ul#tabs.nav.nav-tabs + .tab-content
    Bootswatch SLATE ends with .nav-tabs .nav-link { background-image: linear-gradient }
    Assets load after external_stylesheets; use !important on competing props.
@@ -63,7 +63,7 @@
   background-image: none !important;
   filter: none !important;
   border: none !important;
-  /* No per-tab rounding — avoids “floating pill” look vs one bar */
+  /* No per-tab rounding - avoids “floating pill” look vs one bar */
   border-radius: 0 !important;
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;

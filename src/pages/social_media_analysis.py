@@ -17,27 +17,28 @@ from src.database import (
 )
 from src.data import team_names_abbreviations
 from src.social_media_insights import (
-    daily_weighted_sentiment,
-    default_team,
     normalized_daily_volume,
     snapshot_kpis,
+    top_flair_share,
     top_flairs,
     top_keywords,
 )
+from src.social_media_plots import top_threads_engagement_figure
 from src.theme.plotly import TRACE_HOVERLABEL, apply_dark_layout
 from src.ui.cards import kpi_card as create_kpi_card
 from src.ui.sections import page_hero, section_header
 from src.ui.tables import dark_datatable
 
 GAME_OUTCOME_COLORS = {
-    "W": "#3fb7d9",
-    "L": "#e04848",
-    "NO GAME": "#383b3d",
+    "W": "#45c2e6",
+    "L": "#e85c5c",
+    "NO GAME": "#7a8a9c",
 }
 
 TEAM_OPTIONS = [{"label": team, "value": team} for team in team_names_abbreviations]
 
-DEFAULT_TEAM = default_team(reddit_sentiment_time_series_df)
+# Default for "Comments vs prior game" team chart (dropdown + initial figure)
+_SOCIAL_PRIOR_GAME_DEFAULT_TEAM = "LAL"
 
 COMMENTS_TOOLTIP_CSS = [
     {
@@ -66,14 +67,13 @@ reddit_display_df["comment_preview"] = reddit_display_df["comment"].map(_comment
 _KPIS = snapshot_kpis(reddit_comments_df, reddit_recent_keywords_df, social_media_aggs_df)
 
 
-def _avg_comment_score() -> tuple[str, str | None]:
-    s = reddit_display_df.get("score")
-    if s is None or len(s) == 0:
-        return "—", None
-    v = float(pd.to_numeric(s, errors="coerce").mean())
-    if pd.isna(v):
-        return "—", None
-    return f"{v:,.1f}", "Mean upvotes on sampled comments"
+def _top_flair_share_kpi() -> tuple[str, str, str | None]:
+    pct, name = top_flair_share(reddit_comments_df)
+    if pct is None or name is None:
+        return "-", "Top flair share", None
+    headline = f"{pct:.1f}%"
+    sub = f"{name} - share of sampled comments"
+    return headline, "Top flair share", sub
 
 
 def create_insight_kpi(*, headline: str, title: str, subtitle: str | None = None) -> html.Div:
@@ -107,10 +107,42 @@ def _empty_fig(message: str) -> go.Figure:
     return fig
 
 
+# Volume area: brighter line + airy fill (default px blue is too heavy on dark UI).
+_VOLUME_LINE = "rgb(122, 198, 242)"
+_VOLUME_FILL = "rgba(122, 198, 242, 0.18)"
+# Moving average: amber accent (distinct from blue volume / teal wins).
+_MA7_LINE_COLOR = "rgba(255, 159, 67, 0.95)"  # #ff9f43
+
+
+def _add_7day_moving_avg(
+    fig: go.Figure,
+    *,
+    x: pd.Series,
+    y: pd.Series,
+    hover_y_fmt: str,
+    name: str = "7-day moving avg",
+) -> None:
+    """Overlay a 7-day rolling mean (min_periods=1 so early dates still show partial windows)."""
+    ys = pd.to_numeric(y, errors="coerce")
+    ma = ys.rolling(window=7, min_periods=1).mean()
+    fig.add_trace(
+        go.Scatter(
+            x=x,
+            y=ma,
+            mode="lines",
+            name=name,
+            line=dict(width=2.75, color=_MA7_LINE_COLOR),
+            hoverlabel=TRACE_HOVERLABEL,
+            hovertemplate=f"%{{x}}<br>{name}: %{{y:{hover_y_fmt}}}<extra></extra>",
+        )
+    )
+
+
 def build_league_volume_figure() -> go.Figure:
     d = normalized_daily_volume(reddit_sentiment_time_series_df, reddit_comments_df)
     if d.empty:
         return _empty_fig("No daily volume to plot")
+    d = d.sort_values("scrape_date")
     fig = px.area(
         d,
         x="scrape_date",
@@ -118,7 +150,10 @@ def build_league_volume_figure() -> go.Figure:
         title="League-wide comment volume",
     )
     fig.update_traces(
-        hoverlabel=TRACE_HOVERLABEL, hovertemplate="%{x}<br>%{y:,} comments<extra></extra>"
+        hoverlabel=TRACE_HOVERLABEL,
+        hovertemplate="%{x}<br>%{y:,} comments<extra></extra>",
+        line=dict(color=_VOLUME_LINE, width=2),
+        fillcolor=_VOLUME_FILL,
     )
     apply_dark_layout(fig, transparent_plot=True)
     fig.update_layout(
@@ -127,33 +162,12 @@ def build_league_volume_figure() -> go.Figure:
         title={"x": 0.5, "xanchor": "center"},
         margin=dict(l=48, r=24, t=48, b=48),
     )
+    _add_7day_moving_avg(fig, x=d["scrape_date"], y=d["volume"], hover_y_fmt=",.0f")
     return fig
 
 
-def build_league_sentiment_figure() -> go.Figure:
-    d = daily_weighted_sentiment(reddit_sentiment_time_series_df, reddit_comments_df)
-    if d.empty:
-        return _empty_fig("No sentiment trend to plot")
-    fig = px.line(
-        d,
-        x="scrape_date",
-        y="sentiment",
-        title="League sentiment (volume-weighted when available)",
-        markers=True,
-    )
-    fig.update_traces(
-        hoverlabel=TRACE_HOVERLABEL, hovertemplate="%{x}<br>compound %{y:.3f}<extra></extra>"
-    )
-    apply_dark_layout(fig, transparent_plot=True)
-    fig.update_layout(
-        xaxis_title="Date",
-        yaxis_title="Avg compound",
-        yaxis=dict(range=[-1, 1], tickformat=".2f"),
-        title={"x": 0.5, "xanchor": "center"},
-        margin=dict(l=48, r=24, t=48, b=48),
-    )
-    fig.add_hline(y=0, line_dash="dot", line_color="rgba(255,255,255,0.25)", line_width=1)
-    return fig
+def build_top_threads_engagement_figure() -> go.Figure:
+    return top_threads_engagement_figure(reddit_comments_df)
 
 
 def build_top_keywords_figure() -> go.Figure:
@@ -211,7 +225,6 @@ def create_keywords_table():
         table_id="keywords-table",
         columns=reddit_keyword_columns,
         data=reddit_recent_keywords_df.to_dict("records"),
-        css=[{"selector": ".show-hide", "rule": "display: none"}],
         cell_selectable=False,
         filter_action="native",
         sort_action="native",
@@ -274,8 +287,14 @@ def _team_outcome_figure(selected_team: str | None) -> go.Figure:
     if filtered_data.empty:
         return _empty_fig(f"No flair timeline rows for {selected_team}")
 
+    fd = filtered_data.copy()
+    fd["scrape_date"] = pd.to_datetime(fd["scrape_date"])
+    daily_total = (
+        fd.groupby("scrape_date", as_index=False)["num_comments"].sum().sort_values("scrape_date")
+    )
+
     fig = px.bar(
-        filtered_data,
+        fd,
         x="scrape_date",
         y="num_comments",
         color="game_outcome",
@@ -285,7 +304,7 @@ def _team_outcome_figure(selected_team: str | None) -> go.Figure:
             "num_comments": "Number of Comments",
             "game_outcome": "Previous Day's Game Outcome",
         },
-        title=f"{selected_team} — comments by prior game outcome",
+        title=f"{selected_team} - comments by prior game outcome",
     )
 
     apply_dark_layout(fig, transparent_plot=True)
@@ -305,10 +324,18 @@ def _team_outcome_figure(selected_team: str | None) -> go.Figure:
         ),
     )
 
+    _add_7day_moving_avg(
+        fig,
+        x=daily_total["scrape_date"],
+        y=daily_total["num_comments"],
+        hover_y_fmt=",.0f",
+        name="7-day avg (daily total)",
+    )
+
     return fig
 
 
-_TEAM_CHART_INIT = _team_outcome_figure(DEFAULT_TEAM)
+_TEAM_CHART_INIT = _team_outcome_figure(_SOCIAL_PRIOR_GAME_DEFAULT_TEAM)
 
 
 def create_slim_comments_table():
@@ -356,17 +383,17 @@ def _kpi_row() -> list:
     if pdiff is not None:
         diff_txt = f"{pdiff:+.1f}% vs rolling average snapshot"
 
-    avg_pts, avg_sub = _avg_comment_score()
+    share_h, share_title, share_sub = _top_flair_share_kpi()
     cards = [
         create_insight_kpi(
-            headline=f"{rt:,}" if rt is not None else "—",
+            headline=f"{rt:,}" if rt is not None else "-",
             title="Reddit comments in latest scrape",
             subtitle=diff_txt,
         ),
         create_insight_kpi(
-            headline=avg_pts,
-            title="Avg comment score",
-            subtitle=avg_sub,
+            headline=share_h,
+            title=share_title,
+            subtitle=share_sub,
         ),
     ]
     tw = _KPIS["top_word"]
@@ -382,13 +409,13 @@ def _kpi_row() -> list:
     else:
         cards.append(
             create_insight_kpi(
-                headline="—", title="Top trending token", subtitle="No keyword table rows"
+                headline="-", title="Top trending token", subtitle="No keyword table rows"
             )
         )
     n_flairs = _KPIS["distinct_flairs"]
     cards.append(
         create_insight_kpi(
-            headline=f"{n_flairs:,}" if n_flairs is not None else "—",
+            headline=f"{n_flairs:,}" if n_flairs is not None else "-",
             title="Distinct flairs in sample",
             subtitle="Fan identity diversity in this pull",
         )
@@ -400,14 +427,11 @@ social_media_analysis_layout = html.Div(
     [
         page_hero(
             title="r/NBA Social Pulse",
-            meta=[
-                html.Div(
-                    html.Img(
-                        src="../assets/reddit.png",
-                        alt="Reddit",
-                        style={"height": "48px", "width": "48px"},
-                    ),
-                    className="d-flex justify-content-center",
+            title_meta=[
+                html.Img(
+                    src="../assets/reddit.png",
+                    alt="Reddit",
+                    style={"height": "48px", "width": "48px"},
                 ),
             ],
         ),
@@ -423,9 +447,14 @@ social_media_analysis_layout = html.Div(
                     className="mb-3",
                 ),
                 dbc.Col(
-                    dcc.Graph(
-                        figure=build_league_sentiment_figure(), config={"displayModeBar": False}
-                    ),
+                    [
+                        dcc.Graph(
+                            id="social-media-top-threads-graph",
+                            figure=build_top_threads_engagement_figure(),
+                            config={"displayModeBar": False},
+                        ),
+                        html.Div(id="social-media-top-threads-dummy", style={"display": "none"}),
+                    ],
                     xs=12,
                     lg=6,
                     className="mb-3",
@@ -465,7 +494,7 @@ social_media_analysis_layout = html.Div(
                                 dcc.Dropdown(
                                     id="social-media-team-selector",
                                     options=TEAM_OPTIONS,
-                                    value=DEFAULT_TEAM,
+                                    value=_SOCIAL_PRIOR_GAME_DEFAULT_TEAM,
                                     clearable=False,
                                     className="dash-dropdown",
                                     style={"minWidth": "220px", "maxWidth": "320px"},
