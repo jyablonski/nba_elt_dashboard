@@ -1,0 +1,54 @@
+name: Python quality
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "src/**/*.py"
+      - "tests/**/*.py"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".github/workflows/python-quality.yml"
+      - ".github/workflows/ci_cd.yaml"
+  pull_request:
+    branches: [master]
+    paths:
+      - "src/**/*.py"
+      - "tests/**/*.py"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".github/workflows/python-quality.yml"
+      - ".github/workflows/ci_cd.yaml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  UV_VERSION: "0.11.14"
+  PYTHON_VERSION: "3.14"
+
+jobs:
+  quality:
+    name: Ruff and ty
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: ${{ env.UV_VERSION }}
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --locked --all-groups
+
+      - name: Ruff check
+        run: uv run ruff check src tests
+
+      - name: Ruff format
+        run: uv run ruff format --check src tests
+
+      - name: ty
+        run: uv run ty check --output-format github

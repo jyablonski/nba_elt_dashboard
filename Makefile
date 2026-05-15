@@ -1,16 +1,25 @@
-.PHONY: docker-build
-docker-build:
+COVERAGE_THRESHOLD ?= 95
+
+.PHONY: build
+build:
 	docker build -f docker/Dockerfile -t nba_elt_dashboard_local .
 
-.PHONY: docker-build-test
-docker-build-test:
-	docker build -f docker/Dockerfile.test -t nba_elt_dashboard_local_test .
+.PHONY: test
+test:
+	uv sync --group test
+	uv run pytest --color=yes --cov=src --cov-report=term-missing \
+		--cov-fail-under=$(COVERAGE_THRESHOLD) tests/
+
+.PHONY: test-unit
+test-unit:
+	uv sync --group test
+	uv run pytest --color=yes tests/unit
 
 .PHONY: ci-test
 ci-test:
-	@make start-postgres
-	@poetry run pytest --cov --cov-report xml
-	@make stop-postgres
+	uv sync --group test
+	uv run pytest --color=yes --cov=src --cov-report=term-missing \
+		--cov-fail-under=$(COVERAGE_THRESHOLD) tests/
 
 .PHONY: up
 up:
@@ -20,23 +29,22 @@ up:
 down:
 	@docker compose -f docker/docker-compose-local.yml down
 
+.PHONY: restart
+restart:
+	@docker compose -f docker/docker-compose-local.yml restart dash_app
+
 .PHONY: follow-logs
 follow-logs:
 	@docker compose -f docker/docker-compose-local.yml logs dash_app --follow
 
-# idk why but makefile was returning w/ error 137 on successful test runs, so this just skips that error
-.PHONY: test
-test:
-	@docker compose -f docker/docker-compose-test.yml down
-	@docker compose -f docker/docker-compose-test.yml up --exit-code-from dash_app_test_runner || [ $$? -eq 137 ]
-
 .PHONY: lint
 lint:
-	@if [ -z "$$VIRTUAL_ENV" ]; then \
-        echo "Virtual environment not activated. Activating Poetry environment..."; \
-        poetry run black .; \
-        poetry run ruff check .; \
-    else \
-        black .; \
-        ruff check .; \
-    fi
+	uv sync --all-groups
+	uv run ruff check .
+	uv run ruff format --check .
+
+.PHONY: format
+format:
+	uv sync --all-groups
+	uv run ruff format .
+	uv run ruff check --fix .

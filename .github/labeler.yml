@@ -3,10 +3,10 @@ source_code:
   - tests/*
 
 cd:
-  - .github/workflows/deploy.yml
+  - .github/workflows/ci_cd.yaml
 
 ci:
-  - .github/workflows/test.yml
+  - .github/workflows/ci_cd.yaml
 
 dependencies:
   - uv.lock

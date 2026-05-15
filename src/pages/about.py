@@ -3,15 +3,15 @@ from datetime import datetime
 
 from dash import html
 
+from src.ui.sections import page_hero
+
 GIT_COMMIT = os.getenv("GIT_COMMIT", "unknown")
 
 about_layout = html.Div(
     [
-        html.Link(
-            rel="stylesheet",
-            href="../assets/styles.css",
+        page_hero(
+            title="About This Project",
         ),
-        html.H1("About this Project", style={"text-align": "left"}),
         html.P(
             [
                 "This dashboard shows up to date information about the current NBA Season. "

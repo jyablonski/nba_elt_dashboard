@@ -11,8 +11,12 @@ def test_pbp_plot():
     first_timestamp = "11:33"
 
     assert isinstance(output, go.Figure)
-    assert output["layout"]["xaxis"]["title"]["text"] == "Game Progress"
+    assert output.layout.xaxis.title.text == "Quarter"
+    tt = output.layout.xaxis.ticktext
+    assert tt is not None and "Q1" in tt
     assert output["layout"]["yaxis"]["title"]["text"] == "Score Differential"
+    title = output.layout.title
+    assert title is None or getattr(title, "text", None) in (None, "")
     assert output["data"][0]["customdata"][0][0] == first_play
     assert output["data"][0]["customdata"][0][1] == first_timestamp
 

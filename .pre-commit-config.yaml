@@ -1,10 +1,20 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    # Ruff version.
-    rev: v0.12.7
+    rev: v0.15.13
     hooks:
-      - id: ruff
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.0
+      - id: ruff-check
+      - id: ruff-format
+
+  - repo: local
     hooks:
-      - id: pyupgrade
+      - id: ty
+        name: ty check (scoped; requires uv + dev deps)
+        language: system
+        entry: uv run ty check
+        pass_filenames: false
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace

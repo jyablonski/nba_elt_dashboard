@@ -1,13 +1,18 @@
 from dash import dcc, html
 import dash_bootstrap_components as dbc
 
+from src.ui.sections import page_hero, section_header
+
 player_analysis_layout = html.Div(
     [
+        page_hero(
+            title="Player-level views (work in progress).",
+        ),
         dbc.Row(
             [
                 dbc.Col(
                     [
-                        html.H3("Select a Player", style={"text-align": "left"}),
+                        section_header("Select a player"),
                         dcc.Dropdown(
                             id="player-selector",
                             options=[
@@ -19,6 +24,7 @@ player_analysis_layout = html.Div(
                             ],
                             value="tonights-games",
                             clearable=False,
+                            className="dash-dropdown",
                         ),
                     ],
                     width=3,
@@ -45,7 +51,7 @@ player_analysis_layout = html.Div(
                     [
                         dbc.Col(
                             [
-                                html.H3("League Average Margins of Victory"),
+                                section_header("League average margins of victory"),
                                 dcc.Graph(
                                     id="player-plot-1",
                                 ),
@@ -54,7 +60,7 @@ player_analysis_layout = html.Div(
                         ),
                         dbc.Col(
                             [
-                                html.H3("Team Schedule Analysis"),
+                                section_header("Team schedule analysis"),
                                 dcc.Graph(
                                     id="player-plot-2",
                                 ),

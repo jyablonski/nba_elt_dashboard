@@ -1,6 +1,6 @@
-# NBA ELT Dashboard
+# NBA Dashboard
 
-![Tests](https://github.com/jyablonski/nba_elt_dashboard/actions/workflows/test.yml/badge.svg) ![Deployment](https://github.com/jyablonski/nba_elt_dashboard/actions/workflows/vm_deploy.yml/badge.svg)
+![CI](https://github.com/jyablonski/nba_elt_dashboard/actions/workflows/ci.yaml/badge.svg) ![Python quality](https://github.com/jyablonski/nba_elt_dashboard/actions/workflows/python-quality.yml/badge.svg) ![Deployment](https://github.com/jyablonski/nba_elt_dashboard/actions/workflows/vm_deploy.yml/badge.svg)
 
 The NBA Dashboard has the following functionalities:
 
@@ -20,11 +20,7 @@ Clone the Repo & run `make up` which spins up the App locally served [here](http
 
 When finished run `make down`.
 
-## Tests
-
-To run tests locally, run `make test`.
-
-The same test suite runs on every commit to any PR
+To run the full test suite, run `make test`.
 
 ## Project
 

@@ -8,6 +8,13 @@ dev:
   database: postgres
   schema: gold
   port: 5432
+ci:
+  host: ${RDS_HOST}
+  user: ${RDS_USER}
+  pass: postgres
+  database: postgres
+  schema: gold
+  port: ${RDS_PORT}
 docker_dev:
   host: postgres
   user: ${RDS_USER}

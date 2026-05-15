@@ -6,6 +6,10 @@ on:
     - cron: "15 12 * * *" # Run daily at 12:15 UTC
   workflow_dispatch: # Optional manual trigger
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   refresh_gcp_vm:
     runs-on: ubuntu-latest

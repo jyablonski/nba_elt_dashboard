@@ -1,33 +1,300 @@
+/* =============================================================================
+   NBA Dashboard - global styles (v2)
+   Tokens first; components reference variables only.
+   ============================================================================= */
+
+:root {
+  /* Typography */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+
+  /* Surfaces */
+  --bg: #0a0c0b;
+  --bg-elevated: #111413;
+  --surface-raised: #15171a;
+  /* Schedule / DataTable: keep cell fill identical to pre-token layout */
+  --surface-cell: #383b3d;
+  --surface-header: #222222;
+  --surface-hover: #5e6063;
+
+  /* Text */
+  --text: #e8e6e3;
+  --text-muted: #8d9694;
+  --text-accent: #7ee8d4;
+
+  /* Brand & semantics */
+  --accent: #4fd1c5;
+  --accent-muted: #3aa89e;
+  --series-secondary: #6b9ef0;
+  --danger: #e04848;
+  --season-high: #a78bfa;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.5);
+
+  /* Spacing scale (rem) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+}
+
+/* -----------------------------------------------------------------------------
+   Base
+   ----------------------------------------------------------------------------- */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+  font-family: var(--font-sans);
+  background-color: var(--bg);
+}
+
+h1,
+h3 {
+  text-align: center;
+}
+
+/* -----------------------------------------------------------------------------
+   Bootstrap / DBC (cards)
+   App shell tab rail lives in static/tab_shell.css (.nba-shell-tabs) so SLATE
+   nav-tab defaults are not overridden globally.
+   ----------------------------------------------------------------------------- */
+
+.card {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+}
+
+/* -----------------------------------------------------------------------------
+   Layout helpers (used in pages)
+   ----------------------------------------------------------------------------- */
+
 .custom-padding {
   padding-left: 15px;
   padding-right: 15px;
 }
 
-.player-headshot-container {
-  max-height: 25px;
-  max-width: 25px;
-  width: 32%;
-  display: inline-block;
-  margin-right: 30px;
+.overview-paired-plots-row {
+  align-items: flex-start;
 }
 
-body {
-  font-size: 15px;
-  color: rgb(230, 224, 224);
-  font-family: Arial, Helvetica, sans-serif;
+.scoring-efficiency-legend-ts {
+  color: #7ee8d4;
+  font-weight: 600;
 }
 
-/* THIS IS BREAKING CONDITIONAL FORMATTING SCHEDULE */
-/* DASH TABLE CELLS */
+/* -----------------------------------------------------------------------------
+   KPI strip (Overview, Team Analysis, Social, Recent Games)
+   ----------------------------------------------------------------------------- */
+
+.kpi-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-3);
+  align-items: stretch;
+  width: 100%;
+  margin: 0 0 1.25rem;
+}
+
+.kpi-container > .kpi-card {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  min-height: 8.5rem;
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.kpi-card__value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-accent);
+  line-height: 1.2;
+  margin-bottom: var(--space-2);
+}
+
+.kpi-card__title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.35;
+  margin-bottom: var(--space-1);
+}
+
+.kpi-card__sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+/* Selector / tool card in Team Analysis strip */
+.kpi-container > .kpi-card.kpi-card--tool {
+  align-items: stretch;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.kpi-container > .kpi-card.kpi-card--tool .dash-dropdown {
+  width: 100%;
+}
+
+/* Left-aligned metric lists (Team Analysis dynamic boxes) */
+.kpi-container > .kpi-card.kpi-card--stat {
+  align-items: stretch;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.kpi-card__section {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: var(--space-3);
+  width: 100%;
+}
+
+.kpi-card__row {
+  margin-bottom: var(--space-1);
+  width: 100%;
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+/* Team Analysis: label / value KPI rows */
+.kpi-container > .kpi-card.team-kpi-card {
+  min-height: 9rem;
+  gap: var(--space-1);
+}
+
+.team-kpi-card__title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+  width: 100%;
+}
+
+.team-kpi-stat-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.team-kpi-stat-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.team-kpi-stat-row:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.team-kpi-stat-lbl {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.team-kpi-stat-val {
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  text-align: right;
+  flex: 0 0 auto;
+}
+
+.team-kpi-stat-val--accent {
+  color: var(--text-accent);
+}
+
+/* Social media: platform picker lives in the hero; row is two volume KPIs only. */
+.social-media-kpi-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.social-media-kpi-row .kpi-card {
+  width: auto;
+  flex: 1 1 280px;
+  max-width: 520px;
+  margin: 0;
+}
+
+.social-media-details {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+  background-color: var(--surface-raised);
+}
+
+.social-media-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+}
+
+.social-media-details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* -----------------------------------------------------------------------------
+   Dash DataTable
+   Row hover uses an inset ring (not a solid !important fill) so
+   style_data_conditional cell colors stay visible. Re-check Schedule conditional
+   cells after changing hover or base td rules.
+   ----------------------------------------------------------------------------- */
+
 .dash-spreadsheet td {
-  background-color: #383b3d;
+  background-color: var(--surface-cell);
   border-color: #383b3d00 !important;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: var(--font-sans);
   text-align: center !important;
 }
 
-table tr:hover td.dash-cell {
-  background-color: #5e6063 !important;
+/* Row hover: inset ring only - avoids overriding inline conditional backgrounds. */
+.dash-spreadsheet tbody tr:hover .dash-cell {
+  box-shadow: inset 0 0 0 1px rgba(127, 232, 212, 0.4);
+}
+
+.dash-spreadsheet .dash-header-cell,
+.dash-spreadsheet .dash-cell {
+  white-space: normal;
+  word-break: break-word;
 }
 
 .dash-spreadsheet-container table {
@@ -36,118 +303,1098 @@ table tr:hover td.dash-cell {
   --selected-color: #3c3c3c !important;
 }
 
-/* table tr td.dash-cell:active {
-    background-color: #3fb7d9 !important;
-} */
-
-/* DASH TABLE COLUMNS */
 .dash-spreadsheet th {
-  background-color: #222222 !important;
-  border: 1px solid rgb(0, 0, 0) !important;
+  background-color: var(--surface-header) !important;
+  border: 1px solid var(--border-strong) !important;
   text-align: center !important;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: var(--font-sans);
 }
 
-/* dash table border */
 .dash-spreadsheet {
-  border: 1px solid rgb(0, 0, 0) !important;
+  border: 1px solid var(--border-strong) !important;
 }
 
-.kpi-card {
-  width: 25%;
-  border: 2px solid #000000;
-  padding: 10px;
-  margin: 5px;
-  text-align: center;
-  background-color: #15171a;
-}
-
-h1,
-h3 {
-  text-align: center;
-}
+/* -----------------------------------------------------------------------------
+   Dash / react-select dropdowns
+   ----------------------------------------------------------------------------- */
 
 .Select-control {
-  background-color: rgb(25, 25, 25) !important;
-  color: white;
+  background-color: var(--surface-header) !important;
+  color: var(--text) !important;
 }
 
 .Select-menu-outer {
-  background-color: rgb(25, 25, 25);
-  color: white;
+  background-color: var(--surface-header);
+  color: var(--text);
 }
 
 .Select-value-label {
-  color: white !important;
+  color: var(--text) !important;
 }
 
-/* player images  */
+/* -----------------------------------------------------------------------------
+   Embedded images (player headshots, team logos in tables)
+   ----------------------------------------------------------------------------- */
+
 img[src*="/nba"] {
+  display: block;
   width: 150px;
   height: 100px;
-  display: block;
   margin: 0 auto;
-
-  /* center that mfer */
   transform: translateY(4px);
 }
 
-/* team logos */
-
 .team-data-table img {
+  display: block;
   max-width: 75px;
   max-height: 75px;
-
-  display: block;
   margin: 0 auto;
-
-  /* center that mfer */
   transform: translateY(8px);
 }
 
-.rest-api-link {
+/* -----------------------------------------------------------------------------
+   App shell (Phase 2)
+   ----------------------------------------------------------------------------- */
+
+.app-shell {
+  background-color: var(--bg);
+  min-height: 100vh;
+}
+
+.app-tab-badge {
+  background-color: var(--surface-cell) !important;
+  color: var(--text) !important;
+  font-size: 0.65rem;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+.app-hero-kicker {
+  color: var(--text-accent);
+  letter-spacing: 0.06em;
+}
+
+.app-hero-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.app-section-header h4 {
+  text-align: center;
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* -----------------------------------------------------------------------------
+   Team Analysis page
+   ----------------------------------------------------------------------------- */
+
+.team-analysis-page {
+  max-width: min(1920px, 100%);
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.team-analysis-inner {
+  width: 100%;
+}
+
+.team-analysis-section-kicker {
+  letter-spacing: 0.12em;
+  font-weight: 600;
+}
+
+.team-analysis-panels-row .team-panel {
+  height: 100%;
+}
+
+.team-analysis-players-table-wrap {
+  width: 100%;
+  min-height: 280px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  background-color: var(--bg-elevated);
+}
+
+.team-analysis-players-table-wrap .dash-spreadsheet-container {
+  font-family: var(--font-sans) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   Schedule page
+   ----------------------------------------------------------------------------- */
+
+.schedule-page {
+  max-width: min(1920px, 100%);
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.schedule-intel-bar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+}
+
+.schedule-intel-bar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 20px;
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-raised);
+}
+
+.schedule-intel-muted {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.schedule-intel-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.schedule-intel-dk {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+}
+
+.schedule-intel-logo {
+  display: block;
+  border-radius: 4px;
+}
+
+.schedule-intel-dot {
   display: inline-block;
-  padding: 10px 10px;
-  background-color: rgb(51, 45, 53);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--text-accent);
+  flex-shrink: 0;
+}
+
+.schedule-intel-legend {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.schedule-panel {
+  margin-bottom: var(--space-4);
+  padding: 18px 20px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-raised);
+}
+
+.schedule-panel--analysis {
+  margin-bottom: 0;
+}
+
+.schedule-panel-kicker {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-accent);
+  margin-bottom: 4px;
+}
+
+.schedule-panel-head-text {
+  margin-bottom: 14px;
+}
+
+.schedule-panel-lede {
+  max-width: 42rem;
+}
+
+.schedule-panel-lede--center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.schedule-field-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.schedule-toolbar {
+  max-width: 400px;
+  margin-bottom: 16px;
+}
+
+.schedule-toolbar--analysis {
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.schedule-toolbar--analysis .schedule-field-label {
+  text-align: center;
+}
+
+.schedule-panel-body {
+  min-height: 120px;
+}
+
+.schedule-dropdown {
+  width: 100%;
+}
+
+.schedule-datatable-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.schedule-datatable-wrap .dash-spreadsheet-container {
+  font-family: var(--font-sans) !important;
+}
+
+.schedule-empty {
+  padding: 24px;
+  text-align: center;
+}
+
+/* Tonight cards */
+.schedule-tonight-slate {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.schedule-tonight-slate-date {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  padding: 0 2px;
+}
+
+.schedule-tonight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: 14px;
+}
+
+.schedule-tonight-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 16px 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-elevated);
+}
+
+.schedule-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.schedule-card-meta--solo-time {
+  justify-content: flex-end;
+}
+
+.schedule-card-date {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.schedule-card-time {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.schedule-card-matchup {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: stretch;
+  gap: 8px 10px;
+}
+
+.schedule-card-team {
+  font-size: 0.82rem;
+  line-height: 1.35;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-raised);
+  color: var(--text);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
+}
+
+.schedule-card-team--away {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.schedule-card-team--home {
+  text-align: left;
+  justify-content: flex-start;
+}
+
+.schedule-card-team--value {
+  border-color: rgba(126, 232, 212, 0.45);
+  background-color: rgba(126, 232, 212, 0.12);
+  box-shadow: 0 0 0 1px rgba(126, 232, 212, 0.08);
+}
+
+.schedule-card-at {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  align-self: center;
+}
+
+.schedule-card-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 2px;
+  padding: 10px 0 2px;
+  border-top: 1px solid var(--border-subtle);
+  align-self: stretch;
+  width: 100%;
+}
+
+@media (max-width: 360px) {
+  .schedule-card-stats {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-top: 8px;
+  }
+
+  .schedule-card-stat {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 10px 8px !important;
+  }
+
+  .schedule-card-stat:last-child {
+    border-bottom: none;
+  }
+}
+
+.schedule-card-stat {
+  padding: 8px 10px;
+  border-radius: 0;
+  background-color: transparent;
+  border: none;
+  border-right: 1px solid var(--border-subtle);
+  text-align: center;
+}
+
+.schedule-card-stat:first-child {
+  padding-left: 2px;
+}
+
+.schedule-card-stat:last-child {
+  border-right: none;
+  padding-right: 2px;
+}
+
+.schedule-card-stat-lbl {
+  display: block;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.schedule-card-stat-val {
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-accent);
+}
+
+.schedule-plot-frame {
+  margin-top: 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  background-color: var(--bg-elevated);
+}
+
+/* -----------------------------------------------------------------------------
+   Recent Games (game replays layout)
+   ----------------------------------------------------------------------------- */
+
+.recent-games-page.recent-games-fullbleed {
+  max-width: none;
+  width: 100%;
+}
+
+.recent-games-outer.custom-padding {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  padding-left: clamp(10px, 2vw, 22px);
+  padding-right: clamp(10px, 2vw, 22px);
+}
+
+.recent-games-players-table-block {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.recent-games-players-table-block .dash-spreadsheet-container {
+  width: 100% !important;
+  max-width: 100%;
+}
+
+.recent-games-page {
+  max-width: 1320px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.recent-games-shell {
+  width: 100%;
+}
+
+.recent-games-hero-compact {
+  font-size: clamp(1.45rem, 2.6vw, 2.05rem);
+}
+
+/* Compact slate summary (replaces two tall KPI cards) */
+.recent-games-slate-bar {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.recent-games-slate-bar-inner {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 14px;
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-raised);
+}
+
+.recent-games-slate-chip {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.recent-games-slate-chip--accent {
+  color: var(--text-accent);
+}
+
+/* PBP chart heading (matchup + legend + stats above plot, no card chrome) */
+.recent-games-pbp-heading-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.recent-games-pbp-heading {
+  width: 100%;
+  max-width: 1100px;
+  text-align: center;
+}
+
+.recent-games-pbp-heading-titles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.recent-games-pbp-heading-matchup {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.2vw, 1.55rem);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.recent-games-pbp-heading-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px 28px;
+}
+
+.recent-games-pbp-heading-legend {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.recent-games-pbp-heading-stats {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  column-gap: 1.75rem;
+  row-gap: 0.5rem;
+  font-size: 0.82rem;
+}
+
+.recent-games-pbp-heading-kv {
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.recent-games-margin-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border: 1px solid var(--border-subtle);
+}
+
+.recent-games-margin-chip--home {
+  background-color: rgba(126, 232, 212, 0.1);
+  color: var(--text);
+}
+
+.recent-games-margin-chip--away {
+  background-color: rgba(107, 158, 240, 0.12);
+  color: var(--text);
+}
+
+.recent-games-pbp-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .recent-games-pbp-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.recent-games-pbp-stat-tile {
+  padding: 10px 10px 12px;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  text-align: center;
+}
+
+.recent-games-pbp-stat-lbl {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.recent-games-pbp-stat-val {
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-accent);
+}
+
+.recent-games-eyebrow-pill {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-accent);
+  font-weight: 600;
+}
+
+.recent-games-eyebrow-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.recent-games-hero-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+/* Prevent flex children (DataTable) from forcing overflow */
+.recent-games-minw-0 {
+  min-width: 0;
+}
+
+.recent-games-dropdown-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.recent-games-card-strip {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.recent-games-card-strip-inner {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.recent-games-card-strip-inner > .recent-games-card-row--wrap {
+  width: auto;
+  max-width: 100%;
+}
+
+.recent-games-card-strip-inner > .recent-games-card-row--scroll {
+  width: 100%;
+  max-width: 100%;
+}
+
+.recent-games-card-row {
+  gap: 12px;
+  padding-bottom: 8px;
+}
+
+/* Many games: fixed-width columns so cards stay readable; horizontal scroll */
+.recent-games-card-row--scroll {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(228px, 260px);
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  padding-bottom: 8px;
+  align-items: stretch;
+  scrollbar-gutter: stable;
+  justify-content: safe center;
+}
+
+.recent-games-card-row--scroll .recent-games-card {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Few games: wider minimum cell so cards are not cramped */
+.recent-games-card-row--wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 14px;
+  width: 100%;
+}
+
+.recent-games-card-row--wrap .recent-games-card {
+  box-sizing: border-box;
+  flex: 0 1 320px;
+  width: 100%;
+  min-width: 200px;
+  max-width: 320px;
+}
+
+.recent-games-card {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-raised);
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.recent-games-card:hover {
+  border-color: rgba(126, 232, 212, 0.35);
+}
+
+.recent-games-card--selected {
+  border-color: var(--text-accent);
+  box-shadow: 0 0 0 1px rgba(126, 232, 212, 0.25);
+}
+
+.recent-games-card-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+  min-width: 0;
+  width: 100%;
+}
+
+.recent-games-card-matchup {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-games-card-mid {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.recent-games-card-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.recent-games-card-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.recent-games-card-abbr {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+.recent-games-card-score {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.recent-games-card-score--win {
+  color: var(--text-accent);
+}
+
+.recent-games-card-margin {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.recent-games-flow-eyebrow {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.recent-games-flow-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.recent-games-mini-stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  justify-content: flex-end;
+}
+
+.recent-games-mini-stat {
+  white-space: nowrap;
+}
+
+.recent-games-legend-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 2px;
+}
+
+.recent-games-legend-dot--home {
+  background-color: var(--text-accent);
+}
+
+.recent-games-legend-dot--away {
+  background-color: var(--series-secondary);
+}
+
+.recent-games-section-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.recent-games-result-card {
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-raised);
+}
+
+.recent-games-panel-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.recent-games-result-scores {
+  margin-bottom: 14px;
+}
+
+.recent-games-result-col {
+  flex: 1;
+}
+
+.recent-games-result-abbr {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.recent-games-result-score {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.recent-games-result-final {
+  align-self: center;
+  padding: 0 6px;
+  letter-spacing: 0.12em;
+}
+
+.recent-games-result-name {
+  margin-top: 6px;
+  line-height: 1.25;
+}
+
+.recent-games-kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+}
+
+.recent-games-kpi-cell {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+}
+
+.recent-games-kpi-label {
+  margin-bottom: 2px;
+}
+
+.recent-games-kpi-val {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-accent);
+}
+
+.recent-games-legend-card {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-raised);
+}
+
+.recent-games-legend-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
   color: #fff;
-  border: 2px solid #000;
-  text-decoration: none;
-  border-radius: 5px;
-  margin-left: 55px;
-  margin-bottom: 5px;
 }
 
-.rest-api-link:hover {
-  background-color: rgb(94, 73, 99);
+/* -----------------------------------------------------------------------------
+   Team Analysis - injury + transaction panels
+   ----------------------------------------------------------------------------- */
+
+.team-panel {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text);
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0;
+  overflow: hidden;
 }
 
-.legend {
-  list-style: none;
-  margin-left: -30px;
+.team-panel-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  background-color: var(--bg-elevated);
 }
 
-.legend-item {
-  float: left;
-  margin-right: 10px;
+.team-panel-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: var(--text-muted);
 }
 
-.legend-color {
-  border: 1px solid #ccc;
-  float: left;
-  width: 30px;
-  height: 15px;
-  margin-right: 5px;
-  margin-top: 3px;
+.team-panel-count {
+  font-variant-numeric: tabular-nums;
 }
 
-.legend .season-high {
-  background-color: #9362da;
+.team-panel-body {
+  max-height: 420px;
+  overflow-y: auto;
 }
 
-.legend .ten-above {
-  background-color: #3fb7d9;
+.team-panel-empty {
+  padding: 14px;
 }
 
-.legend .ten-below {
-  background-color: #e04848;
+.team-panel-injury-row {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.team-panel-injury-row:last-child {
+  border-bottom: none;
+}
+
+.team-panel-injury-name {
+  font-weight: 600;
+  margin-right: 8px;
+  color: var(--text);
+}
+
+.team-panel-injury-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.team-panel-injury-badge--out {
+  background-color: rgba(224, 72, 72, 0.25);
+  color: #ffb4b4;
+}
+
+.team-panel-injury-badge--questionable {
+  background-color: rgba(234, 179, 8, 0.2);
+  color: #fde68a;
+}
+
+.team-panel-injury-badge--probable {
+  background-color: rgba(148, 163, 184, 0.25);
+  color: #cbd5e1;
+}
+
+.team-panel-injury-badge--default {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+}
+
+.team-panel-injury-eta {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.team-panel-injury-line2 {
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.team-panel-tx-row {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.team-panel-tx-row:last-child {
+  border-bottom: none;
+}
+
+.team-panel-tx-date {
+  flex: 0 0 3.5rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.team-panel-tx-desc {
+  min-width: 0;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.team-panel-tx-verb {
+  color: var(--text-accent);
+  font-weight: 600;
+}
+
+.team-panel-tx-tag {
+  flex: 0 0 auto;
+  padding: 2px 6px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
 }
