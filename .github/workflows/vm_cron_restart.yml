@@ -1,4 +1,4 @@
-name: Daily GCP VM Restart
+name: Daily VM Restart
 
 # cron job that restarts the service once a day to pull fresh data
 on:
@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  refresh_gcp_vm:
+  refresh_vm:
     runs-on: ubuntu-latest
 
     steps:

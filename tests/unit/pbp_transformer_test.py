@@ -6,13 +6,21 @@ from src.utils import pbp_transformer
 def test_pbp_transformer(pbp_fixture):
     pbp_plot_kpis, pbp_plot_df = pbp_transformer(df=pbp_fixture)
 
-    assert len(pbp_plot_kpis) == 2
+    assert len(pbp_plot_kpis) == 1
     assert pbp_plot_kpis.columns.tolist() == [
-        "scoring_team",
-        "Leading",
+        "game_description",
+        "DEN",
+        "MIA",
         "TIE",
-        "pct_leading",
+        "home_team",
+        "away_team",
+        "home_pct_leading",
+        "away_pct_leading",
+        "tie_pct",
     ]
+    assert pbp_plot_kpis.loc[0, "home_pct_leading"] == 0.352
+    assert pbp_plot_kpis.loc[0, "away_pct_leading"] == 0.582
+    assert pbp_plot_kpis.loc[0, "tie_pct"] == 0.066
 
     assert len(pbp_plot_df) == 99
     assert pbp_plot_df.columns.tolist() == [
@@ -60,3 +68,22 @@ def test_pbp_transformer_adds_tie_column_when_absent_from_pivot(pbp_fixture):
     sub = pbp_fixture[pbp_fixture["leading_team_text"] != "TIE"].copy()
     kpis, _ = pbp_transformer(sub)
     assert "TIE" in kpis.columns
+
+
+def test_pbp_transformer_lead_pct_uses_game_teams_not_hardcoded_finals(pbp_fixture):
+    sub = pbp_fixture.replace(
+        {
+            "DEN": "SAS",
+            "MIA": "OKC",
+            "Denver Nuggets Vs. Miami Heat": "San Antonio Spurs Vs. Oklahoma City Thunder",
+        }
+    )
+
+    kpis, _ = pbp_transformer(sub)
+
+    assert "SAS" in kpis.columns
+    assert "OKC" in kpis.columns
+    assert kpis.loc[0, "home_team"] == "SAS"
+    assert kpis.loc[0, "away_team"] == "OKC"
+    assert kpis.loc[0, "home_pct_leading"] == 0.352
+    assert kpis.loc[0, "away_pct_leading"] == 0.582

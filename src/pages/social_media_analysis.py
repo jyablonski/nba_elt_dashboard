@@ -134,7 +134,23 @@ def _add_7day_moving_avg(
             line=dict(width=2.75, color=_MA7_LINE_COLOR),
             hoverlabel=TRACE_HOVERLABEL,
             hovertemplate=f"%{{x}}<br>{name}: %{{y:{hover_y_fmt}}}<extra></extra>",
+            showlegend=False,
         )
+    )
+    fig.add_annotation(
+        xref="paper",
+        yref="paper",
+        x=1,
+        y=1,
+        text=f"<span style='font-size:18px;line-height:0'>━</span>&nbsp;{name}",
+        xanchor="right",
+        yanchor="top",
+        showarrow=False,
+        font=dict(size=12, color=_MA7_LINE_COLOR),
+        bgcolor="rgba(21, 23, 26, 0.72)",
+        bordercolor="rgba(255, 159, 67, 0.35)",
+        borderwidth=1,
+        borderpad=4,
     )
 
 
@@ -161,6 +177,7 @@ def build_league_volume_figure() -> go.Figure:
         yaxis_title="Comments",
         title={"x": 0.5, "xanchor": "center"},
         margin=dict(l=48, r=24, t=48, b=48),
+        showlegend=False,
     )
     _add_7day_moving_avg(fig, x=d["scrape_date"], y=d["volume"], hover_y_fmt=",.0f")
     return fig

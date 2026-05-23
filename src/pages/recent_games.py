@@ -113,6 +113,52 @@ def _pbp_legend_dot(is_home: bool, team_hex: str) -> html.Span:
     return html.Span(className=f"{base} {suffix}")
 
 
+def _fmt_lead_pct(raw: object) -> str:
+    if raw is None:
+        return "-"
+    try:
+        if pd.isna(raw):
+            return "-"
+        return f"{float(raw):.0%}"
+    except TypeError, ValueError:
+        return "-"
+
+
+def _result_line(game_desc: str, home_abbr: str, away_abbr: str) -> tuple[html.Div | str, dict]:
+    spec = next((s for s in GAME_CARD_SPECS if s.game_description == game_desc), None)
+    if spec is None:
+        return "", {}
+
+    away_win = spec.winner_abbr == away_abbr
+    home_win = spec.winner_abbr == home_abbr
+    winner_abbr = spec.winner_abbr or (home_abbr if spec.home_pts > spec.away_pts else away_abbr)
+    final_tag = "Final"
+
+    result = html.Div(
+        [
+            html.Span(
+                f"{away_abbr} {spec.away_pts}",
+                className="recent-games-pbp-result-team"
+                + (" recent-games-pbp-result-team--win" if away_win else ""),
+            ),
+            html.Span(",", className="recent-games-pbp-result-sep"),
+            html.Span(
+                f"{home_abbr} {spec.home_pts}",
+                className="recent-games-pbp-result-team"
+                + (" recent-games-pbp-result-team--win" if home_win else ""),
+            ),
+            html.Span(f"· {final_tag}", className="recent-games-pbp-result-meta"),
+        ],
+        className="recent-games-pbp-result-line",
+    )
+    return result, {
+        "winner": winner_abbr,
+        "away_pts": spec.away_pts,
+        "home_pts": spec.home_pts,
+        "final_tag": final_tag,
+    }
+
+
 def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]:
     """Centered heading above the margin chart: away @ home title, chart legend, inline stats."""
     if not game_desc or pbp_df is None or pbp_df.empty:
@@ -139,6 +185,16 @@ def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]
         )
 
     st = pbp_flow_stats(pbp_plot_df[pbp_plot_df["game_description"] == game_desc])
+    kpi_row = _pbp_plot_kpis[_pbp_plot_kpis["game_description"] == game_desc]
+    if kpi_row.empty:
+        home_lead_pct = "-"
+        away_lead_pct = "-"
+        tie_pct = "-"
+    else:
+        k0 = kpi_row.iloc[0]
+        home_lead_pct = _fmt_lead_pct(k0.get("home_pct_leading"))
+        away_lead_pct = _fmt_lead_pct(k0.get("away_pct_leading"))
+        tie_pct = _fmt_lead_pct(k0.get("tie_pct"))
 
     stats_bits: list = [
         html.Span(f"Max lead ±{st['max_lead']}", className="recent-games-pbp-heading-kv"),
@@ -153,11 +209,15 @@ def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]
     away_bg = _hex_tint_rgba(away_hex)
     home_chip_style = {"backgroundColor": home_bg} if home_bg else None
     away_chip_style = {"backgroundColor": away_bg} if away_bg else None
+    result_line, result_meta = _result_line(game_desc, home_abbr, away_abbr)
 
     legend = html.Div(
         [
             html.Div(
-                html.Span(title_line, className="recent-games-pbp-heading-matchup"),
+                [
+                    html.Span(title_line, className="recent-games-pbp-heading-matchup"),
+                    result_line,
+                ],
                 className="recent-games-pbp-heading-titles",
             ),
             html.Div(
@@ -168,6 +228,10 @@ def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]
                                 [
                                     _pbp_legend_dot(True, home_hex),
                                     html.Span(home_lbl, className="ms-1"),
+                                    html.Span(
+                                        f"Led {home_lead_pct} of game",
+                                        className="recent-games-lead-pct",
+                                    ),
                                 ],
                                 className="recent-games-margin-chip recent-games-margin-chip--home",
                                 style=home_chip_style,
@@ -176,6 +240,10 @@ def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]
                                 [
                                     _pbp_legend_dot(False, away_hex),
                                     html.Span(away_lbl, className="ms-1"),
+                                    html.Span(
+                                        f"Led {away_lead_pct} of game",
+                                        className="recent-games-lead-pct",
+                                    ),
                                 ],
                                 className="recent-games-margin-chip recent-games-margin-chip--away",
                                 style=away_chip_style,
@@ -184,8 +252,8 @@ def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]
                         className="recent-games-pbp-heading-legend",
                         title=(
                             "Legend for the score chart below: each point is colored by the team that "
-                            "scored on that play (home vs away). The numbers on the right are whole-game "
-                            "summaries and are not split by team."
+                            "scored on that play (home vs away). Lead percentages are clock time spent "
+                            f"ahead; tied time was {tie_pct}."
                         ),
                     ),
                     html.Div(stats_bits, className="recent-games-pbp-heading-stats"),
@@ -195,7 +263,15 @@ def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]
         ],
         className="recent-games-pbp-heading",
     )
-    return legend, {"home": home_fill, "away": away_fill, **st}
+    return legend, {
+        "home": home_fill,
+        "away": away_fill,
+        "home_pct_leading": home_lead_pct,
+        "away_pct_leading": away_lead_pct,
+        "tie_pct": tie_pct,
+        **result_meta,
+        **st,
+    }
 
 
 def render_game_cards(selected: str | None) -> html.Div:

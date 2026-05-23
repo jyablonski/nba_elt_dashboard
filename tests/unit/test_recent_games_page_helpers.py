@@ -59,9 +59,18 @@ def test_flow_legend_and_stats_known_game():
     assert isinstance(legend, html.Div)
     flat = str(legend)
     assert "Brooklyn Nets @ Atlanta Hawks" in flat
+    assert "ATL 147" in flat
+    assert "BKN 145" in flat
+    assert "Final" in flat
     assert "(BKN @ ATL)" not in flat
     assert "Chart context" not in flat
     assert "Max lead" in flat
+    assert "Led" in flat
+    assert "of game" in flat
+    assert "ties (" not in flat
     assert "recent-games-pbp-heading" in flat
     assert "plays" in meta
     assert meta["plays"] != "-"
+    assert meta["winner"] == "ATL"
+    assert meta["home_pct_leading"] != "-"
+    assert meta["away_pct_leading"] != "-"

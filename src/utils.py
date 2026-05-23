@@ -36,29 +36,39 @@ def pbp_transformer(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     def replace_na(series, value):
         return series.fillna(value)
 
-    pbp_events = df.copy().query("scoring_team != 'TIE'")
-    pbp_events["prev_time"] = pbp_events["time_remaining_final"].shift()
+    pbp_events = df.copy().sort_values(
+        ["game_description", "time_remaining_final"],
+        ascending=[True, False],
+    )
+    pbp_events["prev_time"] = pbp_events.groupby("game_description")["time_remaining_final"].shift()
     pbp_events["prev_time"] = replace_na(pbp_events["prev_time"], 48.0)
+    pbp_events["next_time"] = pbp_events.groupby("game_description")["time_remaining_final"].shift(
+        -1
+    )
+    pbp_events["next_time"] = replace_na(pbp_events["next_time"], 0)
     pbp_events["time_difference"] = round(
-        60 * (pbp_events["prev_time"] - pbp_events["time_remaining_final"])
+        60 * (pbp_events["time_remaining_final"] - pbp_events["next_time"])
     )
     pbp_events["time_difference"] = replace_na(pbp_events["time_difference"], 0)
-    last_record_team = pbp_events.tail(1)
+    plot_events = pbp_events.query("scoring_team != 'TIE'").copy()
+    last_records = plot_events.groupby("game_description", as_index=False).tail(1)
 
-    pbp_events = pbp_events._append(
-        {
-            "scoring_team": last_record_team["scoring_team"].values[0],
-            "quarter": last_record_team["quarter"].values[0],
-            "time_quarter": "0:00",
-            "leading_team_text": last_record_team["leading_team_text"].values[0],
-            "time_remaining_final": last_record_team["time_remaining_final"].values[0],
-            "prev_time": last_record_team["time_remaining_final"].values[0],
-            "time_difference": round(60 * (last_record_team["prev_time"].values[0] - 0)),
-        },
-        ignore_index=True,
-    )
+    end_rows = []
+    for _, row in last_records.iterrows():
+        end_rows.append(
+            {
+                **row.to_dict(),
+                "time_quarter": "0:00",
+                "time_remaining_final": 0,
+                "prev_time": row["time_remaining_final"],
+                "next_time": 0,
+                "time_difference": 0,
+            }
+        )
+    if end_rows:
+        plot_events = pd.concat([plot_events, pd.DataFrame(end_rows)], ignore_index=True)
 
-    pbp_events["game_plot_team_text"] = pbp_events.apply(
+    plot_events["game_plot_team_text"] = plot_events.apply(
         lambda row: (
             row["home_fill"] if row["scoring_team"] == row["home_team"] else row["away_fill"]
         ),
@@ -66,31 +76,42 @@ def pbp_transformer(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     )
 
     pbp_kpis = (
-        pbp_events.groupby(["scoring_team", "leading_team_text"])["time_difference"]
+        pbp_events.groupby(["game_description", "leading_team"])["time_difference"]
         .sum()
         .reset_index()
     )
     pbp_kpis = pbp_kpis.pivot_table(
-        index="scoring_team",
-        columns="leading_team_text",
+        index="game_description",
+        columns="leading_team",
         values="time_difference",
         fill_value=0,
     ).reset_index()
 
-    # Update "Leading" values by adding "Trailing" to the opponent's "Leading"
-    for index, row in pbp_kpis.iterrows():
-        opponent_team = "DEN" if row["scoring_team"] == "MIA" else "MIA"
-        pbp_kpis.loc[pbp_kpis["scoring_team"] == opponent_team, "Leading"] += row["Trailing"]
-
-    # Check if 'TIE' column exists, if not, add it and initialize to 0
     if "TIE" not in pbp_kpis.columns:
         pbp_kpis["TIE"] = 0
 
-    tot = sum(pbp_kpis["Leading"] + pbp_kpis["TIE"])
-    pbp_kpis["pct_leading"] = round(pbp_kpis["Leading"] / tot, 3)
-    pbp_kpis.drop(columns=["Trailing"], inplace=True)
+    teams_by_game = (
+        pbp_events.groupby("game_description")[["home_team", "away_team"]].first().reset_index()
+    )
+    pbp_kpis = pbp_kpis.merge(teams_by_game, on="game_description", how="left")
 
-    return pbp_kpis, pbp_events
+    leading_cols = [
+        col for col in pbp_kpis.columns if col not in {"game_description", "home_team", "away_team"}
+    ]
+    total_time = pbp_kpis[leading_cols].sum(axis=1).replace(0, pd.NA)
+    pbp_kpis["home_pct_leading"] = round(
+        pbp_kpis.apply(lambda row: row.get(row["home_team"], 0), axis=1) / total_time,
+        3,
+    )
+    pbp_kpis["away_pct_leading"] = round(
+        pbp_kpis.apply(lambda row: row.get(row["away_team"], 0), axis=1) / total_time,
+        3,
+    )
+    pbp_kpis["tie_pct"] = round(pbp_kpis["TIE"] / total_time, 3)
+
+    plot_events.drop(columns=["next_time"], inplace=True)
+
+    return pbp_kpis, plot_events
 
 
 def generate_team_ratings_figure(df: pd.DataFrame) -> go.Figure:

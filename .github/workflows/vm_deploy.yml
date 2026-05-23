@@ -1,4 +1,4 @@
-name: Deploy Pipeline (GCP)
+name: Deploy Pipeline
 
 on:
   push:
@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy_gcp_vm:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +30,7 @@ jobs:
           GIT_COMMIT: ${{ github.sha }}
 
   notify:
-    needs: [deploy_gcp_vm]
+    needs: [deploy]
     if: always() && github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
