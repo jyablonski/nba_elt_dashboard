@@ -348,7 +348,7 @@ overview_layout = html.Div(
                     [
                         section_header("Team Ratings"),
                         html.P(
-                            "Each logo is a team; dashed lines mark league-average offensive and defensive rating.",
+                            "Dashed lines mark league-average offensive and defensive rating.",
                             className="text-muted small mb-2",
                         ),
                         html.Div(
