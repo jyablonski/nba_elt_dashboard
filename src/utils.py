@@ -40,13 +40,11 @@ def pbp_transformer(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
         ["game_description", "time_remaining_final"],
         ascending=[True, False],
     )
-    pbp_events["prev_time"] = pbp_events.groupby("game_description")[
-        "time_remaining_final"
-    ].shift()
+    pbp_events["prev_time"] = pbp_events.groupby("game_description")["time_remaining_final"].shift()
     pbp_events["prev_time"] = replace_na(pbp_events["prev_time"], 48.0)
-    pbp_events["next_time"] = pbp_events.groupby("game_description")[
-        "time_remaining_final"
-    ].shift(-1)
+    pbp_events["next_time"] = pbp_events.groupby("game_description")["time_remaining_final"].shift(
+        -1
+    )
     pbp_events["next_time"] = replace_na(pbp_events["next_time"], 0)
     pbp_events["time_difference"] = round(
         60 * (pbp_events["time_remaining_final"] - pbp_events["next_time"])
