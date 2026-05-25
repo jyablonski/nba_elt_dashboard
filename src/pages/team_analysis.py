@@ -7,14 +7,8 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-from src.database import (
-    injuries_df,
-    mov_df,
-    player_stats_df,
-    team_adv_stats_df,
-    transactions_df,
-)
-from src.data import team_names
+from src.data_access.cache import get_table
+from src.data_access.tables import team_names
 from src.team_analysis_panels import (
     build_injuries_panel,
     build_transactions_panel,
@@ -108,107 +102,107 @@ def _team_kpi_stack(*rows: html.Div) -> html.Div:
     return html.Div(list(rows), className="team-kpi-stat-stack")
 
 
-# Layout: KPIs → health & roster → season charts (wider shell)
-team_analysis_layout = html.Div(
-    [
-        page_hero(
-            title="Per-team trends, health, and roster moves",
-        ),
-        html.Div(
-            [
-                html.Div(
-                    [
-                        create_kpi_card(
-                            [
-                                html.H4("Select Team", className="kpi-card__section"),
-                                dcc.Dropdown(
-                                    id="team-selector",
-                                    options=TEAM_OPTIONS,
-                                    value=team_names[0],
-                                    clearable=False,
-                                    className="dash-dropdown",
-                                ),
-                            ],
-                            class_name="kpi-card kpi-card--tool",
-                        ),
-                        html.Div(
-                            id="kpi-boxes-1", className="kpi-card kpi-card--stat team-kpi-card"
-                        ),
-                        html.Div(
-                            id="kpi-boxes-2", className="kpi-card kpi-card--stat team-kpi-card"
-                        ),
-                        html.Div(
-                            id="kpi-boxes-3", className="kpi-card kpi-card--stat team-kpi-card"
-                        ),
-                    ],
-                    className="kpi-container",
-                ),
-                html.Div(
-                    [
-                        html.Div(
-                            "Health & roster",
-                            className="team-analysis-section-kicker text-muted text-uppercase small mb-2",
-                        ),
-                        dbc.Row(
-                            [
-                                dbc.Col(
-                                    html.Div(id="injuries-table"),
-                                    width=12,
-                                    md=6,
-                                ),
-                                dbc.Col(
-                                    html.Div(id="transactions-table"),
-                                    width=12,
-                                    md=6,
-                                ),
-                            ],
-                            className="g-3 team-analysis-panels-row",
-                        ),
-                    ],
-                    className="mb-4",
-                ),
-                html.Div(
-                    [
-                        html.Div(
-                            "Season trends",
-                            className="team-analysis-section-kicker text-muted text-uppercase small mb-2",
-                        ),
-                        dbc.Row(
-                            [
-                                dbc.Col(
-                                    [
-                                        section_header("Game Margin of Victory"),
-                                        dcc.Graph(
-                                            id="mov-plot",
-                                            config={"displayModeBar": False},
-                                            style={"height": "500px"},
-                                        ),
-                                    ],
-                                    width=12,
-                                    lg=6,
-                                ),
-                                dbc.Col(
-                                    [
-                                        section_header("Player Scoring Efficiency"),
-                                        html.Div(
-                                            id="team-player-efficiency-table",
-                                            className="team-analysis-players-table-wrap",
-                                        ),
-                                    ],
-                                    width=12,
-                                    lg=6,
-                                ),
-                            ],
-                            className="g-3",
-                        ),
-                    ],
-                ),
-            ],
-            className="team-analysis-inner",
-        ),
-    ],
-    className="team-analysis-page custom-padding",
-)
+def team_analysis_layout() -> html.Div:
+    return html.Div(
+        [
+            page_hero(
+                title="Per-team trends, health, and roster moves",
+            ),
+            html.Div(
+                [
+                    html.Div(
+                        [
+                            create_kpi_card(
+                                [
+                                    html.H4("Select Team", className="kpi-card__section"),
+                                    dcc.Dropdown(
+                                        id="team-selector",
+                                        options=TEAM_OPTIONS,
+                                        value=team_names[0],
+                                        clearable=False,
+                                        className="dash-dropdown",
+                                    ),
+                                ],
+                                class_name="kpi-card kpi-card--tool",
+                            ),
+                            html.Div(
+                                id="kpi-boxes-1", className="kpi-card kpi-card--stat team-kpi-card"
+                            ),
+                            html.Div(
+                                id="kpi-boxes-2", className="kpi-card kpi-card--stat team-kpi-card"
+                            ),
+                            html.Div(
+                                id="kpi-boxes-3", className="kpi-card kpi-card--stat team-kpi-card"
+                            ),
+                        ],
+                        className="kpi-container",
+                    ),
+                    html.Div(
+                        [
+                            html.Div(
+                                "Health & roster",
+                                className="team-analysis-section-kicker text-muted text-uppercase small mb-2",
+                            ),
+                            dbc.Row(
+                                [
+                                    dbc.Col(
+                                        html.Div(id="injuries-table"),
+                                        width=12,
+                                        md=6,
+                                    ),
+                                    dbc.Col(
+                                        html.Div(id="transactions-table"),
+                                        width=12,
+                                        md=6,
+                                    ),
+                                ],
+                                className="g-3 team-analysis-panels-row",
+                            ),
+                        ],
+                        className="mb-4",
+                    ),
+                    html.Div(
+                        [
+                            html.Div(
+                                "Season trends",
+                                className="team-analysis-section-kicker text-muted text-uppercase small mb-2",
+                            ),
+                            dbc.Row(
+                                [
+                                    dbc.Col(
+                                        [
+                                            section_header("Game Margin of Victory"),
+                                            dcc.Graph(
+                                                id="mov-plot",
+                                                config={"displayModeBar": False},
+                                                style={"height": "500px"},
+                                            ),
+                                        ],
+                                        width=12,
+                                        lg=6,
+                                    ),
+                                    dbc.Col(
+                                        [
+                                            section_header("Player Scoring Efficiency"),
+                                            html.Div(
+                                                id="team-player-efficiency-table",
+                                                className="team-analysis-players-table-wrap",
+                                            ),
+                                        ],
+                                        width=12,
+                                        lg=6,
+                                    ),
+                                ],
+                                className="g-3",
+                            ),
+                        ],
+                    ),
+                ],
+                className="team-analysis-inner",
+            ),
+        ],
+        className="team-analysis-page custom-padding",
+    )
 
 
 # Callbacks
@@ -218,7 +212,7 @@ def update_mov(selected_team):
     if not selected_team:
         return _dark_message_figure("Select a team to load margin of victory.")
 
-    filtered_df = _rows_for_team(mov_df, "full_team", selected_team)
+    filtered_df = _rows_for_team(get_table("mov"), "full_team", selected_team)
 
     if filtered_df.empty:
         return _dark_message_figure(
@@ -260,7 +254,7 @@ def update_team_player_efficiency(selected_team):
     if not selected_team:
         return html.Div("Select a team to load player stats.", className="small text-muted")
 
-    team_df = _rows_for_team(player_stats_df, "full_team", selected_team)
+    team_df = _rows_for_team(get_table("player_stats"), "full_team", selected_team)
     if "season_type" in team_df.columns:
         team_df = team_df.loc[team_df["season_type"].astype(str) == "Regular Season"]
     if team_df.empty:
@@ -312,6 +306,7 @@ def update_injuries(selected_team):
     if not selected_team:
         return html.Div("No team selected", className="small text-muted")
 
+    injuries_df = get_table("injuries")
     filtered_injuries = injuries_df.loc[injuries_df["team"] == selected_team].sort_values(
         by="scrape_date", ascending=False
     )
@@ -325,7 +320,9 @@ def update_transactions(selected_team):
     if not selected_team:
         return html.Div("No team selected", className="small text-muted")
 
-    filtered_transactions = filter_transactions_last_days(transactions_df, selected_team, days=90)
+    filtered_transactions = filter_transactions_last_days(
+        get_table("transactions"), selected_team, days=90
+    )
 
     return build_transactions_panel(filtered_transactions)
 
@@ -336,7 +333,7 @@ def update_kpi_boxes_1(selected_team):
     if not selected_team:
         return []
 
-    kpi_values = _rows_for_team(team_adv_stats_df, "team", selected_team)
+    kpi_values = _rows_for_team(get_table("team_adv_stats"), "team", selected_team)
 
     if kpi_values.empty:
         return [html.Div("No data available", className="small text-muted")]
@@ -358,7 +355,7 @@ def update_kpi_boxes_2(selected_team):
     if not selected_team:
         return []
 
-    kpi_values = _rows_for_team(team_adv_stats_df, "team", selected_team)
+    kpi_values = _rows_for_team(get_table("team_adv_stats"), "team", selected_team)
 
     if kpi_values.empty:
         return [html.Div("No data available", className="small text-muted")]
@@ -380,7 +377,7 @@ def update_kpi_boxes_3(selected_team):
     if not selected_team:
         return []
 
-    kpi_values = _rows_for_team(team_adv_stats_df, "team", selected_team)
+    kpi_values = _rows_for_team(get_table("team_adv_stats"), "team", selected_team)
 
     if kpi_values.empty:
         return [html.Div("No data available", className="small text-muted")]

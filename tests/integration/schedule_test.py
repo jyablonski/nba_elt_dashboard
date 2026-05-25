@@ -1,6 +1,6 @@
 from dash import dash_table, html
 
-from src.data_cols.future_schedule import future_schedule_columns
+from src.table_columns.future_schedule import future_schedule_columns
 from src.pages.schedule import update_schedule_table
 
 

@@ -1,18 +1,17 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING
 
+import docker
 import pandas as pd
 import pytest
 from sqlalchemy import create_engine
+from sqlalchemy.engine.base import Engine
+from testcontainers.postgres import PostgresContainer
 
-from src.db_connection import sql_connection
-from src.yaml_config import load_yaml_with_env
+from src.data_access.database import sql_connection
+from src.data_access.database import load_yaml_with_env
 from tests.postgres_bootstrap import apply_bootstrap
-
-if TYPE_CHECKING:
-    from sqlalchemy.engine.base import Engine
 
 
 def _needs_postgres(config: pytest.Config) -> bool:
@@ -35,8 +34,6 @@ def _needs_postgres(config: pytest.Config) -> bool:
 
 def _docker_available() -> bool:
     try:
-        import docker
-
         docker.from_env().ping()
         return True
     except Exception:
@@ -52,8 +49,6 @@ def pytest_configure(config: pytest.Config) -> None:
         return
     if not _docker_available():
         return
-
-    from testcontainers.postgres import PostgresContainer
 
     postgres = PostgresContainer(
         "postgres:16-alpine",
@@ -109,6 +104,17 @@ def postgres_engine(request: pytest.FixtureRequest) -> Engine:
     if engine is None:
         pytest.skip("Postgres Testcontainers engine not initialized for this session.")
     return engine
+
+
+@pytest.fixture(scope="session", autouse=True)
+def dashboard_data_snapshot(request: pytest.FixtureRequest):
+    engine = getattr(request.config, "_tc_engine", None)
+    if engine is None:
+        return
+
+    from src.data_access.cache import refresh_data
+
+    refresh_data(postgres_engine=engine)
 
 
 @pytest.fixture(scope="session")

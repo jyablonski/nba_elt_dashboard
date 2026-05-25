@@ -8,16 +8,8 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 
 from src.config import SINGLE_BAR_COLOR
-from src.data_cols.future_schedule import future_schedule_columns
-from src.database import (
-    game_types_df,
-    past_schedule_analysis_df,
-    preseason_odds_df,
-    schedule_season_remaining_df,
-    schedule_tonights_games_df,
-    team_blown_leads_df,
-    team_odds_outcomes_df,
-)
+from src.table_columns.future_schedule import future_schedule_columns
+from src.data_access.cache import get_table
 from src.theme.plotly import TRACE_HOVERLABEL, apply_dark_layout
 from src.ui.sections import page_hero, section_header
 from src.ui.tables import dark_datatable
@@ -35,19 +27,6 @@ SCHEDULE_PLOT_OPTIONS = [
     {"label": "Covering the Spread Metrics", "value": "team-spread-metrics"},
     {"label": "Game Types by Margin of Victory", "value": "game-types"},
 ]
-
-# Data preprocessing
-past_schedule_analysis_df = past_schedule_analysis_df.sort_values(
-    by="pct_vs_below_500", ascending=True
-)
-preseason_odds_df = preseason_odds_df.sort_values(by="wins_differential", ascending=True)
-team_blown_leads_df = team_blown_leads_df.query("season_type == 'Regular Season'").sort_values(
-    by="net_comebacks", ascending=True
-)
-team_odds_outcomes_df = team_odds_outcomes_df.query("season_type == 'Regular Season'").sort_values(
-    by="pct_covered_spread", ascending=True
-)
-game_types_df = game_types_df.query("season_type == 'Regular Season'")
 
 
 def _truthy_great_value(raw: object) -> bool:
@@ -89,7 +68,7 @@ def _fmt_rank(val: Any) -> str:
 
 def create_tonight_games_cards() -> html.Div:
     """Tonight slate as responsive matchup cards (same fields as former DataTable)."""
-    df = schedule_tonights_games_df
+    df = get_table("schedule_tonights_games")
     if df is None or df.empty:
         return html.Div(
             "No games on the slate for this view.",
@@ -200,6 +179,7 @@ def create_tonight_games_cards() -> html.Div:
 
 
 def create_full_schedule_table():
+    schedule_season_remaining_df = get_table("schedule_season_remaining")
     enhanced_cell_style = {
         "minWidth": "100px",
         "maxWidth": "180px",
@@ -233,6 +213,9 @@ def create_full_schedule_table():
 
 
 def create_strength_of_schedule_plot():
+    past_schedule_analysis_df = get_table("past_schedule_analysis").sort_values(
+        by="pct_vs_below_500", ascending=True
+    )
     fig = px.bar(
         past_schedule_analysis_df,
         x="pct_vs_below_500",
@@ -281,6 +264,9 @@ def create_strength_of_schedule_plot():
 
 
 def create_preseason_odds_plot():
+    preseason_odds_df = get_table("preseason_odds").sort_values(
+        by="wins_differential", ascending=True
+    )
     fig = px.bar(
         preseason_odds_df,
         x="wins_differential",
@@ -318,6 +304,11 @@ def create_preseason_odds_plot():
 
 
 def create_spread_metrics_plot():
+    team_odds_outcomes_df = (
+        get_table("team_odds_outcomes")
+        .query("season_type == 'Regular Season'")
+        .sort_values(by="pct_covered_spread", ascending=True)
+    )
     fig = px.bar(
         team_odds_outcomes_df,
         x="pct_covered_spread",
@@ -367,6 +358,11 @@ def create_spread_metrics_plot():
 
 
 def create_comebacks_plot():
+    team_blown_leads_df = (
+        get_table("team_blown_leads")
+        .query("season_type == 'Regular Season'")
+        .sort_values(by="net_comebacks", ascending=True)
+    )
     fig = px.bar(
         team_blown_leads_df,
         x="net_comebacks",
@@ -405,6 +401,7 @@ def create_comebacks_plot():
 
 
 def create_game_types_plot():
+    game_types_df = get_table("game_types").query("season_type == 'Regular Season'")
     fig = px.bar(
         game_types_df,
         x="n",
@@ -463,81 +460,82 @@ def _schedule_intel_bar() -> html.Div:
     )
 
 
-schedule_layout = html.Div(
-    [
-        page_hero(
-            title="Schedule",
-            subtitle="Tonight's games and season-long schedule intel.",
-        ),
-        _schedule_intel_bar(),
-        html.Div(
-            [
-                html.Div(
-                    [
-                        html.Span("Games & odds", className="schedule-panel-kicker"),
-                        html.P(
-                            [
-                                "Odds shown here are generated from a logistic regression model. ",
-                                "See the ",
-                                html.Span("About", className="fw-semibold"),
-                                " tab for methodology, data sources, and more.",
-                            ],
-                            className="schedule-panel-lede text-muted small mb-0",
-                        ),
-                    ],
-                    className="schedule-panel-head-text",
-                ),
-                html.Div(
-                    [
-                        html.Label("Schedule view", className="schedule-field-label"),
-                        dcc.Dropdown(
-                            id="schedule-table-selector",
-                            options=SCHEDULE_TABLE_OPTIONS,
-                            value="tonights-games",
-                            clearable=False,
-                            className="dash-dropdown schedule-dropdown",
-                        ),
-                    ],
-                    className="schedule-toolbar",
-                ),
-                html.Div(id="schedule-table", className="schedule-panel-body"),
-            ],
-            className="schedule-panel schedule-panel--games",
-        ),
-        html.Div(
-            [
-                section_header("NBA Schedule Analysis"),
-                html.P(
-                    "League-wide views: strength of schedule, spreads, preseason lines, and more.",
-                    className="schedule-panel-lede schedule-panel-lede--center text-muted small",
-                ),
-                html.Div(
-                    [
-                        html.Label("Analysis plot", className="schedule-field-label"),
-                        dcc.Dropdown(
-                            id="schedule-plot-selector",
-                            options=SCHEDULE_PLOT_OPTIONS,
-                            value="strength-of-schedule",
-                            clearable=False,
-                            className="dash-dropdown schedule-dropdown",
-                        ),
-                    ],
-                    className="schedule-toolbar schedule-toolbar--analysis",
-                ),
-                html.Div(
-                    dcc.Graph(
-                        id="schedule-plot",
-                        style={"height": "min(70vh, 640px)", "minHeight": "420px"},
-                        config={"displayModeBar": False, "displaylogo": False},
+def schedule_layout() -> html.Div:
+    return html.Div(
+        [
+            page_hero(
+                title="Schedule",
+                subtitle="Tonight's games and season-long schedule intel.",
+            ),
+            _schedule_intel_bar(),
+            html.Div(
+                [
+                    html.Div(
+                        [
+                            html.Span("Games & odds", className="schedule-panel-kicker"),
+                            html.P(
+                                [
+                                    "Odds shown here are generated from a logistic regression model. ",
+                                    "See the ",
+                                    html.Span("About", className="fw-semibold"),
+                                    " tab for methodology, data sources, and more.",
+                                ],
+                                className="schedule-panel-lede text-muted small mb-0",
+                            ),
+                        ],
+                        className="schedule-panel-head-text",
                     ),
-                    className="schedule-plot-frame",
-                ),
-            ],
-            className="schedule-panel schedule-panel--analysis",
-        ),
-    ],
-    className="schedule-page custom-padding",
-)
+                    html.Div(
+                        [
+                            html.Label("Schedule view", className="schedule-field-label"),
+                            dcc.Dropdown(
+                                id="schedule-table-selector",
+                                options=SCHEDULE_TABLE_OPTIONS,
+                                value="tonights-games",
+                                clearable=False,
+                                className="dash-dropdown schedule-dropdown",
+                            ),
+                        ],
+                        className="schedule-toolbar",
+                    ),
+                    html.Div(id="schedule-table", className="schedule-panel-body"),
+                ],
+                className="schedule-panel schedule-panel--games",
+            ),
+            html.Div(
+                [
+                    section_header("NBA Schedule Analysis"),
+                    html.P(
+                        "League-wide views: strength of schedule, spreads, preseason lines, and more.",
+                        className="schedule-panel-lede schedule-panel-lede--center text-muted small",
+                    ),
+                    html.Div(
+                        [
+                            html.Label("Analysis plot", className="schedule-field-label"),
+                            dcc.Dropdown(
+                                id="schedule-plot-selector",
+                                options=SCHEDULE_PLOT_OPTIONS,
+                                value="strength-of-schedule",
+                                clearable=False,
+                                className="dash-dropdown schedule-dropdown",
+                            ),
+                        ],
+                        className="schedule-toolbar schedule-toolbar--analysis",
+                    ),
+                    html.Div(
+                        dcc.Graph(
+                            id="schedule-plot",
+                            style={"height": "min(70vh, 640px)", "minHeight": "420px"},
+                            config={"displayModeBar": False, "displaylogo": False},
+                        ),
+                        className="schedule-plot-frame",
+                    ),
+                ],
+                className="schedule-panel schedule-panel--analysis",
+            ),
+        ],
+        className="schedule-page custom-padding",
+    )
 
 
 # Callbacks

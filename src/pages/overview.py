@@ -4,17 +4,9 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 
 from src.ui.cards import kpi_card as create_kpi_card
-from src.data_cols.player_stats import player_scoring_efficiency_columns
-from src.data_cols.standings import standings_columns
-from src.database import (
-    bans_df,
-    contract_value_analysis_df,
-    injuries_df,
-    player_stats_df,
-    standings_df,
-    team_contracts_analysis_df,
-    team_ratings_df,
-)
+from src.table_columns.player_stats import player_scoring_efficiency_columns
+from src.table_columns.standings import standings_columns
+from src.data_access.cache import get_table
 from src.theme.plotly import TRACE_HOVERLABEL, apply_dark_layout
 from src.ui.sections import page_hero, section_header
 from src.ui.tables import dark_datatable
@@ -31,19 +23,16 @@ VALUE_ANALYSIS_COLORS = {
     "Bad Value": "#e04848",
 }
 
-# Data preprocessing
-team_contracts_analysis_df = team_contracts_analysis_df.sort_values(
-    by="team_pct_salary_earned", ascending=True
-)
-
 
 def _regular_season_league_avg_ts_percent() -> float:
+    player_stats_df = get_table("player_stats")
     return float(player_stats_df.query("season_type == 'Regular Season'")["avg_ts_percent"].mean())
 
 
 def _scoring_efficiency_records(selected_season: str | None) -> list[dict]:
     """Players with 20+ PPG for the selected season; TS% tint vs regular-season league avg."""
     season = selected_season or "Regular Season"
+    player_stats_df = get_table("player_stats")
     rs_avg = _regular_season_league_avg_ts_percent()
     filtered = player_stats_df.query(
         "season_type == @season and avg_ppg >= 20", local_dict={"season": season}
@@ -114,6 +103,7 @@ def create_standings_table(conference_name, data):
 
 
 def create_player_value_analysis_chart():
+    contract_value_analysis_df = get_table("contract_value_analysis")
     fig = px.scatter(
         contract_value_analysis_df,
         x="salary",
@@ -161,6 +151,9 @@ def create_player_value_analysis_chart():
 
 
 def create_team_contract_analysis_chart():
+    team_contracts_analysis_df = get_table("team_contracts_analysis").sort_values(
+        by="team_pct_salary_earned", ascending=True
+    )
     fig = px.bar(
         team_contracts_analysis_df,
         x="team_pct_salary_earned",
@@ -204,213 +197,217 @@ def create_team_contract_analysis_chart():
     return fig
 
 
-_overview_scrape = bans_df["scrape_time"][0]
+def overview_layout() -> html.Div:
+    bans_df = get_table("bans")
+    injuries_df = get_table("injuries")
+    standings_df = get_table("standings")
+    team_ratings_df = get_table("team_ratings")
+    overview_scrape = bans_df["scrape_time"][0]
 
-# Layout
-overview_layout = html.Div(
-    [
-        page_hero(
-            title="League Overview",
-            meta=[
-                html.Div(
-                    _overview_scrape.strftime("Data Last updated: %A, %B %d at %H:%M UTC"),
-                    className="text-muted small",
-                ),
-            ],
-        ),
-        # KPI Section
-        html.Div(
-            [
-                # Home/Road Record KPI
-                create_kpi_card(
-                    [
-                        html.Div(
-                            f"{bans_df['tot_wins'][0]} - {bans_df['tot_wins'][1]}",
-                            className="kpi-card__value",
-                        ),
-                        html.Div("League wide home vs road wins", className="kpi-card__title"),
-                        html.Div(
-                            f"{bans_df['win_pct'][0] * 100:.0f}% - {bans_df['win_pct'][1] * 100:.0f}% win percentage splits",
-                            className="kpi-card__sub",
-                        ),
-                    ]
-                ),
-                # Points Per Game KPI
-                create_kpi_card(
-                    [
-                        html.Div(
-                            f"{bans_df['avg_pts'][0]:.1f}",
-                            className="kpi-card__value",
-                        ),
-                        html.Div("League average points per game", className="kpi-card__title"),
-                        html.Div(
-                            f"{((bans_df['avg_pts'][0] - bans_df['last_yr_ppg'][0]) / bans_df['avg_pts'][0]) * 100:.2f}% difference vs last season",
-                            className="kpi-card__sub",
-                        ),
-                    ]
-                ),
-                # Injury Report KPI
-                create_kpi_card(
-                    [
-                        html.Div(
-                            str(len(injuries_df)),
-                            className="kpi-card__value",
-                        ),
-                        html.Div("Players on injury report", className="kpi-card__title"),
-                        html.Div(
-                            "All injury designations",
-                            className="kpi-card__sub",
-                        ),
-                    ]
-                ),
-                # Upcoming Games KPI
-                create_kpi_card(
-                    [
-                        html.Div(
-                            bans_df["upcoming_game_date"][0].strftime("%B %d"),
-                            className="kpi-card__value",
-                        ),
-                        html.Div(
-                            f"{bans_df['upcoming_games'][0]} upcoming games",
-                            className="kpi-card__title",
-                        ),
-                        html.Div(
-                            bans_df["upcoming_game_date"][0].strftime("%A"),
-                            className="kpi-card__sub",
-                        ),
-                    ]
-                ),
-            ],
-            className="kpi-container",
-        ),
-        # Standings Section
-        dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        section_header("Western Conference"),
-                        create_standings_table(
-                            "Western",
-                            standings_df.query('conference == "Western"').to_dict("records"),
-                        ),
-                    ],
-                    width=6,
-                ),
-                dbc.Col(
-                    [
-                        section_header("Eastern Conference"),
-                        create_standings_table(
-                            "Eastern",
-                            standings_df.query('conference == "Eastern"').to_dict("records"),
-                        ),
-                    ],
-                    width=6,
-                ),
-            ],
-            style={"margin-bottom": "30px"},
-        ),
-        # Charts Section 1
-        dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        section_header("Player Scoring Efficiency"),
-                        html.P(
-                            [
-                                "Players averaging 20+ PPG for the selected season. ",
-                                html.Span(
-                                    "highlighted",
-                                    className="scoring-efficiency-legend-ts",
-                                ),
-                                " = above league average.",
-                            ],
-                            className="text-muted small mb-2",
-                        ),
-                        html.Div(
-                            [
-                                html.Span("Season type", className="text-muted small me-2"),
-                                dcc.Dropdown(
-                                    id="scoring-efficiency-season",
-                                    options=_SCORING_SEASON_OPTIONS,
-                                    value=_SCORING_SEASON_DEFAULT,
-                                    clearable=False,
-                                    className="dash-dropdown flex-grow-1",
-                                    style={"minWidth": "200px", "maxWidth": "420px"},
-                                ),
-                            ],
-                            className="d-flex flex-wrap align-items-center gap-2 mb-3",
-                        ),
-                        create_player_scoring_efficiency_table(),
-                    ],
-                    width=6,
-                ),
-                dbc.Col(
-                    [
-                        section_header("Team Ratings"),
-                        html.P(
-                            "Dashed lines mark league-average offensive and defensive rating.",
-                            className="text-muted small mb-2",
-                        ),
-                        html.Div(
-                            [
-                                html.Span(
-                                    "Season type", className="text-muted small me-2 invisible"
-                                ),
-                                html.Div(
-                                    className="dash-dropdown flex-grow-1 invisible rounded border",
-                                    style={
-                                        "minHeight": "38px",
-                                        "minWidth": "200px",
-                                        "maxWidth": "420px",
-                                    },
-                                ),
-                            ],
-                            className="d-flex flex-wrap align-items-center gap-2 mb-3",
-                            role="presentation",
-                        ),
-                        dcc.Graph(
-                            id="team-ratings-plot",
-                            figure=generate_team_ratings_figure(df=team_ratings_df),
-                            style={"height": "500px"},
-                        ),
-                    ],
-                    width=6,
-                ),
-            ],
-            className="g-3 overview-paired-plots-row",
-            style={"margin-bottom": "30px"},
-        ),
-        # Charts Section 2
-        dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        section_header("Player Value Analysis"),
-                        dcc.Graph(
-                            id="player-value-analysis-plot",
-                            figure=create_player_value_analysis_chart(),
-                            style={"height": "500px"},
-                        ),
-                    ],
-                    width=6,
-                ),
-                dbc.Col(
-                    [
-                        section_header("Team Contract Efficiency"),
-                        dcc.Graph(
-                            id="contract-bar-plot",
-                            figure=create_team_contract_analysis_chart(),
-                            style={"height": "500px"},
-                        ),
-                    ],
-                    width=6,
-                ),
-            ],
-            className="g-3 overview-paired-plots-row",
-        ),
-    ],
-    className="custom-padding",
-)
+    return html.Div(
+        [
+            page_hero(
+                title="League Overview",
+                meta=[
+                    html.Div(
+                        overview_scrape.strftime("Data Last updated: %A, %B %d at %H:%M UTC"),
+                        className="text-muted small",
+                    ),
+                ],
+            ),
+            # KPI Section
+            html.Div(
+                [
+                    # Home/Road Record KPI
+                    create_kpi_card(
+                        [
+                            html.Div(
+                                f"{bans_df['tot_wins'][0]} - {bans_df['tot_wins'][1]}",
+                                className="kpi-card__value",
+                            ),
+                            html.Div("League wide home vs road wins", className="kpi-card__title"),
+                            html.Div(
+                                f"{bans_df['win_pct'][0] * 100:.0f}% - {bans_df['win_pct'][1] * 100:.0f}% win percentage splits",
+                                className="kpi-card__sub",
+                            ),
+                        ]
+                    ),
+                    # Points Per Game KPI
+                    create_kpi_card(
+                        [
+                            html.Div(
+                                f"{bans_df['avg_pts'][0]:.1f}",
+                                className="kpi-card__value",
+                            ),
+                            html.Div("League average points per game", className="kpi-card__title"),
+                            html.Div(
+                                f"{((bans_df['avg_pts'][0] - bans_df['last_yr_ppg'][0]) / bans_df['avg_pts'][0]) * 100:.2f}% difference vs last season",
+                                className="kpi-card__sub",
+                            ),
+                        ]
+                    ),
+                    # Injury Report KPI
+                    create_kpi_card(
+                        [
+                            html.Div(
+                                str(len(injuries_df)),
+                                className="kpi-card__value",
+                            ),
+                            html.Div("Players on injury report", className="kpi-card__title"),
+                            html.Div(
+                                "All injury designations",
+                                className="kpi-card__sub",
+                            ),
+                        ]
+                    ),
+                    # Upcoming Games KPI
+                    create_kpi_card(
+                        [
+                            html.Div(
+                                bans_df["upcoming_game_date"][0].strftime("%B %d"),
+                                className="kpi-card__value",
+                            ),
+                            html.Div(
+                                f"{bans_df['upcoming_games'][0]} upcoming games",
+                                className="kpi-card__title",
+                            ),
+                            html.Div(
+                                bans_df["upcoming_game_date"][0].strftime("%A"),
+                                className="kpi-card__sub",
+                            ),
+                        ]
+                    ),
+                ],
+                className="kpi-container",
+            ),
+            # Standings Section
+            dbc.Row(
+                [
+                    dbc.Col(
+                        [
+                            section_header("Western Conference"),
+                            create_standings_table(
+                                "Western",
+                                standings_df.query('conference == "Western"').to_dict("records"),
+                            ),
+                        ],
+                        width=6,
+                    ),
+                    dbc.Col(
+                        [
+                            section_header("Eastern Conference"),
+                            create_standings_table(
+                                "Eastern",
+                                standings_df.query('conference == "Eastern"').to_dict("records"),
+                            ),
+                        ],
+                        width=6,
+                    ),
+                ],
+                style={"margin-bottom": "30px"},
+            ),
+            # Charts Section 1
+            dbc.Row(
+                [
+                    dbc.Col(
+                        [
+                            section_header("Player Scoring Efficiency"),
+                            html.P(
+                                [
+                                    "Players averaging 20+ PPG for the selected season. ",
+                                    html.Span(
+                                        "highlighted",
+                                        className="scoring-efficiency-legend-ts",
+                                    ),
+                                    " = above league average.",
+                                ],
+                                className="text-muted small mb-2",
+                            ),
+                            html.Div(
+                                [
+                                    html.Span("Season type", className="text-muted small me-2"),
+                                    dcc.Dropdown(
+                                        id="scoring-efficiency-season",
+                                        options=_SCORING_SEASON_OPTIONS,
+                                        value=_SCORING_SEASON_DEFAULT,
+                                        clearable=False,
+                                        className="dash-dropdown flex-grow-1",
+                                        style={"minWidth": "200px", "maxWidth": "420px"},
+                                    ),
+                                ],
+                                className="d-flex flex-wrap align-items-center gap-2 mb-3",
+                            ),
+                            create_player_scoring_efficiency_table(),
+                        ],
+                        width=6,
+                    ),
+                    dbc.Col(
+                        [
+                            section_header("Team Ratings"),
+                            html.P(
+                                "Dashed lines mark league-average offensive and defensive rating.",
+                                className="text-muted small mb-2",
+                            ),
+                            html.Div(
+                                [
+                                    html.Span(
+                                        "Season type", className="text-muted small me-2 invisible"
+                                    ),
+                                    html.Div(
+                                        className="dash-dropdown flex-grow-1 invisible rounded border",
+                                        style={
+                                            "minHeight": "38px",
+                                            "minWidth": "200px",
+                                            "maxWidth": "420px",
+                                        },
+                                    ),
+                                ],
+                                className="d-flex flex-wrap align-items-center gap-2 mb-3",
+                                role="presentation",
+                            ),
+                            dcc.Graph(
+                                id="team-ratings-plot",
+                                figure=generate_team_ratings_figure(df=team_ratings_df),
+                                style={"height": "500px"},
+                            ),
+                        ],
+                        width=6,
+                    ),
+                ],
+                className="g-3 overview-paired-plots-row",
+                style={"margin-bottom": "30px"},
+            ),
+            # Charts Section 2
+            dbc.Row(
+                [
+                    dbc.Col(
+                        [
+                            section_header("Player Value Analysis"),
+                            dcc.Graph(
+                                id="player-value-analysis-plot",
+                                figure=create_player_value_analysis_chart(),
+                                style={"height": "500px"},
+                            ),
+                        ],
+                        width=6,
+                    ),
+                    dbc.Col(
+                        [
+                            section_header("Team Contract Efficiency"),
+                            dcc.Graph(
+                                id="contract-bar-plot",
+                                figure=create_team_contract_analysis_chart(),
+                                style={"height": "500px"},
+                            ),
+                        ],
+                        width=6,
+                    ),
+                ],
+                className="g-3 overview-paired-plots-row",
+            ),
+        ],
+        className="custom-padding",
+    )
 
 
 @callback(

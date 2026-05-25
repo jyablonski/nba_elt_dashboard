@@ -1,4 +1,4 @@
-from src.yaml_config import load_yaml_with_env
+from src.data_access.database import load_yaml_with_env
 
 
 def test_load_yaml_with_env_substitution(tmp_path, monkeypatch):

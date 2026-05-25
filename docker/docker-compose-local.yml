@@ -29,6 +29,7 @@ services:
       - ENV_TYPE=docker_dev
       # Pick up bind-mounted `src/` / `static/` edits without manual `docker compose restart dash_app`
       - DASH_RELOAD=1
+      - DATA_REFRESH_TOKEN=xbSSkcfOnoiBcoHtiuatSPrKq9Np3X3c
     restart: on-failure
     ports:
       - 9000:9000

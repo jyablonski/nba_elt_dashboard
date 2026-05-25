@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import pandas as pd
+import pytest
 from dash import html
 
+import src.pages.recent_games as recent_games_page
 from src.pages.recent_games import (
     _flow_legend_and_stats,
     _pbp_chart_subtitle,
@@ -11,6 +14,34 @@ from src.pages.recent_games import (
     _slate_date_label,
     _slate_summary_bar,
 )
+
+
+def _recent_games_teams_fixture() -> pd.DataFrame:
+    return pd.DataFrame(
+        [
+            {
+                "team": "DEN",
+                "opponent": "MIA",
+                "home_team": "DEN",
+                "mov": 5,
+                "team_logo": "logos/den.png",
+                "opp_logo": "logos/mia.png",
+            }
+        ]
+    )
+
+
+@pytest.fixture(autouse=True)
+def recent_games_tables(monkeypatch, pbp_fixture):
+    tables = {
+        "pbp": pbp_fixture,
+        "recent_games_teams": _recent_games_teams_fixture(),
+    }
+
+    def fake_get_table(table_name: str) -> pd.DataFrame:
+        return tables[table_name].copy()
+
+    monkeypatch.setattr(recent_games_page, "get_table", fake_get_table)
 
 
 def test_pbp_chart_subtitle_non_empty():
@@ -55,12 +86,12 @@ def test_flow_legend_and_stats_missing_game():
 
 
 def test_flow_legend_and_stats_known_game():
-    legend, meta = _flow_legend_and_stats("Atlanta Hawks Vs. Brooklyn Nets")
+    legend, meta = _flow_legend_and_stats("Denver Nuggets Vs. Miami Heat")
     assert isinstance(legend, html.Div)
     flat = str(legend)
-    assert "Brooklyn Nets @ Atlanta Hawks" in flat
-    assert "ATL 147" in flat
-    assert "BKN 145" in flat
+    assert "Miami Heat @ Denver Nuggets" in flat
+    assert "DEN 94" in flat
+    assert "MIA 89" in flat
     assert "Final" in flat
     assert "(BKN @ ATL)" not in flat
     assert "Chart context" not in flat
@@ -71,6 +102,6 @@ def test_flow_legend_and_stats_known_game():
     assert "recent-games-pbp-heading" in flat
     assert "plays" in meta
     assert meta["plays"] != "-"
-    assert meta["winner"] == "ATL"
+    assert meta["winner"] == "DEN"
     assert meta["home_pct_leading"] != "-"
     assert meta["away_pct_leading"] != "-"

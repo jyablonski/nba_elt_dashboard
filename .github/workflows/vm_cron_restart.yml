@@ -2,8 +2,9 @@ name: Daily VM Restart
 
 # cron job that restarts the service once a day to pull fresh data
 on:
-  schedule:
-    - cron: "15 12 * * *" # Run daily at 12:15 UTC
+  # 2026-05-25 update: disabling in favor of live data refresh endpoint calls
+  # schedule:
+  #   - cron: "15 12 * * *" # Run daily at 12:15 UTC
   workflow_dispatch: # Optional manual trigger
 
 concurrency:

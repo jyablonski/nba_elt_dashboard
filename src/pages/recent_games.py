@@ -10,11 +10,7 @@ from dash.dependencies import ALL, Input, Output
 from dash.exceptions import PreventUpdate
 import dash_bootstrap_components as dbc
 
-from src.database import (
-    recent_games_players_df,
-    recent_games_teams_df,
-    pbp_df,
-)
+from src.data_access.cache import get_table
 from src.recent_games_helpers import build_game_card_specs, pbp_flow_stats
 from src.theme.plotly import TRACE_HOVERLABEL, apply_dark_layout
 from src.ui.tables import dark_datatable
@@ -40,16 +36,27 @@ RECENT_PLAYERS_SIMPLE_COLUMNS = [
     dict(id="outcome", name="W/L"),
 ]
 
-_pbp_plot_kpis, pbp_plot_df = pbp_transformer(pbp_df)
-yesterdays_games = pbp_df["game_description"].drop_duplicates()
-GAME_OPTIONS = [{"label": game, "value": game} for game in yesterdays_games]
-GAME_CARD_SPECS = build_game_card_specs(pbp_df, recent_games_teams_df)
-_default_sel = yesterdays_games.iloc[0] if len(yesterdays_games) > 0 else None
-PLAYS_PARSED = len(pbp_plot_df) if pbp_plot_df is not None else 0
-GAMES_LAST_NIGHT = int(yesterdays_games.shape[0])
+
+def _pbp_data() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    pbp_df = get_table("pbp")
+    pbp_plot_kpis, pbp_plot_df = pbp_transformer(pbp_df)
+    return pbp_df, pbp_plot_kpis, pbp_plot_df
+
+
+def _game_card_specs():
+    return build_game_card_specs(get_table("pbp"), get_table("recent_games_teams"))
+
+
+def _game_options() -> tuple[list[dict], str | None]:
+    pbp_df = get_table("pbp")
+    yesterdays_games = pbp_df["game_description"].drop_duplicates()
+    options = [{"label": game, "value": game} for game in yesterdays_games]
+    default_sel = yesterdays_games.iloc[0] if len(yesterdays_games) > 0 else None
+    return options, default_sel
 
 
 def _slate_date_label() -> str:
+    pbp_df = get_table("pbp")
     if pbp_df is None or pbp_df.empty or "game_date" not in pbp_df.columns:
         return datetime.now().strftime("%a, %b %d, %Y")
     d = pd.Timestamp(pbp_df["game_date"].max())
@@ -62,14 +69,18 @@ def _pbp_chart_subtitle() -> str:
 
 def _slate_summary_bar() -> html.Div:
     """Single compact strip: slate volume without tall KPI cards."""
+    pbp_df, _pbp_plot_kpis, pbp_plot_df = _pbp_data()
+    yesterdays_games = pbp_df["game_description"].drop_duplicates()
+    plays_parsed = len(pbp_plot_df) if pbp_plot_df is not None else 0
+    games_last_night = int(yesterdays_games.shape[0])
     return html.Div(
         html.Div(
             [
                 html.Span(
-                    f"{GAMES_LAST_NIGHT} games on slate",
+                    f"{games_last_night} games on slate",
                     className="recent-games-slate-chip recent-games-slate-chip--accent",
                 ),
-                html.Span(f"{PLAYS_PARSED:,} plays in feed", className="recent-games-slate-chip"),
+                html.Span(f"{plays_parsed:,} plays in feed", className="recent-games-slate-chip"),
             ],
             className="recent-games-slate-bar-inner",
         ),
@@ -125,7 +136,7 @@ def _fmt_lead_pct(raw: object) -> str:
 
 
 def _result_line(game_desc: str, home_abbr: str, away_abbr: str) -> tuple[html.Div | str, dict]:
-    spec = next((s for s in GAME_CARD_SPECS if s.game_description == game_desc), None)
+    spec = next((s for s in _game_card_specs() if s.game_description == game_desc), None)
     if spec is None:
         return "", {}
 
@@ -161,6 +172,7 @@ def _result_line(game_desc: str, home_abbr: str, away_abbr: str) -> tuple[html.D
 
 def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]:
     """Centered heading above the margin chart: away @ home title, chart legend, inline stats."""
+    pbp_df, pbp_plot_kpis, pbp_plot_df = _pbp_data()
     if not game_desc or pbp_df is None or pbp_df.empty:
         return "", {}
     sub = pbp_df[pbp_df["game_description"] == game_desc]
@@ -185,7 +197,7 @@ def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]
         )
 
     st = pbp_flow_stats(pbp_plot_df[pbp_plot_df["game_description"] == game_desc])
-    kpi_row = _pbp_plot_kpis[_pbp_plot_kpis["game_description"] == game_desc]
+    kpi_row = pbp_plot_kpis[pbp_plot_kpis["game_description"] == game_desc]
     if kpi_row.empty:
         home_lead_pct = "-"
         away_lead_pct = "-"
@@ -275,14 +287,15 @@ def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]
 
 
 def render_game_cards(selected: str | None) -> html.Div:
-    if not GAME_CARD_SPECS:
+    game_card_specs = _game_card_specs()
+    if not game_card_specs:
         return html.Div("No games in PBP feed.", className="text-muted small")
-    n = len(GAME_CARD_SPECS)
+    n = len(game_card_specs)
     row_cls = "recent-games-card-row recent-games-card-row--scroll"
     if n <= 8:
         row_cls = "recent-games-card-row recent-games-card-row--wrap"
     cells = []
-    for spec in GAME_CARD_SPECS:
+    for spec in game_card_specs:
         sel = spec.game_description == selected
         away_win = spec.winner_abbr == spec.away_abbr
         home_win = spec.winner_abbr == spec.home_abbr
@@ -404,6 +417,7 @@ def create_performance_legend():
 
 
 def create_simple_players_table():
+    recent_games_players_df = get_table("recent_games_players")
     if recent_games_players_df is None or recent_games_players_df.empty:
         return dark_datatable(
             table_id="player-recent-games-table",
@@ -494,87 +508,89 @@ def _pbp_chart_chrome_above_plot(game_desc: str | None) -> html.Div:
     )
 
 
-recent_games_layout = html.Div(
-    html.Div(
-        [
-            html.Div(
-                [
-                    html.H1(
-                        f"Recent Games on {_slate_date_label()}",
-                        className="recent-games-hero-title recent-games-hero-compact mb-2",
-                    ),
-                    html.P(
-                        _pbp_chart_subtitle(),
-                        className="text-muted small mb-2",
-                    ),
-                    _slate_summary_bar(),
-                    html.Div(
-                        dcc.Dropdown(
-                            id="game-selector",
-                            options=GAME_OPTIONS,
-                            clearable=False,
-                            value=_default_sel,
-                            className="dash-dropdown recent-games-dropdown-sr",
+def recent_games_layout() -> html.Div:
+    game_options, default_sel = _game_options()
+    return html.Div(
+        html.Div(
+            [
+                html.Div(
+                    [
+                        html.H1(
+                            f"Recent Games on {_slate_date_label()}",
+                            className="recent-games-hero-title recent-games-hero-compact mb-2",
                         ),
-                        className="position-relative",
-                    ),
-                    html.Div(
-                        id="recent-games-card-strip",
-                        children=render_game_cards(_default_sel),
-                        className="recent-games-card-strip mb-3 w-100",
-                    ),
-                ],
-                className="recent-games-shell text-center w-100 py-3",
-            ),
-            html.Div(
-                [
-                    _pbp_chart_chrome_above_plot(_default_sel),
-                    dbc.Row(
-                        [
-                            dbc.Col(
-                                [
-                                    dcc.Graph(
-                                        id="pbp-analysis-plot",
-                                        config={"displayModeBar": False},
-                                        style={"height": "560px", "width": "100%"},
-                                    ),
-                                ],
-                                width=12,
-                                className="recent-games-minw-0",
+                        html.P(
+                            _pbp_chart_subtitle(),
+                            className="text-muted small mb-2",
+                        ),
+                        _slate_summary_bar(),
+                        html.Div(
+                            dcc.Dropdown(
+                                id="game-selector",
+                                options=game_options,
+                                clearable=False,
+                                value=default_sel,
+                                className="dash-dropdown recent-games-dropdown-sr",
                             ),
-                        ],
-                    ),
-                ],
-                className="mb-4",
-            ),
-            dbc.Row(
-                [
-                    dbc.Col(
-                        [
-                            html.Div(
-                                "TOP PLAYER LINES · FULL SLATE",
-                                className="recent-games-section-eyebrow text-center mb-2",
-                            ),
-                            html.Div(
-                                create_performance_legend(),
-                                className="d-flex justify-content-center mb-3 w-100",
-                            ),
-                            html.Div(
-                                create_simple_players_table(),
-                                className="recent-games-players-table-block",
-                            ),
-                        ],
-                        width=12,
-                        className="px-0",
-                    ),
-                ],
-                className="g-0 mt-2",
-            ),
-        ],
-        className="recent-games-page recent-games-fullbleed",
-    ),
-    className="custom-padding recent-games-outer",
-)
+                            className="position-relative",
+                        ),
+                        html.Div(
+                            id="recent-games-card-strip",
+                            children=render_game_cards(default_sel),
+                            className="recent-games-card-strip mb-3 w-100",
+                        ),
+                    ],
+                    className="recent-games-shell text-center w-100 py-3",
+                ),
+                html.Div(
+                    [
+                        _pbp_chart_chrome_above_plot(default_sel),
+                        dbc.Row(
+                            [
+                                dbc.Col(
+                                    [
+                                        dcc.Graph(
+                                            id="pbp-analysis-plot",
+                                            config={"displayModeBar": False},
+                                            style={"height": "560px", "width": "100%"},
+                                        ),
+                                    ],
+                                    width=12,
+                                    className="recent-games-minw-0",
+                                ),
+                            ],
+                        ),
+                    ],
+                    className="mb-4",
+                ),
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            [
+                                html.Div(
+                                    "TOP PLAYER LINES · FULL SLATE",
+                                    className="recent-games-section-eyebrow text-center mb-2",
+                                ),
+                                html.Div(
+                                    create_performance_legend(),
+                                    className="d-flex justify-content-center mb-3 w-100",
+                                ),
+                                html.Div(
+                                    create_simple_players_table(),
+                                    className="recent-games-players-table-block",
+                                ),
+                            ],
+                            width=12,
+                            className="px-0",
+                        ),
+                    ],
+                    className="g-0 mt-2",
+                ),
+            ],
+            className="recent-games-page recent-games-fullbleed",
+        ),
+        className="custom-padding recent-games-outer",
+    )
 
 
 @callback(
@@ -615,6 +631,7 @@ def update_pbp_plot(selected_game):
     if not selected_game:
         return {}
 
+    _pbp_df, _pbp_plot_kpis, pbp_plot_df = _pbp_data()
     filtered_pbp = pbp_plot_df.loc[pbp_plot_df["game_description"] == selected_game]
 
     if filtered_pbp.empty:

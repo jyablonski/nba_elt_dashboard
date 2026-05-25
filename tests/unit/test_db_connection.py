@@ -1,6 +1,6 @@
 from sqlalchemy.engine import make_url
 
-from src.db_connection import coerce_engine_port, sql_connection
+from src.data_access.database import coerce_engine_port, sql_connection
 
 
 def test_coerce_engine_port_string_and_int():
