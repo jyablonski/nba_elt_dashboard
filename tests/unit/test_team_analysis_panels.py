@@ -1,5 +1,7 @@
 import pandas as pd
+from dash import html
 
+import src.team_analysis_panels as tap
 from src.team_analysis_panels import (
     build_injuries_panel,
     build_transactions_panel,
@@ -71,8 +73,6 @@ def test_build_injuries_panel_renders():
 
 
 def test_extract_eta_patterns():
-    import src.team_analysis_panels as tap
-
     assert tap._extract_eta("") == "-"
     assert tap._extract_eta("   ") == "-"
     assert tap._extract_eta("Expected back today for practice") == "today"
@@ -85,8 +85,6 @@ def test_extract_eta_patterns():
 
 
 def test_status_badge_classes():
-    import src.team_analysis_panels as tap
-
     assert "out" in tap._status_badge_class("Out")
     assert "out" in tap._status_badge_class("out for season")
     assert "questionable" in tap._status_badge_class("Questionable")
@@ -96,9 +94,6 @@ def test_status_badge_classes():
 
 
 def test_transaction_category_and_highlight_and_date():
-    import src.team_analysis_panels as tap
-    from dash import html
-
     assert tap._transaction_category("two-way deal") == "2-WAY"
     assert tap._transaction_category("Player waived") == "WAIVE"
     assert tap._transaction_category("traded to East") == "TRADE"
@@ -123,8 +118,6 @@ def test_transaction_category_and_highlight_and_date():
 
 
 def test_filter_transactions_last_days_filters_window():
-    import src.team_analysis_panels as tap
-
     df = pd.DataFrame(
         {
             "date": pd.to_datetime(["2024-06-01", "2024-01-01"]),
@@ -140,8 +133,6 @@ def test_filter_transactions_last_days_filters_window():
 
 
 def test_filter_transactions_last_days_edge_cases():
-    import src.team_analysis_panels as tap
-
     assert tap.filter_transactions_last_days(None, "Toronto Raptors").empty
     assert tap.filter_transactions_last_days(pd.DataFrame(), "Toronto Raptors").empty
     df = pd.DataFrame(
@@ -154,8 +145,6 @@ def test_filter_transactions_last_days_edge_cases():
 
 
 def test_build_injury_panel_rows_line2_variants():
-    import src.team_analysis_panels as tap
-
     rows = tap.build_injury_panel_rows(
         pd.DataFrame(
             [

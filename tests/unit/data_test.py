@@ -1,4 +1,4 @@
-from src.data import team_names, team_names_abbreviations
+from src.data_access.tables import team_names, team_names_abbreviations
 
 
 def test_team_names():

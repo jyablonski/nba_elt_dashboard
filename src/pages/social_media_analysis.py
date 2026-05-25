@@ -7,15 +7,10 @@ from dash import callback, dcc, html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 
-from src.data_cols.reddit_comments import reddit_comments_slim_columns
-from src.data_cols.reddit_recent_keywords import reddit_keyword_columns
-from src.database import (
-    reddit_comments_df,
-    reddit_sentiment_time_series_df,
-    reddit_recent_keywords_df,
-    social_media_aggs_df,
-)
-from src.data import team_names_abbreviations
+from src.table_columns.reddit_comments import reddit_comments_slim_columns
+from src.table_columns.reddit_recent_keywords import reddit_keyword_columns
+from src.data_access.cache import get_table
+from src.data_access.tables import team_names_abbreviations
 from src.social_media_insights import (
     normalized_daily_volume,
     snapshot_kpis,
@@ -50,10 +45,6 @@ COMMENTS_TOOLTIP_CSS = [
     }
 ]
 
-# Display frame: markdown links + short preview (full text in tooltip)
-reddit_display_df = reddit_comments_df.copy()
-reddit_display_df["url"] = reddit_display_df["url"].str.replace("^(.*)$", "[Link](\\1)", regex=True)
-
 
 def _comment_preview(text: object, limit: int = 160) -> str:
     t = str(text).strip()
@@ -62,13 +53,25 @@ def _comment_preview(text: object, limit: int = 160) -> str:
     return f"{t[: limit - 1]}…"
 
 
-reddit_display_df["comment_preview"] = reddit_display_df["comment"].map(_comment_preview)
+def _reddit_display_df() -> pd.DataFrame:
+    reddit_display_df = get_table("reddit_comments")
+    reddit_display_df["url"] = reddit_display_df["url"].str.replace(
+        "^(.*)$", "[Link](\\1)", regex=True
+    )
+    reddit_display_df["comment_preview"] = reddit_display_df["comment"].map(_comment_preview)
+    return reddit_display_df
 
-_KPIS = snapshot_kpis(reddit_comments_df, reddit_recent_keywords_df, social_media_aggs_df)
+
+def _kpis() -> dict:
+    return snapshot_kpis(
+        get_table("reddit_comments"),
+        get_table("reddit_recent_keywords"),
+        get_table("social_media_aggs"),
+    )
 
 
 def _top_flair_share_kpi() -> tuple[str, str, str | None]:
-    pct, name = top_flair_share(reddit_comments_df)
+    pct, name = top_flair_share(get_table("reddit_comments"))
     if pct is None or name is None:
         return "-", "Top flair share", None
     headline = f"{pct:.1f}%"
@@ -155,7 +158,9 @@ def _add_7day_moving_avg(
 
 
 def build_league_volume_figure() -> go.Figure:
-    d = normalized_daily_volume(reddit_sentiment_time_series_df, reddit_comments_df)
+    d = normalized_daily_volume(
+        get_table("reddit_sentiment_time_series"), get_table("reddit_comments")
+    )
     if d.empty:
         return _empty_fig("No daily volume to plot")
     d = d.sort_values("scrape_date")
@@ -184,10 +189,11 @@ def build_league_volume_figure() -> go.Figure:
 
 
 def build_top_threads_engagement_figure() -> go.Figure:
-    return top_threads_engagement_figure(reddit_comments_df)
+    return top_threads_engagement_figure(get_table("reddit_comments"))
 
 
 def build_top_keywords_figure() -> go.Figure:
+    reddit_recent_keywords_df = get_table("reddit_recent_keywords")
     kwd = top_keywords(reddit_recent_keywords_df, 14)
     if kwd.empty:
         return _empty_fig("No keyword rankings")
@@ -213,6 +219,7 @@ def build_top_keywords_figure() -> go.Figure:
 
 
 def build_top_flairs_figure() -> go.Figure:
+    reddit_display_df = _reddit_display_df()
     fl = top_flairs(reddit_display_df, 12)
     if fl.empty:
         return _empty_fig("No flair counts")
@@ -238,6 +245,7 @@ def build_top_flairs_figure() -> go.Figure:
 
 
 def create_keywords_table():
+    reddit_recent_keywords_df = get_table("reddit_recent_keywords")
     return dark_datatable(
         table_id="keywords-table",
         columns=reddit_keyword_columns,
@@ -297,6 +305,7 @@ def _team_outcome_figure(selected_team: str | None) -> go.Figure:
     if not selected_team:
         return _empty_fig("Pick a team")
 
+    reddit_sentiment_time_series_df = get_table("reddit_sentiment_time_series")
     filtered_data = reddit_sentiment_time_series_df[
         reddit_sentiment_time_series_df["team"] == selected_team
     ]
@@ -352,10 +361,8 @@ def _team_outcome_figure(selected_team: str | None) -> go.Figure:
     return fig
 
 
-_TEAM_CHART_INIT = _team_outcome_figure(_SOCIAL_PRIOR_GAME_DEFAULT_TEAM)
-
-
 def create_slim_comments_table():
+    reddit_display_df = _reddit_display_df()
     sub = reddit_display_df[["scrape_date", "flair", "score", "compound", "comment_preview", "url"]]
     rows = sub.to_dict("records")
     tooltip_data = [
@@ -394,8 +401,9 @@ def create_slim_comments_table():
 
 
 def _kpi_row() -> list:
-    rt = _KPIS["reddit_total"]
-    pdiff = _KPIS["reddit_pct_diff"]
+    kpis = _kpis()
+    rt = kpis["reddit_total"]
+    pdiff = kpis["reddit_pct_diff"]
     diff_txt = None
     if pdiff is not None:
         diff_txt = f"{pdiff:+.1f}% vs rolling average snapshot"
@@ -413,8 +421,8 @@ def _kpi_row() -> list:
             subtitle=share_sub,
         ),
     ]
-    tw = _KPIS["top_word"]
-    twf = _KPIS["top_word_freq"]
+    tw = kpis["top_word"]
+    twf = kpis["top_word_freq"]
     if tw is not None and twf is not None:
         cards.append(
             create_insight_kpi(
@@ -429,7 +437,7 @@ def _kpi_row() -> list:
                 headline="-", title="Top trending token", subtitle="No keyword table rows"
             )
         )
-    n_flairs = _KPIS["distinct_flairs"]
+    n_flairs = kpis["distinct_flairs"]
     cards.append(
         create_insight_kpi(
             headline=f"{n_flairs:,}" if n_flairs is not None else "-",
@@ -440,118 +448,125 @@ def _kpi_row() -> list:
     return cards
 
 
-social_media_analysis_layout = html.Div(
-    [
-        page_hero(
-            title="r/NBA Social Pulse",
-            title_meta=[
-                html.Img(
-                    src="../assets/reddit.png",
-                    alt="Reddit",
-                    style={"height": "48px", "width": "48px"},
-                ),
-            ],
-        ),
-        html.Div(_kpi_row(), className="kpi-container"),
-        dbc.Row(
-            [
-                dbc.Col(
-                    dcc.Graph(
-                        figure=build_league_volume_figure(), config={"displayModeBar": False}
+def social_media_analysis_layout() -> html.Div:
+    return html.Div(
+        [
+            page_hero(
+                title="r/NBA Social Pulse",
+                title_meta=[
+                    html.Img(
+                        src="../assets/reddit.png",
+                        alt="Reddit",
+                        style={"height": "48px", "width": "48px"},
                     ),
-                    xs=12,
-                    lg=6,
-                    className="mb-3",
-                ),
-                dbc.Col(
-                    [
+                ],
+            ),
+            html.Div(_kpi_row(), className="kpi-container"),
+            dbc.Row(
+                [
+                    dbc.Col(
                         dcc.Graph(
-                            id="social-media-top-threads-graph",
-                            figure=build_top_threads_engagement_figure(),
-                            config={"displayModeBar": False},
+                            figure=build_league_volume_figure(), config={"displayModeBar": False}
                         ),
-                        html.Div(id="social-media-top-threads-dummy", style={"display": "none"}),
-                    ],
-                    xs=12,
-                    lg=6,
-                    className="mb-3",
-                ),
-            ],
-        ),
-        dbc.Row(
-            [
-                dbc.Col(
-                    dcc.Graph(figure=build_top_keywords_figure(), config={"displayModeBar": False}),
-                    xs=12,
-                    lg=6,
-                    className="mb-3",
-                ),
-                dbc.Col(
-                    dcc.Graph(figure=build_top_flairs_figure(), config={"displayModeBar": False}),
-                    xs=12,
-                    lg=6,
-                    className="mb-3",
-                ),
-            ],
-        ),
-        html.Div(
-            [
-                html.Div(
-                    [
-                        html.H4(
-                            "Comments vs prior game result", className="mb-0 align-self-center"
-                        ),
-                        html.Div(
-                            [
-                                html.Label(
-                                    "Team",
-                                    className="form-label fw-bold mb-0 me-2",
-                                    htmlFor="social-media-team-selector",
-                                ),
-                                dcc.Dropdown(
-                                    id="social-media-team-selector",
-                                    options=TEAM_OPTIONS,
-                                    value=_SOCIAL_PRIOR_GAME_DEFAULT_TEAM,
-                                    clearable=False,
-                                    className="dash-dropdown",
-                                    style={"minWidth": "220px", "maxWidth": "320px"},
-                                ),
-                            ],
-                            className="d-flex flex-wrap align-items-center",
-                        ),
-                    ],
-                    className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3",
-                ),
-                html.Div(
-                    dcc.Graph(
-                        id="social-media-plot",
-                        figure=_TEAM_CHART_INIT,
-                        style={"width": "100%", "height": "460px"},
+                        xs=12,
+                        lg=6,
+                        className="mb-3",
                     ),
-                    className="social-media-flair-chart-wrap",
-                ),
-            ],
-            className="mb-2",
-        ),
-        html.Details(
-            [
-                html.Summary("Detailed tables (full keyword stats & comment preview)"),
-                html.Div(
-                    [
-                        section_header("Recent comments"),
-                        create_slim_comments_table(),
-                        section_header("Trending keywords"),
-                        create_keywords_table(),
-                    ],
-                    className="mt-3",
-                ),
-            ],
-            className="social-media-details mb-4",
-            open=False,
-        ),
-    ],
-    className="custom-padding",
-)
+                    dbc.Col(
+                        [
+                            dcc.Graph(
+                                id="social-media-top-threads-graph",
+                                figure=build_top_threads_engagement_figure(),
+                                config={"displayModeBar": False},
+                            ),
+                            html.Div(
+                                id="social-media-top-threads-dummy", style={"display": "none"}
+                            ),
+                        ],
+                        xs=12,
+                        lg=6,
+                        className="mb-3",
+                    ),
+                ],
+            ),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        dcc.Graph(
+                            figure=build_top_keywords_figure(), config={"displayModeBar": False}
+                        ),
+                        xs=12,
+                        lg=6,
+                        className="mb-3",
+                    ),
+                    dbc.Col(
+                        dcc.Graph(
+                            figure=build_top_flairs_figure(), config={"displayModeBar": False}
+                        ),
+                        xs=12,
+                        lg=6,
+                        className="mb-3",
+                    ),
+                ],
+            ),
+            html.Div(
+                [
+                    html.Div(
+                        [
+                            html.H4(
+                                "Comments vs prior game result", className="mb-0 align-self-center"
+                            ),
+                            html.Div(
+                                [
+                                    html.Label(
+                                        "Team",
+                                        className="form-label fw-bold mb-0 me-2",
+                                        htmlFor="social-media-team-selector",
+                                    ),
+                                    dcc.Dropdown(
+                                        id="social-media-team-selector",
+                                        options=TEAM_OPTIONS,
+                                        value=_SOCIAL_PRIOR_GAME_DEFAULT_TEAM,
+                                        clearable=False,
+                                        className="dash-dropdown",
+                                        style={"minWidth": "220px", "maxWidth": "320px"},
+                                    ),
+                                ],
+                                className="d-flex flex-wrap align-items-center",
+                            ),
+                        ],
+                        className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3",
+                    ),
+                    html.Div(
+                        dcc.Graph(
+                            id="social-media-plot",
+                            figure=_team_outcome_figure(_SOCIAL_PRIOR_GAME_DEFAULT_TEAM),
+                            style={"width": "100%", "height": "460px"},
+                        ),
+                        className="social-media-flair-chart-wrap",
+                    ),
+                ],
+                className="mb-2",
+            ),
+            html.Details(
+                [
+                    html.Summary("Detailed tables (full keyword stats & comment preview)"),
+                    html.Div(
+                        [
+                            section_header("Recent comments"),
+                            create_slim_comments_table(),
+                            section_header("Trending keywords"),
+                            create_keywords_table(),
+                        ],
+                        className="mt-3",
+                    ),
+                ],
+                className="social-media-details mb-4",
+                open=False,
+            ),
+        ],
+        className="custom-padding",
+    )
 
 
 @callback(Output("social-media-plot", "figure"), Input("social-media-team-selector", "value"))

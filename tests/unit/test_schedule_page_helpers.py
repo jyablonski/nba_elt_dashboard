@@ -52,7 +52,7 @@ def test_create_tonight_games_cards_empty_slate():
             "away_is_great_value",
         ]
     )
-    with patch.object(schedule_mod, "schedule_tonights_games_df", empty):
+    with patch.object(schedule_mod, "get_table", return_value=empty):
         out = schedule_mod.create_tonight_games_cards()
     assert "No games on the slate" in str(out)
 
@@ -74,7 +74,7 @@ def test_create_tonight_games_cards_value_highlight():
         "away_is_great_value": 1,
     }
     df = pd.DataFrame([row])
-    with patch.object(schedule_mod, "schedule_tonights_games_df", df):
+    with patch.object(schedule_mod, "get_table", return_value=df):
         out = schedule_mod.create_tonight_games_cards()
     flat = str(out)
     assert "Detroit Pistons" in flat
@@ -107,7 +107,7 @@ def test_create_tonight_games_cards_multi_day_repeats_date_on_cards():
             {**base, "game_date": pd.Timestamp("2024-03-15"), "start_time": "8:00 PM"},
         ]
     )
-    with patch.object(schedule_mod, "schedule_tonights_games_df", df):
+    with patch.object(schedule_mod, "get_table", return_value=df):
         out = schedule_mod.create_tonight_games_cards()
     flat = str(out)
     assert "schedule-tonight-slate-date" not in flat

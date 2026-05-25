@@ -1,4 +1,4 @@
-from src.yaml_config import substitute_env_vars
+from src.data_access.database import substitute_env_vars
 
 
 def test_substitute_env_vars_nested(monkeypatch):

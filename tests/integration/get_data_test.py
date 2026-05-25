@@ -1,24 +1,40 @@
 import pandas as pd
 import pytest
 
-from src import database as database_module
-from src.data import source_tables
-from src.database import generate_data
-from src.db_connection import get_data
+from src.data_access import cache as database_module
+from src.data_access.tables import source_tables
+from src.data_access.cache import generate_data
+from src.data_access.database import get_data
 
 
-def _df_attr_name(table: str) -> str:
+@pytest.fixture(autouse=True)
+def restore_dashboard_snapshot():
+    snapshot_before_test = {
+        table_name: df.copy() for table_name, df in database_module._data_snapshot.items()
+    }
+    metadata_before_test = database_module.get_snapshot_metadata()
+
+    yield
+
+    database_module._data_snapshot = snapshot_before_test
+    database_module._snapshot_metadata = metadata_before_test
+
+
+def _table_key(table: str) -> str:
     if "." in table:
-        return f"{table.split('.')[1]}_df"
-    return f"{table}_df"
+        return table.split(".")[1]
+    return table
 
 
 def test_generate_data(postgres_engine):
     generate_data(postgres_engine=postgres_engine, source_tables=source_tables)
 
     for table in source_tables:
-        attr = _df_attr_name(table)
-        assert len(getattr(database_module, attr)) > 0
+        assert len(database_module.get_table(_table_key(table))) > 0
+
+    standings = database_module.get_table("standings")
+    assert len(standings) > 0
+    assert database_module.get_snapshot_metadata()["row_counts"]["standings"] == len(standings)
 
 
 def test_get_data(postgres_conn):
@@ -52,11 +68,11 @@ def test_generate_data_splits_qualified_table_name(postgres_engine, monkeypatch)
     monkeypatch.setattr(database_module, "get_data", fake_get_data)
     try:
         generate_data(postgres_engine=postgres_engine, source_tables=["gold.bans"])
-        assert len(database_module.bans_df) == 1
+        assert len(database_module.get_table("bans")) == 1
     finally:
         monkeypatch.undo()
         generate_data(postgres_engine=postgres_engine, source_tables=["bans"])
-    assert "scrape_time" in database_module.bans_df.columns
+    assert "scrape_time" in database_module.get_table("bans").columns
 
 
 @pytest.mark.parametrize("table", ("mov", "reddit_sentiment_time_series"))
@@ -89,3 +105,32 @@ def test_get_data_no_schema(postgres_conn):
         "neg",
     ]
     assert len(df) == 30
+
+
+def test_refresh_data_failed_load_keeps_previous_snapshot(monkeypatch):
+    class FakeEngine:
+        def begin(self):
+            return self
+
+        def __enter__(self):
+            return object()
+
+        def __exit__(self, exc_type, exc, tb):
+            return False
+
+    def successful_get_data(table_name, conn, limit_amount=2000, schema=None):
+        return pd.DataFrame({"table": [table_name], "limit": [limit_amount]})
+
+    monkeypatch.setattr(database_module, "get_data", successful_get_data)
+    database_module.refresh_data(postgres_engine=FakeEngine(), tables=["standings"])
+    before = database_module.get_table("standings")
+
+    def failing_get_data(table_name, conn, limit_amount=2000, schema=None):
+        raise RuntimeError("database unavailable")
+
+    monkeypatch.setattr(database_module, "get_data", failing_get_data)
+    with pytest.raises(RuntimeError, match="database unavailable"):
+        database_module.refresh_data(postgres_engine=FakeEngine(), tables=["standings"])
+
+    after = database_module.get_table("standings")
+    pd.testing.assert_frame_equal(before, after)

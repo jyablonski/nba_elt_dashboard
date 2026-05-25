@@ -2,7 +2,7 @@ from unittest.mock import MagicMock
 
 import pandas as pd
 
-from src.db_connection import get_data
+from src.data_access.database import get_data
 
 
 def test_get_data_with_schema_qualifies_table_and_limit(monkeypatch):
@@ -12,7 +12,7 @@ def test_get_data_with_schema_qualifies_table_and_limit(monkeypatch):
         captured.append(sql)
         return pd.DataFrame()
 
-    monkeypatch.setattr("src.db_connection.pd.read_sql_query", fake_read_sql)
+    monkeypatch.setattr("src.data_access.database.pd.read_sql_query", fake_read_sql)
     conn = MagicMock()
     get_data(table_name="bans", schema="gold", conn=conn, limit_amount=42)
     sql = captured[0].lower().replace("\n", " ")
@@ -27,7 +27,7 @@ def test_get_data_without_schema_uses_table_name_verbatim(monkeypatch):
         captured.append(sql)
         return pd.DataFrame()
 
-    monkeypatch.setattr("src.db_connection.pd.read_sql_query", fake_read_sql)
+    monkeypatch.setattr("src.data_access.database.pd.read_sql_query", fake_read_sql)
     conn = MagicMock()
     get_data(table_name="gold.reddit_comments", schema=None, conn=conn)
     sql = captured[0].lower().replace("\n", " ")
