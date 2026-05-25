@@ -15,6 +15,7 @@ from src.pages.social_media_analysis import social_media_analysis_layout
 from src.pages.team_analysis import team_analysis_layout
 
 from src.data_access.cache import get_table
+from src.data_access.cache import get_snapshot_metadata
 from src.data_access.cache import has_snapshot
 from src.data_access.cache import refresh_data as refresh_dashboard_data
 from src.shell import tab_label_with_badge
@@ -48,8 +49,7 @@ app = dash.Dash(
 )
 
 
-@app.server.post("/internal/refresh-data")
-def refresh_data_endpoint():
+def _validate_internal_token():
     expected_token = os.environ.get("DATA_REFRESH_TOKEN")
     provided_token = request.headers.get("X-Refresh-Token")
 
@@ -59,6 +59,15 @@ def refresh_data_endpoint():
     if provided_token != expected_token:
         return jsonify({"error": "unauthorized"}), 401
 
+    return None
+
+
+@app.server.post("/internal/refresh-data")
+def refresh_data_endpoint():
+    token_error = _validate_internal_token()
+    if token_error is not None:
+        return token_error
+
     result = refresh_dashboard_data()
     return jsonify(
         {
@@ -67,6 +76,31 @@ def refresh_data_endpoint():
             "duration_seconds": result.duration_seconds,
             "row_counts": result.row_counts,
         }
+    )
+
+
+@app.server.get("/internal/health")
+def health_endpoint():
+    token_error = _validate_internal_token()
+    if token_error is not None:
+        return token_error
+
+    metadata = get_snapshot_metadata()
+    snapshot_ready = has_snapshot()
+    last_refreshed_at = metadata["last_refreshed_at"]
+    return (
+        jsonify(
+            {
+                "status": "ok" if snapshot_ready else "unavailable",
+                "has_snapshot": snapshot_ready,
+                "last_refreshed_at": (
+                    last_refreshed_at.isoformat() if last_refreshed_at is not None else None
+                ),
+                "duration_seconds": metadata["duration_seconds"],
+                "row_counts": metadata["row_counts"],
+            }
+        ),
+        200 if snapshot_ready else 503,
     )
 
 
