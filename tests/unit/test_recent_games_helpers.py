@@ -96,6 +96,67 @@ def test_build_game_card_specs_tie_score_uses_away_as_winner_abbr_when_no_winner
     assert specs[0].margin == 2
 
 
+def test_build_game_card_specs_carries_series_fields():
+    pbp = pd.DataFrame(
+        {
+            "game_description": ["G1"],
+            "home_team": ["H"],
+            "away_team": ["V"],
+            "score_home": [110],
+            "score_away": [104],
+            "winning_team": ["H"],
+        }
+    )
+    teams = pd.DataFrame(
+        [
+            {
+                "team": "H",
+                "opponent": "V",
+                "mov": 6,
+                "home_team": "H",
+                "team_logo": "logos/h.png",
+                "opp_logo": "logos/v.png",
+                "series_round": "NBA Finals",
+                "series_status": "H leads 2-0",
+                "series_game_number": 2.0,
+            }
+        ]
+    )
+    spec = build_game_card_specs(pbp, teams)[0]
+    assert spec.series_round == "NBA Finals"
+    assert spec.series_status == "H leads 2-0"
+    assert spec.series_game_number == 2  # coerced to int
+
+
+def test_build_game_card_specs_series_fields_default_none_without_columns():
+    pbp = pd.DataFrame(
+        {
+            "game_description": ["G1"],
+            "home_team": ["H"],
+            "away_team": ["V"],
+            "score_home": [100],
+            "score_away": [90],
+            "winning_team": ["H"],
+        }
+    )
+    teams = pd.DataFrame(
+        [
+            {
+                "team": "H",
+                "opponent": "V",
+                "mov": 10,
+                "home_team": "H",
+                "team_logo": "logos/h.png",
+                "opp_logo": "logos/v.png",
+            }
+        ]
+    )
+    spec = build_game_card_specs(pbp, teams)[0]
+    assert spec.series_round is None
+    assert spec.series_status is None
+    assert spec.series_game_number is None
+
+
 def test_teams_row_no_match_falls_back_to_score_margin():
     pbp = pd.DataFrame(
         {

@@ -18,6 +18,26 @@ class GameCardSpec:
     margin: int
     away_logo: str
     home_logo: str
+    series_round: str | None = None
+    series_status: str | None = None
+    series_game_number: int | None = None
+
+
+def _clean_str(raw: Any) -> str | None:
+    """Normalize an optional text cell to a non-empty string, else None."""
+    if raw is None or (isinstance(raw, float) and pd.isna(raw)):
+        return None
+    s = str(raw).strip()
+    return s or None
+
+
+def _clean_int(raw: Any) -> int | None:
+    if raw is None or (isinstance(raw, float) and pd.isna(raw)):
+        return None
+    try:
+        return int(float(raw))
+    except TypeError, ValueError:
+        return None
 
 
 def _teams_row_for_matchup(teams_df: pd.DataFrame, home: str, away: str) -> pd.Series | None:
@@ -56,8 +76,14 @@ def build_game_card_specs(pbp_df: pd.DataFrame, teams_df: pd.DataFrame) -> list[
         margin = abs(home_pts - away_pts)
         away_logo = f"logos/{away.lower()}.png"
         home_logo = f"logos/{home.lower()}.png"
+        series_round = None
+        series_status = None
+        series_game_number = None
         tr = _teams_row_for_matchup(teams_df, home, away)
         if tr is not None:
+            series_round = _clean_str(tr.get("series_round"))
+            series_status = _clean_str(tr.get("series_status"))
+            series_game_number = _clean_int(tr.get("series_game_number"))
             margin = abs(int(tr["mov"]))
             hteam = str(tr["home_team"])
             win = str(tr["team"])
@@ -79,6 +105,9 @@ def build_game_card_specs(pbp_df: pd.DataFrame, teams_df: pd.DataFrame) -> list[
                 margin=margin,
                 away_logo=away_logo,
                 home_logo=home_logo,
+                series_round=series_round,
+                series_status=series_status,
+                series_game_number=series_game_number,
             )
         )
     return out
