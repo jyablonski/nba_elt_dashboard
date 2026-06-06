@@ -53,7 +53,7 @@ def _process_rss_bytes() -> int | None:
         statm = PROC_STATM_PATH.read_text().split()
         resident_pages = int(statm[1])
         page_size = os.sysconf("SC_PAGE_SIZE")
-    except (OSError, IndexError, ValueError):
+    except OSError, IndexError, ValueError:
         return None
     return resident_pages * page_size
 

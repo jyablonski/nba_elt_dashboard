@@ -11,6 +11,7 @@ from src.pages.recent_games import (
     _flow_legend_and_stats,
     _pbp_chart_subtitle,
     _pbp_stat_tile,
+    _series_chip,
     _slate_date_label,
     _slate_summary_bar,
 )
@@ -73,6 +74,30 @@ def test_pbp_stat_tile_renders():
     assert "Lead changes" in s
     assert "49" in s
     assert "recent-games-pbp-stat-tile" in s
+
+
+def test_series_chip_shown_when_playoffs_active():
+    chip = _series_chip("NBA Finals", "MIA leads 2-0", playoffs_active=True)
+    assert isinstance(chip, html.Div)
+    flat = str(chip)
+    assert "NBA Finals" in flat
+    assert "MIA leads 2-0" in flat
+    assert "recent-games-card-series" in flat
+
+
+def test_series_chip_hidden_when_flag_off_even_with_data():
+    # Authoritative gate: stale series data must not leak in the regular season.
+    assert _series_chip("NBA Finals", "MIA leads 2-0", playoffs_active=False) == ""
+
+
+def test_series_chip_hidden_when_no_series_status():
+    assert _series_chip("NBA Finals", None, playoffs_active=True) == ""
+    assert _series_chip(None, "", playoffs_active=True) == ""
+
+
+def test_series_chip_status_only_no_round():
+    chip = _series_chip(None, "MIA leads 2-0", playoffs_active=True)
+    assert chip.children == "MIA leads 2-0"
 
 
 def test_flow_legend_and_stats_missing_game():

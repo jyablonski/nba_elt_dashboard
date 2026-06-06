@@ -11,6 +11,7 @@ from src.config import SINGLE_BAR_COLOR
 from src.table_columns.future_schedule import future_schedule_columns
 from src.data_access.cache import get_table
 from src.theme.plotly import TRACE_HOVERLABEL, apply_dark_layout
+from src.shell import playoffs_enabled
 from src.ui.sections import page_hero, section_header
 from src.ui.tables import dark_datatable
 
@@ -27,6 +28,15 @@ SCHEDULE_PLOT_OPTIONS = [
     {"label": "Covering the Spread Metrics", "value": "team-spread-metrics"},
     {"label": "Game Types by Margin of Victory", "value": "game-types"},
 ]
+
+
+def _clean_text(val: Any) -> str:
+    """Normalize an optional cell to display text ('' when missing). Whole floats -> ints."""
+    if val is None or (isinstance(val, float) and pd.isna(val)):
+        return ""
+    if isinstance(val, float) and val.is_integer():
+        return str(int(val))
+    return str(val).strip()
 
 
 def _truthy_great_value(raw: object) -> bool:
@@ -66,6 +76,31 @@ def _fmt_rank(val: Any) -> str:
         return "-"
 
 
+def _series_line(
+    series_round: Any, series_game_number: Any, series_status: Any, playoffs_active: bool
+) -> html.Div | str:
+    """Playoff series strip for a tonight card, e.g. 'NBA Finals · Game 3 · Series tied 1-1'.
+
+    Gated on the ``playoffs`` feature flag (authoritative) plus row-level series data, so a
+    stale series_* value in the mart can't surface during the regular season.
+    """
+    if not playoffs_active:
+        return ""
+    round_txt = _clean_text(series_round)
+    status_txt = _clean_text(series_status)
+    game_no = _clean_text(series_game_number)
+    if not round_txt and not status_txt:
+        return ""
+    bits: list[str] = []
+    if round_txt:
+        bits.append(round_txt)
+    if game_no:
+        bits.append(f"Game {game_no}")
+    if status_txt:
+        bits.append(status_txt)
+    return html.Div(" · ".join(bits), className="schedule-card-series")
+
+
 def create_tonight_games_cards() -> html.Div:
     """Tonight slate as responsive matchup cards (same fields as former DataTable)."""
     df = get_table("schedule_tonights_games")
@@ -75,6 +110,7 @@ def create_tonight_games_cards() -> html.Div:
             className="schedule-empty text-muted small",
         )
 
+    playoffs_active = playoffs_enabled()
     slate_date_label: str | None = None
     if "game_date" in df.columns:
         parsed = pd.to_datetime(df["game_date"], errors="coerce").dropna()
@@ -108,6 +144,12 @@ def create_tonight_games_cards() -> html.Div:
                     html.Div(
                         meta_children,
                         className=meta_cls,
+                    ),
+                    _series_line(
+                        row.get("series_round"),
+                        row.get("series_game_number"),
+                        row.get("series_status"),
+                        playoffs_active,
                     ),
                     html.Div(
                         [

@@ -3809,7 +3809,9 @@ CREATE TABLE IF NOT EXISTS schedule_season_remaining(
 	home_team_logo text NULL,
 	away_team_logo text NULL,
 	home_team_odds text NULL,
-	away_team_odds text NULL
+	away_team_odds text NULL,
+	series_round text NULL,
+	series_game_number int4 NULL
 );
 
 INSERT INTO schedule_season_remaining (game_date,day_name,game_ts,avg_team_rank,start_time,home_team,away_team,home_moneyline_raw,away_moneyline_raw,home_team_logo,away_team_logo,home_team_odds,away_team_odds) VALUES
@@ -3833,7 +3835,10 @@ CREATE TABLE IF NOT EXISTS gold.schedule_tonights_games(
 	home_team_predicted_win_pct float8 NULL,
 	away_team_predicted_win_pct float8 NULL,
 	home_is_great_value int4 NULL,
-	away_is_great_value int4 NULL
+	away_is_great_value int4 NULL,
+	series_round text NULL,
+	series_status text NULL,
+	series_game_number int4 NULL
 );
 
 INSERT INTO gold.schedule_tonights_games (home_team,away_team,avg_team_rank,home_team_odds,away_team_odds,start_time,game_date,home_moneyline,away_moneyline,home_team_predicted_win_pct,away_team_predicted_win_pct,home_is_great_value,away_is_great_value) VALUES
@@ -3849,6 +3854,14 @@ INSERT INTO gold.schedule_tonights_games (home_team,away_team,avg_team_rank,home
 	 ('Sacramento Kings','Golden State Warriors', 5, 'Sacramento Kings (-160)','Golden State Warriors (+130)','10:00 PM',current_date,-160.0,130.0,0.779,0.221,1,0);
 INSERT INTO gold.schedule_tonights_games (home_team,away_team,avg_team_rank,home_team_odds,away_team_odds,start_time,game_date,home_moneyline,away_moneyline,home_team_predicted_win_pct,away_team_predicted_win_pct,home_is_great_value,away_is_great_value) VALUES
 	 ('Portland Trail Blazers','Orlando Magic', 25.5, 'Portland Trail Blazers (+115)','Orlando Magic (-140)','10:00 PM',current_date,115.0,-140.0,0.332,0.668,0,0);
+
+-- Playoff series context (state BEFORE tonight's game). NULL outside the postseason.
+UPDATE gold.schedule_tonights_games
+SET series_round = 'NBA Finals', series_status = 'Series tied 1-1', series_game_number = 3
+WHERE home_team = 'Atlanta Hawks' AND away_team = 'New York Knicks';
+UPDATE gold.schedule_tonights_games
+SET series_round = 'Conf. Semifinals', series_status = 'BOS leads 2-1', series_game_number = 4
+WHERE home_team = 'Boston Celtics' AND away_team = 'Miami Heat';
 
 DROP TABLE IF EXISTS social_media_aggs;
 CREATE TABLE IF NOT EXISTS social_media_aggs
@@ -4857,7 +4870,10 @@ CREATE TABLE IF NOT EXISTS recent_games_teams (
 	team_logo text NULL,
 	opp_logo text NULL,
 	home_team text NULL,
-	new_loc text NULL
+	new_loc text NULL,
+	series_round text NULL,
+	series_status text NULL,
+	series_game_number int4 NULL
 );
 
 INSERT INTO recent_games_teams (team,opponent,game_date,outcome,pts_scored,pts_scored_opp,mov,max_team_lead,max_opponent_lead,team_max_score,team_avg_score,pts_color,opp_pts_color,team_logo,opp_logo,home_team,new_loc) VALUES
@@ -4876,6 +4892,17 @@ INSERT INTO recent_games_teams (team,opponent,game_date,outcome,pts_scored,pts_s
 	 ('OKC','CHI','2023-11-22','W',116,102,14,18,0,139,119.3,'0','0','logos/okc.png','logos/chi.png','OKC','Vs.'),
 	 ('ATL','BKN','2023-11-22','W',147,145,2,15,5,152,124.1,'2','1','logos/atl.png','logos/bkn.png','ATL','Vs.'),
 	 ('NOP','SAC','2023-11-22','W',117,112,5,17,9,131,113.5,'0','0','logos/nop.png','logos/sac.png','NOP','Vs.');
+
+-- Playoff series context (state AFTER each game). NULL outside the postseason.
+UPDATE recent_games_teams
+SET series_round = 'NBA Finals', series_status = 'MIA leads 2-0', series_game_number = 2
+WHERE team = 'MIA' AND opponent = 'CLE';
+UPDATE recent_games_teams
+SET series_round = 'Conf. Finals', series_status = 'Series tied 1-1', series_game_number = 2
+WHERE team = 'BOS' AND opponent = 'MIL';
+UPDATE recent_games_teams
+SET series_round = 'First Round', series_status = 'OKC leads 3-1', series_game_number = 4
+WHERE team = 'OKC' AND opponent = 'CHI';
 
 
 DROP TABLE IF EXISTS team_adv_stats;

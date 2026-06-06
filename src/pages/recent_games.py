@@ -12,6 +12,7 @@ import dash_bootstrap_components as dbc
 
 from src.data_access.cache import get_table
 from src.recent_games_helpers import build_game_card_specs, pbp_flow_stats
+from src.shell import playoffs_enabled
 from src.theme.plotly import TRACE_HOVERLABEL, apply_dark_layout
 from src.ui.tables import dark_datatable
 from src.utils import pbp_transformer
@@ -222,12 +223,19 @@ def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]
     home_chip_style = {"backgroundColor": home_bg} if home_bg else None
     away_chip_style = {"backgroundColor": away_bg} if away_bg else None
     result_line, result_meta = _result_line(game_desc, home_abbr, away_abbr)
+    spec = next((s for s in _game_card_specs() if s.game_description == game_desc), None)
+    series_line = (
+        _series_chip(spec.series_round, spec.series_status, playoffs_enabled())
+        if spec is not None
+        else ""
+    )
 
     legend = html.Div(
         [
             html.Div(
                 [
                     html.Span(title_line, className="recent-games-pbp-heading-matchup"),
+                    series_line,
                     result_line,
                 ],
                 className="recent-games-pbp-heading-titles",
@@ -286,10 +294,28 @@ def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]
     }
 
 
+def _series_chip(
+    series_round: str | None, series_status: str | None, playoffs_active: bool
+) -> html.Div | str:
+    """Playoff series pill, e.g. 'NBA Finals · MIA leads 2-0'.
+
+    Gated on the ``playoffs`` feature flag (authoritative) plus row-level series data,
+    so a stale series_status in a mart can't surface during the regular season.
+    """
+    if not playoffs_active or not series_status:
+        return ""
+    bits = [series_round, series_status] if series_round else [series_status]
+    return html.Div(
+        " · ".join(bits),
+        className="recent-games-card-series",
+    )
+
+
 def render_game_cards(selected: str | None) -> html.Div:
     game_card_specs = _game_card_specs()
     if not game_card_specs:
         return html.Div("No games in PBP feed.", className="text-muted small")
+    playoffs_active = playoffs_enabled()
     n = len(game_card_specs)
     row_cls = "recent-games-card-row recent-games-card-row--scroll"
     if n <= 8:
@@ -309,6 +335,7 @@ def render_game_cards(selected: str | None) -> html.Div:
                         ),
                         className="recent-games-card-top",
                     ),
+                    _series_chip(spec.series_round, spec.series_status, playoffs_active),
                     html.Div(
                         [
                             html.Div(
