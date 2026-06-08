@@ -5,6 +5,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 from dash import html
 
+import src.routes as routes
 import src.server as srv
 from src.data_access.cache import RefreshResult
 
@@ -58,7 +59,7 @@ def test_refresh_data_endpoint_requires_configured_token(monkeypatch):
 
 def test_refresh_data_endpoint_rejects_bad_token(monkeypatch):
     monkeypatch.setenv("DATA_REFRESH_TOKEN", "secret")
-    with mock.patch.object(srv, "refresh_dashboard_data") as refresh_mock:
+    with mock.patch.object(routes, "refresh_dashboard_data") as refresh_mock:
         response = srv.app.server.test_client().post(
             "/internal/refresh-data",
             headers={"X-Refresh-Token": "wrong"},
@@ -76,7 +77,7 @@ def test_refresh_data_endpoint_refreshes_with_valid_token(monkeypatch):
         duration_seconds=1.25,
         row_counts={"standings": 30},
     )
-    with mock.patch.object(srv, "refresh_dashboard_data", return_value=result) as refresh_mock:
+    with mock.patch.object(routes, "refresh_dashboard_data", return_value=result) as refresh_mock:
         response = srv.app.server.test_client().post(
             "/internal/refresh-data",
             headers={"X-Refresh-Token": "secret"},
@@ -120,10 +121,10 @@ def test_health_endpoint_returns_snapshot_metadata(monkeypatch):
     }
 
     with (
-        mock.patch.object(srv, "has_snapshot", return_value=True),
-        mock.patch.object(srv, "get_snapshot_metadata", return_value=metadata),
+        mock.patch.object(routes, "has_snapshot", return_value=True),
+        mock.patch.object(routes, "get_snapshot_metadata", return_value=metadata),
         mock.patch.object(
-            srv,
+            routes,
             "_memory_metadata",
             return_value={
                 "process_rss_mb": 355.4,
@@ -161,10 +162,10 @@ def test_health_endpoint_reports_unavailable_without_snapshot(monkeypatch):
     }
 
     with (
-        mock.patch.object(srv, "has_snapshot", return_value=False),
-        mock.patch.object(srv, "get_snapshot_metadata", return_value=metadata),
+        mock.patch.object(routes, "has_snapshot", return_value=False),
+        mock.patch.object(routes, "get_snapshot_metadata", return_value=metadata),
         mock.patch.object(
-            srv,
+            routes,
             "_memory_metadata",
             return_value={
                 "process_rss_mb": None,
@@ -201,12 +202,12 @@ def test_memory_metadata_reads_process_and_cgroup_values(monkeypatch, tmp_path):
     memory_current.write_text(str(128 * 1024 * 1024))
     memory_max.write_text(str(512 * 1024 * 1024))
 
-    monkeypatch.setattr(srv, "PROC_STATM_PATH", proc_statm)
-    monkeypatch.setattr(srv, "CGROUP_V2_MEMORY_CURRENT_PATH", memory_current)
-    monkeypatch.setattr(srv, "CGROUP_V2_MEMORY_MAX_PATH", memory_max)
-    monkeypatch.setattr(srv.os, "sysconf", lambda _name: 4096)
+    monkeypatch.setattr(routes, "PROC_STATM_PATH", proc_statm)
+    monkeypatch.setattr(routes, "CGROUP_V2_MEMORY_CURRENT_PATH", memory_current)
+    monkeypatch.setattr(routes, "CGROUP_V2_MEMORY_MAX_PATH", memory_max)
+    monkeypatch.setattr(routes.os, "sysconf", lambda _name: 4096)
 
-    assert srv._memory_metadata() == {
+    assert routes._memory_metadata() == {
         "process_rss_mb": 1.0,
         "container_current_mb": 128.0,
         "container_limit_mb": 512.0,
@@ -216,13 +217,13 @@ def test_memory_metadata_reads_process_and_cgroup_values(monkeypatch, tmp_path):
 def test_memory_metadata_handles_missing_files(monkeypatch, tmp_path):
     missing = tmp_path / "missing"
 
-    monkeypatch.setattr(srv, "PROC_STATM_PATH", missing)
-    monkeypatch.setattr(srv, "CGROUP_V2_MEMORY_CURRENT_PATH", missing)
-    monkeypatch.setattr(srv, "CGROUP_V2_MEMORY_MAX_PATH", missing)
-    monkeypatch.setattr(srv, "CGROUP_V1_MEMORY_CURRENT_PATH", missing)
-    monkeypatch.setattr(srv, "CGROUP_V1_MEMORY_LIMIT_PATH", missing)
+    monkeypatch.setattr(routes, "PROC_STATM_PATH", missing)
+    monkeypatch.setattr(routes, "CGROUP_V2_MEMORY_CURRENT_PATH", missing)
+    monkeypatch.setattr(routes, "CGROUP_V2_MEMORY_MAX_PATH", missing)
+    monkeypatch.setattr(routes, "CGROUP_V1_MEMORY_CURRENT_PATH", missing)
+    monkeypatch.setattr(routes, "CGROUP_V1_MEMORY_LIMIT_PATH", missing)
 
-    assert srv._memory_metadata() == {
+    assert routes._memory_metadata() == {
         "process_rss_mb": None,
         "container_current_mb": None,
         "container_limit_mb": None,

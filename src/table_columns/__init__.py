@@ -1,1 +1,0 @@
-"""Dash DataTable column definitions."""
