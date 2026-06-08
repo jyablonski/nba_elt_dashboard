@@ -874,7 +874,7 @@ img[src*="/nba"] {
   align-items: center;
   justify-content: center;
   gap: 4px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .recent-games-pbp-heading-matchup {
@@ -882,30 +882,6 @@ img[src*="/nba"] {
   font-size: clamp(1.1rem, 2.2vw, 1.55rem);
   font-weight: 600;
   color: var(--text);
-}
-
-.recent-games-pbp-result-line {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 0 6px;
-  font-size: 0.92rem;
-  color: var(--text-muted);
-  font-variant-numeric: tabular-nums;
-}
-
-.recent-games-pbp-result-team {
-  font-weight: 600;
-}
-
-.recent-games-pbp-result-team--win {
-  color: var(--text-accent);
-}
-
-.recent-games-pbp-result-sep,
-.recent-games-pbp-result-meta {
-  color: var(--text-muted);
 }
 
 .recent-games-pbp-heading-row {
@@ -1212,10 +1188,6 @@ img[src*="/nba"] {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.recent-games-pbp-heading-titles .recent-games-card-series {
-  font-size: 0.78rem;
 }
 
 .recent-games-flow-eyebrow {

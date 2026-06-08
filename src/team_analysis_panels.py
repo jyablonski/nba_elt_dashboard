@@ -1,5 +1,3 @@
-"""Custom HTML panels for Team Analysis (injuries + transactions)."""
-
 from __future__ import annotations
 
 import re

@@ -1,5 +1,3 @@
-"""Apply `docker/postgres_bootstrap.sql` to a running Postgres instance (used by Testcontainers)."""
-
 from __future__ import annotations
 
 from pathlib import Path

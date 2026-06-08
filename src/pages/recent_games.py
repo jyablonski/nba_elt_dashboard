@@ -59,9 +59,9 @@ def _game_options() -> tuple[list[dict], str | None]:
 def _slate_date_label() -> str:
     pbp_df = get_table("pbp")
     if pbp_df is None or pbp_df.empty or "game_date" not in pbp_df.columns:
-        return datetime.now().strftime("%a, %b %d, %Y")
+        return datetime.now().strftime("%A, %b %d, %Y")
     d = pd.Timestamp(pbp_df["game_date"].max())
-    return d.strftime("%a, %b %d, %Y")
+    return d.strftime("%A, %b %d, %Y")
 
 
 def _pbp_chart_subtitle() -> str:
@@ -85,7 +85,7 @@ def _slate_summary_bar() -> html.Div:
             ],
             className="recent-games-slate-bar-inner",
         ),
-        className="recent-games-slate-bar mb-3",
+        className="recent-games-slate-bar mb-2",
     )
 
 
@@ -136,43 +136,12 @@ def _fmt_lead_pct(raw: object) -> str:
         return "-"
 
 
-def _result_line(game_desc: str, home_abbr: str, away_abbr: str) -> tuple[html.Div | str, dict]:
-    spec = next((s for s in _game_card_specs() if s.game_description == game_desc), None)
-    if spec is None:
-        return "", {}
-
-    away_win = spec.winner_abbr == away_abbr
-    home_win = spec.winner_abbr == home_abbr
-    winner_abbr = spec.winner_abbr or (home_abbr if spec.home_pts > spec.away_pts else away_abbr)
-    final_tag = "Final"
-
-    result = html.Div(
-        [
-            html.Span(
-                f"{away_abbr} {spec.away_pts}",
-                className="recent-games-pbp-result-team"
-                + (" recent-games-pbp-result-team--win" if away_win else ""),
-            ),
-            html.Span(",", className="recent-games-pbp-result-sep"),
-            html.Span(
-                f"{home_abbr} {spec.home_pts}",
-                className="recent-games-pbp-result-team"
-                + (" recent-games-pbp-result-team--win" if home_win else ""),
-            ),
-            html.Span(f"· {final_tag}", className="recent-games-pbp-result-meta"),
-        ],
-        className="recent-games-pbp-result-line",
-    )
-    return result, {
-        "winner": winner_abbr,
-        "away_pts": spec.away_pts,
-        "home_pts": spec.home_pts,
-        "final_tag": final_tag,
-    }
-
-
 def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]:
-    """Centered heading above the margin chart: away @ home title, chart legend, inline stats."""
+    """Centered heading above the margin chart: away @ home title, chart legend, inline stats.
+
+    Matchup name aside, the score and playoff-series chip live in the game card above the
+    chart, so they are intentionally omitted here to avoid duplicating the same facts twice.
+    """
     pbp_df, pbp_plot_kpis, pbp_plot_df = _pbp_data()
     if not game_desc or pbp_df is None or pbp_df.empty:
         return "", {}
@@ -222,22 +191,11 @@ def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]
     away_bg = _hex_tint_rgba(away_hex)
     home_chip_style = {"backgroundColor": home_bg} if home_bg else None
     away_chip_style = {"backgroundColor": away_bg} if away_bg else None
-    result_line, result_meta = _result_line(game_desc, home_abbr, away_abbr)
-    spec = next((s for s in _game_card_specs() if s.game_description == game_desc), None)
-    series_line = (
-        _series_chip(spec.series_round, spec.series_status, playoffs_enabled())
-        if spec is not None
-        else ""
-    )
 
     legend = html.Div(
         [
             html.Div(
-                [
-                    html.Span(title_line, className="recent-games-pbp-heading-matchup"),
-                    series_line,
-                    result_line,
-                ],
+                html.Span(title_line, className="recent-games-pbp-heading-matchup"),
                 className="recent-games-pbp-heading-titles",
             ),
             html.Div(
@@ -289,7 +247,6 @@ def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]
         "home_pct_leading": home_lead_pct,
         "away_pct_leading": away_lead_pct,
         "tie_pct": tie_pct,
-        **result_meta,
         **st,
     }
 
@@ -544,11 +501,11 @@ def recent_games_layout() -> html.Div:
                     [
                         html.H1(
                             f"Recent Games on {_slate_date_label()}",
-                            className="recent-games-hero-title recent-games-hero-compact mb-2",
+                            className="recent-games-hero-title recent-games-hero-compact mb-1",
                         ),
                         html.P(
                             _pbp_chart_subtitle(),
-                            className="text-muted small mb-2",
+                            className="text-muted small mb-1",
                         ),
                         _slate_summary_bar(),
                         html.Div(
@@ -564,10 +521,10 @@ def recent_games_layout() -> html.Div:
                         html.Div(
                             id="recent-games-card-strip",
                             children=render_game_cards(default_sel),
-                            className="recent-games-card-strip mb-3 w-100",
+                            className="recent-games-card-strip mb-2 w-100",
                         ),
                     ],
-                    className="recent-games-shell text-center w-100 py-3",
+                    className="recent-games-shell text-center w-100 py-2",
                 ),
                 html.Div(
                     [
@@ -578,8 +535,12 @@ def recent_games_layout() -> html.Div:
                                     [
                                         dcc.Graph(
                                             id="pbp-analysis-plot",
-                                            config={"displayModeBar": False},
-                                            style={"height": "560px", "width": "100%"},
+                                            config={"displayModeBar": False, "responsive": True},
+                                            style={
+                                                "height": "min(560px, calc(100vh - 320px))",
+                                                "minHeight": "380px",
+                                                "width": "100%",
+                                            },
                                         ),
                                     ],
                                     width=12,

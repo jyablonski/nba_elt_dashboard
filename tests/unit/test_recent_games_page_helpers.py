@@ -1,5 +1,3 @@
-"""Unit tests for Recent Games page UI helpers (slate bar, PBP insights)."""
-
 from __future__ import annotations
 
 import pandas as pd
@@ -54,8 +52,17 @@ def test_pbp_chart_subtitle_non_empty():
 def test_slate_date_label_format():
     label = _slate_date_label()
     assert len(label) >= 8
-    # e.g. "Mon, Jan 01, 2024" from strftime
+    # e.g. "Monday, Jan 01, 2024" from strftime — full weekday name at the front
     assert "," in label
+    assert label.split(",", 1)[0] in {
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+    }
 
 
 def test_slate_summary_bar_structure():
@@ -115,9 +122,10 @@ def test_flow_legend_and_stats_known_game():
     assert isinstance(legend, html.Div)
     flat = str(legend)
     assert "Miami Heat @ Denver Nuggets" in flat
-    assert "DEN 94" in flat
-    assert "MIA 89" in flat
-    assert "Final" in flat
+    # Score and series chip live in the game card above the chart, not duplicated here.
+    assert "DEN 94" not in flat
+    assert "MIA 89" not in flat
+    assert "Final" not in flat
     assert "(BKN @ ATL)" not in flat
     assert "Chart context" not in flat
     assert "Max lead" in flat
@@ -127,6 +135,5 @@ def test_flow_legend_and_stats_known_game():
     assert "recent-games-pbp-heading" in flat
     assert "plays" in meta
     assert meta["plays"] != "-"
-    assert meta["winner"] == "DEN"
     assert meta["home_pct_leading"] != "-"
     assert meta["away_pct_leading"] != "-"

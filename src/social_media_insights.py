@@ -1,5 +1,3 @@
-"""Aggregations for the Social Media Analysis page (no DB changes; derived in-app)."""
-
 from __future__ import annotations
 
 from typing import Any
