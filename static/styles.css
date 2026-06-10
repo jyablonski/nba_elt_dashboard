@@ -21,6 +21,8 @@
   --text: #e8e6e3;
   --text-muted: #8d9694;
   --text-accent: #7ee8d4;
+  /* --text-accent as raw r,g,b so components can tint it: rgba(var(--accent-rgb), a) */
+  --accent-rgb: 126, 232, 212;
 
   /* Brand & semantics */
   --accent: #4fd1c5;
@@ -64,6 +66,13 @@ h3 {
   text-align: center;
 }
 
+/* Small uppercase caption shared by KPI titles, field labels and stat captions.
+   Pair with a component class for per-label size/spacing (e.g. "app-label foo-lbl"). */
+.app-label {
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
 /* -----------------------------------------------------------------------------
    Bootstrap / DBC (cards)
    App shell tab rail lives in static/tab_shell.css (.nba-shell-tabs) so SLATE
@@ -89,7 +98,7 @@ h3 {
 }
 
 .scoring-efficiency-legend-ts {
-  color: #7ee8d4;
+  color: var(--text-accent);
   font-weight: 600;
 }
 
@@ -190,8 +199,6 @@ h3 {
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-muted);
   margin-bottom: var(--space-2);
   width: 100%;
 }
@@ -288,7 +295,7 @@ h3 {
 
 /* Row hover: inset ring only - avoids overriding inline conditional backgrounds. */
 .dash-spreadsheet tbody tr:hover .dash-cell {
-  box-shadow: inset 0 0 0 1px rgba(127, 232, 212, 0.4);
+  box-shadow: inset 0 0 0 1px rgba(var(--accent-rgb), 0.4);
 }
 
 .dash-spreadsheet .dash-header-cell,
@@ -384,6 +391,23 @@ img[src*="/nba"] {
   text-align: center;
   color: var(--text);
   font-weight: 600;
+}
+
+/* Optional inline control (e.g. a filter dropdown) pinned to the right of a section
+   header. Absolute so it never adds height — paired plot headers stay aligned. */
+.app-section-header-control {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  /* Sit above the sibling plot so the open dropdown menu isn't painted over. */
+  z-index: 30;
+}
+
+.app-section-header-control .Select-menu-outer {
+  z-index: 30;
 }
 
 /* -----------------------------------------------------------------------------
@@ -546,9 +570,7 @@ img[src*="/nba"] {
   display: block;
   font-size: 0.72rem;
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--text-muted);
   margin-bottom: 6px;
 }
 
@@ -699,9 +721,9 @@ img[src*="/nba"] {
 }
 
 .schedule-card-team--value {
-  border-color: rgba(126, 232, 212, 0.45);
-  background-color: rgba(126, 232, 212, 0.12);
-  box-shadow: 0 0 0 1px rgba(126, 232, 212, 0.08);
+  border-color: rgba(var(--accent-rgb),0.45);
+  background-color: rgba(var(--accent-rgb),0.12);
+  box-shadow: 0 0 0 1px rgba(var(--accent-rgb),0.08);
 }
 
 .schedule-card-at {
@@ -761,9 +783,7 @@ img[src*="/nba"] {
 .schedule-card-stat-lbl {
   display: block;
   font-size: 0.62rem;
-  text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--text-muted);
   margin-bottom: 4px;
 }
 
@@ -927,7 +947,7 @@ img[src*="/nba"] {
 }
 
 .recent-games-margin-chip--home {
-  background-color: rgba(126, 232, 212, 0.1);
+  background-color: rgba(var(--accent-rgb),0.1);
   color: var(--text);
 }
 
@@ -966,9 +986,7 @@ img[src*="/nba"] {
 
 .recent-games-pbp-stat-lbl {
   font-size: 0.68rem;
-  text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--text-muted);
   margin-bottom: 4px;
 }
 
@@ -1099,12 +1117,12 @@ img[src*="/nba"] {
 }
 
 .recent-games-card:hover {
-  border-color: rgba(126, 232, 212, 0.35);
+  border-color: rgba(var(--accent-rgb),0.35);
 }
 
 .recent-games-card--selected {
   border-color: var(--text-accent);
-  box-shadow: 0 0 0 1px rgba(126, 232, 212, 0.25);
+  box-shadow: 0 0 0 1px rgba(var(--accent-rgb),0.25);
 }
 
 .recent-games-card-top {
@@ -1407,7 +1425,7 @@ img[src*="/nba"] {
 }
 
 .team-panel-injury-badge--default {
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: var(--border-subtle);
   color: var(--text-muted);
 }
 

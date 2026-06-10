@@ -64,6 +64,42 @@ def test_pbp_transformer_empty_df():
     assert k.empty and d.empty
 
 
+def _minimal_pbp(times: list[float], scorers: list[str]) -> pd.DataFrame:
+    n = len(times)
+    return pd.DataFrame(
+        {
+            "game_description": ["G"] * n,
+            "time_remaining_final": times,
+            "scoring_team": scorers,
+            "leading_team": scorers,
+            "home_team": ["DEN"] * n,
+            "away_team": ["MIA"] * n,
+            "home_fill": ["DEN"] * n,
+            "away_fill": ["MIA"] * n,
+            "time_quarter": ["x"] * n,
+            "quarter": ["q"] * n,
+        }
+    )
+
+
+def test_pbp_transformer_end_row_at_zero_for_regulation():
+    # Last play is in regulation (positive clock) -> 0:00 marker sits at end of Q4 (0.0).
+    _, plot = pbp_transformer(_minimal_pbp([48.0, 1.0], ["DEN", "MIA"]))
+    end = plot[plot["time_quarter"] == "0:00"]
+    assert end["time_remaining_final"].tolist() == [0.0]
+
+
+def test_pbp_transformer_end_row_at_period_boundary_for_overtime():
+    # Clock counts past 0 into OT (OT1: 0 -> -5). The 0:00 marker must land at the OT
+    # period boundary, not back at end of regulation (the bug that drew a stray point).
+    _, plot_ot1 = pbp_transformer(_minimal_pbp([48.0, -0.5, -4.9], ["DEN", "MIA", "DEN"]))
+    assert plot_ot1[plot_ot1["time_quarter"] == "0:00"]["time_remaining_final"].tolist() == [-5.0]
+
+    # Second overtime (-5 -> -10) lands on -10.0.
+    _, plot_ot2 = pbp_transformer(_minimal_pbp([48.0, -6.0, -9.5], ["DEN", "MIA", "DEN"]))
+    assert plot_ot2[plot_ot2["time_quarter"] == "0:00"]["time_remaining_final"].tolist() == [-10.0]
+
+
 def test_pbp_transformer_adds_tie_column_when_absent_from_pivot(pbp_fixture):
     sub = pbp_fixture[pbp_fixture["leading_team_text"] != "TIE"].copy()
     kpis, _ = pbp_transformer(sub)

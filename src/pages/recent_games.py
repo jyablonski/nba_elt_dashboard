@@ -11,7 +11,11 @@ from dash.exceptions import PreventUpdate
 import dash_bootstrap_components as dbc
 
 from src.data_access.cache import get_table
-from src.recent_games_helpers import build_game_card_specs, pbp_flow_stats
+from src.recent_games_helpers import (
+    biggest_scoring_run,
+    build_game_card_specs,
+    pbp_flow_stats,
+)
 from src.shell import playoffs_enabled
 from src.theme.plotly import TRACE_HOVERLABEL, apply_dark_layout
 from src.ui.tables import dark_datatable
@@ -92,7 +96,7 @@ def _slate_summary_bar() -> html.Div:
 def _pbp_stat_tile(label: str, value: object) -> html.Div:
     return html.Div(
         [
-            html.Div(label, className="recent-games-pbp-stat-lbl"),
+            html.Div(label, className="app-label recent-games-pbp-stat-lbl"),
             html.Div(str(value), className="recent-games-pbp-stat-val"),
         ],
         className="recent-games-pbp-stat-tile",
@@ -157,10 +161,15 @@ def _flow_legend_and_stats(game_desc: str | None) -> tuple[html.Div | str, dict]
     away_hex = str(r0.get("away_primary_color") or "").strip()
     away_full = str(r0.get("away_team_full") or "").strip()
     home_full = str(r0.get("home_team_full") or "").strip()
+    winner_abbr = str(r0.get("winning_team") or "").strip()
+
+    def _mark_winner(name: str, abbr: str) -> str:
+        return f"{name} (W)" if abbr and abbr == winner_abbr else name
+
     if away_full and home_full:
-        title_line = f"{away_full} @ {home_full}"
+        title_line = f"{_mark_winner(away_full, away_abbr)} @ {_mark_winner(home_full, home_abbr)}"
     elif away_abbr and home_abbr:
-        title_line = f"{away_abbr} @ {home_abbr}"
+        title_line = f"{_mark_winner(away_abbr, away_abbr)} @ {_mark_winner(home_abbr, home_abbr)}"
     else:
         title_line = (
             str(game_desc).replace(" Vs. ", " @ ").replace(" vs. ", " @ ").replace(" vs ", " @ ")
@@ -331,7 +340,7 @@ def render_game_cards(selected: str | None) -> html.Div:
                         className="recent-games-card-mid",
                     ),
                     html.Div(
-                        f"{spec.home_pts - spec.away_pts:+d} margin",
+                        f"{spec.winner_abbr} by {spec.margin}",
                         className="recent-games-card-margin",
                     ),
                 ],
@@ -696,4 +705,40 @@ def update_pbp_plot(selected_game):
         title="Score Differential",
     )
 
+    _annotate_biggest_run(fig, filtered_pbp)
+
     return fig
+
+
+def _annotate_biggest_run(fig, filtered_pbp: pd.DataFrame) -> None:
+    """Shade the winning team's biggest scoring run and label it (e.g. "16-3 run")."""
+    run = biggest_scoring_run(filtered_pbp)
+    if run is None:
+        return
+
+    team_color = run.get("win_color") or "rgb(230, 224, 224)"
+    # x is reversed (minutes remaining); add_vrect normalizes x0/x1 order.
+    fig.add_vrect(
+        x0=run["x_start"],
+        x1=run["x_end"],
+        fillcolor=team_color,
+        opacity=0.12,
+        line_width=0,
+        layer="below",
+    )
+    fig.add_annotation(
+        xref="x",
+        yref="paper",
+        x=(run["x_start"] + run["x_end"]) / 2,
+        y=0.98,
+        xanchor="center",
+        yanchor="top",
+        showarrow=False,
+        text=f"Biggest run: {run['winner']} {run['label']}",
+        font=dict(color="rgb(230, 224, 224)", size=12, family="Arial Black, sans-serif"),
+        align="center",
+        bgcolor="rgba(0,0,0,0.55)",
+        bordercolor="rgba(230, 224, 224, 0.45)",
+        borderwidth=1,
+        borderpad=4,
+    )
