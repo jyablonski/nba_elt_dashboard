@@ -43,11 +43,24 @@ def page_hero(
     return html.Div(children, className="app-page-hero py-3 text-center")
 
 
-def section_header(title: str, aside: str | None = None) -> html.Div:
+def section_header(
+    title: str, aside: str | None = None, control: Component | None = None
+) -> html.Div:
     row: list[Component] = [html.H4(title, className="mb-0")]
     if aside:
         row.append(html.Span(aside, className="text-muted small ms-2"))
+    base_cls = (
+        "app-section-header d-flex flex-wrap align-items-baseline justify-content-center mb-3"
+    )
+    if control is None:
+        return html.Div(row, className=base_cls)
+    # The control is absolutely positioned at the right edge so it stays out of the
+    # flow: the header keeps the title's height, so a paired plain-title header in the
+    # adjacent column still lines up without any spacer.
     return html.Div(
-        row,
-        className="app-section-header d-flex flex-wrap align-items-baseline justify-content-center mb-3",
+        [
+            html.Div(row, className="d-flex align-items-baseline"),
+            html.Div(control, className="app-section-header-control"),
+        ],
+        className=f"{base_cls} position-relative",
     )

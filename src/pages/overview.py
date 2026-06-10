@@ -102,8 +102,24 @@ def create_standings_table(conference_name, data):
     )
 
 
-def create_player_value_analysis_chart():
+_VALUE_ANALYSIS_ALL_TEAMS = "All Teams"
+
+
+def _player_value_team_options() -> list[dict]:
+    """Dropdown options for the Player Value Analysis team filter (All Teams + each team)."""
+    df = get_table("contract_value_analysis")
+    teams = sorted(df["team"].dropna().astype(str).unique()) if df is not None else []
+    return [{"label": _VALUE_ANALYSIS_ALL_TEAMS, "value": _VALUE_ANALYSIS_ALL_TEAMS}] + [
+        {"label": team, "value": team} for team in teams
+    ]
+
+
+def create_player_value_analysis_chart(team: str | None = None):
     contract_value_analysis_df = get_table("contract_value_analysis")
+    if team and team != _VALUE_ANALYSIS_ALL_TEAMS:
+        contract_value_analysis_df = contract_value_analysis_df[
+            contract_value_analysis_df["team"] == team
+        ]
     fig = px.scatter(
         contract_value_analysis_df,
         x="salary",
@@ -382,7 +398,17 @@ def overview_layout() -> html.Div:
                 [
                     dbc.Col(
                         [
-                            section_header("Player Value Analysis"),
+                            section_header(
+                                "Player Value Analysis",
+                                control=dcc.Dropdown(
+                                    id="player-value-team-filter",
+                                    options=_player_value_team_options(),
+                                    value=_VALUE_ANALYSIS_ALL_TEAMS,
+                                    clearable=False,
+                                    className="dash-dropdown",
+                                    style={"width": "150px"},
+                                ),
+                            ),
                             dcc.Graph(
                                 id="player-value-analysis-plot",
                                 figure=create_player_value_analysis_chart(),
@@ -416,3 +442,11 @@ def overview_layout() -> html.Div:
 )
 def update_scoring_efficiency_table(selected_season):
     return _scoring_efficiency_records(selected_season)
+
+
+@callback(
+    Output("player-value-analysis-plot", "figure"),
+    Input("player-value-team-filter", "value"),
+)
+def update_player_value_analysis_plot(selected_team):
+    return create_player_value_analysis_chart(team=selected_team)

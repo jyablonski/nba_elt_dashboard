@@ -175,7 +175,10 @@ def create_tonight_games_cards() -> html.Div:
                         [
                             html.Div(
                                 [
-                                    html.Span("Avg team rank", className="schedule-card-stat-lbl"),
+                                    html.Span(
+                                        "Avg team rank",
+                                        className="app-label schedule-card-stat-lbl",
+                                    ),
                                     html.Span(
                                         _fmt_rank(row.get("avg_team_rank")),
                                         className="schedule-card-stat-val",
@@ -185,7 +188,9 @@ def create_tonight_games_cards() -> html.Div:
                             ),
                             html.Div(
                                 [
-                                    html.Span("Home win %", className="schedule-card-stat-lbl"),
+                                    html.Span(
+                                        "Home win %", className="app-label schedule-card-stat-lbl"
+                                    ),
                                     html.Span(
                                         _fmt_pct(row.get("home_team_predicted_win_pct")),
                                         className="schedule-card-stat-val",
@@ -195,7 +200,9 @@ def create_tonight_games_cards() -> html.Div:
                             ),
                             html.Div(
                                 [
-                                    html.Span("Road win %", className="schedule-card-stat-lbl"),
+                                    html.Span(
+                                        "Road win %", className="app-label schedule-card-stat-lbl"
+                                    ),
                                     html.Span(
                                         _fmt_pct(row.get("away_team_predicted_win_pct")),
                                         className="schedule-card-stat-val",
@@ -529,7 +536,7 @@ def schedule_layout() -> html.Div:
                     ),
                     html.Div(
                         [
-                            html.Label("Schedule view", className="schedule-field-label"),
+                            html.Label("Schedule view", className="app-label schedule-field-label"),
                             dcc.Dropdown(
                                 id="schedule-table-selector",
                                 options=SCHEDULE_TABLE_OPTIONS,
@@ -553,7 +560,7 @@ def schedule_layout() -> html.Div:
                     ),
                     html.Div(
                         [
-                            html.Label("Analysis plot", className="schedule-field-label"),
+                            html.Label("Analysis plot", className="app-label schedule-field-label"),
                             dcc.Dropdown(
                                 id="schedule-plot-selector",
                                 options=SCHEDULE_PLOT_OPTIONS,

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from datetime import date, datetime
 
 from dash import dcc
@@ -55,13 +56,19 @@ def pbp_transformer(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
 
     end_rows = []
     for _, row in last_records.iterrows():
+        # Synthetic "0:00 final" marker so the line/score reaches the end of the game.
+        # time_remaining_final counts down past 0 into OT (OT1: 0 -> -5, OT2: -5 -> -10),
+        # so 0:00 of the final period is the next 5-min boundary at/below the last play,
+        # not a hardcoded 0 (which for OT lands back at the end of regulation).
+        last_t = float(row["time_remaining_final"])
+        end_t = 0.0 if last_t >= 0 else -5.0 * math.ceil(-last_t / 5.0)
         end_rows.append(
             {
                 **row.to_dict(),
                 "time_quarter": "0:00",
-                "time_remaining_final": 0,
+                "time_remaining_final": end_t,
                 "prev_time": row["time_remaining_final"],
-                "next_time": 0,
+                "next_time": end_t,
                 "time_difference": 0,
             }
         )

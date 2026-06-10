@@ -74,7 +74,7 @@ def _dark_message_figure(message: str) -> go.Figure:
 
 
 def _team_kpi_section_title(text: str) -> html.Div:
-    return html.Div(text, className="team-kpi-card__title")
+    return html.Div(text, className="app-label team-kpi-card__title")
 
 
 def _fmt_num(x: object, *, decimals: int = 1) -> str:
