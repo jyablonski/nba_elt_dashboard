@@ -75,6 +75,7 @@ source_tables = [
     "opp_stats",
     "past_schedule_analysis",
     "pbp",
+    "player_salary_value",
     "player_stats",
     "preseason_odds",
     "recent_games_players",
@@ -90,9 +91,14 @@ source_tables = [
     "team_blown_leads",
     "team_contracts_analysis",
     "team_odds_outcomes",
+    "team_payroll_summary",
     "team_ratings",
-    "team_record_daily_rollup",
     "transactions",
     "twitter_comments",
     "schedule_tonights_games",
 ]
+
+# `team_names` and `team_names_abbreviations` are positionally aligned, so zip them
+# to map the full team name used by the UI dropdown to the abbreviation used by the
+# payroll / salary-value gold tables.
+team_name_to_abbreviation = dict(zip(team_names, team_names_abbreviations))

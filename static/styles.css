@@ -330,13 +330,37 @@ h3 {
   color: var(--text) !important;
 }
 
-.Select-menu-outer {
-  background-color: var(--surface-header);
-  color: var(--text);
+.Select-menu-outer,
+.Select-menu {
+  background-color: var(--surface-header) !important;
+  color: var(--text) !important;
 }
 
 .Select-value-label {
   color: var(--text) !important;
+}
+
+/* Open-menu option rows: react-select defaults to a light background / light-blue
+   focus state, so style them explicitly to keep the open list as dark as the
+   closed control (and deterministic under dark-mode reader extensions). */
+.Select-option {
+  background-color: var(--surface-header) !important;
+  color: var(--text) !important;
+}
+
+.Select-option.is-focused {
+  background-color: var(--surface-hover) !important;
+  color: var(--text) !important;
+}
+
+.Select-option.is-selected {
+  background-color: var(--surface-cell) !important;
+  color: var(--text) !important;
+}
+
+.Select-noresults {
+  background-color: var(--surface-header) !important;
+  color: var(--text-muted) !important;
 }
 
 /* -----------------------------------------------------------------------------
@@ -1474,4 +1498,365 @@ img[src*="/nba"] {
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--text-muted);
+}
+
+/* -----------------------------------------------------------------------------
+   Team Analysis - roster pay vs production value panel
+   ----------------------------------------------------------------------------- */
+
+/* Bar / marker palette (kept local so the legend swatches and rows stay in sync) */
+.team-panel--payroll {
+  --payroll-salary: #2d6a9f;
+  --payroll-surplus: var(--accent);
+  --payroll-overpay: var(--danger);
+}
+
+.team-panel-payroll-header {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.team-panel-payroll-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.team-panel-payroll-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.team-panel-payroll-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.team-panel-payroll-swatch--salary {
+  background-color: var(--payroll-salary);
+}
+
+.team-panel-payroll-swatch--market {
+  width: 9px;
+  height: 9px;
+  border-radius: 1px;
+  background-color: var(--text-muted);
+  transform: rotate(45deg);
+}
+
+.team-panel-payroll-swatch--surplus {
+  background-color: var(--payroll-surplus);
+}
+
+.team-panel-payroll-swatch--overpay {
+  background-color: var(--payroll-overpay);
+}
+
+.team-panel-payroll-summary {
+  padding: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.team-panel-payroll-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin-bottom: 16px;
+}
+
+.team-panel-payroll-stat-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.team-panel-payroll-stat-val {
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.team-panel-payroll-stat-val--pos {
+  color: var(--accent);
+}
+
+.team-panel-payroll-stat-val--neg {
+  color: var(--danger);
+}
+
+.team-panel-payroll-stat-sub {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.team-panel-payroll-thresh-track {
+  position: relative;
+  height: 12px;
+  border-radius: 6px;
+  background-color: var(--surface-cell);
+  overflow: visible;
+}
+
+.team-panel-payroll-thresh-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 6px;
+  background-color: var(--payroll-salary);
+}
+
+.team-panel-payroll-thresh-fill--over {
+  background-color: var(--payroll-overpay);
+}
+
+.team-panel-payroll-thresh-tick {
+  position: absolute;
+  top: -7px;
+  bottom: -7px;
+  width: 2px;
+  margin-left: -1px;
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.team-panel-payroll-thresh-tick-label {
+  position: absolute;
+  bottom: 23px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.66rem;
+  font-weight: 600;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.team-panel-payroll-thresh-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.team-panel-payroll-thresh-scale {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+}
+
+.team-panel-payroll-status {
+  flex: 0 0 auto;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.team-panel-payroll-status--under {
+  background-color: rgba(var(--accent-rgb), 0.16);
+  color: var(--accent);
+}
+
+.team-panel-payroll-status--tax {
+  background-color: rgba(234, 179, 8, 0.18);
+  color: #fde68a;
+}
+
+.team-panel-payroll-status--apron {
+  background-color: rgba(224, 72, 72, 0.2);
+  color: #ffb4b4;
+}
+
+/* Body shows ~8 rows beneath the sticky ruler, remainder reachable via scroll */
+.team-panel-payroll-body {
+  max-height: 408px;
+}
+
+/* Shared grid: the name column hugs its content and the salary / surplus rails
+   are fixed-width, so the bar track ('1fr') is an identical pixel width on every
+   row (and the ruler) and starts immediately after the name -> one shared
+   x-axis, no dead space on the left. */
+.team-panel-payroll-row {
+  display: grid;
+  grid-template-columns: minmax(150px, max-content) minmax(0, 1fr) 64px 84px;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.team-panel-payroll-row:last-child {
+  border-bottom: none;
+}
+
+/* Ruler: $0 -> axis_max, aligned to the bar track, pinned while the body scrolls */
+.team-panel-payroll-ruler {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  align-items: end;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  background-color: var(--surface-raised);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.team-panel-payroll-ruler-track {
+  position: relative;
+  height: 14px;
+}
+
+.team-panel-payroll-ruler-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.team-panel-payroll-ruler-tick {
+  position: absolute;
+  bottom: 2px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.team-panel-payroll-ruler-tick::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  width: 1px;
+  height: 3px;
+  background-color: var(--border-subtle);
+}
+
+.team-panel-payroll-ruler-tick--first {
+  transform: translateX(0);
+}
+
+.team-panel-payroll-ruler-tick--first::after {
+  left: 0;
+}
+
+.team-panel-payroll-ruler-tick--last {
+  transform: translateX(-100%);
+}
+
+.team-panel-payroll-ruler-tick--last::after {
+  left: auto;
+  right: 0;
+}
+
+.team-panel-payroll-player {
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.team-panel-payroll-name {
+  font-weight: 600;
+  color: var(--text);
+  margin-right: 8px;
+}
+
+.team-panel-payroll-meta {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.team-panel-payroll-track {
+  position: relative;
+  height: 16px;
+}
+
+.team-panel-payroll-bar {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 8px;
+  transform: translateY(-50%);
+  border-radius: 3px;
+  background-color: var(--payroll-salary);
+  min-width: 2px;
+  z-index: 1;
+}
+
+.team-panel-payroll-connector {
+  position: absolute;
+  top: 50%;
+  height: 0;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.team-panel-payroll-connector--surplus {
+  border-top: 1.5px dotted rgba(var(--accent-rgb), 0.85);
+}
+
+.team-panel-payroll-connector--overpay {
+  border-top: 1.5px dotted rgba(224, 72, 72, 0.95);
+}
+
+.team-panel-payroll-diamond {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  transform: translateY(-50%) rotate(45deg);
+  border-radius: 1px;
+  z-index: 3;
+  /* halo so the marker reads whether it sits inside (overpay) or outside the bar */
+  box-shadow: 0 0 0 2px var(--surface-raised);
+}
+
+.team-panel-payroll-diamond--surplus {
+  background-color: var(--payroll-surplus);
+}
+
+/* Overpay diamonds sit on top of the blue bar; a crisp dark outline plus the
+   background-colored halo separate them from it so they read as clearly as the
+   open-space surplus ones. */
+.team-panel-payroll-diamond--overpay {
+  background-color: var(--payroll-overpay);
+  box-shadow: 0 0 0 1.5px var(--bg), 0 0 0 3px var(--surface-raised);
+}
+
+.team-panel-payroll-salary {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.team-panel-payroll-surplus {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.team-panel-payroll-surplus--pos {
+  color: var(--accent);
+}
+
+.team-panel-payroll-surplus--neg {
+  color: var(--danger);
+}
+
+.team-panel-payroll-footnote {
+  padding: 10px 14px;
+  border-top: 1px solid var(--border-subtle);
+  line-height: 1.4;
 }

@@ -4,6 +4,7 @@ from dash import dash_table, html
 from src.pages.team_analysis import (
     update_mov,
     update_injuries,
+    update_payroll_value,
     update_team_player_efficiency,
     update_transactions,
 )
@@ -47,6 +48,24 @@ def test_team_player_efficiency():
     assert isinstance(output, dash_table.DataTable)
     assert output.columns[0]["id"] == "player"
     assert len(output.data) > 0
+
+
+def test_payroll_value():
+    output = update_payroll_value("Charlotte Hornets")
+
+    assert isinstance(output, html.Div)
+    flat = str(output)
+    assert "PAY VS. PRODUCTION VALUE" in flat
+    assert "TEAM PAYROLL" in flat
+    assert "LaMelo Ball" in flat
+
+
+def test_payroll_value_unknown_team_empty_state():
+    """A team name with no abbreviation mapping renders the empty-state panel."""
+    output = update_payroll_value("Nonexistent Team")
+
+    assert isinstance(output, html.Div)
+    assert "No payroll or player value data" in str(output)
 
 
 def test_transactions():
