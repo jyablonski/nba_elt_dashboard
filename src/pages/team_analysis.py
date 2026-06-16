@@ -140,13 +140,7 @@ def team_analysis_layout() -> html.Div:
                         className="kpi-container",
                     ),
                     html.Div(
-                        [
-                            html.Div(
-                                "Payroll & roster value",
-                                className="team-analysis-section-kicker text-muted text-uppercase small mb-2",
-                            ),
-                            html.Div(id="team-payroll-value"),
-                        ],
+                        html.Div(id="team-payroll-value"),
                         className="mb-4",
                     ),
                     html.Div(

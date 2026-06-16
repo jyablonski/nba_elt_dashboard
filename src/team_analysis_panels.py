@@ -553,7 +553,7 @@ def build_payroll_value_panel(
             ),
             html.Div(
                 "Market value = share of team production × luxury-tax dollars. "
-                "Surplus = market value − salary. Source · player_salary_value ⋈ team_payroll_summary.",
+                "Surplus = market value − salary.",
                 className="team-panel-payroll-footnote small text-muted",
             ),
         ],
