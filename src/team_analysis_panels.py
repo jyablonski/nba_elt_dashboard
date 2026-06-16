@@ -203,7 +203,7 @@ def _to_float(value: Any) -> float | None:
         return None
     try:
         f = float(value)
-    except (TypeError, ValueError):
+    except TypeError, ValueError:
         return None
     return None if pd.isna(f) else f
 
@@ -327,8 +327,7 @@ def _payroll_thresholds_bar(payroll: pd.Series) -> html.Div:
                     html.Span(
                         status_label,
                         className=(
-                            "team-panel-payroll-status "
-                            f"team-panel-payroll-status--{status_mod}"
+                            f"team-panel-payroll-status team-panel-payroll-status--{status_mod}"
                         ),
                     ),
                 ],
@@ -433,9 +432,7 @@ def build_payroll_value_rows(players: pd.DataFrame, axis_max: float) -> list[htm
             if is_surplus
             else "team-panel-payroll-diamond--overpay"
         )
-        track_children.append(
-            html.Div(className=diamond_cls, style={"left": f"{market_pct}%"})
-        )
+        track_children.append(html.Div(className=diamond_cls, style={"left": f"{market_pct}%"}))
 
         meta_bits = " · ".join(b for b in (position, f"{int(age)}" if age else "") if b)
         surplus_cls = "team-panel-payroll-surplus " + (
@@ -475,9 +472,7 @@ def build_payroll_value_panel(
     """
     header = html.Div(
         [
-            html.Span(
-                "ROSTER · PAY VS. PRODUCTION VALUE", className="team-panel-eyebrow"
-            ),
+            html.Span("ROSTER · PAY VS. PRODUCTION VALUE", className="team-panel-eyebrow"),
             _payroll_value_legend(),
         ],
         className="team-panel-header team-panel-payroll-header d-flex justify-content-between align-items-center gap-2 flex-wrap",
