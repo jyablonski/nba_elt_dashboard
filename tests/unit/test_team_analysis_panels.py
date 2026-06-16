@@ -98,7 +98,7 @@ def test_payroll_value_panel_uses_supplied_axis_max():
 
 
 def test_payroll_status_tiers():
-    cap, tax, a1, a2 = 154_647_000, 187_895_000, 195_945_000, 207_824_000
+    tax, a1, a2 = 187_895_000, 195_945_000, 207_824_000
     assert tap._payroll_status(150_000_000, tax, a1, a2) == ("Below luxury tax", "under")
     assert tap._payroll_status(190_000_000, tax, a1, a2) == ("Above luxury tax", "tax")
     assert tap._payroll_status(196_000_000, tax, a1, a2) == ("1st apron", "apron")
