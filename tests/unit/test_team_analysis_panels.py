@@ -4,9 +4,140 @@ from dash import html
 import src.team_analysis_panels as tap
 from src.team_analysis_panels import (
     build_injuries_panel,
+    build_payroll_value_panel,
     build_transactions_panel,
     filter_transactions_last_days,
 )
+
+
+def _payroll_players_df() -> pd.DataFrame:
+    return pd.DataFrame(
+        [
+            {
+                "player_name": "Star Guard",
+                "position": "PG",
+                "age": 24,
+                "salary_usd": 45_900_000,
+                "luxury_tax_threshold": 187_895_000,
+                "production_minus_salary_pct": -0.0743,
+            },
+            {
+                "player_name": "Value Wing",
+                "position": "SF",
+                "age": 23,
+                "salary_usd": 12_600_000,
+                "luxury_tax_threshold": 187_895_000,
+                "production_minus_salary_pct": 0.0829,
+            },
+        ]
+    )
+
+
+def _payroll_row() -> pd.Series:
+    return pd.Series(
+        {
+            "team": "CHA",
+            "total_payroll": 171_100_000,
+            "roster_count": 15,
+            "salary_cap": 154_647_000,
+            "luxury_tax_threshold": 187_895_000,
+            "first_apron": 195_945_000,
+            "second_apron": 207_824_000,
+        }
+    )
+
+
+def test_fmt_millions_variants():
+    assert tap._fmt_millions(45_900_000) == "$45.9M"
+    assert tap._fmt_millions(-16_800_000) == "-$16.8M"
+    assert tap._fmt_millions(13_100_000, signed=True) == "+$13.1M"
+    assert tap._fmt_millions(-1_000_000, signed=True) == "-$1.0M"
+    assert tap._fmt_millions(None) == "-"
+
+
+def test_build_payroll_value_panel_renders():
+    panel = build_payroll_value_panel(_payroll_row(), _payroll_players_df())
+    s = str(panel)
+    assert "PAY VS. PRODUCTION VALUE" in s
+    assert "TEAM PAYROLL" in s
+    assert "$171.1M" in s
+    assert "VS LUXURY TAX" in s
+    assert "Star Guard" in s
+    assert "Value Wing" in s
+    # one overpaid, one surplus player
+    assert "team-panel-payroll-diamond--overpay" in s
+    assert "team-panel-payroll-diamond--surplus" in s
+    # ruler with a $0 origin
+    assert "team-panel-payroll-ruler" in s
+    assert "$0" in s
+    # both surplus and overpay players get a connector to their diamond
+    assert "team-panel-payroll-connector--surplus" in s
+    assert "team-panel-payroll-connector--overpay" in s
+
+
+def test_payroll_value_shared_axis_widths():
+    """Bar width and diamond left both map through the same axis_max domain."""
+    players = _payroll_players_df()
+    axis_max = tap._payroll_value_axis_max(players)
+    # $45.9M salary on a $50M axis (rounded up to $10M step) -> 91.8%
+    assert axis_max == 50_000_000
+    rows = tap.build_payroll_value_rows(players, axis_max)
+    star_track = rows[0].children[1].children
+    bar_style = star_track[0].style
+    assert bar_style["width"] == f"{45_900_000 / axis_max * 100}%"
+
+
+def test_payroll_value_panel_uses_supplied_axis_max():
+    """A league-wide axis_max overrides this team's own roster max for comparability."""
+    panel = build_payroll_value_panel(_payroll_row(), _payroll_players_df(), axis_max=60_000_000)
+    s = str(panel)
+    # ruler reflects the supplied $60M domain, not the team's $50M roster max
+    assert "$60M" in s
+    # $45.9M salary bar mapped through the $60M domain
+    assert f"{45_900_000 / 60_000_000 * 100}%" in s
+
+
+def test_payroll_status_tiers():
+    tax, a1, a2 = 187_895_000, 195_945_000, 207_824_000
+    assert tap._payroll_status(150_000_000, tax, a1, a2) == ("Below luxury tax", "under")
+    assert tap._payroll_status(190_000_000, tax, a1, a2) == ("Above luxury tax", "tax")
+    assert tap._payroll_status(196_000_000, tax, a1, a2) == ("1st apron", "apron")
+    assert tap._payroll_status(245_600_000, tax, a1, a2) == ("2nd apron", "apron")
+    # missing thresholds fall through to the safe default
+    assert tap._payroll_status(150_000_000, None, None, None) == ("Below luxury tax", "under")
+
+
+def test_payroll_value_panel_shows_status_pill():
+    panel = build_payroll_value_panel(_payroll_row(), _payroll_players_df())
+    s = str(panel)
+    # _payroll_row() total $171.1M is under the $187.9M tax line
+    assert "Below luxury tax" in s
+    assert "team-panel-payroll-status--under" in s
+
+
+def test_payroll_ruler_ticks_origin_and_max():
+    ruler = tap.build_payroll_value_ruler(50_000_000)
+    track = ruler.children[1]
+    ticks = track.children[1:]  # first child is the baseline line
+    assert ticks[0].children == "$0"
+    assert ticks[0].style["left"] == "0.0%"
+    assert ticks[-1].children == "$50M"
+    assert ticks[-1].style["left"] == "100.0%"
+
+
+def test_build_payroll_value_panel_empty():
+    panel = build_payroll_value_panel(None, pd.DataFrame())
+    s = str(panel)
+    assert "PAY VS. PRODUCTION VALUE" in s
+    assert "No payroll or player value data" in s
+
+
+def test_build_payroll_value_panel_players_without_payroll_header():
+    """Missing team_payroll_summary row still renders the per-player bars."""
+    panel = build_payroll_value_panel(None, _payroll_players_df())
+    s = str(panel)
+    assert "Star Guard" in s
+    assert "TEAM PAYROLL" not in s
 
 
 def test_filter_transactions_last_days():

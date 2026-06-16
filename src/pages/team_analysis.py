@@ -8,9 +8,11 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 from src.data_access.cache import get_table
-from src.data_access.tables import team_names
+from src.data_access.tables import team_name_to_abbreviation, team_names
 from src.team_analysis_panels import (
+    _payroll_value_axis_max,
     build_injuries_panel,
+    build_payroll_value_panel,
     build_transactions_panel,
     filter_transactions_last_days,
 )
@@ -136,6 +138,10 @@ def team_analysis_layout() -> html.Div:
                             ),
                         ],
                         className="kpi-container",
+                    ),
+                    html.Div(
+                        html.Div(id="team-payroll-value"),
+                        className="mb-4",
                     ),
                     html.Div(
                         [
@@ -298,6 +304,28 @@ def update_team_player_efficiency(selected_team):
             {"if": {"row_index": "odd"}, "backgroundColor": "var(--surface-cell)"},
         ],
     )
+
+
+@callback(Output("team-payroll-value", "children"), Input("team-selector", "value"))
+def update_payroll_value(selected_team):
+    """Roster pay-vs-production value panel (team payroll header + per-player bars)."""
+    if not selected_team:
+        return html.Div("Select a team to load payroll value.", className="small text-muted")
+
+    abbreviation = team_name_to_abbreviation.get(selected_team)
+    all_players = get_table("player_salary_value")
+    payroll_df = _rows_for_team(get_table("team_payroll_summary"), "team", abbreviation)
+    players_df = _rows_for_team(all_players, "team", abbreviation)
+    payroll_row = payroll_df.iloc[0] if not payroll_df.empty else None
+
+    # League-wide domain so salary bars are comparable across all 30 teams.
+    axis_max = (
+        _payroll_value_axis_max(all_players)
+        if all_players is not None and not all_players.empty
+        else None
+    )
+
+    return build_payroll_value_panel(payroll_row, players_df, axis_max=axis_max)
 
 
 @callback(Output("injuries-table", "children"), Input("team-selector", "value"))
