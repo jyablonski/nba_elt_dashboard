@@ -21,8 +21,8 @@ ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $VM_USER@$VM_IP 
   sudo docker system prune -a -f
   sudo docker volume prune -f
 
-  echo "Pulling latest code from master..."
-  git pull origin master
+  echo "Pulling latest code from main..."
+  git pull origin main
 
   echo "Rebuilding Docker image with commit SHA: $GIT_COMMIT..."
   sudo docker build \
