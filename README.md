@@ -1,32 +1,32 @@
 # NBA Dashboard
 
-![CI](https://github.com/jyablonski/nba_elt_dashboard/actions/workflows/ci.yaml/badge.svg) ![Python quality](https://github.com/jyablonski/nba_elt_dashboard/actions/workflows/python-quality.yml/badge.svg) ![Deployment](https://github.com/jyablonski/nba_elt_dashboard/actions/workflows/vm_deploy.yml/badge.svg)
+![CI/CD](https://github.com/jyablonski/nba_elt_dashboard/actions/workflows/ci_cd.yaml/badge.svg)
 
-The NBA Dashboard has the following functionalities:
+The NBA Dashboard is a Python app built with [Dash](https://dash.plotly.com/) that provides the following functionality:
 
-- Overview of Standings, Contract Value, and Top Player Analysis
-- Recent Games Analysis
-- NBA Win Prediction Percentages & other Schedule Metrics for upcoming games
-- Social Media Analysis
+- Overview of standings, contract value, and top-player analysis
+- Recent games analysis
+- NBA win prediction percentages and other schedule metrics for upcoming games
+- Social media analysis
 
-The Project is hosted on cloud infrastructure at https://nbadashboard.jyablonski.dev
+The app is hosted on cloud infrastructure at https://nbadashboard.jyablonski.dev.
 
-## Running The App
+## Running the App
 
-Clone the Repo & run `make up` which spins up the App locally served [here](http://localhost:9000/) using 2 Docker Containers:
+Clone the repository and run `make up` to start the app locally at [http://localhost:9000/](http://localhost:9000/). This starts two Docker containers:
 
-- Postgres Database
-- Dash Server
+- PostgreSQL database
+- Dash server
 
-When finished run `make down`.
+When you are finished, run `make down`.
 
-To run the full test suite, run `make test`.
+Run `make test` to run the full test suite.
 
 ## Project
 
-![nba_pipeline_diagram](https://github.com/jyablonski/nba_elt_dashboard/assets/16946556/e41ee516-9f38-4b4a-bbeb-8447ce35d480)
+For more information, see the [dashboard documentation](https://doqs.jyablonski.dev/services/dash_frontend/).
 
-1. Links to other Repos providing infrastructure for this Project
+1. Links to other repositories that support this project
    - [Ingestion Script](https://github.com/jyablonski/nba_elt_ingestion)
    - [dbt](https://github.com/jyablonski/nba_elt_dbt)
    - [ML Pipeline](https://github.com/jyablonski/nba_elt_mlflow)
