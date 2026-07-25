@@ -80,6 +80,9 @@ jobs:
         env:
           GCP_VM_IP: ${{ secrets.GCP_VM_IP }}
           GIT_COMMIT: ${{ github.sha }}
+          # Where the dbt repo publishes target/semantic_manifest.json. Unset is fine:
+          # the MCP server falls back to direct gold reads.
+          DBT_SEMANTIC_MANIFEST_URI: ${{ vars.DBT_SEMANTIC_MANIFEST_URI }}
 
   notify:
     name: Slack Notification

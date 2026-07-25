@@ -1,0 +1,49 @@
+FROM python:3.14-slim AS base
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PATH="/.venv/bin:/root/.cargo/bin:$PATH" \
+    UV_COMPILE_BYTECODE=1 \
+    UV_PYTHON_DOWNLOADS=never \
+    UV_PYTHON=3.14
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
+# -------------------------------
+# Stage: Install Python deps
+# -------------------------------
+FROM base AS python-deps
+
+COPY pyproject.toml uv.lock ./
+
+RUN pip install uv==0.11.14 && \
+    uv sync --frozen --no-dev --group mcp
+
+# -------------------------------
+# Stage: Runtime
+# -------------------------------
+FROM base AS runtime
+
+ARG GIT_COMMIT=unknown
+ENV GIT_COMMIT=${GIT_COMMIT}
+
+COPY --from=python-deps ./.venv ./.venv
+
+RUN useradd --create-home appuser
+WORKDIR /home/appuser
+USER appuser
+
+COPY config.yaml .
+COPY src/ src/
+
+# The semantic layer is a build input, not a build step: CI/deploy drops the dbt-published
+# `semantic_manifest.json` into docker/semantic/ (see .github/scripts/fetch_semantic_manifest.sh)
+# and it gets baked in here. Absent manifest => the server still boots, tools fall back to
+# direct `gold` reads, and nba://data-freshness reports why.
+COPY docker/semantic/ semantic/
+ENV MCP_SEMANTIC_MANIFEST_PATH=/home/appuser/semantic/semantic_manifest.json
+
+EXPOSE 9100
+
+CMD ["python", "-m", "src.mcp_server"]

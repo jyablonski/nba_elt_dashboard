@@ -23,6 +23,23 @@ test = [
     "pytest-mock>=3.12.0",
     "testcontainers>=4.14.2",
     "sqlparse>=0.5.5",
+    # MCP server modules must be importable under `uv sync --group test`, and the
+    # semantic-layer tests compile real metric queries against a seeded gold schema.
+    "mcp>=1.28.1,<2",
+    "uvicorn>=0.40.0,<1",
+    "metricflow==0.211.0",
+]
+# Kept out of the default dashboard install so the dashboard image stays lean.
+mcp = [
+    "mcp>=1.28.1,<2",
+    "uvicorn>=0.40.0,<1",
+    # `metricflow` rather than `dbt-metricflow`: the latter drags in dbt-core, whose
+    # dbt-common/mashumaro stack does not import on Python 3.14. We only need the
+    # compile-to-SQL engine and feed it the semantic manifest + our own SQLAlchemy
+    # client, so the dbt adapter layer is dead weight anyway. Pinned because
+    # MetricFlow's Python API is not a stable contract and the baked manifest's
+    # schema version has to stay compatible with it. Upgrade deliberately.
+    "metricflow==0.211.0",
 ]
 dev = [
     "ipykernel>=6.25.2",

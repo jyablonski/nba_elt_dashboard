@@ -1,0 +1,1 @@
+# The dbt-published semantic_manifest.json is dropped here at build time; see docker/Dockerfile.mcp.
