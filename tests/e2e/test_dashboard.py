@@ -135,8 +135,9 @@ def _select_dcc_dropdown(dash_duo, selector: str, *, value: str) -> None:
         return False
 
     option = WebDriverWait(dash_duo.driver, _wait_timeout(dash_duo)).until(find_option)
-    # react-select v1 commits the choice on mousedown; a real click gets intercepted.
-    _dispatch_mouse_down(dash_duo, option)
+    # react-virtualized-select binds the option to onClick (not onMouseDown, as the rest of
+    # react-select does), and a real Selenium click on it gets intercepted by the overlay.
+    dash_duo.driver.execute_script("arguments[0].click();", option)
 
     WebDriverWait(dash_duo.driver, _wait_timeout(dash_duo)).until(
         lambda driver: any(
