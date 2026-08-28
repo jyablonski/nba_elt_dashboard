@@ -15,6 +15,11 @@ test-unit:
 	uv sync --group test
 	uv run pytest --color=yes tests/unit
 
+.PHONY: test-e2e
+test-e2e:
+	uv sync --group test
+	RUN_E2E=1 uv run pytest --color=yes tests/e2e --headless
+
 .PHONY: ci-test
 ci-test:
 	uv sync --group test
