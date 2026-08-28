@@ -49,6 +49,34 @@ def _inner_html(dash_duo, selector: str) -> str:
     return dash_duo.find_element(selector).get_attribute("innerHTML")
 
 
+def _plot_signature(dash_duo, selector: str) -> str:
+    return dash_duo.driver.execute_script(
+        """
+        const graph = document.querySelector(arguments[0] + ' .js-plotly-plot');
+        if (!graph) {
+            return '';
+        }
+        return JSON.stringify(
+            (graph.data || []).map((trace) => ({
+                name: trace.name,
+                x: trace.x,
+                y: trace.y,
+                customdata: trace.customdata,
+            }))
+        );
+        """,
+        selector,
+    )
+
+
+def _wait_for_plot_change(dash_duo, selector: str, previous_signature: str):
+    def has_changed(driver):
+        current_signature = _plot_signature(dash_duo, selector)
+        return current_signature if current_signature != previous_signature else False
+
+    return WebDriverWait(dash_duo.driver, _wait_timeout(dash_duo)).until(has_changed)
+
+
 def _wait_for_html_change(dash_duo, selector: str, previous_html: str):
     def has_changed(driver):
         current_html = driver.find_element(By.CSS_SELECTOR, selector).get_attribute("innerHTML")
@@ -67,6 +95,23 @@ def _click_element(dash_duo, element) -> None:
         dash_duo.driver.execute_script("arguments[0].click();", element)
 
 
+def _dispatch_mouse_down(dash_duo, element) -> None:
+    dash_duo.driver.execute_script(
+        """
+        arguments[0].dispatchEvent(
+            new MouseEvent('mousedown', {
+                bubbles: true,
+                cancelable: true,
+                view: window,
+                button: 0,
+                buttons: 1,
+            })
+        );
+        """,
+        element,
+    )
+
+
 def _select_dcc_dropdown(
     dash_duo, selector: str, *, value: str | None = None, index: int | None = None
 ):
@@ -75,7 +120,33 @@ def _select_dcc_dropdown(
         "arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});",
         dropdown,
     )
-    dash_duo.select_dcc_dropdown(dropdown, value=value, index=index)
+    control = dropdown.find_element(By.CSS_SELECTOR, ".Select-control")
+    _dispatch_mouse_down(dash_duo, control)
+
+    def find_options(driver):
+        options = driver.find_elements(By.CSS_SELECTOR, f"{selector} div.VirtualizedSelectOption")
+        return options or False
+
+    options = WebDriverWait(dash_duo.driver, _wait_timeout(dash_duo)).until(find_options)
+    if isinstance(index, int):
+        option = options[index]
+        expected_label = option.text
+    else:
+        option = next((option for option in options if option.text == value), None)
+        if option is None:
+            raise AssertionError(f"Could not find dropdown option {value!r}")
+        expected_label = value
+
+    _dispatch_mouse_down(dash_duo, option)
+    if expected_label:
+        WebDriverWait(dash_duo.driver, _wait_timeout(dash_duo)).until(
+            lambda driver: any(
+                element.is_displayed() and element.text.strip() == expected_label
+                for element in driver.find_elements(
+                    By.CSS_SELECTOR, f"{selector} .Select-value-label"
+                )
+            )
+        )
 
 
 def _active_tab_text(driver) -> str:
@@ -136,9 +207,9 @@ def test_overview_filter_updates_player_value_chart(dash_duo, dashboard_app):
     _wait_visible(dash_duo, "#team-ratings-plot .js-plotly-plot")
     _wait_visible(dash_duo, "#player-value-analysis-plot .js-plotly-plot")
 
-    previous_html = _inner_html(dash_duo, "#player-value-analysis-plot")
+    previous_signature = _plot_signature(dash_duo, "#player-value-analysis-plot")
     _select_dcc_dropdown(dash_duo, "#player-value-team-filter", value="BOS")
-    _wait_for_html_change(dash_duo, "#player-value-analysis-plot", previous_html)
+    _wait_for_plot_change(dash_duo, "#player-value-analysis-plot", previous_signature)
 
 
 def test_schedule_controls_update_table_and_plot(dash_duo, dashboard_app):
@@ -151,11 +222,11 @@ def test_schedule_controls_update_table_and_plot(dash_duo, dashboard_app):
     _select_dcc_dropdown(dash_duo, "#schedule-table-selector", value="Full Schedule")
     _wait_visible(dash_duo, "#schedule-full-table")
 
-    previous_html = _inner_html(dash_duo, "#schedule-plot")
+    previous_signature = _plot_signature(dash_duo, "#schedule-plot")
     _select_dcc_dropdown(
         dash_duo, "#schedule-plot-selector", value="Team Comebacks Analysis (Regular Season)"
     )
-    _wait_for_html_change(dash_duo, "#schedule-plot", previous_html)
+    _wait_for_plot_change(dash_duo, "#schedule-plot", previous_signature)
 
 
 def test_team_selection_updates_analysis_outputs(dash_duo, dashboard_app):
@@ -165,13 +236,13 @@ def test_team_selection_updates_analysis_outputs(dash_duo, dashboard_app):
     _wait_visible(dash_duo, "#team-selector")
     _wait_visible(dash_duo, "#mov-plot .js-plotly-plot")
 
-    previous_html = _inner_html(dash_duo, "#mov-plot")
+    previous_signature = _plot_signature(dash_duo, "#mov-plot")
     previous_kpi_html = _inner_html(dash_duo, "#kpi-boxes-1")
     _select_dcc_dropdown(dash_duo, "#team-selector", value="Los Angeles Lakers")
     _wait_for_visible_text(dash_duo, "#team-selector .Select-value-label", "Los Angeles Lakers")
     _wait_for_html_change(dash_duo, "#kpi-boxes-1", previous_kpi_html)
     _wait_for_nonempty_text(dash_duo, "#team-payroll-value")
-    _wait_for_html_change(dash_duo, "#mov-plot", previous_html)
+    _wait_for_plot_change(dash_duo, "#mov-plot", previous_signature)
 
 
 def test_recent_game_selection_updates_play_by_play_chart(dash_duo, dashboard_app):
@@ -181,7 +252,7 @@ def test_recent_game_selection_updates_play_by_play_chart(dash_duo, dashboard_ap
     _wait_visible(dash_duo, "#recent-games-card-strip .recent-games-card")
     _wait_visible(dash_duo, "#pbp-analysis-plot .js-plotly-plot")
 
-    previous_html = _inner_html(dash_duo, "#pbp-analysis-plot")
+    previous_signature = _plot_signature(dash_duo, "#pbp-analysis-plot")
 
     def find_game_cards(driver):
         cards = driver.find_elements(By.CSS_SELECTOR, "#recent-games-card-strip .recent-games-card")
@@ -190,7 +261,7 @@ def test_recent_game_selection_updates_play_by_play_chart(dash_duo, dashboard_ap
 
     cards = WebDriverWait(dash_duo.driver, _wait_timeout(dash_duo)).until(find_game_cards)
     _click_element(dash_duo, cards[1])
-    _wait_for_html_change(dash_duo, "#pbp-analysis-plot", previous_html)
+    _wait_for_plot_change(dash_duo, "#pbp-analysis-plot", previous_signature)
 
 
 def test_social_team_selection_updates_sentiment_chart(dash_duo, dashboard_app):
@@ -200,6 +271,6 @@ def test_social_team_selection_updates_sentiment_chart(dash_duo, dashboard_app):
     _wait_visible(dash_duo, "#social-media-team-selector")
     _wait_visible(dash_duo, "#social-media-plot .js-plotly-plot")
 
-    previous_html = _inner_html(dash_duo, "#social-media-plot")
+    previous_signature = _plot_signature(dash_duo, "#social-media-plot")
     _select_dcc_dropdown(dash_duo, "#social-media-team-selector", value="GSW")
-    _wait_for_html_change(dash_duo, "#social-media-plot", previous_html)
+    _wait_for_plot_change(dash_duo, "#social-media-plot", previous_signature)
