@@ -3,7 +3,6 @@ from __future__ import annotations
 import pytest
 from selenium.common.exceptions import ElementClickInterceptedException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 
 
@@ -113,9 +112,7 @@ def _dispatch_mouse_down(dash_duo, element) -> None:
     )
 
 
-def _select_dcc_dropdown(
-    dash_duo, selector: str, *, value: str | None = None, index: int | None = None
-):
+def _select_dcc_dropdown(dash_duo, selector: str, *, value: str) -> None:
     dropdown = dash_duo.find_element(selector)
     dash_duo.driver.execute_script(
         "arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});",
@@ -124,40 +121,29 @@ def _select_dcc_dropdown(
     control = dropdown.find_element(By.CSS_SELECTOR, ".Select-control")
     _dispatch_mouse_down(dash_duo, control)
 
-    def find_options(driver):
-        options = driver.find_elements(By.CSS_SELECTOR, f"{selector} div.VirtualizedSelectOption")
-        return options or False
-
-    options = WebDriverWait(dash_duo.driver, _wait_timeout(dash_duo)).until(find_options)
-    if isinstance(index, int):
-        option = options[index]
-        option_index = index
-        expected_label = option.text
-    else:
-        option_index, option = next(
-            (
-                (option_index, option)
-                for option_index, option in enumerate(options)
-                if option.text == value
-            ),
-            (None, None),
-        )
-        if option_index is None or option is None:
-            raise AssertionError(f"Could not find dropdown option {value!r}")
-        expected_label = value
-
+    # The option list is virtualized and opens scrolled to the current value, so the wanted
+    # option may not be in the DOM at all. Typing narrows the list and resets it to the top.
     input_element = dropdown.find_element(By.CSS_SELECTOR, ".Select-input input")
-    input_element.send_keys(Keys.HOME, *(Keys.ARROW_DOWN for _ in range(option_index)))
-    input_element.send_keys(Keys.ENTER)
-    if expected_label:
-        WebDriverWait(dash_duo.driver, _wait_timeout(dash_duo)).until(
-            lambda driver: any(
-                element.is_displayed() and element.text.strip() == expected_label
-                for element in driver.find_elements(
-                    By.CSS_SELECTOR, f"{selector} .Select-value-label"
-                )
-            )
+    input_element.send_keys(value)
+
+    def find_option(driver):
+        for option in driver.find_elements(
+            By.CSS_SELECTOR, f"{selector} div.VirtualizedSelectOption"
+        ):
+            if option.is_displayed() and option.text.strip() == value:
+                return option
+        return False
+
+    option = WebDriverWait(dash_duo.driver, _wait_timeout(dash_duo)).until(find_option)
+    # react-select v1 commits the choice on mousedown; a real click gets intercepted.
+    _dispatch_mouse_down(dash_duo, option)
+
+    WebDriverWait(dash_duo.driver, _wait_timeout(dash_duo)).until(
+        lambda driver: any(
+            element.is_displayed() and element.text.strip() == value
+            for element in driver.find_elements(By.CSS_SELECTOR, f"{selector} .Select-value-label")
         )
+    )
 
 
 def _active_tab_text(driver) -> str:
@@ -249,8 +235,8 @@ def test_team_selection_updates_analysis_outputs(dash_duo, dashboard_app):
 
     previous_signature = _plot_signature(dash_duo, "#mov-plot")
     previous_kpi_html = _inner_html(dash_duo, "#kpi-boxes-1")
-    _select_dcc_dropdown(dash_duo, "#team-selector", value="Los Angeles Lakers")
-    _wait_for_visible_text(dash_duo, "#team-selector .Select-value-label", "Los Angeles Lakers")
+    _select_dcc_dropdown(dash_duo, "#team-selector", value="Denver Nuggets")
+    _wait_for_visible_text(dash_duo, "#team-selector .Select-value-label", "Denver Nuggets")
     _wait_for_html_change(dash_duo, "#kpi-boxes-1", previous_kpi_html)
     _wait_for_nonempty_text(dash_duo, "#team-payroll-value")
     _wait_for_plot_change(dash_duo, "#mov-plot", previous_signature)
