@@ -71,25 +71,11 @@ def _select_dcc_dropdown(
     dash_duo, selector: str, *, value: str | None = None, index: int | None = None
 ):
     dropdown = dash_duo.find_element(selector)
-    control = dropdown.find_element(By.CSS_SELECTOR, ".Select-control")
-    _click_element(dash_duo, control)
-
-    def find_menu(driver):
-        menus = dropdown.find_elements(By.CSS_SELECTOR, "div.Select-menu-outer")
-        for menu in menus:
-            if menu.is_displayed():
-                return menu
-        return False
-
-    menu = WebDriverWait(dash_duo.driver, _wait_timeout(dash_duo)).until(find_menu)
-    options = menu.find_elements(By.CSS_SELECTOR, "div.VirtualizedSelectOption")
-    if isinstance(index, int):
-        option = options[index]
-    else:
-        option = next((option for option in options if option.text == value), None)
-        if option is None:
-            raise AssertionError(f"Could not find dropdown option {value!r}")
-    _click_element(dash_duo, option)
+    dash_duo.driver.execute_script(
+        "arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});",
+        dropdown,
+    )
+    dash_duo.select_dcc_dropdown(dropdown, value=value, index=index)
 
 
 def _active_tab_text(driver) -> str:
@@ -180,9 +166,10 @@ def test_team_selection_updates_analysis_outputs(dash_duo, dashboard_app):
     _wait_visible(dash_duo, "#mov-plot .js-plotly-plot")
 
     previous_html = _inner_html(dash_duo, "#mov-plot")
+    previous_kpi_html = _inner_html(dash_duo, "#kpi-boxes-1")
     _select_dcc_dropdown(dash_duo, "#team-selector", value="Los Angeles Lakers")
     _wait_for_visible_text(dash_duo, "#team-selector .Select-value-label", "Los Angeles Lakers")
-    _wait_for_visible_text(dash_duo, "#kpi-boxes-1", "Team ratings")
+    _wait_for_html_change(dash_duo, "#kpi-boxes-1", previous_kpi_html)
     _wait_for_nonempty_text(dash_duo, "#team-payroll-value")
     _wait_for_html_change(dash_duo, "#mov-plot", previous_html)
 
