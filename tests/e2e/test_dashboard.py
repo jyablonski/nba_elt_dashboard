@@ -3,6 +3,7 @@ from __future__ import annotations
 import pytest
 from selenium.common.exceptions import ElementClickInterceptedException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 
 
@@ -130,14 +131,24 @@ def _select_dcc_dropdown(
     options = WebDriverWait(dash_duo.driver, _wait_timeout(dash_duo)).until(find_options)
     if isinstance(index, int):
         option = options[index]
+        option_index = index
         expected_label = option.text
     else:
-        option = next((option for option in options if option.text == value), None)
-        if option is None:
+        option_index, option = next(
+            (
+                (option_index, option)
+                for option_index, option in enumerate(options)
+                if option.text == value
+            ),
+            (None, None),
+        )
+        if option_index is None or option is None:
             raise AssertionError(f"Could not find dropdown option {value!r}")
         expected_label = value
 
-    _dispatch_mouse_down(dash_duo, option)
+    input_element = dropdown.find_element(By.CSS_SELECTOR, ".Select-input input")
+    input_element.send_keys(Keys.HOME, *(Keys.ARROW_DOWN for _ in range(option_index)))
+    input_element.send_keys(Keys.ENTER)
     if expected_label:
         WebDriverWait(dash_duo.driver, _wait_timeout(dash_duo)).until(
             lambda driver: any(
