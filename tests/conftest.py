@@ -24,6 +24,8 @@ def _needs_postgres(config: pytest.Config) -> bool:
     normalized = [str(a).replace("\\", "/") for a in args if not str(a).startswith("-")]
     if not normalized:
         return True
+    if os.environ.get("RUN_E2E") != "1" and all("e2e" in p for p in normalized):
+        return False
     for p in normalized:
         if "integration" in p:
             return True
@@ -38,6 +40,15 @@ def _docker_available() -> bool:
         return True
     except Exception:
         return False
+
+
+def _is_test_area(item: pytest.Item, directory: str) -> bool:
+    normalized_path = str(item.path).replace("\\", "/")
+    return f"/{directory}/" in f"/{normalized_path}/"
+
+
+def _has_marker_or_path(item: pytest.Item, marker: str, directory: str) -> bool:
+    return item.get_closest_marker(marker) is not None or _is_test_area(item, directory)
 
 
 def pytest_configure(config: pytest.Config) -> None:
@@ -72,12 +83,21 @@ def pytest_configure(config: pytest.Config) -> None:
 def pytest_collection_modifyitems(config: pytest.Config, items: list[pytest.Item]) -> None:
     if getattr(config.option, "collectonly", False):
         return
+
+    if os.environ.get("RUN_E2E") != "1":
+        skip_e2e = pytest.mark.skip(reason="E2E tests are disabled; set RUN_E2E=1 to run them.")
+        for item in items:
+            if _has_marker_or_path(item, "e2e", "tests/e2e"):
+                item.add_marker(skip_e2e)
+
     if not _needs_postgres(config):
         return
     if os.environ.get("SKIP_INTEGRATION") == "1":
         skip = pytest.mark.skip(reason="SKIP_INTEGRATION=1")
         for item in items:
-            if item.get_closest_marker("integration"):
+            if _has_marker_or_path(item, "integration", "tests/integration") or _has_marker_or_path(
+                item, "e2e", "tests/e2e"
+            ):
                 item.add_marker(skip)
         return
     if getattr(config, "_tc_engine", None) is None:
@@ -85,7 +105,9 @@ def pytest_collection_modifyitems(config: pytest.Config, items: list[pytest.Item
             reason="Docker is not available; integration tests need Testcontainers Postgres."
         )
         for item in items:
-            if item.get_closest_marker("integration"):
+            if _has_marker_or_path(item, "integration", "tests/integration") or _has_marker_or_path(
+                item, "e2e", "tests/e2e"
+            ):
                 item.add_marker(skip)
 
 

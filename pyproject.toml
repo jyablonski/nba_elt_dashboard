@@ -52,7 +52,7 @@ markers = [
     "wip: work in progress",
     "infrastructure: mocks for dummy data (sql db, http endpoint etc)",
     "integration: needs Docker + Postgres (Testcontainers)",
-    "e2e: browser tests; run with RUN_E2E=1 (see tests/e2e/README.md)",
+    "e2e: browser tests; run with RUN_E2E=1",
 ]
 addopts = "-v"
 
