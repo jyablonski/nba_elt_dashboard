@@ -157,3 +157,11 @@ cython_debug/
 .vscode/
 .coveralls.yml
 docs/**
+
+# dbt-published semantic manifest, fetched at build time and baked into the MCP image
+docker/semantic/semantic_manifest.json
+
+# dbt artifacts dropped in the repo root for local inspection (manifest.json is ~5 MB).
+# The checked-in copy the tests use lives at tests/fixtures/semantic_manifest_fixture.json.
+/manifest.json
+/semantic_manifest.json

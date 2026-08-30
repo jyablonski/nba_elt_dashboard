@@ -4873,7 +4873,8 @@ CREATE TABLE IF NOT EXISTS recent_games_teams (
 	new_loc text NULL,
 	series_round text NULL,
 	series_status text NULL,
-	series_game_number int4 NULL
+	series_game_number int4 NULL,
+	team_game_id text NULL
 );
 
 INSERT INTO recent_games_teams (team,opponent,game_date,outcome,pts_scored,pts_scored_opp,mov,max_team_lead,max_opponent_lead,team_max_score,team_avg_score,pts_color,opp_pts_color,team_logo,opp_logo,home_team,new_loc) VALUES
@@ -4903,6 +4904,21 @@ WHERE team = 'BOS' AND opponent = 'MIL';
 UPDATE recent_games_teams
 SET series_round = 'First Round', series_status = 'OKC leads 3-1', series_game_number = 4
 WHERE team = 'OKC' AND opponent = 'CHI';
+
+-- Surrogate PK the dbt project adds via generate_surrogate_key; it's the primary entity
+-- of the `team_games` semantic model, so the MCP metric path needs it present here too.
+UPDATE recent_games_teams
+SET team_game_id = md5(team || '-' || opponent || '-' || game_date);
+
+-- MetricFlow refuses to load a semantic manifest without a time spine, and resolves
+-- `metric_time` grains by joining to it. Mirrors the dbt project's metricflow_time_spine.
+DROP TABLE IF EXISTS metricflow_time_spine;
+CREATE TABLE IF NOT EXISTS metricflow_time_spine
+(
+    date_day date NOT NULL
+);
+INSERT INTO metricflow_time_spine
+SELECT generate_series('2000-01-01'::date, current_date + interval '5 years', interval '1 day');
 
 
 DROP TABLE IF EXISTS team_adv_stats;

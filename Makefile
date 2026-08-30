@@ -4,6 +4,10 @@ COVERAGE_THRESHOLD ?= 95
 build:
 	docker build -f docker/Dockerfile -t nba_elt_dashboard_local .
 
+.PHONY: build-mcp
+build-mcp:
+	docker build -f docker/Dockerfile.mcp -t nba_elt_mcp_local .
+
 .PHONY: test
 test:
 	uv sync --group test
@@ -38,9 +42,17 @@ down:
 restart:
 	@docker compose -f docker/docker-compose-local.yml restart dash_app
 
+.PHONY: restart-mcp
+restart-mcp:
+	@docker compose -f docker/docker-compose-local.yml restart mcp_server
+
 .PHONY: follow-logs
 follow-logs:
 	@docker compose -f docker/docker-compose-local.yml logs dash_app --follow
+
+.PHONY: follow-logs-mcp
+follow-logs-mcp:
+	@docker compose -f docker/docker-compose-local.yml logs mcp_server --follow
 
 .PHONY: lint
 lint:

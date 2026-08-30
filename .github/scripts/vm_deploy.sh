@@ -5,6 +5,7 @@ VM_IP="${GCP_VM_IP}"
 VM_USER="jyablonski9"
 REPO_DIR="nba_elt_dashboard"
 GIT_COMMIT="${GIT_COMMIT:-unknown}"
+DBT_SEMANTIC_MANIFEST_URI="${DBT_SEMANTIC_MANIFEST_URI:-}"
 
 echo "SSHing into $VM_USER@$VM_IP..."
 echo "Deploying commit: $GIT_COMMIT"
@@ -29,6 +30,15 @@ ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $VM_USER@$VM_IP 
     -f docker/Dockerfile \
     --build-arg GIT_COMMIT=$GIT_COMMIT \
     -t nba_elt_dashboard_local .
+
+  echo "Staging the dbt semantic manifest for the MCP image..."
+  DBT_SEMANTIC_MANIFEST_URI="$DBT_SEMANTIC_MANIFEST_URI" bash .github/scripts/fetch_semantic_manifest.sh
+
+  echo "Rebuilding MCP image with commit SHA: $GIT_COMMIT..."
+  sudo docker build \
+    -f docker/Dockerfile.mcp \
+    --build-arg GIT_COMMIT=$GIT_COMMIT \
+    -t nba_elt_mcp_local .
 
   echo "Starting updated service with Docker Compose..."
   sudo ~/.docker/cli-plugins/docker-compose up -d

@@ -44,5 +44,38 @@ services:
       - ${PWD}/static/:/home/appuser/static
       - ${PWD}/config.yaml:/home/appuser/config.yaml
 
+  mcp_server:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile.mcp
+      args:
+        GIT_COMMIT: ${GIT_COMMIT:-dev}
+    image: nba_elt_mcp_local
+    environment:
+      - IP=postgres
+      - RDS_USER=nba_dashboard_user
+      - RDS_PW=postgres
+      - RDS_DB=postgres
+      - RDS_SCHEMA=gold
+      - ENV_TYPE=docker_dev
+      # Read-only role for the MCP service; falls back to the config.yaml creds if unset.
+      - MCP_DB_USER=${MCP_DB_USER:-nba_dashboard_user}
+      - MCP_DB_PASSWORD=${MCP_DB_PASSWORD:-postgres}
+      # Local placeholder only. Prod passes a real token in via the environment.
+      - MCP_AUTH_TOKEN=${MCP_AUTH_TOKEN:-local-dev-token}
+      # The MCP SDK 421s any Host it doesn't recognize; behind Caddy that's the public
+      # domain, so prod MUST include mcp.jyablonski.dev here.
+      - MCP_ALLOWED_HOSTS=${MCP_ALLOWED_HOSTS:-localhost:9100,127.0.0.1:9100}
+    restart: on-failure
+    ports:
+      - 9100:9100
+    depends_on:
+      - postgres
+    networks:
+      - dashboard_network
+    volumes:
+      - ${PWD}/src/:/home/appuser/src
+      - ${PWD}/config.yaml:/home/appuser/config.yaml
+
 networks:
   dashboard_network:
